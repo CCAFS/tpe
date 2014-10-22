@@ -16,6 +16,8 @@ package org.cgiar.dapa.ccafs.tpe.entity;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -338,13 +340,21 @@ public class PhenologyGrowth extends BaseEntity {
 	 * Days after emergency
 	 */
 	private Float dae;
-
+	/**
+	 * The texture that relates to this record
+	 */
 	private Soil soil;
-
+	/**
+	 * The window sowing that relates to this record
+	 */
 	private WindowSowing window;
-
+	/**
+	 * The scenario (rainfed, irrigated, etc)
+	 */
 	private Scenario scenario;
 
+	@ManyToOne(targetEntity = Cultivar.class)
+	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
 	public Cultivar getCultivar() {
 		return cultivar;
 	}
@@ -353,6 +363,8 @@ public class PhenologyGrowth extends BaseEntity {
 		this.cultivar = cultivar;
 	}
 
+	@ManyToOne(targetEntity = Model.class)
+	@JoinColumn(name = "model_id", referencedColumnName = "model_id")
 	public Model getModel() {
 		return model;
 	}
@@ -361,6 +373,8 @@ public class PhenologyGrowth extends BaseEntity {
 		this.model = model;
 	}
 
+	@ManyToOne(targetEntity = Region.class)
+	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
 	public Region getRegion() {
 		return region;
 	}
@@ -369,6 +383,8 @@ public class PhenologyGrowth extends BaseEntity {
 		this.region = region;
 	}
 
+	@ManyToOne(targetEntity = Station.class)
+	@JoinColumn(name = "station_id", referencedColumnName = "station_id")
 	public Station getStation() {
 		return station;
 	}
@@ -377,6 +393,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.station = station;
 	}
 
+	@Column(name = "total_days_eme_ipa")
 	public Integer getTotalDaysEmeIpa() {
 		return totalDaysEmeIpa;
 	}
@@ -385,6 +402,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.totalDaysEmeIpa = totalDaysEmeIpa;
 	}
 
+	@Column(name = "total_days_eme_flo")
 	public Integer getTotalDaysEmeFlo() {
 		return totalDaysEmeFlo;
 	}
@@ -393,6 +411,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.totalDaysEmeFlo = totalDaysEmeFlo;
 	}
 
+	@Column(name = "total_days_eme_mad")
 	public Integer getTotalDaysEmeMad() {
 		return totalDaysEmeMad;
 	}
@@ -401,6 +420,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.totalDaysEmeMad = totalDaysEmeMad;
 	}
 
+	@Column(name = "num_days_eme_ipa")
 	public Integer getNumDaysEmeIpa() {
 		return numDaysEmeIpa;
 	}
@@ -409,6 +429,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.numDaysEmeIpa = numDaysEmeIpa;
 	}
 
+	@Column(name = "num_days_iPa_flo")
 	public Integer getNumDaysIPaFlo() {
 		return numDaysIPaFlo;
 	}
@@ -417,6 +438,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.numDaysIPaFlo = numDaysIPaFlo;
 	}
 
+	@Column(name = "num_days_flo_mad")
 	public Integer getNumDaysFloMad() {
 		return numDaysFloMad;
 	}
@@ -425,6 +447,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.numDaysFloMad = numDaysFloMad;
 	}
 
+	@Column(name = "sum_tmin_eme_ipa")
 	public Float getSumTminEmeIpa() {
 		return sumTminEmeIpa;
 	}
@@ -433,6 +456,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTminEmeIpa = sumTminEmeIpa;
 	}
 
+	@Column(name = "sum_tmin_ipa_flo")
 	public Float getSumTminIPaFlo() {
 		return sumTminIPaFlo;
 	}
@@ -441,6 +465,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTminIPaFlo = sumTminIPaFlo;
 	}
 
+	@Column(name = "sum_tmin_flo_mad")
 	public Float getSumTminFloMad() {
 		return sumTminFloMad;
 	}
@@ -449,6 +474,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTminFloMad = sumTminFloMad;
 	}
 
+	@Column(name = "max_tmin_eme_ipa")
 	public Float getMaxTminEmeIpa() {
 		return maxTminEmeIpa;
 	}
@@ -457,6 +483,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxTminEmeIpa = maxTminEmeIpa;
 	}
 
+	@Column(name = "max_tmin_ipa_flo")
 	public Float getMaxTminIPaFlo() {
 		return maxTminIPaFlo;
 	}
@@ -465,6 +492,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxTminIPaFlo = maxTminIPaFlo;
 	}
 
+	@Column(name = "max_tmin_flo_mad")
 	public Float getMaxTminFloMad() {
 		return maxTminFloMad;
 	}
@@ -473,6 +501,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxTminFloMad = maxTminFloMad;
 	}
 
+	@Column(name = "sum_tmax_eme_ipa")
 	public Float getSumTmaxEmeIpa() {
 		return sumTmaxEmeIpa;
 	}
@@ -481,6 +510,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTmaxEmeIpa = sumTmaxEmeIpa;
 	}
 
+	@Column(name = "sum_tmax_ipa_flo")
 	public Float getSumTmaxIPaFlo() {
 		return sumTmaxIPaFlo;
 	}
@@ -489,6 +519,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTmaxIPaFlo = sumTmaxIPaFlo;
 	}
 
+	@Column(name = "sum_tmax_flo_mad")
 	public Float getSumTmaxFloMad() {
 		return sumTmaxFloMad;
 	}
@@ -497,6 +528,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTmaxFloMad = sumTmaxFloMad;
 	}
 
+	@Column(name = "max_tmax_eme_ipa")
 	public Float getMaxTmaxEmeIpa() {
 		return maxTmaxEmeIpa;
 	}
@@ -505,6 +537,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxTmaxEmeIpa = maxTmaxEmeIpa;
 	}
 
+	@Column(name = "max_tmax_ipa_flo")
 	public Float getMaxTmaxIPaFlo() {
 		return maxTmaxIPaFlo;
 	}
@@ -513,6 +546,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxTmaxIPaFlo = maxTmaxIPaFlo;
 	}
 
+	@Column(name = "max_tmax_flo_mad")
 	public Float getMaxTmaxFloMad() {
 		return maxTmaxFloMad;
 	}
@@ -521,6 +555,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxTmaxFloMad = maxTmaxFloMad;
 	}
 
+	@Column(name = "sum_rain_eme_ipa")
 	public Float getSumRainEmeIpa() {
 		return sumRainEmeIpa;
 	}
@@ -529,6 +564,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumRainEmeIpa = sumRainEmeIpa;
 	}
 
+	@Column(name = "sum_rain_ipa_flo")
 	public Float getSumRainIPaFlo() {
 		return sumRainIPaFlo;
 	}
@@ -537,6 +573,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumRainIPaFlo = sumRainIPaFlo;
 	}
 
+	@Column(name = "sum_rain_flo_mad")
 	public Float getSumRainFloMad() {
 		return sumRainFloMad;
 	}
@@ -545,6 +582,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumRainFloMad = sumRainFloMad;
 	}
 
+	@Column(name = "nflv_eme_ipa")
 	public Float getNflvEmeIpa() {
 		return nflvEmeIpa;
 	}
@@ -553,6 +591,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.nflvEmeIpa = nflvEmeIpa;
 	}
 
+	@Column(name = "nflv_ipa_flo")
 	public Float getNflvIPaFlo() {
 		return nflvIPaFlo;
 	}
@@ -561,6 +600,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.nflvIPaFlo = nflvIPaFlo;
 	}
 
+	@Column(name = "nflv_flo_mad")
 	public Float getNflvFloMad() {
 		return nflvFloMad;
 	}
@@ -569,6 +609,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.nflvFloMad = nflvFloMad;
 	}
 
+	@Column(name = "max_sla_eme_ipa")
 	public Float getMaxSlaEmeIpa() {
 		return maxSlaEmeIpa;
 	}
