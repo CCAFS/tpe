@@ -618,6 +618,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxSlaEmeIpa = maxSlaEmeIpa;
 	}
 
+	@Column(name = "max_sla_ipa_flo")
 	public Float getMaxSlaIPaFlo() {
 		return maxSlaIPaFlo;
 	}
@@ -626,6 +627,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxSlaIPaFlo = maxSlaIPaFlo;
 	}
 
+	@Column(name = "max_sla_flo_mad")
 	public Float getMaxSlaFloMad() {
 		return maxSlaFloMad;
 	}
@@ -634,6 +636,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxSlaFloMad = maxSlaFloMad;
 	}
 
+	@Column(name = "max_nsp_eme_ipa")
 	public Integer getMaxNspEmeIpa() {
 		return maxNspEmeIpa;
 	}
@@ -642,6 +645,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxNspEmeIpa = maxNspEmeIpa;
 	}
 
+	@Column(name = "max_nsp_ipa_flo")
 	public Integer getMaxNspIPaFlo() {
 		return maxNspIPaFlo;
 	}
@@ -650,6 +654,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxNspIPaFlo = maxNspIPaFlo;
 	}
 
+	@Column(name = "max_nsp_flo_mad")
 	public Integer getMaxNspFloMad() {
 		return maxNspFloMad;
 	}
@@ -658,6 +663,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxNspFloMad = maxNspFloMad;
 	}
 
+	@Column(name = "max_lai_eme_ipa")
 	public Float getMaxLaiEmeIpa() {
 		return maxLaiEmeIpa;
 	}
@@ -666,6 +672,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxLaiEmeIpa = maxLaiEmeIpa;
 	}
 
+	@Column(name = "max_lai_ipa_flo")
 	public Float getMaxLaiIPaFlo() {
 		return maxLaiIPaFlo;
 	}
@@ -674,6 +681,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxLaiIPaFlo = maxLaiIPaFlo;
 	}
 
+	@Column(name = "max_lai_flo_mad")
 	public Float getMaxLaiFloMad() {
 		return maxLaiFloMad;
 	}
@@ -682,6 +690,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxLaiFloMad = maxLaiFloMad;
 	}
 
+	@Column(name = "max_wagt_eme_ipa")
 	public Float getMaxWagtEmeIpa() {
 		return maxWagtEmeIpa;
 	}
@@ -690,6 +699,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWagtEmeIpa = maxWagtEmeIpa;
 	}
 
+	@Column(name = "max_wagt_ipa_flo")
 	public Float getMaxWagtIPaFlo() {
 		return maxWagtIPaFlo;
 	}
@@ -698,6 +708,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWagtIPaFlo = maxWagtIPaFlo;
 	}
 
+	@Column(name = "max_wagt_flo_mad")
 	public Float getMaxWagtFloMad() {
 		return maxWagtFloMad;
 	}
@@ -706,6 +717,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWagtFloMad = maxWagtFloMad;
 	}
 
+	@Column(name = "max_wst_eme_ipa")
 	public Float getMaxWstEmeIpa() {
 		return maxWstEmeIpa;
 	}
@@ -714,6 +726,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWstEmeIpa = maxWstEmeIpa;
 	}
 
+	@Column(name = "max_wst_ipa_flo")
 	public Float getMaxWstIPaFlo() {
 		return maxWstIPaFlo;
 	}
@@ -722,6 +735,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWstIPaFlo = maxWstIPaFlo;
 	}
 
+	@Column(name = "max_wst_flo_mad")
 	public Float getMaxWstFloMad() {
 		return maxWstFloMad;
 	}
@@ -730,6 +744,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWstFloMad = maxWstFloMad;
 	}
 
+	@Column(name = "max_wlvg_eme_ipa")
 	public Float getMaxWlvgEmeIpa() {
 		return maxWlvgEmeIpa;
 	}
@@ -738,6 +753,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWlvgEmeIpa = maxWlvgEmeIpa;
 	}
 
+	@Column(name = "max_wlvg_ipa_flo")
 	public Float getMaxWlvgIPaFlo() {
 		return maxWlvgIPaFlo;
 	}
@@ -746,6 +762,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWlvgIPaFlo = maxWlvgIPaFlo;
 	}
 
+	@Column(name = "max_wlvg_flo_mad")
 	public Float getMaxWlvgFloMad() {
 		return maxWlvgFloMad;
 	}
@@ -754,6 +771,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWlvgFloMad = maxWlvgFloMad;
 	}
 
+	@Column(name = "max_wso_eme_ipa")
 	public Float getMaxWsoEmeIpa() {
 		return maxWsoEmeIpa;
 	}
@@ -762,6 +780,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWsoEmeIpa = maxWsoEmeIpa;
 	}
 
+	@Column(name = "max_wso_ipa_flo")
 	public Float getMaxWsoIPaFlo() {
 		return maxWsoIPaFlo;
 	}
@@ -770,6 +789,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWsoIPaFlo = maxWsoIPaFlo;
 	}
 
+	@Column(name = "max_wso_flo_mad")
 	public Float getMaxWsoFloMad() {
 		return maxWsoFloMad;
 	}
@@ -778,6 +798,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.maxWsoFloMad = maxWsoFloMad;
 	}
 
+	@Column(name = "sum_trw_eme_ipa")
 	public Float getSumTrwEmeIpa() {
 		return sumTrwEmeIpa;
 	}
@@ -786,6 +807,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTrwEmeIpa = sumTrwEmeIpa;
 	}
 
+	@Column(name = "sum_trw_ipa_flo")
 	public Float getSumTrwIPaFlo() {
 		return sumTrwIPaFlo;
 	}
@@ -794,6 +816,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTrwIPaFlo = sumTrwIPaFlo;
 	}
 
+	@Column(name = "sum_trw_flo_mad")
 	public Float getSumTrwFloMad() {
 		return sumTrwFloMad;
 	}
@@ -802,6 +825,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.sumTrwFloMad = sumTrwFloMad;
 	}
 
+	@Column(name = "etdcum")
 	public Float getEtdcum() {
 		return etdcum;
 	}
@@ -810,6 +834,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.etdcum = etdcum;
 	}
 
+	@Column(name = "evsccum")
 	public Float getEvsccum() {
 		return evsccum;
 	}
@@ -818,6 +843,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.evsccum = evsccum;
 	}
 
+	@Column(name = "trccum")
 	public Float getTrccum() {
 		return trccum;
 	}
@@ -826,6 +852,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.trccum = trccum;
 	}
 
+	@Column(name = "wrr14")
 	public Float getWrr14() {
 		return wrr14;
 	}
@@ -834,6 +861,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.wrr14 = wrr14;
 	}
 
+	@Column(name = "wso")
 	public Float getWso() {
 		return wso;
 	}
@@ -842,6 +870,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.wso = wso;
 	}
 
+	@Column(name = "wagt")
 	public Float getWagt() {
 		return wagt;
 	}
@@ -850,6 +879,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.wagt = wagt;
 	}
 
+	@Column(name = "parcum")
 	public Float getPARCUM() {
 		return PARCUM;
 	}
@@ -858,6 +888,7 @@ public class PhenologyGrowth extends BaseEntity {
 		PARCUM = pARCUM;
 	}
 
+	@Column(name = "ts")
 	public Float getTS() {
 		return TS;
 	}
@@ -866,6 +897,7 @@ public class PhenologyGrowth extends BaseEntity {
 		TS = tS;
 	}
 
+	@Column(name = "tmaxc")
 	public Float getTMAXC() {
 		return TMAXC;
 	}
@@ -874,6 +906,7 @@ public class PhenologyGrowth extends BaseEntity {
 		TMAXC = tMAXC;
 	}
 
+	@Column(name = "tminc")
 	public Float getTMINC() {
 		return TMINC;
 	}
@@ -882,6 +915,7 @@ public class PhenologyGrowth extends BaseEntity {
 		TMINC = tMINC;
 	}
 
+	@Column(name = "taverc")
 	public Float getTAVERC() {
 		return TAVERC;
 	}
@@ -890,6 +924,7 @@ public class PhenologyGrowth extends BaseEntity {
 		TAVERC = tAVERC;
 	}
 
+	@Column(name = "raincum")
 	public Float getRaincum() {
 		return raincum;
 	}
@@ -898,6 +933,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.raincum = raincum;
 	}
 
+	@Column(name = "ircum")
 	public Float getIrcum() {
 		return ircum;
 	}
@@ -906,6 +942,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.ircum = ircum;
 	}
 
+	@Column(name = "runofcum")
 	public Float getRunofcum() {
 		return runofcum;
 	}
@@ -914,6 +951,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.runofcum = runofcum;
 	}
 
+	@Column(name = "trwcum")
 	public Float getTrwcum() {
 		return trwcum;
 	}
@@ -922,6 +960,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.trwcum = trwcum;
 	}
 
+	@Column(name = "evswcum")
 	public Float getEvswcum() {
 		return evswcum;
 	}
@@ -930,6 +969,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.evswcum = evswcum;
 	}
 
+	@Column(name = "draicum")
 	public Float getDraicum() {
 		return draicum;
 	}
@@ -938,6 +978,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.draicum = draicum;
 	}
 
+	@Column(name = "emd")
 	public Float getEmd() {
 		return emd;
 	}
@@ -946,6 +987,7 @@ public class PhenologyGrowth extends BaseEntity {
 		this.emd = emd;
 	}
 
+	@Column(name = "dae")
 	public Float getDae() {
 		return dae;
 	}
@@ -954,6 +996,8 @@ public class PhenologyGrowth extends BaseEntity {
 		this.dae = dae;
 	}
 
+	@ManyToOne(targetEntity = Soil.class)
+	@JoinColumn(name = "soil_id", referencedColumnName = "soil_id")
 	public Soil getSoil() {
 		return soil;
 	}
@@ -962,6 +1006,8 @@ public class PhenologyGrowth extends BaseEntity {
 		this.soil = soil;
 	}
 
+	@ManyToOne(targetEntity = WindowSowing.class)
+	@JoinColumn(name = "window_id", referencedColumnName = "window_id")
 	public WindowSowing getWindow() {
 		return window;
 	}
@@ -970,6 +1016,8 @@ public class PhenologyGrowth extends BaseEntity {
 		this.window = window;
 	}
 
+	@ManyToOne(targetEntity = Scenario.class)
+	@JoinColumn(name = "scenario_id", referencedColumnName = "scenario_id")
 	public Scenario getScenario() {
 		return scenario;
 	}
