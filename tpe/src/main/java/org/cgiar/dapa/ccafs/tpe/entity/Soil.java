@@ -13,30 +13,26 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * This class represents the soil texture or type in the model 
+ * This class represents the soil texture or type in the model
+ * 
  * @author NMATOVU
  *
  */
 @Entity
-@Table(name="soil")
+@Table(name = "soil")
+@AttributeOverride(name = "id", column = @Column(name = "soil_id"))
 public class Soil extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3993570566249209461L;
-	/**
-	 * The primary key of the soil
-	 */
-	private Integer id;
 
 	/**
 	 * The name of the soil
@@ -46,17 +42,6 @@ public class Soil extends BaseEntity {
 	 * The code or abbreviation of the soil type
 	 */
 	private String code;
-
-	@Column
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	@Column(name = "soil_name")
 	public String getName() {

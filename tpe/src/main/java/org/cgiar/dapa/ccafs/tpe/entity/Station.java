@@ -13,11 +13,9 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -30,16 +28,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="station")
+@AttributeOverride(name = "id", column = @Column(name = "station_id"))
 public class Station extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1447281619852036942L;
-	/**
-	 * The primary key of the weather station
-	 */
-	private Integer id;
+ 
 	/**
 	 * The name of the weather station
 	 */
@@ -65,17 +61,7 @@ public class Station extends BaseEntity {
 	 * The altitude of the weather station
 	 */
 	private Float altitude;
-
-	@Column
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+ 
 
 	@Column(name = "region_name")
 	public String getName() {

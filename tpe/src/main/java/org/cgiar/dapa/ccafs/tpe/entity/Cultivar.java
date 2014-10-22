@@ -13,11 +13,9 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -31,16 +29,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cultivar")
+@AttributeOverride(name = "id", column = @Column(name = "cultivar_id"))
 public class Cultivar extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9150226326293233905L;
-	/**
-	 * The primary key of the crop cultivar
-	 */
-	private Integer id;
+
 	/**
 	 * The name of the crop cultivar in the crop model
 	 */
@@ -49,17 +45,6 @@ public class Cultivar extends BaseEntity {
 	 * The crop to which the cultivar belongs
 	 */
 	private Crop crop;
-
-	@Column
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	@Column(name = "cultivar_name")
 	public String getName() {

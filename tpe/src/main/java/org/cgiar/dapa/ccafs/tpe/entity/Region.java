@@ -13,15 +13,12 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
- 
 
 /**
  * This class represents the region (country, state, province, municipio,
@@ -32,16 +29,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "region")
+@AttributeOverride(name = "id", column = @Column(name = "region_id"))
 public class Region extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5427626649810939434L;
-	/**
-	 * The primary key of the region
-	 */
-	private Integer id;
+
 	/**
 	 * The name of the region
 	 */
@@ -75,17 +70,6 @@ public class Region extends BaseEntity {
 	 * The level or administrative division of the region (level one)
 	 */
 	private String level;
-
-	@Column
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	@Column(name = "region_name")
 	public String getName() {

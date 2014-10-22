@@ -13,11 +13,9 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -30,17 +28,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "crop")
+@AttributeOverride(name = "id", column = @Column(name = "crop_id"))
 public class Crop extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1989776373116359061L;
-
-	/***
-	 * The primary key of the crop
-	 */
-	private Integer id;
 
 	/**
 	 * The name of the crop
@@ -51,17 +45,6 @@ public class Crop extends BaseEntity {
 	 * The crop category
 	 */
 	private Category category;
-
-	@Column
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	@Column(name = "crop_name")
 	public String getName() {

@@ -14,11 +14,9 @@
 
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -30,16 +28,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "category")
+@AttributeOverride(name = "id", column = @Column(name = "category_id"))
 public class Category extends BaseEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2176599493718673300L;
-	/**
-	 * The primary key of the category
-	 */
-	private Integer id;
+
 	/**
 	 * The name of the category
 	 */
@@ -53,17 +49,6 @@ public class Category extends BaseEntity {
 	 * The description of the category
 	 */
 	private String description;
-
-	@Column
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	@Column(name = "category_name")
 	public String getName() {
