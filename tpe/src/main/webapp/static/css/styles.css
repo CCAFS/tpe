@@ -1,7 +1,33 @@
-.label {font-style:italic; }
-.errorLabel {font-style:italic; font-weight:bold; color:red; }
-.errorMessage {font-style:italic; font-weight:bold; color:red; }
-.actionMessage {font-style:italic; font-weight:bold; color:green; }
-.checkboxLabel {}
-.checkboxErrorLabel {color:red; }
-.required {color:red;}
+.label {
+	font-style: italic;
+}
+
+.errorLabel {
+	font-style: italic;
+	font-weight: bold;
+	color: red;
+}
+
+.errorMessage {
+	font-style: italic;
+	font-weight: bold;
+	color: red;
+}
+
+.actionMessage {
+	font-style: italic;
+	font-weight: bold;
+	color: green;
+}
+
+.checkboxLabel {
+	
+}
+
+.checkboxErrorLabel {
+	color: red;
+}
+
+.required {
+	color: red;
+}
