@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
- 
+
 	<context:annotation-config />
 	<context:component-scan base-package="org.cgiar.dapa.ccafs.tpe" />
 
@@ -23,7 +23,7 @@
 		</property>
 		<property name="locations">
 			<list>
-				<value>classpath:application.properties</value> 
+				<value>classpath:application.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -61,8 +61,8 @@
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" /> 
-			<property name="dataSource" ref="dataSource" />  
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -72,20 +72,28 @@
 
 	<bean id="cropDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CropDao" />
 	<bean id="regionDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.RegionDao" />
+	<bean id="stationDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.StationDao" />
+	<bean id="scenarioDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ScenarioDao" />
+	<bean id="categoryDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CategoryDao" />
 	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" />
 	<bean id="windowSowingDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.WindowSowingDao" />
-	 
+	<bean id="climateDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ClimateDao" />
+
 
 	<!-- Service -->
 	<bean id="tpeService" class="org.cgiar.dapa.ccafs.tpe.service.impl.TPEService">
 		<property name="cropDao" ref="cropDao" />
 		<property name="regionDao" ref="regionDao" />
+		<property name="scenarioDao" ref="scenarioDao" />
+		<property name="stationDao" ref="stationDao" />
+		<property name="categoryDao" ref="categoryDao" />
 		<property name="cultivarDao" ref="cultivarDao" />
 		<property name="windowSowingDao" ref="windowSowingDao" />
+		<property name="climateDao" ref="climateDao" />
 	</bean>
 
 	<!-- Actions -->
- 
-	  
-	 
+
+
+
 </beans>

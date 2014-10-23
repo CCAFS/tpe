@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.List;
+
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 
 /**
@@ -23,4 +25,38 @@ import org.cgiar.dapa.ccafs.tpe.entity.Climate;
  */
 public interface IClimateDao extends IGenericDao<Climate, Integer> {
 
+	/**
+	 * Retrieves the climate records for the specified category from the
+	 * database from the specified weather stations located from particular
+	 * region(s) for the specified year.
+	 * 
+	 * @param stationIds
+	 *            the ids of the stations from which to retrieve the climate
+	 * 
+	 * @param categoryId
+	 *            the category id of the climate to retrieve
+	 * 
+	 * @param year
+	 *            the year for the climate to retrieve
+	 * @return climate
+	 */
+	List<Climate> getClimateByStations(List<Integer> stationIds,
+			Integer categoryId, String year);
+
+	/**
+	 * Retrieves all the climate information for the specified category from the
+	 * database from all the weather stations from the specified regions for the
+	 * specified year.
+	 * 
+	 * @param regionIds
+	 *            primary keys of the regions from which to retrieve the climate
+	 *            data
+	 * @param categoryId
+	 *            the category id of the climate to retrieve
+	 * @param year
+	 *            the year for the climate to retrieve
+	 * @return climate
+	 */
+	List<Climate> getClimateByRegions(List<Integer> regionIds,
+			Integer categoryId, String year);
 }

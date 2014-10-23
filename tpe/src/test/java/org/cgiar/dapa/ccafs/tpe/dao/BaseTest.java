@@ -15,6 +15,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 
 import junit.framework.TestCase;
 
+import org.cgair.dapa.ccafs.tpe.util.Constants;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -25,7 +26,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author NMatovu
  * 
  */
-public abstract class BaseTest extends TestCase {
+public abstract class BaseTest extends TestCase implements Constants{
 
 	private static final String BEAN_SERVICE = "tpeService";
 	private ApplicationContext context;

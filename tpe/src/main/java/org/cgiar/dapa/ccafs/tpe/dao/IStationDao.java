@@ -13,12 +13,25 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.List;
+
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
+
 /**
- * This interface defines the station dao methods that are implemented by the station dao class
+ * This interface defines the station dao methods that are implemented by the
+ * station dao class
+ * 
  * @author NMATOVU
  *
  */
 public interface IStationDao extends IGenericDao<Station, Integer> {
 
+	/**
+	 * Retrieves the weather stations located in the specified region.
+	 * 
+	 * @param regionId
+	 *            region id used to query the stations
+	 * @return stations
+	 */
+	List<Station> getStationsByRegion(Integer regionId);
 }

@@ -19,8 +19,15 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 
+/**
+ * This class contains tests for the region DAO and service methods
+ * 
+ * @author NMATOVU
+ *
+ */
 public class RegionTest extends BaseTest {
 
+	@SuppressWarnings("unused")
 	private Logger log = Logger.getLogger(this.getClass());
 
 	/**
@@ -51,11 +58,12 @@ public class RegionTest extends BaseTest {
 	}
 
 	/**
-	 * Retrieves the country by its id
+	 * Retrieves the region by its id
 	 */
-	public void testGetCountryById() {
+	public void testGetRegionById() {
 		Integer countryId = 1;
 		// The country
+		// Retrieve the region by id
 		Region country = tpeService.getRegionById(countryId);
 		assertNotNull(country);
 		assertEquals(countryId, country.getId());

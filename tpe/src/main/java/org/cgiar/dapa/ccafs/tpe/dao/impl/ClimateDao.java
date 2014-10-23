@@ -13,17 +13,56 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
+import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
+
 /**
  * This class implements the methods defined in the Climate DAO interface
+ * 
  * @author NMATOVU
  *
  */
-public class ClimateDao extends GenericDao<Climate, Integer> {
+@SuppressWarnings("unchecked")
+public class ClimateDao extends GenericDao<Climate, Integer> implements
+		IClimateDao {
 
 	public ClimateDao() {
 		super(Climate.class);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public List<Climate> getClimateByStations(List<Integer> stationIds,
+			Integer categoryId, String year) {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.id in (:stations)")
+				.append(" and r.category.id =:category")
+				.append(" and r.year =:year");
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("stations", stationIds);
+		query.setParameter("category", categoryId);
+		query.setParameter("year", year);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Climate> getClimateByRegions(List<Integer> regionIds,
+			Integer categoryId, String year) {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.region.id in (:regions)")
+				.append(" and r.category.id =:category")
+				.append(" and r.year =:year");
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("regions", regionIds);
+		query.setParameter("category", categoryId);
+		query.setParameter("year", year);
+		return query.getResultList();
 	}
 
 }

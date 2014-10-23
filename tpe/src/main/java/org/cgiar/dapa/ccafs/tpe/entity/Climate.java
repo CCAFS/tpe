@@ -128,7 +128,7 @@ public class Climate extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Station.class)
-	@JoinColumn(name = "staion_id", referencedColumnName = "station_id")
+	@JoinColumn(name = "station_id", referencedColumnName = "station_id")
 	public Station getStation() {
 		return station;
 	}
@@ -137,7 +137,7 @@ public class Climate extends BaseEntity {
 		this.station = station;
 	}
 
-	@Column
+	@Column(name = "precipitation")
 	public Float getPrecipitation() {
 		return precipitation;
 	}

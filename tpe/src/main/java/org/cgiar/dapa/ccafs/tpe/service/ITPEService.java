@@ -15,9 +15,13 @@ package org.cgiar.dapa.ccafs.tpe.service;
 
 import java.util.List;
 
+import org.cgiar.dapa.ccafs.tpe.entity.Category;
+import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 
 /**
@@ -93,5 +97,90 @@ public interface ITPEService {
 	 * @return region
 	 */
 	Region getRegionById(Integer regionId);
+
+	/**
+	 * Retrieves all categories for the specified entity name.
+	 * 
+	 * @param entityName
+	 * @return categories
+	 */
+	List<Category> getCategoriesByEntity(String entityName);
+
+	/**
+	 * Retrieves the category record from database by its id
+	 * 
+	 * @param categoryId
+	 * @return category
+	 */
+	Category getCategoryById(Integer categoryId);
+
+	/**
+	 * Retrieves the weather stations located in the specified region.
+	 * 
+	 * @param regionId
+	 *            region id used to query the stations
+	 * @return stations
+	 */
+	List<Station> getStationsByRegion(Integer regionId);
+
+	/**
+	 * Retrieves the station by the specified id
+	 * 
+	 * @param stationId
+	 *            id of the station to retrieve
+	 * @return station
+	 */
+	Station getStationById(Integer stationId);
+
+	/**
+	 * Retrieves all the scenarios from the database
+	 * 
+	 * @return scenarios
+	 */
+	List<Scenario> getAllScenarios();
+
+	/**
+	 * Retrieves the scenario by its id
+	 * 
+	 * @param scenarioId
+	 *            the id of the scenario to retrieve
+	 * @return scenario
+	 */
+	Scenario getScenarioById(Integer scenarioId);
+
+	/**
+	 * Retrieves the climate records for the specified category from the
+	 * database from the specified weather stations located from particular
+	 * region(s) for the specified year.
+	 * 
+	 * @param stationIds
+	 *            the ids of the stations from which to retrieve the climate
+	 * 
+	 * @param categoryId
+	 *            the category id of the climate to retrieve
+	 * 
+	 * @param year
+	 *            the year for the climate to retrieve
+	 * @return climate
+	 */
+	List<Climate> getClimateByStations(List<Integer> stationIds,
+			Integer categoryId, String year);
+
+	/**
+	 * Retrieves all the climate information for the specified category from the
+	 * database from all the weather stations from the specified regions for the
+	 * specified year.
+	 * 
+	 * @param regionIds
+	 *            primary keys of the regions from which to retrieve the climate
+	 *            data
+	 * @param categoryId
+	 *            the category id of the climate to retrieve
+	 * @param year
+	 *            the year for the climate to retrieve
+	 * @return climate
+	 */
+	List<Climate> getClimateByRegions(List<Integer> regionIds,
+			Integer categoryId, String year);
 
 }
