@@ -16,6 +16,7 @@ package org.cgiar.dapa.ccafs.tpe.service;
 import java.util.List;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
+import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 
 /**
  * This interface defines the TPE service methods
@@ -30,5 +31,31 @@ public interface ITPEService {
 	 * @return crops
 	 */
 	List<Crop> getAllCrops();
+
+	/**
+	 * Retrieves the crop record from the database with the specified id
+	 * 
+	 * @param cropId
+	 * @return crop
+	 */
+	Crop getCropById(Integer cropId);
+
+	/**
+	 * Retrieves cultivars from the database for the specified crop id
+	 * 
+	 * @param cropId
+	 *            the crop id to retrieve the cultivars
+	 * @return crop cultivars
+	 */
+	List<Cultivar> getCultivarsByCrop(Integer cropId);
+
+	/**
+	 * Retrieves the number of years for the specified crop cultivar based on
+	 * the simulation model
+	 * 
+	 * @param cultivarId
+	 * @return
+	 */
+	List<String> getYearsByCultivar(Integer cultivarId);
 
 }

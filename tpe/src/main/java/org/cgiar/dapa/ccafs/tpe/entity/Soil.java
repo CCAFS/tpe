@@ -19,7 +19,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * This class represents the soil texture or type in the model
+ * This class represents the soil texture or type (clay, sand, loam, etc) in the
+ * model. Each soil type has soil properties and values from a particular
+ * region or station where it located.
  * 
  * @author NMATOVU
  *

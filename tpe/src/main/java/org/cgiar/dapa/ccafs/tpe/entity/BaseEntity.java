@@ -23,7 +23,8 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * This is the base class for all entity classes in the tpe project. All other
- * entity classes inherit this base class.
+ * entity classes will extend this base class as it provides the core method. It
+ * provides only the id (primary key)
  * 
  * @author NMATOVU
  *

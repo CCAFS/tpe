@@ -21,7 +21,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This class represents the soil properties in the simulation model
+ * This class represents the soil properties in the simulation model. Each soil
+ * property is categorized as physical, chemical or hydraulic property. Each
+ * soil texture or type has different property values from different regions or
+ * stations.
+ * <p>
+ * Soil Property Categories
+ * <ul>
+ * <li>Chemical</li>
+ * <li>Physical</li>
+ * <li>Hydraulic</li>
+ * </ul>
+ * </p>
  * 
  * @author NMATOVU
  *

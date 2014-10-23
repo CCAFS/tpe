@@ -16,8 +16,6 @@ package org.cgiar.dapa.ccafs.tpe.entity;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -44,7 +42,7 @@ public class Crop extends BaseEntity {
 	/**
 	 * The crop category
 	 */
-	private Category category;
+	// private Category category;
 
 	@Column(name = "crop_name")
 	public String getName() {
@@ -53,16 +51,6 @@ public class Crop extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@ManyToOne(targetEntity = Category.class)
-	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 }

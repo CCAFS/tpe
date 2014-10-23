@@ -20,8 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.cgiar.dapa.ccafs.tpe.dao.IGenericDao;
-import org.springframework.transaction.annotation.Transactional;
+import org.cgiar.dapa.ccafs.tpe.dao.IGenericDao; 
 
 /**
  * Defines a Base Generic DAO that provides JPA implementation. This class keeps
@@ -34,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <K>
  */
 @SuppressWarnings("unchecked")
-@Transactional
 public abstract class GenericDao<T, K extends Serializable> implements
 		IGenericDao<T, K> {
 	protected Class<T> entityClass;

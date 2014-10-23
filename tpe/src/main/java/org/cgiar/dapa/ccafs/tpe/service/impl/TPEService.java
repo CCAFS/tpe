@@ -16,7 +16,10 @@ package org.cgiar.dapa.ccafs.tpe.service.impl;
 import java.util.List;
 
 import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
+import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
+import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 
 /**
@@ -25,8 +28,20 @@ import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
  * @author NMATOVU
  *
  */
+@SuppressWarnings("unused")
 public class TPEService implements ITPEService {
 	private ICropDao cropDao;
+
+	private ICultivarDao cultivarDao;
+	private IRegionDao regionDao;
+
+	public void setCultivarDao(ICultivarDao cultivarDao) {
+		this.cultivarDao = cultivarDao;
+	}
+
+	public void setRegionDao(IRegionDao regionDao) {
+		this.regionDao = regionDao;
+	}
 
 	public void setCropDao(ICropDao cropDao) {
 		this.cropDao = cropDao;
@@ -36,5 +51,23 @@ public class TPEService implements ITPEService {
 	public List<Crop> getAllCrops() {
 
 		return cropDao.getAll();
+	}
+
+	@Override
+	public Crop getCropById(Integer cropId) {
+
+		return cropDao.getById(cropId);
+	}
+
+	@Override
+	public List<Cultivar> getCultivarsByCrop(Integer cropId) {
+
+		return cultivarDao.getCultivarsByCrop(cropId);
+	}
+
+	@Override
+	public List<String> getYearsByCultivar(Integer cultivarId) {
+
+		return cultivarDao.getYearsByCultivar(cultivarId);
 	}
 }

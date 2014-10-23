@@ -22,7 +22,20 @@ import javax.persistence.Table;
 
 /**
  * This class represents the region (country, state, province, municipio,
- * district) in the crop simulation model.
+ * district) in the crop simulation model. The region may have sub regions and
+ * also those sub regions could have their own sub regions at different
+ * administrative levels.
+ * 
+ * <p>
+ * Region Categories
+ * <ul>
+ * <li>Country</li>
+ * <li>State</li>
+ * <li>Province</li>
+ * <li>District</li>
+ * <li>Municipio</li>
+ * </ul>
+ * </p>
  * 
  * @author NMATOVU
  *
@@ -48,11 +61,11 @@ public class Region extends BaseEntity {
 	/**
 	 * The latitude of the region
 	 */
-	private Float latitude;
+	private Double latitude;
 	/**
 	 * The longitude of the region
 	 */
-	private Float longitude;
+	private Double longitude;
 	/**
 	 * The parent region of this region (The country is the parent of the state)
 	 */
@@ -90,20 +103,20 @@ public class Region extends BaseEntity {
 	}
 
 	@Column(name = "latitude")
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
 	@Column(name = "longitude")
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

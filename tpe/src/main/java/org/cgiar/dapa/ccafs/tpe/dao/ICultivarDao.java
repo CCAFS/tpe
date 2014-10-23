@@ -19,14 +19,22 @@ import java.util.List;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 
 public interface ICultivarDao extends IGenericDao<Cultivar, Integer> {
+
 	/**
-	 * Gets crop cultivars using the specified crop id
+	 * Retrieves cultivars from the database for the specified crop id
 	 * 
 	 * @param cropId
-	 *            the crop id to retrieve the corresponding varieties
-	 * 
+	 *            the crop id to retrieve the cultivars
 	 * @return crop cultivars
 	 */
-	List<Cultivar> getCultivars(Integer cropId);
+	List<Cultivar> getCultivarsByCrop(Integer cropId);
 
+	/**
+	 * Retrieves the number of years for the specified crop cultivar based on
+	 * the simulation model
+	 * 
+	 * @param cultivarId
+	 * @return
+	 */
+	List<String> getYearsByCultivar(Integer cultivarId);
 }

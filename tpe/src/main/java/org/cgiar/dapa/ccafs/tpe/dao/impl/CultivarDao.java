@@ -15,9 +15,12 @@ package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 
+@SuppressWarnings("unchecked")
 public class CultivarDao extends GenericDao<Cultivar, Integer> implements
 		ICultivarDao {
 
@@ -29,7 +32,18 @@ public class CultivarDao extends GenericDao<Cultivar, Integer> implements
 	}
 
 	@Override
-	public List<Cultivar> getCultivars(Integer cropId) {
+	public List<Cultivar> getCultivarsByCrop(Integer cropId) {
+
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.crop.id =:cropId");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("cropId", cropId);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<String> getYearsByCultivar(Integer cultivarId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

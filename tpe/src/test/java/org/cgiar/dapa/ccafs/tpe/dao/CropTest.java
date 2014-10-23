@@ -13,10 +13,12 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
+import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 
 /**
  * The class that tests for the crops query methods which are implemented in the
@@ -33,11 +35,57 @@ public class CropTest extends BaseTest {
 	 * The method that tests getAllCrops method
 	 */
 	public void testGetAllCrops() {
-		log.info("About to test crop queries");
-		// Query all the existing crops in the database
+		log.info("About to test get all cropS");
+		// List of all the existing crops in the database
 		List<Crop> crops = tpeService.getAllCrops();
 		assertNotNull(crops);
 		assertTrue(crops.size() > 0);
 		log.info("Available crops: " + crops.size());
+
 	}
+
+	/**
+	 * Gets the crop by its primary key
+	 */
+	public void testGetCropById() {
+		// Crop variable
+		Crop crop;
+		// Crop id.
+		Integer cropId = 1;
+		// Get the crop from the database
+		crop = tpeService.getCropById(cropId);
+		// Assert
+		assertNotNull(crop);
+		assertEquals(cropId, crop.getId());
+
+	}
+
+	/**
+	 * Gets all the cultivars for the specified crop id.
+	 */
+	public void testGetCultivarsByCrop() {
+		// Instantiate a new list of cultivars.
+		List<Cultivar> cultivars = new ArrayList<Cultivar>();
+		// The crop id. Get the crop id of rice.
+		// Crop id
+		Integer cropId = 1;
+		// Retrieve the cultivars for the specified crop id
+		cultivars = tpeService.getCultivarsByCrop(cropId);
+		assertNotNull(cultivars);
+		assertEquals(0, cultivars.size());
+
+	}
+
+	/**
+	 * Gets the number of years based on the simulation model for the specified
+	 * cultivar
+	 */
+	public void getYearsByCultivars() {
+		List<String> years = new ArrayList<String>();
+		Integer cultivarId=1;
+		years = tpeService.getYearsByCultivar(cultivarId);
+		assertNotNull(years);
+		assertEquals(0, years.size());
+	}
+
 }

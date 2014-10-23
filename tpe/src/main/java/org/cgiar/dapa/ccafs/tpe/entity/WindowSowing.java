@@ -12,9 +12,6 @@
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
-  
-
-
 
 import java.util.Date;
 
@@ -26,7 +23,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This class represents the window sowing in the crop simulation model
+ * This class represents the window sowing in the crop simulation model. Each
+ * window sowing has the start and end dates in addition to its sowing steps
+ * (dates)
  * 
  * @author NMATOVU
  *

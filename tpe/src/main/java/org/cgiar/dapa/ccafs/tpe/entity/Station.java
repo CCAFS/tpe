@@ -19,15 +19,17 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
- 
 
 /**
- * This class represents the station entity in the crop simulation model.
+ * This class represents the station entity in the crop simulation model. Each
+ * station in the model belongs to a particular region and has geo location
+ * codes (longitude and latitude).
+ * 
  * @author NMATOVU
  *
  */
 @Entity
-@Table(name="station")
+@Table(name = "station")
 @AttributeOverride(name = "id", column = @Column(name = "station_id"))
 public class Station extends BaseEntity {
 
@@ -35,7 +37,7 @@ public class Station extends BaseEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = -1447281619852036942L;
- 
+
 	/**
 	 * The name of the weather station
 	 */
@@ -51,17 +53,16 @@ public class Station extends BaseEntity {
 	/**
 	 * The latitude of the weather station
 	 */
-	private Float latitude;
+	private Double latitude;
 	/**
 	 * The longitude of the weather station
 	 */
-	private Float longitude;
+	private Double longitude;
 
 	/**
 	 * The altitude of the weather station
 	 */
-	private Float altitude;
- 
+	private Double altitude;
 
 	@Column(name = "region_name")
 	public String getName() {
@@ -92,29 +93,29 @@ public class Station extends BaseEntity {
 	}
 
 	@Column(name = "latitude")
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
 	@Column(name = "longitude")
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
 	@Column(name = "altitude")
-	public Float getAltitude() {
+	public Double getAltitude() {
 		return altitude;
 	}
 
-	public void setAltitude(Float altitude) {
+	public void setAltitude(Double altitude) {
 		this.altitude = altitude;
 	}
 

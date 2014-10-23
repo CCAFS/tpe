@@ -23,7 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This class represents the window sowing steps
+ * This class represents the window sowing steps (dates) for a given sowing window in the model.
  * 
  * @author NMATOVU
  *
