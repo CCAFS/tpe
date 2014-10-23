@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 
 /**
  * This interface defines the TPE service methods
@@ -54,8 +56,42 @@ public interface ITPEService {
 	 * the simulation model
 	 * 
 	 * @param cultivarId
-	 * @return
+	 * @return years
 	 */
 	List<String> getYearsByCultivar(Integer cultivarId);
+
+	/**
+	 * Retrieves all the window sowing for teh specified crop cultivar id
+	 * 
+	 * @param cultivarId
+	 *            the crop cultivar id to retrieve the sowing windows
+	 * @return window sowing
+	 */
+	List<WindowSowing> getWindowSowingByCultivar(Integer cultivarId);
+
+	/**
+	 * Retrieves all the regions of the category country from the database
+	 * 
+	 * @return countries
+	 */
+	List<Region> getCountries();
+
+	/**
+	 * Retrieves all the subregions (COUNTRY, STATE, PROVINCE OR DISTRICT) for
+	 * the specified region id (parent region) or country id.
+	 * 
+	 * @param countryId
+	 *            country or parent id
+	 * @return subregions
+	 */
+	List<Region> getSubregionsByCountry(Integer countryId);
+
+	/**
+	 * Gets the region by the specified id
+	 * 
+	 * @param regionId
+	 * @return region
+	 */
+	Region getRegionById(Integer regionId);
 
 }

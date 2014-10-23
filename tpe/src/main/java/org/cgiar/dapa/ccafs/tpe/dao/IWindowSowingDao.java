@@ -15,40 +15,21 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 
 import java.util.List;
 
-import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 
 /**
- * RegionDao Interface class that defines region data access methods that are
- * implemented by the region dao class.
+ * This interface defines window sowing methods in the simulation model
  * 
  * @author NMATOVU
  *
  */
-public interface IRegionDao extends IGenericDao<Region, Integer> {
+public interface IWindowSowingDao extends IGenericDao<WindowSowing, Integer> {
 	/**
-	 * Retrieves all the regions of the category country from the database
+	 * Retrieves all the window sowing for teh specified crop cultivar id
 	 * 
-	 * @return countries
+	 * @param cultivarId
+	 *            the crop cultivar id to retrieve the sowing windows
+	 * @return window sowing
 	 */
-	List<Region> getCountries();
-
-	/**
-	 * Gets the region records from the database by the specified category
-	 * (COUNTRY, STATE, PROVINCE OR DISTRICT)
-	 * 
-	 * @param type
-	 *            region type (COUNTRY, STATE, PROVINCE OR DISTRICT)
-	 * @return regions
-	 */
-	// List<Region> getRegions(Integer category);
-
-	/**
-	 * Retrieves all the subregions (COUNTRY, STATE, PROVINCE OR DISTRICT) for
-	 * the specified region id (parent region) or country id.
-	 * 
-	 * @param countryId
-	 *            country or parent id
-	 * @return subregions
-	 */
-	List<Region> getSubregionsByCountry(Integer countryId);
+	List<WindowSowing> getWindowSowingByCultivar(Integer cultivarId);
 }

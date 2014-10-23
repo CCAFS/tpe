@@ -17,36 +17,24 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.cgair.dapa.ccafs.tpe.util.RegionCategory;
-import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
-import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.dao.IWindowSowingDao;
+import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 
 @SuppressWarnings("unchecked")
-public class RegionDao extends GenericDao<Region, Integer> implements
-		IRegionDao {
-	// private Logger log = Logger.getLogger(this.getClass());
+public class WindowSowingDao extends GenericDao<WindowSowing, Integer>
+		implements IWindowSowingDao {
 
-	public RegionDao() {
-		super(Region.class);
-
+	public WindowSowingDao() {
+		super(WindowSowing.class);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public List<Region> getCountries() {
+	public List<WindowSowing> getWindowSowingByCultivar(Integer cultivarId) {
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.category.name =:category");
+				.append(" r where r.cultivar.id =:cultivarId");
 		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("category", RegionCategory.COUNTRY.name());
-		return query.getResultList();
-	}
-
-	@Override
-	public List<Region> getSubregionsByCountry(Integer countryId) {
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.parent.id =:country").append(
-						" order by r.name");
-		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("country", countryId);
+		query.setParameter("cultivarId", cultivarId);
 
 		return query.getResultList();
 	}

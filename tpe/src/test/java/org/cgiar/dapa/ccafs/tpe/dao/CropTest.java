@@ -19,10 +19,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 
 /**
- * The class that tests for the crops query methods which are implemented in the
- * AgristatService class
+ * The class that tests for the crops, cultivar, sowing window methods which are
+ * implemented in the AgristatService class
  * 
  * @author NOAH
  * 
@@ -82,10 +83,23 @@ public class CropTest extends BaseTest {
 	 */
 	public void getYearsByCultivars() {
 		List<String> years = new ArrayList<String>();
-		Integer cultivarId=1;
+		Integer cultivarId = 1;
 		years = tpeService.getYearsByCultivar(cultivarId);
 		assertNotNull(years);
 		assertEquals(0, years.size());
+	}
+
+	/**
+	 * Retrieves the window sowing records by the specfied cultivar id
+	 */
+	public void testGetWindowSowingByCultivar() {
+		// List of window sowing records
+		List<WindowSowing> windows = new ArrayList<WindowSowing>();
+		Integer cultivarId = 1;
+		// Get windows
+		windows = tpeService.getWindowSowingByCultivar(cultivarId);
+		assertNotNull(windows);
+		assertEquals(0, windows.size());
 	}
 
 }

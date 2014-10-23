@@ -18,8 +18,11 @@ import java.util.List;
 import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IWindowSowingDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 
 /**
@@ -28,12 +31,16 @@ import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
  * @author NMATOVU
  *
  */
-@SuppressWarnings("unused")
+
 public class TPEService implements ITPEService {
 	private ICropDao cropDao;
-
+	private IWindowSowingDao windowSowingDao;
 	private ICultivarDao cultivarDao;
 	private IRegionDao regionDao;
+
+	public void setWindowSowingDao(IWindowSowingDao windowSowingDao) {
+		this.windowSowingDao = windowSowingDao;
+	}
 
 	public void setCultivarDao(ICultivarDao cultivarDao) {
 		this.cultivarDao = cultivarDao;
@@ -69,5 +76,29 @@ public class TPEService implements ITPEService {
 	public List<String> getYearsByCultivar(Integer cultivarId) {
 
 		return cultivarDao.getYearsByCultivar(cultivarId);
+	}
+
+	@Override
+	public List<WindowSowing> getWindowSowingByCultivar(Integer cultivarId) {
+
+		return windowSowingDao.getWindowSowingByCultivar(cultivarId);
+	}
+
+	@Override
+	public List<Region> getCountries() {
+
+		return regionDao.getCountries();
+	}
+
+	@Override
+	public List<Region> getSubregionsByCountry(Integer countryId) {
+
+		return regionDao.getSubregionsByCountry(countryId);
+	}
+
+	@Override
+	public Region getRegionById(Integer regionId) {
+
+		return regionDao.getById(regionId);
 	}
 }

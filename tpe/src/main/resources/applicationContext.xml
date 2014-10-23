@@ -73,6 +73,7 @@
 	<bean id="cropDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CropDao" />
 	<bean id="regionDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.RegionDao" />
 	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" />
+	<bean id="windowSowingDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.WindowSowingDao" />
 	 
 
 	<!-- Service -->
@@ -80,6 +81,7 @@
 		<property name="cropDao" ref="cropDao" />
 		<property name="regionDao" ref="regionDao" />
 		<property name="cultivarDao" ref="cultivarDao" />
+		<property name="windowSowingDao" ref="windowSowingDao" />
 	</bean>
 
 	<!-- Actions -->
