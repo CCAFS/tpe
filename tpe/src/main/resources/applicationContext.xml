@@ -80,6 +80,7 @@
 	<bean id="climateDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ClimateDao" />
 	<bean id="soilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilDao" />
 	<bean id="soilPropertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilPropertyDao" />
+	<bean id="phenologyGrowthDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PhenologyGrowthDao" />
 
 
 	<!-- Service -->
@@ -94,6 +95,7 @@
 		<property name="climateDao" ref="climateDao" />
 		<property name="soilDao" ref="soilDao" />
 		<property name="soilPropertyDao" ref="soilPropertyDao" />
+		<property name="phenologyGrowthDao" ref="phenologyGrowthDao" />
 	</bean>
 
 	<!-- Actions -->

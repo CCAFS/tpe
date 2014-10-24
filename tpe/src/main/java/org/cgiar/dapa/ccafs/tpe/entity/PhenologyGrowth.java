@@ -353,6 +353,11 @@ public class PhenologyGrowth extends BaseEntity {
 	 */
 	private Scenario scenario;
 
+	/**
+	 * The year
+	 */
+	private String year;
+
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
 	public Cultivar getCultivar() {
@@ -1024,6 +1029,15 @@ public class PhenologyGrowth extends BaseEntity {
 
 	public void setScenario(Scenario scenario) {
 		this.scenario = scenario;
+	}
+
+	@Column(name = "year")
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 }

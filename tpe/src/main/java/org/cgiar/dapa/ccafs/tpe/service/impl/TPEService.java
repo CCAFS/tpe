@@ -21,6 +21,7 @@ import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IScenarioDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
@@ -55,6 +56,11 @@ public class TPEService implements ITPEService {
 	private IScenarioDao scenarioDao;
 	private IClimateDao climateDao;
 	private ISoilPropertyDao soilPropertyDao;
+	private IPhenologyGrowthDao phenologyGrowthDao;
+
+	public void setPhenologyGrowthDao(IPhenologyGrowthDao phenologyGrowthDao) {
+		this.phenologyGrowthDao = phenologyGrowthDao;
+	}
 
 	public void setSoilPropertyDao(ISoilPropertyDao soilPropertyDao) {
 		this.soilPropertyDao = soilPropertyDao;
@@ -237,5 +243,37 @@ public class TPEService implements ITPEService {
 	public Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId) {
 
 		return stationDao.getStationsPoints(regionId);
+	}
+
+	@Override
+	public Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year) {
+
+		return phenologyGrowthDao.getTPERegions(cultivarId, regionId,
+				swindowId, year);
+	}
+
+	@Override
+	public Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year, Integer scenarioId) {
+
+		return phenologyGrowthDao.getTPERegions(cultivarId, regionId,
+				swindowId, year, scenarioId);
+	}
+
+	@Override
+	public Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year) {
+
+		return phenologyGrowthDao.getTPESoil(cultivarId, regionId, swindowId,
+				year);
+	}
+
+	@Override
+	public Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year, Integer scenarioId) {
+
+		return phenologyGrowthDao.getTPESoil(cultivarId, regionId, swindowId,
+				year, scenarioId);
 	}
 }

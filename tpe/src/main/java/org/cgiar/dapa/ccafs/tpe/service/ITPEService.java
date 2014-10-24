@@ -273,4 +273,81 @@ public interface ITPEService {
 	 */
 	Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId);
 
+	// TODO To use the region ISO code
+	/**
+	 * Retrieves the map of TPE regions (Map<RegionISO,Map<Latitude,Longitude>>)
+	 * for the specified crop cultivar, region (country) and sowing window in
+	 * the given year
+	 * 
+	 * @param cultivarId
+	 *            cultivar id
+	 * @param regionId
+	 *            country id
+	 * @param swindowId
+	 *            sowing window id
+	 * @param year
+	 *            year
+	 * @return Map of TPE regions
+	 */
+	Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year);
+
+	/**
+	 * Retrieves the map TPE regions (Map<RegionISO,Map<Latitude,Longitude>>)
+	 * for the specified crop cultivar, region (country), sowing window, and
+	 * scenario in the given year
+	 * 
+	 * @param cultivarId
+	 *            the crop cultivar id
+	 * @param regionId
+	 *            country id
+	 * @param swindowId
+	 *            the sowing window id
+	 * @param year
+	 *            the year
+	 * @param scenarioId
+	 *            the scenario (rainfed or irrigated)
+	 * @return Map of TPE regions
+	 */
+	Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+
+	/**
+	 * Retrieves the tpe soil textures with thier corresponding regions and crop
+	 * yield from the specified country, crop cultivar, sowing window in the
+	 * given year.
+	 * 
+	 * @param cultivarId
+	 *            the crop cultivar id
+	 * @param regionId
+	 *            the country or region id
+	 * @param swindowId
+	 *            the sowing window
+	 * @param year
+	 *            the year
+	 * @return tpe soil and corresponding regions and yield
+	 */
+	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year);
+
+	/**
+	 * Retrieves the tpe soil textures with thier corresponding regions and crop
+	 * yield from the specified country, crop cultivar, sowing window in the
+	 * given year.
+	 * 
+	 * @param cultivarId
+	 *            the crop cultivar id
+	 * @param regionId
+	 *            the region or country id
+	 * @param swindowId
+	 *            the sowing window id
+	 * @param year
+	 *            the year
+	 * @param scenarioId
+	 *            the scenario id
+	 * @return tpe soil map with corresponding regions and yield
+	 */
+	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
+			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+
 }
