@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.text.SimpleDateFormat;
+
 import junit.framework.TestCase;
 
 import org.cgair.dapa.ccafs.tpe.util.Constants;
@@ -31,7 +33,7 @@ public abstract class BaseTest extends TestCase implements Constants{
 	private static final String BEAN_SERVICE = "tpeService";
 	private ApplicationContext context;
 	protected ITPEService tpeService;
-
+	protected SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
 	public BaseTest() {
 		super();
 		context = new ClassPathXmlApplicationContext("/applicationContext.xml");

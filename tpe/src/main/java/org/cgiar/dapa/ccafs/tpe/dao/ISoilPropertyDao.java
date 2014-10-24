@@ -16,33 +16,42 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
 
 /**
- * This interface defines the station dao methods that are implemented by the
- * station dao class
+ * The interface that defines the soil property DAO methods
  * 
  * @author NMATOVU
  *
  */
-public interface IStationDao extends IGenericDao<Station, Integer> {
-
+public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Integer> {
 	/**
-	 * Retrieves the weather stations located in the specified region.
+	 * Retrieves the soil distribution (latitude and longitude points) for a
+	 * specified soil texture, region and property category.
 	 * 
+	 * @param soilId
+	 *            soil texture id
 	 * @param regionId
-	 *            region id used to query the stations
-	 * @return stations
+	 *            region or country id
+	 * @param categoryId
+	 *            property category id
+	 * @return soil distribution
 	 */
-	List<Station> getStationsByRegion(Integer regionId);
+	Map<Integer, Map<Double, Double>> getSoilDistribution(Integer soilId,
+			Integer regionId, Integer categoryId);
 
 	/**
-	 * Retrieves stations and their corresponding location points from the
-	 * specified region.
+	 * Retrieves the soil distribution (latitude and longitude points) for
+	 * different specified soil textures, region and property category.
 	 * 
+	 * @param soilIds
+	 *            soil texture ids
 	 * @param regionId
 	 *            region id
-	 * @return stations
+	 * @param categoryId
+	 *            soil property category id
+	 * @return soil distribution
 	 */
-	Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId);
+	Map<Integer, Map<Double, Double>> getSoilDistribution(
+			List<Integer> soilIds, Integer regionId, Integer categoryId);
 }

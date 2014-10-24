@@ -13,12 +13,14 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
 
 import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
 
 /**
  * This class implements the methods defined in the Climate DAO interface
@@ -62,6 +64,44 @@ public class ClimateDao extends GenericDao<Climate, Integer> implements
 		query.setParameter("regions", regionIds);
 		query.setParameter("category", categoryId);
 		query.setParameter("year", year);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Climate> getClimate(Date fromDate, Date toDate,
+			Integer regionId, Integer categoryId) {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.region.id =:region")
+				.append(" and r.category.id =:category")
+				.append(" and r.recordedOn between :fromDate and :toDate");
+
+		Query query = entityManager.createQuery(q.toString());
+		// query.setMaxResults(rows);
+		// query.setFirstResult((page - 1) * rows);
+		query.setParameter("category", categoryId);
+		query.setParameter("region", regionId);
+		query.setParameter("fromDate", fromDate);
+		query.setParameter("toDate", toDate);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Station> getStationsByClimate(Date fromDate, Date toDate,
+			Integer categoryId, Integer regionId) {
+		StringBuffer q = new StringBuffer("select r.station from " + entityClass.getName())
+				.append(" r where r.station.region.id =:region")
+				.append(" and r.category.id =:category")
+				.append(" and r.recordedOn between :fromDate and :toDate");
+
+		Query query = entityManager.createQuery(q.toString());
+		// query.setMaxResults(rows);
+		// query.setFirstResult((page - 1) * rows);
+		query.setParameter("category", categoryId);
+		query.setParameter("region", regionId);
+		query.setParameter("fromDate", fromDate);
+		query.setParameter("toDate", toDate);
+
 		return query.getResultList();
 	}
 

@@ -104,6 +104,14 @@ public class SoilProperty extends BaseEntity {
 	 * Available soil water;
 	 */
 	private Float availableSoilWater;
+	/**
+	 * The longitude of the soil texture from a given region
+	 */
+	private Double longitude;
+	/**
+	 * The latitude of the soil texture from a given region
+	 */
+	private Double latitude;
 
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -233,6 +241,24 @@ public class SoilProperty extends BaseEntity {
 
 	public void setAvailableSoilWater(Float availableSoilWater) {
 		this.availableSoilWater = availableSoilWater;
+	}
+
+	@Column(name = "longitude")
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	@Column(name = "latitude")
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 }

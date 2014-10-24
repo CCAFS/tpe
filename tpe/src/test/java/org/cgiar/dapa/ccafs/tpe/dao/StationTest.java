@@ -15,6 +15,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 
@@ -37,6 +38,19 @@ public class StationTest extends BaseTest {
 		// Retrieve the stations by the region
 		stations = tpeService.getStationsByRegion(regionId);
 
+		assertNotNull(stations);
+		assertEquals(0, stations.size());
+	}
+
+	/**
+	 * Retrieves the stations and their corresponding points from the specified
+	 * region
+	 */
+	public void testGetStationPoints() {
+		// The region id
+		Integer regionId = 1;
+		Map<Integer, Map<Double, Double>> stations = tpeService
+				.getStationsPoints(regionId);
 		assertNotNull(stations);
 		assertEquals(0, stations.size());
 	}

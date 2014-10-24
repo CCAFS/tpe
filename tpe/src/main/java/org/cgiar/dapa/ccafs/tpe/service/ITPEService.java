@@ -13,7 +13,9 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
@@ -21,6 +23,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
+import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 
@@ -182,5 +185,92 @@ public interface ITPEService {
 	 */
 	List<Climate> getClimateByRegions(List<Integer> regionIds,
 			Integer categoryId, String year);
+
+	// TODO To include order by.
+	// TODO Set start row and max rows from the database
+	/**
+	 * Retrieves climate from to a particular date for a given category from the
+	 * given region (country)
+	 * 
+	 * @param fromDate
+	 *            from date
+	 * @param toDate
+	 *            to date
+	 * @param regionId
+	 *            country or region id
+	 * @param categoryId
+	 *            category id of the climate category
+	 * @return climate
+	 */
+	List<Climate> getClimate(Date fromDate, Date toDate, Integer regionId,
+			Integer categoryId);
+
+	// TODO Add order by and max rows and start row
+	/**
+	 * Retrieves all stations associated with the specified climate category
+	 * between a certain date range from a specified region (country)
+	 * 
+	 * @param fromDate
+	 *            starting date
+	 * @param toDate
+	 *            to date
+	 * @param categoryId
+	 *            climate category id
+	 * @param regionId
+	 *            region (country) id
+	 * @return stations
+	 */
+	List<Station> getStationsByClimate(Date fromDate, Date toDate,
+			Integer categoryId, Integer regionId);
+
+	/**
+	 * Retrieve the soil texture by the primary key
+	 * 
+	 * @param soilId
+	 *            the soil id
+	 * @return soil texture
+	 */
+	Soil getSoilById(Integer soilId);
+
+	/**
+	 * Retrieves the soil distribution (latitude and longitude points) for a
+	 * specified soil texture, region and property category.
+	 * 
+	 * @param soilId
+	 *            soil texture id
+	 * @param regionId
+	 *            region or country id
+	 * @param categoryId
+	 *            property category id
+	 * @return soil distribution
+	 */
+	Map<Integer, Map<Double, Double>> getSoilDistribution(Integer soilId,
+			Integer regionId, Integer categoryId);
+
+	// TODO To use soil code instead of soil id
+	/**
+	 * Retrieves the soil distribution (latitude and longitude points) for
+	 * different specified soil textures, region and property category.
+	 * 
+	 * @param soilIds
+	 *            soil texture ids
+	 * @param regionId
+	 *            region id
+	 * @param categoryId
+	 *            soil property category id
+	 * @return soil distribution
+	 */
+	Map<Integer, Map<Double, Double>> getSoilDistribution(
+			List<Integer> soilIds, Integer regionId, Integer categoryId);
+
+	/**
+	 * Retrieves stations and their corresponding location points from the
+	 * specified region.
+	 * 
+	 * @param regionId
+	 *            region id
+	 * @return stations
+	 */
+	Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId);
 
 }

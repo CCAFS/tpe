@@ -45,7 +45,7 @@ public interface IGenericDao<T, K extends Serializable> {
 	 *            the object,entity or record to save into the database
 	 * @return managed copy of the original object or record.
 	 */
-	T addOrMerge(T entity);
+	T addOrMerge(T entity)  ;
 
 	/**
 	 * Creates a new entity

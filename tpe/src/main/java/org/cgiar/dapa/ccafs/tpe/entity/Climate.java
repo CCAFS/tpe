@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.Date;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -80,6 +82,10 @@ public class Climate extends BaseEntity {
 	 * The author that provided the climatic data
 	 */
 	private String author;
+	/**
+	 * The date the when the climate was recorded.
+	 */
+	private Date recordedOn;
 
 	@Column
 	public Integer getDay() {
@@ -181,6 +187,15 @@ public class Climate extends BaseEntity {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	@Column(name = "recordedOn")
+	public Date getRecordedOn() {
+		return recordedOn;
+	}
+
+	public void setRecordedOn(Date recordedOn) {
+		this.recordedOn = recordedOn;
 	}
 
 }

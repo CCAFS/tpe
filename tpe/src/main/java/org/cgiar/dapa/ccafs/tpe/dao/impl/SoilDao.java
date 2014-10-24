@@ -11,38 +11,17 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.dao;
 
-import java.util.List;
-import java.util.Map;
+package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
-import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
+import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 
-/**
- * This interface defines the station dao methods that are implemented by the
- * station dao class
- * 
- * @author NMATOVU
- *
- */
-public interface IStationDao extends IGenericDao<Station, Integer> {
+public class SoilDao extends GenericDao<Soil, Integer> implements ISoilDao {
 
-	/**
-	 * Retrieves the weather stations located in the specified region.
-	 * 
-	 * @param regionId
-	 *            region id used to query the stations
-	 * @return stations
-	 */
-	List<Station> getStationsByRegion(Integer regionId);
+	public SoilDao() {
+		super(Soil.class);
+		// TODO Auto-generated constructor stub
+	}
 
-	/**
-	 * Retrieves stations and their corresponding location points from the
-	 * specified region.
-	 * 
-	 * @param regionId
-	 *            region id
-	 * @return stations
-	 */
-	Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId);
 }

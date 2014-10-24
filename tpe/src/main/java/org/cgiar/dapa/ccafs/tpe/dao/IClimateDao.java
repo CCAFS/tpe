@@ -13,9 +13,11 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
 
 /**
  * This interface defines the DAO methods for the climate in the model
@@ -59,4 +61,41 @@ public interface IClimateDao extends IGenericDao<Climate, Integer> {
 	 */
 	List<Climate> getClimateByRegions(List<Integer> regionIds,
 			Integer categoryId, String year);
+
+	// TODO To include order by.
+	// TODO Set start row and max rows from the database
+	/**
+	 * Retrieves climate from to a particular date for a given category from the
+	 * given region (country)
+	 * 
+	 * @param fromDate
+	 *            from date
+	 * @param toDate
+	 *            to date
+	 * @param regionId
+	 *            country or region id
+	 * @param categoryId
+	 *            category id of the climate category
+	 * @return climate
+	 */
+	List<Climate> getClimate(Date fromDate, Date toDate, Integer regionId,
+			Integer categoryId);
+
+	// TODO Add order by and max rows and start row
+	/**
+	 * Retrieves all stations associated with the specified climate category
+	 * between a certain date range from a specified region (country)
+	 * 
+	 * @param fromDate
+	 *            starting date
+	 * @param toDate
+	 *            to date
+	 * @param categoryId
+	 *            climate category id
+	 * @param regionId
+	 *            region (country) id
+	 * @return stations
+	 */
+	List<Station> getStationsByClimate(Date fromDate, Date toDate,
+			Integer categoryId, Integer regionId);
 }

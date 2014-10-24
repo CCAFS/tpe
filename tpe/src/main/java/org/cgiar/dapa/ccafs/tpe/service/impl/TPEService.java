@@ -13,7 +13,9 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
@@ -21,6 +23,8 @@ import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IScenarioDao;
+import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
+import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IWindowSowingDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
@@ -29,6 +33,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
+import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
@@ -49,6 +54,17 @@ public class TPEService implements ITPEService {
 	private IStationDao stationDao;
 	private IScenarioDao scenarioDao;
 	private IClimateDao climateDao;
+	private ISoilPropertyDao soilPropertyDao;
+
+	public void setSoilPropertyDao(ISoilPropertyDao soilPropertyDao) {
+		this.soilPropertyDao = soilPropertyDao;
+	}
+
+	private ISoilDao soilDao;
+
+	public void setSoilDao(ISoilDao soilDao) {
+		this.soilDao = soilDao;
+	}
 
 	public void setClimateDao(IClimateDao climateDao) {
 		this.climateDao = climateDao;
@@ -178,5 +194,48 @@ public class TPEService implements ITPEService {
 			Integer categoryId, String year) {
 
 		return climateDao.getClimateByRegions(regionIds, categoryId, year);
+	}
+
+	@Override
+	public List<Climate> getClimate(Date fromDate, Date toDate,
+			Integer regionId, Integer categoryId) {
+
+		return climateDao.getClimate(fromDate, toDate, regionId, categoryId);
+	}
+
+	@Override
+	public List<Station> getStationsByClimate(Date fromDate, Date toDate,
+			Integer categoryId, Integer regionId) {
+
+		return climateDao.getStationsByClimate(fromDate, toDate, categoryId,
+				regionId);
+	}
+
+	@Override
+	public Soil getSoilById(Integer soilId) {
+
+		return soilDao.getById(soilId);
+	}
+
+	@Override
+	public Map<Integer, Map<Double, Double>> getSoilDistribution(
+			Integer soilId, Integer regionId, Integer categoryId) {
+
+		return soilPropertyDao
+				.getSoilDistribution(soilId, regionId, categoryId);
+	}
+
+	@Override
+	public Map<Integer, Map<Double, Double>> getSoilDistribution(
+			List<Integer> soilIds, Integer regionId, Integer categoryId) {
+
+		return soilPropertyDao.getSoilDistribution(soilIds, regionId,
+				categoryId);
+	}
+
+	@Override
+	public Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId) {
+
+		return stationDao.getStationsPoints(regionId);
 	}
 }

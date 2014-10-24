@@ -13,11 +13,14 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
 
 /**
  * This class contains tests for the climate dao and service methods
@@ -68,6 +71,58 @@ public class ClimateTest extends BaseTest {
 
 		assertNotNull(climate);
 		assertEquals(0, climate.size());
+	}
+
+	/**
+	 * This tests for the retrieval of climate data for a given range for a
+	 * particular category from a a given region.
+	 */
+	public void testGetClimateByRange() {
+
+		// Climate category
+		Integer categoryId = 1;
+		// Region
+		Integer regionId = 1;
+		Date fromDate = null;
+		Date toDate = null;
+		try {
+			fromDate = sdf.parse("20/02/2012");
+			toDate = sdf.parse("20/02/2012");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Retrieve the climate
+		List<Climate> climate = tpeService.getClimate(fromDate, toDate,
+				regionId, categoryId);
+		assertNotNull(climate);
+		assertEquals(0, climate.size());
+	}
+
+	/**
+	 * This tests for retrieval of weather stations by climate variables
+	 */
+	public void testGetStationsByClimate() {
+		// Climate category
+		Integer categoryId = 1;
+		// Region
+		Integer regionId = 1;
+		Date fromDate = null;
+		Date toDate = null;
+		try {
+			fromDate = sdf.parse("20/02/2012");
+			toDate = sdf.parse("20/02/2012");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Retrieve the regions
+		List<Station> stations = tpeService.getStationsByClimate(fromDate,
+				toDate, categoryId, regionId);
+		assertNotNull(stations);
+		assertEquals(0, stations.size());
 	}
 
 }

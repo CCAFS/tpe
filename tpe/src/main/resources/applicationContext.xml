@@ -78,6 +78,8 @@
 	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" />
 	<bean id="windowSowingDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.WindowSowingDao" />
 	<bean id="climateDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ClimateDao" />
+	<bean id="soilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilDao" />
+	<bean id="soilPropertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilPropertyDao" />
 
 
 	<!-- Service -->
@@ -90,6 +92,8 @@
 		<property name="cultivarDao" ref="cultivarDao" />
 		<property name="windowSowingDao" ref="windowSowingDao" />
 		<property name="climateDao" ref="climateDao" />
+		<property name="soilDao" ref="soilDao" />
+		<property name="soilPropertyDao" ref="soilPropertyDao" />
 	</bean>
 
 	<!-- Actions -->
