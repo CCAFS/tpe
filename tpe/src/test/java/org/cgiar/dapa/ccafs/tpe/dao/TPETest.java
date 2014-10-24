@@ -23,7 +23,7 @@ import java.util.Map;
  *
  */
 public class TPETest extends BaseTest {
-
+	// TODO To refactor the tests and then run them with database data
 	/**
 	 * Retrieves Target Population Environment regions and their corresponding
 	 * GEO points (lat & lon) based on the specified crop cultivar, region
