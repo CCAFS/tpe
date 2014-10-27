@@ -30,7 +30,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
  *
  */
 @SuppressWarnings("unchecked")
-public class SoilPropertyDao extends GenericDao<SoilProperty, Integer>
+public class SoilPropertyDao extends GenericDao<SoilProperty, Long>
 		implements ISoilPropertyDao {
 
 	public SoilPropertyDao() {

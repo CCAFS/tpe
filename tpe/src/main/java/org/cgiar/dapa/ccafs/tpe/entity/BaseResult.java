@@ -11,37 +11,42 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
+package org.cgiar.dapa.ccafs.tpe.entity;
 
-package org.cgiar.dapa.ccafs.tpe.action;
+import java.io.Serializable;
 
-import org.apache.log4j.Logger;
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
-
-import com.opensymphony.xwork2.ActionSupport;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
- * This is the base action that provides the core methods that will be utilized
- * by other action classes in the system
+ * This is the base class for the result classes in the tpe project. Result
+ * entity classes will extend this base class as it provides the core method. It
+ * provides only the id (primary key)
  * 
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
+@MappedSuperclass
+public abstract class BaseResult implements Serializable {
 
-	private static final long serialVersionUID = 3706037816101380217L;
-	@SuppressWarnings("unused")
-	private Logger log = Logger.getLogger(this.getClass());
+	private static final long serialVersionUID = 4206288262722416929L;
 	/**
-	 * The TPE Service
+	 * The primary key of the entity.
 	 */
-	protected ITPEService tpeService;
+	private Long id;
 
-	public ITPEService getTpeService() {
-		return tpeService;
+	@Id
+	@Column
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long getId() {
+		return id;
 	}
 
-	public void setTpeService(ITPEService tpeService) {
-		this.tpeService = tpeService;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

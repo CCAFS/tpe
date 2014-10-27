@@ -21,9 +21,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * This class represents the weather station entity in the crop simulation model. Each
- * station in the model belongs to a particular region and has geo location
- * codes (longitude and latitude).
+ * This class represents the weather station entity in the crop simulation
+ * model. Each station in the model belongs to a particular region and has geo
+ * location codes (longitude and latitude).
  * 
  * @author NMATOVU
  *
@@ -119,4 +119,13 @@ public class Station extends BaseEntity {
 		this.altitude = altitude;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getName()).append(" ").append(" [").append(getId())
+				.append("][").append(getLatitude()).append(",")
+				.append(getLongitude()).append("]");
+		return sb.toString();
+
+	}
 }

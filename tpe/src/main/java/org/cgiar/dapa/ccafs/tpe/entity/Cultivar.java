@@ -65,4 +65,12 @@ public class Cultivar extends BaseEntity {
 		this.crop = crop;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getName()).append(" ").append(" [").append(getId())
+				.append("]");
+		return sb.toString();
+
+	}
 }

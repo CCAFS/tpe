@@ -30,7 +30,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "phenology_growth")
 @AttributeOverride(name = "id", column = @Column(name = "result_id"))
-public class PhenologyGrowth extends BaseEntity {
+public class PhenologyGrowth extends BaseResult {
 
 	/**
 	 * 

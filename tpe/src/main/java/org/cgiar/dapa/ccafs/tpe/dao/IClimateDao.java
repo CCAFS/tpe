@@ -25,7 +25,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Station;
  * @author NMATOVU
  *
  */
-public interface IClimateDao extends IGenericDao<Climate, Integer> {
+public interface IClimateDao extends IGenericDao<Climate, Long> {
 
 	/**
 	 * Retrieves the climate records for the specified category from the

@@ -31,7 +31,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "climate")
 @AttributeOverride(name = "id", column = @Column(name = "climate_id"))
-public class Climate extends BaseEntity {
+public class Climate extends BaseResult {
 
 	/**
 	 * 

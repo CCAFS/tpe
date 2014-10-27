@@ -40,7 +40,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "soil_property")
 @AttributeOverride(name = "id", column = @Column(name = "property_id"))
-public class SoilProperty extends BaseEntity {
+public class SoilProperty extends BaseResult {
 
 	/**
 	 * 

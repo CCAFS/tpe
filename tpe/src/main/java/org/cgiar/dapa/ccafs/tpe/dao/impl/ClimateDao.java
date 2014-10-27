@@ -29,7 +29,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Station;
  *
  */
 @SuppressWarnings("unchecked")
-public class ClimateDao extends GenericDao<Climate, Integer> implements
+public class ClimateDao extends GenericDao<Climate, Long> implements
 		IClimateDao {
 
 	public ClimateDao() {

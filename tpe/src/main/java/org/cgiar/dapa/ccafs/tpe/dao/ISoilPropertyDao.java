@@ -24,7 +24,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
  * @author NMATOVU
  *
  */
-public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Integer> {
+public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	/**
 	 * Retrieves the soil distribution (latitude and longitude points) for a
 	 * specified soil texture, region and property category.

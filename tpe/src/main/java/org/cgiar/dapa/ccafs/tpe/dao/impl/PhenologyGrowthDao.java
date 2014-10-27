@@ -32,7 +32,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Soil;
  *
  */
 @SuppressWarnings("unchecked")
-public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Integer>
+public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		implements IPhenologyGrowthDao {
 
 	public PhenologyGrowthDao() {

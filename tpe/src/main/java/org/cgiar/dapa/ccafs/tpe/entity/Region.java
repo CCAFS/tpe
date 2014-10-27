@@ -157,4 +157,14 @@ public class Region extends BaseEntity {
 	public void setLevel(String level) {
 		this.level = level;
 	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getName()).append(", ").append(getAlphaISO()).append(" [")
+				.append(getId()).append("][").append(getLatitude()).append(",")
+				.append(getLongitude()).append("]");
+		return sb.toString();
+
+	}
 }

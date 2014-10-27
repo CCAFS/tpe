@@ -20,8 +20,8 @@ import javax.persistence.Table;
 
 /**
  * This class represents the soil texture or type (clay, sand, loam, etc) in the
- * model. Each soil type has soil properties and values from a particular
- * region or station where it located.
+ * model. Each soil type has soil properties and values from a particular region
+ * or station where it located.
  * 
  * @author NMATOVU
  *
@@ -61,5 +61,14 @@ public class Soil extends BaseEntity {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getName()).append(" ").append(" [").append(getId())
+				.append("]");
+		return sb.toString();
+
 	}
 }

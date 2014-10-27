@@ -25,7 +25,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
  *
  */
 public interface IPhenologyGrowthDao extends
-		IGenericDao<PhenologyGrowth, Integer> {
+		IGenericDao<PhenologyGrowth, Long> {
 
 	// TODO To use the region ISO code
 	/**

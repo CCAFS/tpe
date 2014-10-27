@@ -11,37 +11,48 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
+package org.cgiar.dapa.ccafs.tpe.projection;
 
-package org.cgiar.dapa.ccafs.tpe.action;
-
-import org.apache.log4j.Logger;
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
-
-import com.opensymphony.xwork2.ActionSupport;
+import java.util.Map;
 
 /**
- * This is the base action that provides the core methods that will be utilized
- * by other action classes in the system
+ * The soil texture distribution projection
  * 
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
+public class Texture {
+	// private Double lat;
+	// private Double lng;
+	private String regionISO;
+	private String parentISO;
+	// private String color;
+	// private Double yield;
+	// private String year;
+	private Map<Double, Double> points;
 
-	private static final long serialVersionUID = 3706037816101380217L;
-	@SuppressWarnings("unused")
-	private Logger log = Logger.getLogger(this.getClass());
-	/**
-	 * The TPE Service
-	 */
-	protected ITPEService tpeService;
-
-	public ITPEService getTpeService() {
-		return tpeService;
+	public String getRegionISO() {
+		return regionISO;
 	}
 
-	public void setTpeService(ITPEService tpeService) {
-		this.tpeService = tpeService;
+	public void setRegionISO(String regionISO) {
+		this.regionISO = regionISO;
+	}
+
+	public String getParentISO() {
+		return parentISO;
+	}
+
+	public void setParentISO(String parentISO) {
+		this.parentISO = parentISO;
+	}
+
+	public Map<Double, Double> getPoints() {
+		return points;
+	}
+
+	public void setPoints(Map<Double, Double> points) {
+		this.points = points;
 	}
 
 }
