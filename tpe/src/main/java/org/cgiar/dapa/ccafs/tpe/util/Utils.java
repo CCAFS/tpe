@@ -11,14 +11,15 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgair.dapa.ccafs.tpe.util;
+package org.cgiar.dapa.ccafs.tpe.util;
 
 /**
- * This enum provides the region categories
+ * This is the tpe utils class that contains the utility methods that are being
+ * used by various classes and methods in the application
  * 
  * @author NMATOVU
  *
  */
-public enum RegionCategory {
-	COUNTRY, STATE, PROVINCE, MUNICIPIO, DISTRICT
+public class Utils {
+
 }

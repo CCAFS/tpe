@@ -11,7 +11,7 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgair.dapa.ccafs.tpe.util;
+package org.cgiar.dapa.ccafs.tpe.util;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 

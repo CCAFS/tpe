@@ -17,9 +17,9 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.cgair.dapa.ccafs.tpe.util.RegionCategory;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.util.RegionCategory;
 
 @SuppressWarnings("unchecked")
 public class RegionDao extends GenericDao<Region, Integer> implements

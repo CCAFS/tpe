@@ -11,33 +11,14 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.dao;
-
-import java.text.SimpleDateFormat;
-
-import junit.framework.TestCase;
-
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
-import org.cgiar.dapa.ccafs.tpe.util.Constants;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+package org.cgiar.dapa.ccafs.tpe.util;
 
 /**
- * This is the TPE base DAO test class
+ * This enum provides the region categories
  * 
- * @author NMatovu
- * 
+ * @author NMATOVU
+ *
  */
-public abstract class BaseTest extends TestCase implements Constants{
-
-	private static final String BEAN_SERVICE = "tpeService";
-	private ApplicationContext context;
-	protected ITPEService tpeService;
-	protected SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-	public BaseTest() {
-		super();
-		context = new ClassPathXmlApplicationContext("/applicationContext.xml");
-		tpeService = (ITPEService) context.getBean(BEAN_SERVICE);
-	}
-
+public enum RegionCategory {
+	COUNTRY, STATE, PROVINCE, MUNICIPIO, DISTRICT
 }

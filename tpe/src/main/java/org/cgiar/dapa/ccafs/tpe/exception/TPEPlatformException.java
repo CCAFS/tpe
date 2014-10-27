@@ -11,15 +11,45 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgair.dapa.ccafs.tpe.util;
+package org.cgiar.dapa.ccafs.tpe.exception;
 
 /**
- * This is the tpe utils class that contains the utility methods that are being
- * used by various classes and methods in the application
+ * The TPE platform exception
  * 
  * @author NMATOVU
  *
  */
-public class Utils {
+public class TPEPlatformException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2073986648025832654L;
+
+	public TPEPlatformException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TPEPlatformException(String message, Throwable cause,
+			boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+		// TODO Auto-generated constructor stub
+	}
+
+	public TPEPlatformException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	public TPEPlatformException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	public TPEPlatformException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
 
 }
