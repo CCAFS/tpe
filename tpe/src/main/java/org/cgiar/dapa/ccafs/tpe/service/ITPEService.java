@@ -26,6 +26,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
+import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
  * This interface defines the TPE service methods
@@ -263,6 +264,7 @@ public interface ITPEService {
 	Map<Integer, Map<Double, Double>> getSoilDistribution(
 			List<Integer> soilIds, Integer regionId, Integer categoryId);
 
+	// Map<station,Map<lat.lng>>
 	/**
 	 * Retrieves stations and their corresponding location points from the
 	 * specified region.
@@ -349,5 +351,36 @@ public interface ITPEService {
 	 */
 	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
 			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+
+	/**
+	 * Retrieves the weather stations from each specified regions (sub regions
+	 * such as states)
+	 * 
+	 * @param regions
+	 *            region ids
+	 * @return stations per region
+	 */
+	Map<String, List<Station>> getStationPerRegion(List<Integer> regions);
+
+	/**
+	 * Retrieves the staions for each of the specified region
+	 * 
+	 * @param regions
+	 *            region ids
+	 * @return stations per region
+	 */
+	Map<String, List<LatLng>> getStationByRegion(List<Integer> regions);
+
+	/**
+	 * Retrieves the soil features for the specified country and soil property
+	 * id
+	 * 
+	 * @param propertyId
+	 *            the soil property id
+	 * @param countryId
+	 *            the country id
+	 * @return soil features
+	 */
+	Map<String, Object> getSoilFeatures(Integer propertyId, Integer countryId);
 
 }

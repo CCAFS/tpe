@@ -1,0 +1,26 @@
+
+body {
+	font-size: 12.8px;
+	margin: 0 5px 50px;
+}
+
+div.navigation-tabs {
+	background-color: #FFF3CF;
+	width: 100%;
+	position:relative;
+	top:-10px;
+}
+
+div.navigation-tabs a {
+	display: block;
+	float: left;
+	margin: 4px 5px 0px;
+	padding: 2px 4px;
+	border-bottom: none;
+	font-weight: bold;
+	font-variant: small-caps;
+}
+
+div.navigation-tabs a:hover {
+	background-color: White;
+}

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
  * This interface defines the station dao methods that are implemented by the
@@ -45,4 +46,23 @@ public interface IStationDao extends IGenericDao<Station, Integer> {
 	 * @return stations
 	 */
 	Map<Integer, Map<Double, Double>> getStationsPoints(Integer regionId);
+
+	/**
+	 * Retrieves the weather stations from each specified regions (sub regions
+	 * such as states)
+	 * 
+	 * @param regions
+	 *            region ids
+	 * @return stations per region
+	 */
+	Map<String, List<Station>> getStationPerRegion(List<Integer> regions);
+
+	/**
+	 * Retrieves the staions for each of the specified region
+	 * 
+	 * @param regions
+	 *            region ids
+	 * @return stations per region
+	 */
+	Map<String, List<LatLng>> getStationByRegion(List<Integer> regions);
 }

@@ -37,6 +37,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
+import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 
 /**
@@ -275,5 +276,24 @@ public class TPEService implements ITPEService {
 
 		return phenologyGrowthDao.getTPESoil(cultivarId, regionId, swindowId,
 				year, scenarioId);
+	}
+
+	@Override
+	public Map<String, List<Station>> getStationPerRegion(List<Integer> regions) {
+
+		return stationDao.getStationPerRegion(regions);
+	}
+
+	@Override
+	public Map<String, List<LatLng>> getStationByRegion(List<Integer> regions) {
+
+		return stationDao.getStationByRegion(regions);
+	}
+
+	@Override
+	public Map<String, Object> getSoilFeatures(Integer propertyId,
+			Integer countryId) {
+
+		return soilPropertyDao.getSoilFeatures(propertyId, countryId);
 	}
 }

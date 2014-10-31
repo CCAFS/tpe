@@ -22,11 +22,28 @@ package org.cgiar.dapa.ccafs.tpe.projection;
 public class LatLng {
 	private Double lat;
 	private Double lng;
-	private String stationNo;
+	private Integer stationNo;
 	private String regionISO;
 	private Double yield;
 	private String color;
 	private String year;
+	private String stationName;
+	private String regionName;
+
+	public LatLng() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public LatLng(String stationName, Integer stationNo, String regionName,
+			Double lat, Double lng) {
+		super();
+		this.stationName = stationName;
+		this.stationNo = stationNo;
+		this.regionName = regionName;
+		this.lat = lat;
+		this.lng = lng;
+	}
 
 	public Double getLat() {
 		return lat;
@@ -44,11 +61,11 @@ public class LatLng {
 		this.lng = lng;
 	}
 
-	public String getStationNo() {
+	public Integer getStationNo() {
 		return stationNo;
 	}
 
-	public void setStationNo(String stationNo) {
+	public void setStationNo(Integer stationNo) {
 		this.stationNo = stationNo;
 	}
 
@@ -82,6 +99,22 @@ public class LatLng {
 
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	public String getStationName() {
+		return stationName;
+	}
+
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
+	}
+
+	public String getRegionName() {
+		return regionName;
+	}
+
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
 	}
 
 }

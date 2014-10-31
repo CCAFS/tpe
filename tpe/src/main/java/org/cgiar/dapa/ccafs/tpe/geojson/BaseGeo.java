@@ -11,40 +11,19 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
+package org.cgiar.dapa.ccafs.tpe.geojson;
 
-package org.cgiar.dapa.ccafs.tpe.action;
-  
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
+import java.io.Serializable;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.opensymphony.xwork2.ActionSupport;
+import org.cgiar.dapa.ccafs.tpe.util.Constants;
 
 /**
- * This is the base action that provides the core methods that will be utilized
- * by other action classes in the system
+ * The base GeoJson class
  * 
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
-
-	private static final long serialVersionUID = 3706037816101380217L;
-	@SuppressWarnings("unused")
-	private Log log = LogFactory.getLog(this.getClass());
-	/**
-	 * The TPE Service
-	 */
-	protected ITPEService tpeService;
-
-	public ITPEService getTpeService() {
-		return tpeService;
-	}
-
-	public void setTpeService(ITPEService tpeService) {
-		this.tpeService = tpeService;
-	}
+@SuppressWarnings("serial")
+public abstract class BaseGeo implements Constants, Serializable {
 
 }

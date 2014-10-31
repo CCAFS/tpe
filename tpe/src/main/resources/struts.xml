@@ -65,8 +65,8 @@
 				<param name="contentDisposition">attachment; filename="${downloadFileName}"</param>
 				<param name="bufferSize">2048</param>
 			</result>
-			<result name="dashboard" type="redirect-action">index</result>
-			<result name="access-denied">/403.jsp</result>
+			<result name="dashboard" type="redirectAction">index</result>
+
 		</global-results>
 
 		<global-exception-mappings>
@@ -79,8 +79,9 @@
 		<action name="index" class="tpeAction" method="execute">
 			<result name="success">/WEB-INF/pages/index.jsp</result>
 		</action>
-
-
+		<action name="loadTPE" class="tpeAction" method="loadTPE">
+			<result name="success">/WEB-INF/pages/tpe/tpe.jsp</result>
+		</action>
 
 	</package>
 	<package name="tpeJson" extends="struts-default,json-default">
@@ -91,7 +92,11 @@
 			<interceptor name="json"
 				class="org.apache.struts2.json.JSONInterceptor" />
 		</interceptors>
-
+		<action name="geoJsonFeatures" class="geoJsonAction">
+			<result type="json">
+				<param name="includeProperties">collections.*</param>
+			</result>
+		</action>
 	</package>
 
 

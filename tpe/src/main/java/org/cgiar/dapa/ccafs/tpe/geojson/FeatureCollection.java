@@ -11,40 +11,52 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
+package org.cgiar.dapa.ccafs.tpe.geojson;
 
-package org.cgiar.dapa.ccafs.tpe.action;
-  
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
-
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.opensymphony.xwork2.ActionSupport;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * This is the base action that provides the core methods that will be utilized
- * by other action classes in the system
+ * Represents the GeoJSON Geometry for the Google Map API
  * 
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
+public class FeatureCollection extends BaseGeo {
 
-	private static final long serialVersionUID = 3706037816101380217L;
-	@SuppressWarnings("unused")
-	private Log log = LogFactory.getLog(this.getClass());
+	private static final long serialVersionUID = 5627854772070853600L;
+
+	private String type = GEOJSON_VALUE_FEATURE_COLLECTION;
 	/**
-	 * The TPE Service
+	 * The list of features in the FeatureCollection
 	 */
-	protected ITPEService tpeService;
+	private List<SFeature> features = new LinkedList<SFeature>();
 
-	public ITPEService getTpeService() {
-		return tpeService;
+	public FeatureCollection() {
+		super();
+		features = new LinkedList<SFeature>();
 	}
 
-	public void setTpeService(ITPEService tpeService) {
-		this.tpeService = tpeService;
+	public FeatureCollection(String type, List<SFeature> features) {
+		super();
+		this.type = type;
+		this.features = features;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public List<SFeature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(List<SFeature> features) {
+		this.features = features;
 	}
 
 }

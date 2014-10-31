@@ -6,12 +6,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title></title>
+<title>CCAFS TPE Platform</title>
 
 </head>
 
 <body>
 
-
+	<p>This is the Target Population Environments Identification
+		Platform Index page.</p>
 </body>
 </html>

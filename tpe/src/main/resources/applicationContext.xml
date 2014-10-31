@@ -104,6 +104,11 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
+	<bean id="geoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.GeoJsonAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
+
 
 
 

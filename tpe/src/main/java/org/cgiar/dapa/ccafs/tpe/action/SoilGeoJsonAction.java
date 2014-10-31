@@ -11,11 +11,7 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-
 package org.cgiar.dapa.ccafs.tpe.action;
-  
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,28 +19,20 @@ import org.apache.commons.logging.LogFactory;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * This is the base action that provides the core methods that will be utilized
- * by other action classes in the system
+ * The action that is responsible for the display of the Soil GeoJSON data
  * 
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
+public class SoilGeoJsonAction extends BaseAction {
 
-	private static final long serialVersionUID = 3706037816101380217L;
+	private static final long serialVersionUID = -2150409370455878988L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
-	/**
-	 * The TPE Service
-	 */
-	protected ITPEService tpeService;
 
-	public ITPEService getTpeService() {
-		return tpeService;
-	}
+	public String execute() {
 
-	public void setTpeService(ITPEService tpeService) {
-		this.tpeService = tpeService;
+		return ActionSupport.SUCCESS;
 	}
 
 }

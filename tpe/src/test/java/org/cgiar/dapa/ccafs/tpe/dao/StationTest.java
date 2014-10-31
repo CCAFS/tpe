@@ -14,10 +14,12 @@
 package org.cgiar.dapa.ccafs.tpe.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
  * This class contains tests for the weather station dao and service methods
@@ -49,6 +51,7 @@ public class StationTest extends BaseTest {
 	public void testGetStationPoints() {
 		// The region id
 		Integer regionId = 1;
+		// Map<station,Map<lat.lng>>
 		Map<Integer, Map<Double, Double>> stations = tpeService
 				.getStationsPoints(regionId);
 		assertNotNull(stations);
@@ -65,5 +68,24 @@ public class StationTest extends BaseTest {
 		Station station = tpeService.getStationById(stationId);
 		assertNotNull(station);
 		assertEquals(stationId, station.getId());
+	}
+
+	/**
+	 * Tests for the retrieval of stations per region
+	 */
+	public void testGetStationByRegion() {
+		// List of region ids (sub regions may states)
+		List<Integer> regions = new ArrayList<Integer>(Arrays.asList(1, 2));
+		// Map<regionISO, List<LatLng>>
+		// TODO To use region ISO
+		Map<String, List<LatLng>> stationByRegions = tpeService
+				.getStationByRegion(regions);
+		assertNotNull(stationByRegions);
+		assertEquals(0, stationByRegions.size());
+		// Map<regionISO, List<station>>
+		Map<String, List<Station>> stationPerRegions = tpeService
+				.getStationPerRegion(regions);
+		assertNotNull(stationPerRegions);
+		assertEquals(0, stationPerRegions.size());
 	}
 }

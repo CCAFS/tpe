@@ -11,40 +11,42 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-
 package org.cgiar.dapa.ccafs.tpe.action;
-  
-import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.util.TestUtil;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * This is the base action that provides the core methods that will be utilized
- * by other action classes in the system
+ * The action for GeoJson data
  * 
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
+public class GeoJsonAction extends BaseAction {
 
-	private static final long serialVersionUID = 3706037816101380217L;
-	@SuppressWarnings("unused")
+	private static final long serialVersionUID = -6473893732734090515L;
 	private Log log = LogFactory.getLog(this.getClass());
-	/**
-	 * The TPE Service
-	 */
-	protected ITPEService tpeService;
+	private Map<String, Object> collections;
 
-	public ITPEService getTpeService() {
-		return tpeService;
+	public String execute() {
+		log.info("About to generate GeoJson data.");
+		// For testing purposes only
+		collections = TestUtil.getFeatures();
+		// collections = TestUtil.getFeatureCollection();
+		return ActionSupport.SUCCESS;
 	}
 
-	public void setTpeService(ITPEService tpeService) {
-		this.tpeService = tpeService;
+	public Map<String, Object> getCollections() {
+		return collections;
+	}
+
+	public void setCollections(Map<String, Object> collections) {
+		this.collections = collections;
 	}
 
 }

@@ -11,48 +11,42 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.projection;
+package org.cgiar.dapa.ccafs.tpe.geojson;
 
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * The projection class for the environment
+ * Represents the GeoJSON feature for the Google Map API
  * 
  * @author NMATOVU
  *
  */
-public class Environment {
-	// private Double lat;
-	// private Double lng;
-	// private String regionISO;
-	// private String parentISO;
-	private Double yield;
-	// private String color;
-	private String year;
-	private Map<Double, Double> coordinates;
-	private String type;
+public class Geometry extends BaseGeo {
 
-	public Double getYield() {
-		return yield;
+	private static final long serialVersionUID = 47708589752229469L;
+	/**
+	 * The type of the geometry feature the Google Map API
+	 */
+	private String type = GEOJSON_VALUE_POINT;
+	/**
+	 * The coordinates for the Geometry Feature
+	 */
+	private List<Double> coordinates = new LinkedList<Double>();
+
+	public Geometry() {
+		super();
+		coordinates = new LinkedList<Double>();
 	}
 
-	public void setYield(Double yield) {
-		this.yield = yield;
+	public Geometry(List<Double> coordinates) {
+		super();
+		this.coordinates = coordinates;
 	}
 
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public Map<Double, Double> getCoordinates() {
-		return coordinates;
-	}
-
-	public void setCoordinates(Map<Double, Double> coordinates) {
+	public Geometry(String type, List<Double> coordinates) {
+		super();
+		this.type = type;
 		this.coordinates = coordinates;
 	}
 
@@ -62,6 +56,14 @@ public class Environment {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<Double> getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(List<Double> coordinates) {
+		this.coordinates = coordinates;
 	}
 
 }

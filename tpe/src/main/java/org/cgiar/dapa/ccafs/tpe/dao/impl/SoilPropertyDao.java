@@ -13,8 +13,10 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,9 @@ import javax.persistence.Query;
 
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
+import org.cgiar.dapa.ccafs.tpe.geojson.Feature;
+import org.cgiar.dapa.ccafs.tpe.geojson.Geometry;
+import org.cgiar.dapa.ccafs.tpe.geojson.Property;
 
 /**
  * This class implements the soil property interface methods
@@ -30,8 +35,8 @@ import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
  *
  */
 @SuppressWarnings("unchecked")
-public class SoilPropertyDao extends GenericDao<SoilProperty, Long>
-		implements ISoilPropertyDao {
+public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
+		ISoilPropertyDao {
 
 	public SoilPropertyDao() {
 		super(SoilProperty.class);
@@ -95,6 +100,48 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long>
 		}
 
 		return distribution;
+	}
+
+	@Override
+	public Map<String, Object> getSoilFeatures(Integer propertyId,
+			Integer countryId) {
+		// The features
+		List<Feature> features = new LinkedList<Feature>();
+		// The soil features map
+		Map<String, Object> soilFeatures = new LinkedHashMap<String, Object>();
+		// TODO Should get the region name not the country name
+		// r.station.region.parent.id
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.region.parent.id =:region").append(
+						" and r.category.id =:category");
+
+		Query query = entityManager.createQuery(q.toString());
+
+		query.setParameter("category", propertyId);
+		query.setParameter("region", countryId);
+
+		List<SoilProperty> results = query.getResultList();
+		SoilProperty soilProperty;
+		Geometry geometry;
+		Property property;
+		for (Iterator<SoilProperty> iterator = results.iterator(); iterator
+				.hasNext();) {
+			soilProperty = iterator.next();
+			geometry = new Geometry(new LinkedList<Double>(Arrays.asList(
+					soilProperty.getLatitude(), soilProperty.getLongitude())));
+
+			property = new Property(soilProperty.getSoil().getName(),
+					soilProperty.getWaterCFCapacity(),
+					soilProperty.getAvailableSoilWater(),
+					soilProperty.getBulkDensity(), soilProperty.getPh(),
+					soilProperty.getStation().getName(),
+					soilProperty.getWaterCWpoint(), soilProperty.getDepth(),
+					soilProperty.getStation().getRegion().getName());
+
+			// TODO Need to create a feature and then add geometry and property.
+		}
+
+		return soilFeatures;
 	}
 
 }

@@ -26,4 +26,21 @@ public interface Constants {
 	 * Defines the region class name
 	 */
 	public static final String ENTITY_REGION = Region.class.getSimpleName();
+	/**
+	 * A constant that represents the feature type in the Google Map API
+	 */
+	public static final String GEOJSON_VALUE_FEATURE = "Feature";
+	/**
+	 * A constant that represents the geojson point type
+	 */
+	public static final String GEOJSON_VALUE_POINT = "Point";
+	/**
+	 * A constant that represents the feature collection
+	 */
+	public static final String GEOJSON_VALUE_FEATURE_COLLECTION = "FeatureCollection";
+	public static final String GEOJSON_KEY_GEOMETRY = "geometry";
+	public static final String GEOJSON_KEY_PROPERTIES = "properties";
+	public static final String GEOJSON_KEY_COORDINATES = "coordinates";
+	public static final String GEOJSON_KEY_TYPE = "type";
+	public static final String GEOJSON_KEY_FEATURES = "features";
 }

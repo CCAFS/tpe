@@ -63,4 +63,17 @@ public class SoilTest extends BaseTest {
 		assertNotNull(distribution);
 		assertEquals(0, distribution.size());
 	}
+
+	/**
+	 * Retrieves the soil records that will be turned into GeoJson format in the
+	 * struts.xml configurations
+	 */
+	public void testGetSoilGeoJson() {
+		// The soil property id
+		Integer propertyId = 1;
+		// The country id property
+		Integer countryId = 1;
+		Map<String, Object> soilFeatures = tpeService.getSoilFeatures(
+				propertyId, countryId);
+	}
 }
