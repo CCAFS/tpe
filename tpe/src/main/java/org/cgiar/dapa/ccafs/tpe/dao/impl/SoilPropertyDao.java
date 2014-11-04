@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -24,9 +25,9 @@ import javax.persistence.Query;
 
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
-import org.cgiar.dapa.ccafs.tpe.geojson.Feature;
-import org.cgiar.dapa.ccafs.tpe.geojson.Geometry;
-import org.cgiar.dapa.ccafs.tpe.geojson.Property;
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePoint;
+import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
 
 /**
  * This class implements the soil property interface methods
@@ -103,11 +104,13 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 	}
 
 	@Override
-	public Map<String, Object> getSoilFeatures(Integer propertyId,
+	public Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
 			Integer countryId) {
-		// The features
-		List<Feature> features = new LinkedList<Feature>();
-		// The soil features map
+		// TODO Use the projection class to query the properties and geometry
+		// Initialize the features list with new LinkedList to keep the desired
+		// sorting
+		List<FeaturePoint> features = new LinkedList<FeaturePoint>();
+		// Initialize the soil features map with new LinkedHashMap()
 		Map<String, Object> soilFeatures = new LinkedHashMap<String, Object>();
 		// TODO Should get the region name not the country name
 		// r.station.region.parent.id
@@ -122,26 +125,132 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 
 		List<SoilProperty> results = query.getResultList();
 		SoilProperty soilProperty;
-		Geometry geometry;
-		Property property;
+		GeometryPoint geometry;
+		// FeatureProperty property;
+		Map<String, Object> properties = new LinkedHashMap<String, Object>();
 		for (Iterator<SoilProperty> iterator = results.iterator(); iterator
 				.hasNext();) {
 			soilProperty = iterator.next();
-			geometry = new Geometry(new LinkedList<Double>(Arrays.asList(
+			// Create the feature geometry
+			geometry = new GeometryPoint(new LinkedList<Double>(Arrays.asList(
 					soilProperty.getLatitude(), soilProperty.getLongitude())));
 
-			property = new Property(soilProperty.getSoil().getName(),
-					soilProperty.getWaterCFCapacity(),
-					soilProperty.getAvailableSoilWater(),
-					soilProperty.getBulkDensity(), soilProperty.getPh(),
-					soilProperty.getStation().getName(),
-					soilProperty.getWaterCWpoint(), soilProperty.getDepth(),
-					soilProperty.getStation().getRegion().getName());
+			properties.put(soilProperty.getProperty().getName(),
+					soilProperty.getPropertyValue());
+			properties.put(SOIL_NAME, soilProperty.getSoil().getName());
+			properties.put(STATION_NAME, soilProperty.getStation().getName());
+			properties.put(REGION_NAME, soilProperty.getStation().getRegion()
+					.getName());
 
-			// TODO Need to create a feature and then add geometry and property.
+			// Create the feature properties
+			// property = new FeatureProperty(soilProperty.getSoil().getName(),
+			// soilProperty.getWaterCFCapacity(),
+			// soilProperty.getAvailableSoilWater(),
+			// soilProperty.getBulkDensity(), soilProperty.getPh(),
+			// soilProperty.getStation().getName(),
+			// soilProperty.getWaterCWpoint(), soilProperty.getDepth(),
+			// soilProperty.getStation().getRegion().getName());
+			// Add the feature to the feature list
+			features.add(new FeaturePoint(FEATURES_TYPE, geometry, properties));
+		}
+		// Query and add station features
+		// The Google Map will contain both the weather stations and the soil
+		// features
+		q = new StringBuffer("from " + Station.class.getSimpleName())
+				.append(" r where r.region.id =:region");
+		query = entityManager.createQuery(q.toString());
+		query.setParameter("region", countryId);
+		List<Station> stations = query.getResultList();
+		Station station;
+		for (Iterator<Station> iterator = stations.iterator(); iterator
+				.hasNext();) {
+			station = iterator.next();
+			// Create the feature geometry
+			geometry = new GeometryPoint(new LinkedList<Double>(Arrays.asList(
+					station.getLatitude(), station.getLongitude())));
+			// Create the feature properties
+
+			properties.put(STATION_NAME, station.getName());
+			properties.put(STATION_NUMBER, station.getNumber());
+			properties.put(REGION_NAME, station.getRegion().getName());
+			properties.put(COUNTRY_NAME, station.getRegion().getParent()
+					.getName());
+
+			// property = new FeatureProperty(station.getName(),
+			// station.getNumber(), station.getRegion().getName(), station
+			// .getRegion().getParent().getName());
+			// Add the feature to the feature list
+			features.add(new FeaturePoint(FEATURES_TYPE, geometry, properties));
 		}
 
+		// Add the results to the soil features map
+		// The soil features map includes features for soil textures and weather
+		// stations
+		soilFeatures.put(GEOJSON_KEY_TYPE, GEOJSON_VALUE_FEATURE_COLLECTION);
+		// Add the feature to the feature collection
+		soilFeatures.put(GEOJSON_KEY_FEATURES, features);
 		return soilFeatures;
 	}
 
+	@Override
+	public Map<String, Object> getSoilFeaturesByRegions(Integer propertyId,
+			List<Integer> subregions) {
+		// The features
+		List<FeaturePoint> features = new LinkedList<FeaturePoint>();
+		// The soil features map
+		Map<String, Object> soilFeatures = new LinkedHashMap<String, Object>();
+		// r.station.region.id
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.region.id in (:regions)").append(
+						" and r.category.id =:category");
+
+		Query query = entityManager.createQuery(q.toString());
+
+		query.setParameter("category", propertyId);
+		query.setParameter("regions", subregions);
+
+		List<SoilProperty> results = query.getResultList();
+		SoilProperty soilProperty;
+		GeometryPoint geometry;
+		// FeatureProperty property;
+		Map<String, Object> properties = new LinkedHashMap<String, Object>();
+		for (Iterator<SoilProperty> iterator = results.iterator(); iterator
+				.hasNext();) {
+			soilProperty = iterator.next();
+			// Create the feature geometry
+			geometry = new GeometryPoint(new LinkedList<Double>(
+					soilProperty.getCoordinates()));
+			// Create the feature properties
+			properties.put(soilProperty.getProperty().getName(),
+					soilProperty.getPropertyValue());
+			properties.put(SOIL_NAME, soilProperty.getSoil().getName());
+			properties.put(STATION_NAME, soilProperty.getStation().getName());
+			properties.put(REGION_NAME, soilProperty.getStation().getRegion()
+					.getName());
+			
+			// property = new FeatureProperty(soilProperty.getSoil().getName(),
+			// soilProperty.getWaterCFCapacity(),
+			// soilProperty.getAvailableSoilWater(),
+			// soilProperty.getBulkDensity(), soilProperty.getPh(),
+			// soilProperty.getStation().getName(),
+			// soilProperty.getWaterCWpoint(), soilProperty.getDepth(),
+			// soilProperty.getStation().getRegion().getName());
+			// Add the feature to the feature list
+			features.add(new FeaturePoint(FEATURES_TYPE, geometry, properties));
+		}
+		soilFeatures.put(GEOJSON_KEY_TYPE, GEOJSON_VALUE_FEATURE_COLLECTION);
+		// Add the feature to the feature collection
+		soilFeatures.put(GEOJSON_KEY_FEATURES, features);
+		return soilFeatures;
+	}
+
+	@Override
+	public Map<String, Object> getSoilFeaturesByRegion(Integer propertyId,
+			Integer subregion) {
+
+		return this.getSoilFeaturesByRegions(propertyId,
+				new ArrayList<Integer>(Arrays.asList(subregion)));
+	}
+
+	 
 }

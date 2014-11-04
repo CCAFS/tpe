@@ -11,42 +11,37 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.action;
+package org.cgiar.dapa.ccafs.tpe.dao;
 
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.cgiar.dapa.ccafs.tpe.util.TestUtil;
-
-import com.opensymphony.xwork2.ActionSupport;
+import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 
 /**
- * The action for generating GeoJson data
+ * This class tests for the column chart data
  * 
  * @author NMATOVU
- *
+ * 
  */
-public class GeoJsonAction extends BaseAction {
+public class ColumnTest extends BaseTest {
+	/**
+	 * REtrieves the chart column series (data and categories)
+	 */
+	public void testGetColumnSeries() {
+		// The spline chart series
+		List<Chart> series = new LinkedList<Chart>();
+		Integer scenarioId = 1;
+		Integer cultivarId = 1;
+		Integer categoryId = 1;
+		Integer subregionId = 1;
+		String year = "2012";
+		Integer swindow = 1;
+		series = tpeService.getTPEColumnSeries(subregionId, categoryId,
+				scenarioId, cultivarId, year, swindow);
+		assertNotNull(series);
+		assertEquals(0, series.size());
 
-	private static final long serialVersionUID = -6473893732734090515L;
-	private Log log = LogFactory.getLog(this.getClass());
-	private Map<String, Object> collections;
-
-	public String execute() {
-		log.info("About to generate GeoJson data.");
-		// For testing purposes only
-		collections = TestUtil.getFeatures();
-		// collections = TestUtil.getFeatureCollection();
-		return ActionSupport.SUCCESS;
-	}
-
-	public Map<String, Object> getCollections() {
-		return collections;
-	}
-
-	public void setCollections(Map<String, Object> collections) {
-		this.collections = collections;
 	}
 
 }

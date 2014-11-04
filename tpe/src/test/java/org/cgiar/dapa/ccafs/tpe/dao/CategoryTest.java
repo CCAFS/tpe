@@ -51,4 +51,11 @@ public class CategoryTest extends BaseTest {
 		assertNotNull(category);
 		assertEquals(categoryId, category.getId());
 	}
+
+	public void testGetOutputs() {
+
+		List<Category> outputs = tpeService.getOutputs();
+		assertNotNull(outputs);
+		assertEquals(3, outputs.size());
+	}
 }

@@ -54,7 +54,7 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 */
 	Map<Integer, Map<Double, Double>> getSoilDistribution(
 			List<Integer> soilIds, Integer regionId, Integer categoryId);
-	
+
 	/**
 	 * Retrieves the soil features for the specified country and soil property
 	 * id
@@ -65,5 +65,30 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 *            the country id
 	 * @return soil features
 	 */
-	Map<String, Object> getSoilFeatures(Integer propertyId, Integer countryId);
+	Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
+			Integer countryId);
+
+	/**
+	 * Retrieves the soil features for the specified soil property category id
+	 * and sub regions.
+	 * 
+	 * @param propertyId
+	 *            the soil property category id
+	 * @param subregions
+	 *            the list of sub region ids
+	 * @return soil features
+	 */
+	Map<String, Object> getSoilFeaturesByRegions(Integer propertyId,
+			List<Integer> subregions);
+
+	/**
+	 * Retrieves the soil features for the specified region id and the soil
+	 * property category id.
+	 * 
+	 * @param propertyId
+	 * @param subregion
+	 * @return soil features
+	 */
+	Map<String, Object> getSoilFeaturesByRegion(Integer propertyId,
+			Integer subregion);
 }

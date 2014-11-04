@@ -18,10 +18,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
+import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
+import org.cgiar.dapa.ccafs.tpe.geojson.Point;
 import org.cgiar.dapa.ccafs.tpe.geojson.SFeature;
-import org.cgiar.dapa.ccafs.tpe.geojson.Geometry;
-import org.cgiar.dapa.ccafs.tpe.geojson.Property;
-import org.cgiar.dapa.ccafs.tpe.geojson.Feature;
 
 /**
  * This is a test utility class
@@ -44,8 +44,8 @@ public class TestUtil implements Constants {
 	 * @return
 	 */
 	public static Map<String, Object> getFeatureCollection() {
-		Geometry geom = new Geometry(new LinkedList<Double>(Arrays.asList(
-				10.2255, 24.77)));
+		GeometryPoint geom = new GeometryPoint(new LinkedList<Double>(
+				Arrays.asList(10.2255, 24.77)));
 
 		// Property property = new Property("yield", 5433.29);
 
@@ -66,19 +66,19 @@ public class TestUtil implements Constants {
 	}
 
 	public static Map<String, Object> getFeatures() {
-		Geometry geom = new Geometry(new LinkedList<Double>(Arrays.asList(
-				10.2255, 24.77)));
+		GeometryPoint geom = new GeometryPoint(new LinkedList<Double>(
+				Arrays.asList(10.2255, 24.77)));
 
-		Property property = new Property("palmira", 22.33, "palmira", "Cauca",
-				1, "2014");
+		FeatureProperty property = new FeatureProperty("palmira", 22.33,
+				"palmira", "Cauca", 1, "2014");
 
-		Feature feature = new Feature(GEOJSON_VALUE_FEATURE, geom, property);
+		Point feature = new Point(FEATURES_TYPE, geom, property);
 		// The feature collection
 		Map<String, Object> featureCollection = new LinkedHashMap<String, Object>();
 		// The feature
 		featureCollection.put(GEOJSON_KEY_TYPE,
 				GEOJSON_VALUE_FEATURE_COLLECTION);
-		featureCollection.put(GEOJSON_KEY_FEATURES, new LinkedList<Feature>(
+		featureCollection.put(GEOJSON_KEY_FEATURES, new LinkedList<Point>(
 				Arrays.asList(feature, feature, feature)));
 
 		// Geometry geometry = new Geometry(new ArrayList<Double>(Arrays.asList(

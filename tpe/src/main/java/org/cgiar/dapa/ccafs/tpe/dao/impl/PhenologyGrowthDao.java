@@ -13,16 +13,25 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
+import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePolygon;
+import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
+import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
+import org.cgiar.dapa.ccafs.tpe.util.TPEType;
 
 /**
  * This class provides the implementation of the methods defined in the
@@ -174,6 +183,240 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		}
 
 		return soilMap;
+	}
+
+	@SuppressWarnings("unused")
+	@Override
+	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
+			Integer countryId, Integer swindowId, String year) {
+		Map<String, Object> polygonGeoJSON = new LinkedHashMap<String, Object>();
+		List<FeaturePolygon> polygonFeatures = new LinkedList<FeaturePolygon>();
+		GeometryPolygon polygonGeometry = new GeometryPolygon();
+		FeatureProperty polygonProperty = new FeatureProperty();
+		// TODO First query for each sub region and create the polygon features
+		// based on the yield.
+		// Get all sub regions for the specified country id.
+		List<Integer> subregions = this.getSubregions(countryId);
+		// Make sure we don't pass the empty or null sub region list
+		if (!subregions.isEmpty() && subregions != null) {
+			StringBuffer q = new StringBuffer("from " + entityClass.getName());
+			Float min, max;
+
+			for (Integer subregionId : subregions) {
+				// TODO Query for ranges (HFE, LFE, FE)
+				// TODO Check if the sub region has atleast 4 points for a
+				// given range (HFE, LFE)
+				// TODO Add index for yield wrr14 in the schema
+				for (TPEType type : TPEType.values()) {
+					// TODO Order by yield.
+					q.append(" r where r.station.region.id =:region")
+							.append(" and r.cultivar.id =:cultivar")
+							.append(" and r.window.id =:swindow")
+							.append(" and r.year =:year");
+					// TODO Provide the TPE Range of values to that classify the
+					// environments.
+					// Min and max are set here for just testing purposes. Need
+					// to provide the range that catgorizes the environments.
+					if (type.equals(TPEType.HFE)) {
+						min = new Float(600.2);
+						// max = new Float(1000.0);
+						q.append(" and r.wrr14 =>:min");
+					} else if (type.equals(TPEType.LFE)) {
+						min = new Float(200.2);
+						max = new Float(600.0);
+						q.append(" and r.wrr14 between :min and :max");
+					} else {
+						// Default FE:
+						// No need to specify the min value for the FE
+						max = new Float(200.0);
+						q.append(" and r.wrr14 <:max");
+					}
+					q.append(" order by r.id asc");
+
+					Query query = entityManager.createQuery(q.toString());
+					query.setParameter("region", subregionId);
+					query.setParameter("cultivar", cultivarId);
+					query.setParameter("swindow", swindowId);
+					query.setParameter("year", year);
+					List<PhenologyGrowth> results = query.getResultList();
+					PhenologyGrowth phenologyGrowth = null;
+					List<List<Double>> coordinates = new LinkedList<List<Double>>();
+
+					for (Iterator<PhenologyGrowth> iterator = results
+							.iterator(); iterator.hasNext();) {
+						phenologyGrowth = iterator.next();
+						coordinates.add(phenologyGrowth.getStation()
+								.getCoordinates());
+
+					}
+					// TODO Add the first coordinate once again to close the
+					// GeoJSON polygon. In GeoJSON, the first and last points
+					// have to be the same.
+					coordinates.add(coordinates.get(0));
+
+					if (phenologyGrowth != null)
+						// Get the properties from the last record.
+						polygonProperty = new FeatureProperty(phenologyGrowth
+								.getCultivar().getName(),
+								phenologyGrowth.getYear(), phenologyGrowth
+										.getStation().getName());
+					// Add the coordinates to the polygon.
+					polygonGeometry = new GeometryPolygon(
+							new ArrayList<List<List<Double>>>(
+									Arrays.asList(coordinates)));
+
+					polygonFeatures.add(new FeaturePolygon(FEATURES_TYPE,
+							polygonGeometry, polygonProperty));
+				}
+			}
+			// Create feature collection
+			polygonGeoJSON.put(GEOJSON_KEY_TYPE,
+					GEOJSON_VALUE_FEATURE_COLLECTION);
+			// Add the feature to the feature collection
+			polygonGeoJSON.put(GEOJSON_KEY_FEATURES, polygonFeatures);
+		}
+
+		return polygonGeoJSON;
+	}
+
+	/**
+	 * Retrieves all the sub region ids for the specified country id
+	 * 
+	 * @param countryId
+	 *            the id of the country
+	 * @return sub region ids
+	 */
+	private List<Integer> getSubregions(Integer countryId) {
+		StringBuffer q = new StringBuffer("select r.id from "
+				+ Region.class.getSimpleName()).append(
+				" r where r.parent.id =:country").append(" order by r.id");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("country", countryId);
+
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unused")
+	@Override
+	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
+			Integer countryId, Integer swindowId, String year,
+			Integer scenarioId) {
+		Map<String, Object> polygonGeoJSON = new LinkedHashMap<String, Object>();
+		List<FeaturePolygon> polygonFeatures = new LinkedList<FeaturePolygon>();
+		GeometryPolygon polygonGeometry = new GeometryPolygon();
+		FeatureProperty polygonProperty = new FeatureProperty();
+		// TODO First query for each sub region and create the polygon features
+		// based on the yield.
+		// Get all sub regions for the specified country id.
+		List<Integer> subregions = this.getSubregions(countryId);
+		// Make sure we don't pass the empty or null sub region list
+		if (!subregions.isEmpty() && subregions != null) {
+			StringBuffer q = new StringBuffer("from " + entityClass.getName());
+			Float min, max;
+
+			for (Integer subregionId : subregions) {
+				// TODO Query for ranges (HFE, LFE, FE)
+				// TODO Check if the sub region has atleast 4 points for a
+				// given range (HFE, LFE)
+				// TODO Add index for yield wrr14 in the schema
+				for (TPEType type : TPEType.values()) {
+					// TODO Order by yield.
+					q.append(" r where r.station.region.id =:region")
+							.append(" and r.cultivar.id =:cultivar")
+							.append(" and r.window.id =:swindow")
+							.append(" and r.scenario.id =:scenario")
+							.append(" and r.year =:year");
+
+					// TODO Provide the TPE Range of values to that classify the
+					// environments.
+					// Min and max are set here for just testing purposes. Need
+					// to provide the range that categorizes the environments.
+
+					if (type.equals(TPEType.HFE)) {
+						min = new Float(600.2);
+						// max = new Float(1000.0);
+						q.append(" and r.wrr14 =>:min");
+					} else if (type.equals(TPEType.LFE)) {
+						min = new Float(200.2);
+						max = new Float(600.0);
+						q.append(" and r.wrr14 between :min and :max");
+					} else {
+						// Default FE:
+						// No need to specify the min value for the FE
+						max = new Float(200.0);
+						q.append(" and r.wrr14 <:max");
+					}
+					q.append(" order by r.id asc");
+
+					Query query = entityManager.createQuery(q.toString());
+					query.setParameter("region", subregionId);
+					query.setParameter("cultivar", cultivarId);
+					query.setParameter("swindow", swindowId);
+					query.setParameter("year", year);
+					query.setParameter("scenario", scenarioId);
+
+					List<PhenologyGrowth> results = query.getResultList();
+					PhenologyGrowth phenologyGrowth = null;
+					List<List<Double>> coordinates = new LinkedList<List<Double>>();
+
+					for (Iterator<PhenologyGrowth> iterator = results
+							.iterator(); iterator.hasNext();) {
+						phenologyGrowth = iterator.next();
+						coordinates.add(phenologyGrowth.getStation()
+								.getCoordinates());
+
+					}
+					// TODO Add the first coordinate once again to close the
+					// GeoJSON polygon. In GeoJSON, the first and last points
+					// have to be the same.
+					coordinates.add(coordinates.get(0));
+
+					if (phenologyGrowth != null)
+						// Get the properties from the last record.
+						polygonProperty = new FeatureProperty(phenologyGrowth
+								.getCultivar().getName(),
+								phenologyGrowth.getYear(), phenologyGrowth
+										.getStation().getName());
+					// Add the coordinates to the polygon.
+					polygonGeometry = new GeometryPolygon(
+							new ArrayList<List<List<Double>>>(
+									Arrays.asList(coordinates)));
+
+					polygonFeatures.add(new FeaturePolygon(FEATURES_TYPE,
+							polygonGeometry, polygonProperty));
+				}
+			}
+			// Create feature collection
+			polygonGeoJSON.put(GEOJSON_KEY_TYPE,
+					GEOJSON_VALUE_FEATURE_COLLECTION);
+			// Add the feature to the feature collection
+			polygonGeoJSON.put(GEOJSON_KEY_FEATURES, polygonFeatures);
+		}
+
+		return polygonGeoJSON;
+	}
+
+	@Override
+	public List<Chart> getTPEColumnSeries(Integer subregionId,
+			Integer categoryId, Integer scenarioId, Integer cultivarId,
+			String year, Integer swindow) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getTPEYears(Integer countryId, Integer cultivarId) {
+		StringBuffer q = new StringBuffer("select distinct r.year from "
+				+ entityClass.getName())
+				.append(" r where r.station.region.parent.id =:country")
+				.append(" or r.station.region.id =:country")
+				.append(" and r.cultivar.id =:cultivar");
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("country", countryId);
+		query.setParameter("cultivar", cultivarId);
+
+		return query.getResultList();
 	}
 
 }

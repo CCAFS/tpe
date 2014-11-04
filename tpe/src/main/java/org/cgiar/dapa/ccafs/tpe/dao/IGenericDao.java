@@ -16,6 +16,8 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.cgiar.dapa.ccafs.tpe.util.Constants;
+
 /**
  * Defines a generic data access object that is extended by all the DAOs in the
  * system.
@@ -25,7 +27,7 @@ import java.util.List;
  * @param <T>
  * @param <K>
  */
-public interface IGenericDao<T, K extends Serializable> {
+public interface IGenericDao<T, K extends Serializable> extends Constants{
 
 	/**
 	 * Gets the object or record using specified primary key

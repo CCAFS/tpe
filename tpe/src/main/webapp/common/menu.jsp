@@ -3,7 +3,7 @@
 	title="Provides overview of CCAFS TPE Platform">Home</a>
 <!-- Other menus -->
 <a style="margin-right: 10px;"
-	href="<s:url namespace="/" action="loadTPE" />"
+	href="<s:url namespace="/" action="tpeParams" />"
 	title="Displays the CCAFS TPE Tool">TPE Tool</a>
 <a style="margin-right: 10px;"
 	href="<s:url namespace="/" action="documentation" />"

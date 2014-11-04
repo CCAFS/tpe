@@ -17,10 +17,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
@@ -381,6 +383,180 @@ public interface ITPEService {
 	 *            the country id
 	 * @return soil features
 	 */
-	Map<String, Object> getSoilFeatures(Integer propertyId, Integer countryId);
+	Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
+			Integer countryId);
+
+	/**
+	 * Retrieves the soil features for the specified soil property category id
+	 * and sub region.
+	 * 
+	 * @param propertyId
+	 *            the soil property category id
+	 * @param subregions
+	 *            the list of sub region ids
+	 * @return soil features
+	 */
+	Map<String, Object> getSoilFeaturesByRegions(Integer propertyId,
+			List<Integer> subregions);
+
+	/**
+	 * Retrieves the soil features for the specified region id and the soil
+	 * property category id.
+	 * 
+	 * @param propertyId
+	 * @param subregion
+	 * @return soil GeoJSON features
+	 */
+	Map<String, Object> getSoilFeaturesByRegion(Integer propertyId,
+			Integer subregion);
+
+	/**
+	 * Retrieves the climate data for the specified country, category and year,
+	 * that will be returned as GeoJSON format by the action
+	 * 
+	 * @param categoryId
+	 *            climate category id
+	 * @param countryId
+	 *            the country id
+	 * @param year
+	 *            the year
+	 * @return climate GeoJSON features
+	 */
+	Map<String, Object> getClimateGeoJSON(Integer categoryId,
+			Integer countryId, String year);
+
+	/**
+	 * Retrieves the TPE records for the specified variables. The result
+	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
+	 * struts.xml
+	 * 
+	 * @param cultivarId
+	 *            the crop cultivar id
+	 * @param countryId
+	 *            the country id
+	 * @param swindowId
+	 *            the sowing window id
+	 * @param year
+	 *            the year
+	 * @return TPE GeoJSON features
+	 */
+	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
+			Integer swindowId, String year);
+
+	/**
+	 * Retrieves the TPE records for the specified variables. The result
+	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
+	 * struts.xml
+	 * 
+	 * @param cultivarId
+	 *            the if of the selected crop cultivar
+	 * @param countryId
+	 *            the id of the selected country
+	 * @param swindowId
+	 *            the id of the selected window sowing
+	 * @param year
+	 *            the selected year
+	 * @param scenarioId
+	 *            the selected scenario id
+	 * @return TPE GeoJSON
+	 */
+	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
+			Integer swindowId, String year, Integer scenarioId);
+
+	/**
+	 * Retrieves the chart series for a selected (clicked) sub region from the
+	 * Google Map. The retrieves data will be returned (or converted to JSON) as
+	 * JSON data by the action in the struts.xml.
+	 * 
+	 * @param subregionId
+	 *            the id of the clicked (selected) sub region (region)
+	 * @param categoryId
+	 *            the id of the selected category
+	 * @param scenarioId
+	 *            the id of the selected scenario
+	 * @param cultivarId
+	 *            the id of the selected crop cultivar
+	 * @param year
+	 *            the selected year
+	 * @param swindow
+	 *            the id of the selected window sowing
+	 * @return Chart data
+	 */
+	List<Chart> getTPEColumnSeries(Integer subregionId, Integer categoryId,
+			Integer scenarioId, Integer cultivarId, String year, Integer swindow);
+
+	/**
+	 * Retrieves all the soil textures from the database.
+	 * 
+	 * @return soil textures
+	 */
+	List<Soil> getSoilTextures();
+
+	/**
+	 * Retrieves all the outputs from the database
+	 * 
+	 * @return outputs
+	 */
+	List<Category> getOutputs();
+
+	/**
+	 * Retrieves all the properties from the database
+	 * 
+	 * @return properties
+	 */
+	List<Property> getAllProperties();
+
+	/**
+	 * Retrieves a property for the specified id
+	 * 
+	 * @param propertyId
+	 *            the id of the property to retrieve
+	 * @return property
+	 */
+	Property getPropertyById(Integer propertyId);
+
+	/**
+	 * Retrieves the properties for the specified category
+	 * 
+	 * @param categoryId
+	 *            the id of the category
+	 * @return properties
+	 */
+	List<Property> getPropertiesByCategory(Integer categoryId);
+
+	/**
+	 * LIst all the years linked to the specified country id (or its sub regions
+	 * and stations) from the climate table.
+	 * 
+	 * @param countryId
+	 *            country id
+	 * @return years
+	 */
+	List<String> getClimateYears(Integer countryId);
+
+	/**
+	 * Retrieves all the properties of soil category
+	 * 
+	 * @return properties
+	 */
+	List<Property> getSoilProperties();
+
+	/**
+	 * Retrieves all the properties of climate category from the database
+	 * 
+	 * @return properties
+	 */
+	List<Property> getClimateProperties();
+
+	/**
+	 * Retrieves the years based on the selected country and crop cultivar
+	 * 
+	 * @param countryId
+	 *            the id of the selected country
+	 * @param cultivarId
+	 *            the is of the selected cultivar
+	 * @return years
+	 */
+	List<String> getTPEYears(Integer countryId, Integer cultivarId);
 
 }

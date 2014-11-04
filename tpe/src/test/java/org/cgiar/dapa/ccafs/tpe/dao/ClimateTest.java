@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
@@ -125,4 +126,20 @@ public class ClimateTest extends BaseTest {
 		assertEquals(0, stations.size());
 	}
 
+	/**
+	 * Retrieves the station features for the specified year, climate category
+	 * and country.
+	 */
+	public void testGetClimateFeatures() {
+		// The soil property id
+		Integer categoryId = 1;
+		// The country id property
+		Integer countryId = 1;
+		// The year
+		String year = "2013";
+		Map<String, Object> climateFeatures = tpeService.getClimateGeoJSON(
+				categoryId, countryId, year);
+		assertNotNull(climateFeatures);
+		assertEquals(2, climateFeatures.size());
+	}
 }

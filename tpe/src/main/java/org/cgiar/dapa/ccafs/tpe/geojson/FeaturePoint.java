@@ -13,41 +13,47 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.geojson;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Represents the GeoJSON Feature Collection for the Google Map API
  * 
  * @author NMATOVU
- *
+ * 
  */
-public class Feature extends BaseGeo {
+public class FeaturePoint extends BaseGeo {
 
-	private static final long serialVersionUID = -5505282253291793786L;
+	private static final long serialVersionUID = -8565985513303102540L;
 	/**
 	 * The type of the GeoJson feature
 	 */
-	private String type = GEOJSON_VALUE_FEATURE;
+	private String type = FEATURES_TYPE;
 	/**
 	 * The geometry of the GeoJson feature
 	 */
-	private Geometry geometry;
+	private GeometryPoint geometry;
+
 	/**
 	 * The properties of the GeoJson feature
 	 */
-	private Property properties;
+	// private FeatureProperty properties;
 
 	// private Map<String, Property> properties;
+	private Map<String, Object> properties;
 
-	public Feature() {
+	public FeaturePoint() {
 		super();
-		geometry = new Geometry();
-		properties = new Property();
+		geometry = new GeometryPoint();
+		properties = new LinkedHashMap<String, Object>();
 	}
 
-	public Feature(String type, Geometry geometry, Property property) {
+	public FeaturePoint(String type, GeometryPoint geometry,
+			Map<String, Object> properties) {
 		super();
 		this.type = type;
 		this.geometry = geometry;
-		this.properties = property;
+		this.properties = properties;
 	}
 
 	public String getType() {
@@ -58,20 +64,20 @@ public class Feature extends BaseGeo {
 		this.type = type;
 	}
 
-	public Geometry getGeometry() {
+	public GeometryPoint getGeometry() {
 		return geometry;
 	}
 
-	public void setGeometry(Geometry geometry) {
+	public void setGeometry(GeometryPoint geometry) {
 		this.geometry = geometry;
 	}
 
-	public Property getProperty() {
+	public Map<String, Object> getProperties() {
 		return properties;
 	}
 
-	public void setProperty(Property property) {
-		this.properties = property;
+	public void setProperties(Map<String, Object> properties) {
+		this.properties = properties;
 	}
 
 }

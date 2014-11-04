@@ -33,7 +33,17 @@ public interface Constants {
 	/**
 	 * A constant that represents the geojson point type
 	 */
-	public static final String GEOJSON_VALUE_POINT = "Point";
+	public static final String GEOMETRY_TYPE_POINT = "Point";
+
+	/**
+	 * A constant that represents the feature type in the Google Map API
+	 */
+	public static final String FEATURES_TYPE = "Feature";
+
+	/**
+	 * A constant that represents the geojson POLYGON type
+	 */
+	public static final String GEOMETRY_TYPE_POLYGON = "Polygon";
 	/**
 	 * A constant that represents the feature collection
 	 */
@@ -43,4 +53,34 @@ public interface Constants {
 	public static final String GEOJSON_KEY_COORDINATES = "coordinates";
 	public static final String GEOJSON_KEY_TYPE = "type";
 	public static final String GEOJSON_KEY_FEATURES = "features";
+
+	/**
+	 * The maker symbol key for the highcharts spline chart
+	 */
+	public static final String MARKER_SYMBOL = "symbol";
+	/**
+	 * The constant for the marker symbol square
+	 */
+	public static final String MARKER_SYMBOL_SQUARE = "square";
+	/**
+	 * The constant for the marker symbol diamond
+	 */
+	public static final String MARKER_SYMBOL_DIAMOND = "diamond";
+	/**
+	 * TPE Output
+	 */
+	public static final String OUTPUT_TPE = "TPE";
+	public static final String OUTPUT_CLIMATE = "CLIMATE";
+	public static final String OUTPUT_SOIL = "SOIL";
+
+	public static final String ENTITY_CLASS_OUTPUT = "Output";
+
+	public static final String STATION_NAME = "stationName";
+	public static final String STATION_NUMBER = "stationNumber";
+	public static final String REGION_NAME = "regionName";
+	public static final String COUNTRY_NAME = "countryName";
+	public static final String SOIL_NAME = "soilName";
+	public static final String PROPERTY_AUTHOR = "author";
+	public static final String PROPERTY_YEAR = "year";
+	public static final String PROPERTY_SOURCE = "source";
 }

@@ -17,43 +17,65 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
-import org.cgiar.dapa.ccafs.tpe.entity.Category;
+import org.cgiar.dapa.ccafs.tpe.dao.IPropertyDao;
+import org.cgiar.dapa.ccafs.tpe.entity.Climate;
+import org.cgiar.dapa.ccafs.tpe.entity.Property;
+import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 
 /**
- * This class implements the methods defined in the category dao interface.
+ * This class implements the methods that are defined in the IPropertyDao
+ * interface.
  * 
  * @author NMATOVU
- *
+ * 
  */
 @SuppressWarnings("unchecked")
-public class CategoryDao extends GenericDao<Category, Integer> implements
-		ICategoryDao {
+public class PropertyDao extends GenericDao<Property, Integer> implements
+		IPropertyDao {
+	// private Logger log = Logger.getLogger(this.getClass());
 
-	public CategoryDao() {
-		super(Category.class);
-		// TODO Auto-generated constructor stub
+	private static final String PROPERTY_CATEGORY_SOIL = Soil.class
+			.getSimpleName();
+	private static final String PROPERTY_CATEGORY_CLIMATE = Climate.class
+			.getSimpleName();
+
+	public PropertyDao() {
+		super(Property.class);
+
 	}
 
 	@Override
-	public List<Category> getCategoriesByEntity(String entityName) {
+	public List<Property> getPropertiesByCategory(Integer categoryId) {
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.entity =:entity")
-				.append(" order by r.name");
-		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("entity", entityName);
-
-		return query.getResultList();
-	}
-
-	@Override
-	public List<Category> getOutputs() {
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.entity =:entity").append(
+				.append(" r where r.category.id =:category").append(
 						" order by r.name asc");
 		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("entity", ENTITY_CLASS_OUTPUT);
+		query.setParameter("category", categoryId);
 
 		return query.getResultList();
 	}
+
+	@Override
+	public List<Property> getSoilProperties() {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.category.name =:category").append(
+						" order by r.name asc");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("category", PROPERTY_CATEGORY_SOIL);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Property> getClimateProperties() {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.category.name =:category").append(
+						" order by r.name asc");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("category", PROPERTY_CATEGORY_CLIMATE);
+
+		return query.getResultList();
+
+	}
+
 }

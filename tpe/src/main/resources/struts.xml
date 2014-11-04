@@ -35,7 +35,6 @@
 				<interceptor-ref name="modelDriven" />
 				<interceptor-ref name="fileUpload" />
 				<interceptor-ref name="checkbox" />
-				<interceptor-ref name="multiselect" />
 				<interceptor-ref name="staticParams" />
 				<interceptor-ref name="actionMappingParams" />
 				<interceptor-ref name="params">
@@ -79,8 +78,17 @@
 		<action name="index" class="tpeAction" method="execute">
 			<result name="success">/WEB-INF/pages/index.jsp</result>
 		</action>
-		<action name="loadTPE" class="tpeAction" method="loadTPE">
+		<action name="tpeParams" class="tpeAction">
 			<result name="success">/WEB-INF/pages/tpe/tpe.jsp</result>
+		</action>
+		<action name="paramsOut" class="tpeAction" method="paramsOut">
+			<result name="soil">/WEB-INF/pages/tpe/soil-params.jsp</result>
+			<result name="tpe">/WEB-INF/pages/tpe/tpe-params.jsp</result>
+			<result name="climate">/WEB-INF/pages/tpe/climate-params.jsp</result>
+		</action>
+		<action name="subregions" class="tpeAction" method="subregionParams">
+			<result name="success">/WEB-INF/pages/tpe/subregions.jsp
+			</result>
 		</action>
 
 	</package>

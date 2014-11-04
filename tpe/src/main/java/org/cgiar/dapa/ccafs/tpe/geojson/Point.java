@@ -13,41 +13,43 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.geojson;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * Represents the GeoJSON feature for the Google Map API
+ * Represents the GeoJSON Feature Collection for the Google Map API
  * 
  * @author NMATOVU
- *
+ * 
  */
-public class Geometry extends BaseGeo {
+public class Point extends BaseGeo {
 
-	private static final long serialVersionUID = 47708589752229469L;
+	private static final long serialVersionUID = 4162618112995464167L;
 	/**
-	 * The type of the geometry feature the Google Map API
+	 * The type of the GeoJson feature
 	 */
-	private String type = GEOJSON_VALUE_POINT;
+	private String type = FEATURES_TYPE;
 	/**
-	 * The coordinates for the Geometry Feature
+	 * The geometry of the GeoJson feature
 	 */
-	private List<Double> coordinates = new LinkedList<Double>();
+	private GeometryPoint geometry;
 
-	public Geometry() {
+	/**
+	 * The properties of the GeoJson feature
+	 */
+	private FeatureProperty properties;
+
+	// private Map<String, Property> properties;
+	// private Map<String, Object> properties;
+
+	public Point() {
 		super();
-		coordinates = new LinkedList<Double>();
+		geometry = new GeometryPoint();
+		setProperties(new FeatureProperty());
 	}
 
-	public Geometry(List<Double> coordinates) {
-		super();
-		this.coordinates = coordinates;
-	}
-
-	public Geometry(String type, List<Double> coordinates) {
+	public Point(String type, GeometryPoint geometry, FeatureProperty properties) {
 		super();
 		this.type = type;
-		this.coordinates = coordinates;
+		this.geometry = geometry;
+		this.setProperties(properties);
 	}
 
 	public String getType() {
@@ -58,12 +60,20 @@ public class Geometry extends BaseGeo {
 		this.type = type;
 	}
 
-	public List<Double> getCoordinates() {
-		return coordinates;
+	public GeometryPoint getGeometry() {
+		return geometry;
 	}
 
-	public void setCoordinates(List<Double> coordinates) {
-		this.coordinates = coordinates;
+	public void setGeometry(GeometryPoint geometry) {
+		this.geometry = geometry;
+	}
+
+	public FeatureProperty getProperties() {
+		return properties;
+	}
+
+	public void setProperties(FeatureProperty properties) {
+		this.properties = properties;
 	}
 
 }

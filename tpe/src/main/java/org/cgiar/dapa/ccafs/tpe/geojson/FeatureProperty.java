@@ -19,7 +19,7 @@ package org.cgiar.dapa.ccafs.tpe.geojson;
  * @author NMATOVU
  *
  */
-public class Property extends BaseGeo {
+public class FeatureProperty extends BaseGeo {
 
 	private static final long serialVersionUID = 1478063607893330103L;
 	/**
@@ -51,30 +51,45 @@ public class Property extends BaseGeo {
 	 * The year that references the data
 	 */
 	private String year;
+	/**
+	 * The country
+	 */
+	private String country;
 
-	private Float waterCFCapacity;
+	// private Float waterCFCapacity;
+	//
+	// private Float availableSoilWater;
+	//
+	// private Float bulkDensity;
+	//
+	// private Float waterCWPoint;
+	//
+	// private Float depth;
+	// private Float ph;
+	private String category;
+	private Float tmax;
+	private Float tmin;
+	private Float irradiance;
+	private Float precipitation;
+	private String source;
+	private String author;
+	/**
+	 * The name of the crop cultivar
+	 */
+	private String cultivar;
 
-	private Float availableSoilWater;
-
-	private Float bulkDensity;
-
-	private Float waterCWPoint;
-
-	private Float depth;
-	private Float ph;
-
-	public Property() {
+	public FeatureProperty() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Property(String name, Double yield) {
+	public FeatureProperty(String name, Double yield) {
 		super();
 		this.name = name;
 		this.yield = yield;
 	}
 
-	public Property(String name, Double yield, String stationName,
+	public FeatureProperty(String name, Double yield, String stationName,
 			String regionName, Integer stationNumber, String year) {
 		super();
 		this.name = name;
@@ -85,20 +100,37 @@ public class Property extends BaseGeo {
 		this.year = year;
 	}
 
-	public Property(String soilTexture, Float waterCFCapacity,
-			Float availableSoilWater, Float bulkDensity, Float ph,
-			String stationName, Float waterCWPoint, Float depth,
-			String regionName) {
+	public FeatureProperty(String cultivar, String year, String regionName) {
 		super();
-		this.soilTexture = soilTexture;
-		this.waterCFCapacity = waterCFCapacity;
-		this.availableSoilWater = availableSoilWater;
-		this.bulkDensity = bulkDensity;
-		this.ph = ph;
-		this.stationName = stationName;
-		this.waterCWPoint = waterCWPoint;
-		this.depth = depth;
+		this.cultivar = cultivar;
+		this.year = year;
 		this.regionName = regionName;
+	}
+
+	public FeatureProperty(String stationName, Integer stationNumber,
+			String regionName, String country) {
+		super();
+		this.stationName = stationName;
+		this.stationNumber = stationNumber;
+		this.regionName = regionName;
+		this.country = country;
+	}
+
+	public FeatureProperty(String year, String category, String stationName,
+			Integer stationNumber, String regionName, Float tmax, Float tmin,
+			Float irradiance, Float precipitation, String source, String author) {
+		super();
+		this.year = year;
+		this.category = category;
+		this.stationName = stationName;
+		this.stationNumber = stationNumber;
+		this.regionName = regionName;
+		this.tmax = tmax;
+		this.tmin = tmin;
+		this.irradiance = irradiance;
+		this.precipitation = precipitation;
+		this.source = source;
+		this.author = author;
 	}
 
 	public String getName() {
@@ -157,52 +189,76 @@ public class Property extends BaseGeo {
 		this.soilTexture = soilTexture;
 	}
 
-	public Float getWaterCFCapacity() {
-		return waterCFCapacity;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setWaterCFCapacity(Float waterCFCapacity) {
-		this.waterCFCapacity = waterCFCapacity;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
-	public Float getAvailableSoilWater() {
-		return availableSoilWater;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setAvailableSoilWater(Float availableSoilWater) {
-		this.availableSoilWater = availableSoilWater;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public Float getBulkDensity() {
-		return bulkDensity;
+	public Float getTmax() {
+		return tmax;
 	}
 
-	public void setBulkDensity(Float bulkDensity) {
-		this.bulkDensity = bulkDensity;
+	public void setTmax(Float tmax) {
+		this.tmax = tmax;
 	}
 
-	public Float getWaterCWPoint() {
-		return waterCWPoint;
+	public Float getTmin() {
+		return tmin;
 	}
 
-	public void setWaterCWPoint(Float waterCWPoint) {
-		this.waterCWPoint = waterCWPoint;
+	public void setTmin(Float tmin) {
+		this.tmin = tmin;
 	}
 
-	public Float getDepth() {
-		return depth;
+	public Float getIrradiance() {
+		return irradiance;
 	}
 
-	public void setDepth(Float depth) {
-		this.depth = depth;
+	public void setIrradiance(Float irradiance) {
+		this.irradiance = irradiance;
 	}
 
-	public Float getPh() {
-		return ph;
+	public Float getPrecipitation() {
+		return precipitation;
 	}
 
-	public void setPh(Float ph) {
-		this.ph = ph;
+	public void setPrecipitation(Float precipitation) {
+		this.precipitation = precipitation;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getCultivar() {
+		return cultivar;
+	}
+
+	public void setCultivar(String cultivar) {
+		this.cultivar = cultivar;
 	}
 
 }

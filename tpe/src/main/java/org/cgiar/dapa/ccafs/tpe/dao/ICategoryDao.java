@@ -32,4 +32,11 @@ public interface ICategoryDao extends IGenericDao<Category, Integer> {
 	 * @return categories
 	 */
 	List<Category> getCategoriesByEntity(String entityName);
+
+	/**
+	 * Retrieves the TPE outputs
+	 * 
+	 * @return outputs
+	 */
+	List<Category> getOutputs();
 }

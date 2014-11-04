@@ -13,6 +13,14 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.util;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
+
 /**
  * This is the tpe utils class that contains the utility methods that are being
  * used by various classes and methods in the application
@@ -20,6 +28,41 @@ package org.cgiar.dapa.ccafs.tpe.util;
  * @author NMATOVU
  *
  */
-public class Utils {
+public class Utils implements Constants {
+	/**
+	 * Creates the marker symbol map for the highcharts spline chart
+	 * 
+	 * @return marker
+	 */
+	public static Map<String, String> initializeSplineMarker() {
+		Map<String, String> marker = new HashMap<String, String>();
+		marker.put(MARKER_SYMBOL, MARKER_SYMBOL_SQUARE);
+		return marker;
+	}
 
+	/**
+	 * Provides the list of region ids
+	 * 
+	 * @param regions
+	 * @return region ids
+	 */
+	public static List<Integer> getRegionIds(List<Region> regions) {
+		List<Integer> ids = new LinkedList<Integer>();
+		for (Region region : regions)
+			ids.add(region.getId());
+		return ids;
+	}
+
+	/**
+	 * Returns a list of region ids
+	 * 
+	 * @param stations
+	 * @return id list
+	 */
+	public static List<Integer> getStationIds(List<Station> stations) {
+		List<Integer> ids = new LinkedList<Integer>();
+		for (Station station : stations)
+			ids.add(station.getId());
+		return ids;
+	}
 }

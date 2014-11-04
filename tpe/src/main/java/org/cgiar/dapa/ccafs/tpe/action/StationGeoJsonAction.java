@@ -19,8 +19,8 @@ import org.apache.commons.logging.LogFactory;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * This action contains the methods for the creation of the Station GeoJSON data
- * from the database.
+ * This action contains the methods for the generation of the Station GeoJSON
+ * data for the TPE Google Map
  * 
  * @author NMATOVU
  *
@@ -30,12 +30,10 @@ public class StationGeoJsonAction extends BaseAction {
 	private static final long serialVersionUID = 2439242303969872550L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
- 
+
 	public String execute() {
-		 
+
 		return ActionSupport.SUCCESS;
 	}
-
-	 
 
 }

@@ -19,7 +19,8 @@ import org.apache.commons.logging.LogFactory;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * The action that is responsible for the display of the Soil GeoJSON data
+ * The action that is responsible for the display of the Soil GeoJSON data for
+ * the TPE soil Google Maps
  * 
  * @author NMATOVU
  *

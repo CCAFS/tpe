@@ -89,4 +89,26 @@ public class TPETest extends BaseTest {
 		Map<String, Map<String, Double>> tpeWindow = new LinkedHashMap<String, Map<String, Double>>();
 	}
 
+	public void testGetTPEGeoJson() {
+		Map<String, Object> tpeGeoJSON = new LinkedHashMap<String, Object>();
+		Integer cultivarId = 1;
+		// TODO To consider the region ISO code
+		Integer countryId = 1;
+		Integer swindowId = 1;
+		String year = "2012";
+		// Retrieve the regions.
+		tpeGeoJSON = tpeService.getTPEGeoJSON(cultivarId, countryId, swindowId,
+				year);
+		assertNotNull(tpeGeoJSON);
+		assertEquals(0, tpeGeoJSON.size());
+
+		Integer scenarioId = 1;
+		// TODO Use region ISO code
+		// Retrieve the regions. Include the scenario
+		tpeGeoJSON = tpeService.getTPEGeoJSON(cultivarId, countryId, swindowId,
+				year, scenarioId);
+		assertNotNull(tpeGeoJSON);
+		assertEquals(0, tpeGeoJSON.size());
+	}
+
 }

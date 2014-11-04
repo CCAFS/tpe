@@ -34,6 +34,9 @@ public abstract class BaseAction extends ActionSupport {
 	private static final long serialVersionUID = 3706037816101380217L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
+	protected static final String TPE = "tpe";
+	protected static final String SOIL = "soil";
+	protected static final String CLIMATE = "climate";
 	/**
 	 * The TPE Service
 	 */

@@ -15,6 +15,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
@@ -98,4 +99,29 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 */
 	List<Station> getStationsByClimate(Date fromDate, Date toDate,
 			Integer categoryId, Integer regionId);
+
+	/**
+	 * Retrieves the climate data for the specified country, category and year,
+	 * that will be returned as GeoJSON format by the action
+	 * 
+	 * @param categoryId
+	 *            climate category id
+	 * @param countryId
+	 *            the country id
+	 * @param year
+	 *            the year
+	 * @return climate GeoJSON features
+	 */
+	Map<String, Object> getClimateGeoJSON(Integer categoryId,
+			Integer countryId, String year);
+
+	/**
+	 * LIst all the years linked to the specified country id (or its sub regions
+	 * and stations) from the climate table.
+	 * 
+	 * @param countryId
+	 *            country id
+	 * @return years
+	 */
+	List<String> getClimateYears(Integer countryId);
 }

@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 
 /**
@@ -73,7 +74,45 @@ public class SoilTest extends BaseTest {
 		Integer propertyId = 1;
 		// The country id property
 		Integer countryId = 1;
-		Map<String, Object> soilFeatures = tpeService.getSoilFeatures(
+		Map<String, Object> soilFeatures = tpeService.getSoilFeaturesByCountry(
 				propertyId, countryId);
+		assertNotNull(soilFeatures);
+		assertEquals(2, soilFeatures.size());
+
+		List<Integer> subregions = new ArrayList<Integer>(
+				Arrays.asList(1, 2, 3));
+		// Retrieve the soil features for the specified sub regions
+		soilFeatures = tpeService.getSoilFeaturesByRegions(propertyId,
+				subregions);
+		assertNotNull(soilFeatures);
+		assertEquals(2, soilFeatures.size());
+
+		Integer subregion = 1;
+		// Retrieve the soil features for the specified sub region
+		soilFeatures = tpeService
+				.getSoilFeaturesByRegion(propertyId, subregion);
+		assertNotNull(soilFeatures);
+		assertEquals(2, soilFeatures.size());
+	}
+
+	public void testGetSoilTextures() {
+		List<Soil> textures = tpeService.getSoilTextures();
+		assertNotNull(textures);
+		assertEquals(5, textures.size());
+	}
+
+	public void testGetSoilProperties() {
+		List<Property> properties = tpeService.getAllProperties();
+		assertNotNull(properties);
+		assertEquals(3, properties.size());
+
+		Integer propertyId = 1;
+		Property property = tpeService.getPropertyById(propertyId);
+		assertNotNull(property);
+
+		Integer categoryId = 1;
+		properties = tpeService.getPropertiesByCategory(categoryId);
+		assertNotNull(properties);
+		assertEquals(3, properties.size());
 	}
 }

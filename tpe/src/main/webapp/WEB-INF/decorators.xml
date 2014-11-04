@@ -11,6 +11,8 @@
 		<pattern>/struts/dojo/*</pattern>
 		<pattern>/google*.html</pattern>
 		<pattern>/*.txt</pattern>
+		<pattern>/subregions.*</pattern>
+		<pattern>/paramsOut.*</pattern>
 	</excludes>
 	<decorator name="layout" page="layout.jsp">
 		<pattern>/*</pattern>

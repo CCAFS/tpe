@@ -13,45 +13,42 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.geojson;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Represents the GeoJSON Feature Collection for the Google Map API
+ * Represents the GeoJSON Geometry feature for the Google Map API
  * 
  * @author NMATOVU
  *
  */
-public class SFeature extends BaseGeo {
+public class GeometryPoint extends BaseGeo {
 
-	private static final long serialVersionUID = 8004559534042379064L;
+	private static final long serialVersionUID = 47708589752229469L;
 	/**
-	 * The type of the GeoJson feature
+	 * The type of the geometry feature the Google Map API
 	 */
-	private String type = GEOJSON_VALUE_FEATURE;
+	private String type = GEOMETRY_TYPE_POINT;
+	 
 	/**
-	 * The geometry of the GeoJson feature
+	 * The coordinates for the Geometry Feature
 	 */
-	private GeometryPoint geometry;
-	/**
-	 * The properties of the GeoJson feature
-	 */
-	private Map<String, Object> properties = new LinkedHashMap<String, Object>();
+	private List<Double> coordinates = new LinkedList<Double>();
 
-	// private Map<String, Property> properties;
-
-	public SFeature() {
+	public GeometryPoint() {
 		super();
-		geometry = new GeometryPoint();
-		properties = new LinkedHashMap<String, Object>();
+		coordinates = new LinkedList<Double>();
 	}
 
-	public SFeature(String type, GeometryPoint geometry,
-			Map<String, Object> properties) {
+	public GeometryPoint(List<Double> coordinates) {
+		super();
+		this.coordinates = coordinates;
+	}
+
+	public GeometryPoint(String type, List<Double> coordinates) {
 		super();
 		this.type = type;
-		this.geometry = geometry;
-		this.properties = properties;
+		this.coordinates = coordinates;
 	}
 
 	public String getType() {
@@ -62,20 +59,12 @@ public class SFeature extends BaseGeo {
 		this.type = type;
 	}
 
-	public GeometryPoint getGeometry() {
-		return geometry;
+	public List<Double> getCoordinates() {
+		return coordinates;
 	}
 
-	public void setGeometry(GeometryPoint geometry) {
-		this.geometry = geometry;
-	}
-
-	public Map<String, Object> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Map<String, Object> properties) {
-		this.properties = properties;
+	public void setCoordinates(List<Double> coordinates) {
+		this.coordinates = coordinates;
 	}
 
 }

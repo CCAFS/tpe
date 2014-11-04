@@ -17,11 +17,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IScenarioDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
@@ -32,6 +34,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
@@ -58,6 +61,11 @@ public class TPEService implements ITPEService {
 	private IClimateDao climateDao;
 	private ISoilPropertyDao soilPropertyDao;
 	private IPhenologyGrowthDao phenologyGrowthDao;
+	private IPropertyDao propertyDao;
+
+	public void setPropertyDao(IPropertyDao propertyDao) {
+		this.propertyDao = propertyDao;
+	}
 
 	public void setPhenologyGrowthDao(IPhenologyGrowthDao phenologyGrowthDao) {
 		this.phenologyGrowthDao = phenologyGrowthDao;
@@ -291,9 +299,109 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public Map<String, Object> getSoilFeatures(Integer propertyId,
+	public Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
 			Integer countryId) {
 
-		return soilPropertyDao.getSoilFeatures(propertyId, countryId);
+		return soilPropertyDao.getSoilFeaturesByCountry(propertyId, countryId);
+	}
+
+	@Override
+	public Map<String, Object> getSoilFeaturesByRegions(Integer propertyId,
+			List<Integer> subregions) {
+
+		return soilPropertyDao.getSoilFeaturesByRegions(propertyId, subregions);
+	}
+
+	@Override
+	public Map<String, Object> getSoilFeaturesByRegion(Integer propertyId,
+			Integer subregion) {
+
+		return soilPropertyDao.getSoilFeaturesByRegion(propertyId, subregion);
+	}
+
+	@Override
+	public Map<String, Object> getClimateGeoJSON(Integer categoryId,
+			Integer countryId, String year) {
+
+		return climateDao.getClimateGeoJSON(categoryId, countryId, year);
+	}
+
+	@Override
+	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
+			Integer countryId, Integer swindowId, String year) {
+
+		return phenologyGrowthDao.getTPEGeoJSON(cultivarId, countryId,
+				swindowId, year);
+	}
+
+	@Override
+	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
+			Integer countryId, Integer swindowId, String year,
+			Integer scenarioId) {
+
+		return phenologyGrowthDao.getTPEGeoJSON(cultivarId, countryId,
+				swindowId, year, scenarioId);
+	}
+
+	@Override
+	public List<Chart> getTPEColumnSeries(Integer subregionId,
+			Integer categoryId, Integer scenarioId, Integer cultivarId,
+			String year, Integer swindow) {
+		return phenologyGrowthDao.getTPEColumnSeries(subregionId, categoryId,
+				scenarioId, cultivarId, year, swindow);
+	}
+
+	@Override
+	public List<Soil> getSoilTextures() {
+
+		return soilDao.getAll();
+	}
+
+	@Override
+	public List<Category> getOutputs() {
+
+		return categoryDao.getOutputs();
+	}
+
+	@Override
+	public List<Property> getAllProperties() {
+
+		return propertyDao.getAll();
+	}
+
+	@Override
+	public Property getPropertyById(Integer propertyId) {
+
+		return propertyDao.getById(propertyId);
+	}
+
+	@Override
+	public List<Property> getPropertiesByCategory(Integer categoryId) {
+
+		return propertyDao.getPropertiesByCategory(categoryId);
+	}
+
+	@Override
+	public List<String> getClimateYears(Integer countryId) {
+
+		return climateDao.getClimateYears(countryId);
+	}
+
+	@Override
+	public List<Property> getSoilProperties() {
+
+		return propertyDao.getSoilProperties();
+	}
+
+	@Override
+	public List<Property> getClimateProperties() {
+
+		return propertyDao.getClimateProperties();
+	}
+
+	@Override
+	public List<String> getTPEYears(Integer countryId, Integer cultivarId) {
+
+		return phenologyGrowthDao.getTPEYears(countryId, cultivarId);
 	}
 }

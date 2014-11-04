@@ -52,7 +52,7 @@ public class GeoJsonTest extends BaseTest {
 	}
 
 	public void testGetGeoJson() {
-		Geometry geom = new Geometry(new LinkedList<Double>(Arrays.asList(
+		GeometryPoint geom = new GeometryPoint(new LinkedList<Double>(Arrays.asList(
 				10.2255, 24.77)));
 
 		// Property property = new Property("yield", 5433.29);

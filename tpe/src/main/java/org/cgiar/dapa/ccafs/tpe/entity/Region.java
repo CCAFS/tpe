@@ -13,12 +13,17 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * This class represents the region (country, state, province, municipio,
@@ -167,5 +172,9 @@ public class Region extends BaseEntity {
 		return sb.toString();
 
 	}
-
+	@Transient
+	public List<Double> getCoordinates() {
+		return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
+				this.getLongitude()));
+	}
 }

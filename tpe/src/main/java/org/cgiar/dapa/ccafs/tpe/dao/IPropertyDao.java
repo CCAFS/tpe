@@ -11,42 +11,40 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.action;
+package org.cgiar.dapa.ccafs.tpe.dao;
 
-import java.util.Map;
+import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.cgiar.dapa.ccafs.tpe.util.TestUtil;
-
-import com.opensymphony.xwork2.ActionSupport;
+import org.cgiar.dapa.ccafs.tpe.entity.Property;
 
 /**
- * The action for generating GeoJson data
+ * This defines the property dao methods that are implemented by the property
+ * dao class
  * 
  * @author NMATOVU
- *
+ * 
  */
-public class GeoJsonAction extends BaseAction {
+public interface IPropertyDao extends IGenericDao<Property, Integer> {
+	/**
+	 * Retrieves the properties for the specified category
+	 * 
+	 * @param categoryId
+	 *            the id of the category
+	 * @return properties
+	 */
+	List<Property> getPropertiesByCategory(Integer categoryId);
 
-	private static final long serialVersionUID = -6473893732734090515L;
-	private Log log = LogFactory.getLog(this.getClass());
-	private Map<String, Object> collections;
+	/**
+	 * Retrieves all the properties of soil category
+	 * 
+	 * @return properties
+	 */
+	List<Property> getSoilProperties();
 
-	public String execute() {
-		log.info("About to generate GeoJson data.");
-		// For testing purposes only
-		collections = TestUtil.getFeatures();
-		// collections = TestUtil.getFeatureCollection();
-		return ActionSupport.SUCCESS;
-	}
-
-	public Map<String, Object> getCollections() {
-		return collections;
-	}
-
-	public void setCollections(Map<String, Object> collections) {
-		this.collections = collections;
-	}
-
+	/**
+	 * Retrieves all the properties of climate category from the database
+	 * 
+	 * @return properties
+	 */
+	List<Property> getClimateProperties();
 }

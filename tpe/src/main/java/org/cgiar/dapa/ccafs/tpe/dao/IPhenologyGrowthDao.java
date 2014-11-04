@@ -13,8 +13,10 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 
 /**
@@ -24,8 +26,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
  * @author NMATOVU
  *
  */
-public interface IPhenologyGrowthDao extends
-		IGenericDao<PhenologyGrowth, Long> {
+public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> {
 
 	// TODO To use the region ISO code
 	/**
@@ -103,4 +104,75 @@ public interface IPhenologyGrowthDao extends
 	 */
 	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
 			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+
+	/**
+	 * Retrieves the TPE records for the specified variables. The result
+	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
+	 * struts.xml
+	 * 
+	 * @param cultivarId
+	 *            the crop cultivar id
+	 * @param countryId
+	 *            the country id
+	 * @param swindowId
+	 *            the sowing window id
+	 * @param year
+	 *            the year
+	 * @return TPE GeoJSON features
+	 */
+	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
+			Integer swindowId, String year);
+
+	/**
+	 * Retrieves the TPE records for the specified variables. The result
+	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
+	 * struts.xml
+	 * 
+	 * @param cultivarId
+	 *            the if of the selected crop cultivar
+	 * @param countryId
+	 *            the id of the selected country
+	 * @param swindowId
+	 *            the id of the selected window sowing
+	 * @param year
+	 *            the selected year
+	 * @param scenarioId
+	 *            the selected scenario id
+	 * @return TPE GeoJSON
+	 */
+	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
+			Integer swindowId, String year, Integer scenarioId);
+
+	/**
+	 * Retrieves the chart series for a selected (clicked) sub region from the
+	 * Google Map. The retrieves data will be returned (or converted to JSON) as
+	 * JSON data by the action in the struts.xml.
+	 * 
+	 * @param subregionId
+	 *            the id of the clicked (selected) sub region (region)
+	 * @param categoryId
+	 *            the id of the selected category
+	 * @param scenarioId
+	 *            the id of the selected scenario
+	 * @param cultivarId
+	 *            the id of the selected crop cultivar
+	 * @param year
+	 *            the selected year
+	 * @param swindow
+	 *            the id of the selected window sowing
+	 * @return Chart data
+	 */
+	List<Chart> getTPEColumnSeries(Integer subregionId, Integer categoryId,
+			Integer scenarioId, Integer cultivarId, String year, Integer swindow);
+
+	/**
+	 * Retrieves the years based on the selected country and crop cultivar
+	 * 
+	 * @param countryId
+	 *            the id of the selected country
+	 * @param cultivarId
+	 *            the is of the selected cultivar
+	 * @return years
+	 */
+	List<String> getTPEYears(Integer countryId, Integer cultivarId);
 }

@@ -13,45 +13,42 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.geojson;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * Represents the GeoJSON Feature Collection for the Google Map API
  * 
  * @author NMATOVU
  *
  */
-public class SFeature extends BaseGeo {
+public class FeaturePolygon extends BaseGeo {
 
-	private static final long serialVersionUID = 8004559534042379064L;
+	private static final long serialVersionUID = -5505282253291793786L;
 	/**
 	 * The type of the GeoJson feature
 	 */
-	private String type = GEOJSON_VALUE_FEATURE;
+	private String type = FEATURES_TYPE;
 	/**
 	 * The geometry of the GeoJson feature
 	 */
-	private GeometryPoint geometry;
+	private GeometryPolygon geometry;
 	/**
 	 * The properties of the GeoJson feature
 	 */
-	private Map<String, Object> properties = new LinkedHashMap<String, Object>();
+	private FeatureProperty properties;
 
 	// private Map<String, Property> properties;
 
-	public SFeature() {
+	public FeaturePolygon() {
 		super();
-		geometry = new GeometryPoint();
-		properties = new LinkedHashMap<String, Object>();
+		geometry = new GeometryPolygon();
+		properties = new FeatureProperty();
 	}
 
-	public SFeature(String type, GeometryPoint geometry,
-			Map<String, Object> properties) {
+	public FeaturePolygon(String type, GeometryPolygon geometry,
+			FeatureProperty property) {
 		super();
 		this.type = type;
 		this.geometry = geometry;
-		this.properties = properties;
+		this.properties = property;
 	}
 
 	public String getType() {
@@ -62,20 +59,28 @@ public class SFeature extends BaseGeo {
 		this.type = type;
 	}
 
-	public GeometryPoint getGeometry() {
+	public GeometryPolygon getGeometry() {
 		return geometry;
 	}
 
-	public void setGeometry(GeometryPoint geometry) {
+	public void setGeometry(GeometryPolygon geometry) {
 		this.geometry = geometry;
 	}
 
-	public Map<String, Object> getProperties() {
+	public FeatureProperty getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Map<String, Object> properties) {
+	public void setProperties(FeatureProperty properties) {
 		this.properties = properties;
+	}
+
+	public FeatureProperty getProperty() {
+		return properties;
+	}
+
+	public void setProperty(FeatureProperty property) {
+		this.properties = property;
 	}
 
 }

@@ -68,7 +68,9 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 
-	<!-- DAOs -->
+	<!-- ============================================================ -->
+	<!-- ========================== DAOs ============================ -->
+	<!-- ============================================================ -->
 
 	<bean id="cropDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CropDao" />
 	<bean id="regionDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.RegionDao" />
@@ -81,9 +83,12 @@
 	<bean id="soilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilDao" />
 	<bean id="soilPropertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilPropertyDao" />
 	<bean id="phenologyGrowthDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PhenologyGrowthDao" />
+	<bean id="propertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PropertyDao" />
 
 
-	<!-- Service -->
+	<!-- ============================================================ -->
+	<!-- ========================== TPE Service ===================== -->
+	<!-- ============================================================ -->
 	<bean id="tpeService" class="org.cgiar.dapa.ccafs.tpe.service.impl.TPEService">
 		<property name="cropDao" ref="cropDao" />
 		<property name="regionDao" ref="regionDao" />
@@ -96,9 +101,12 @@
 		<property name="soilDao" ref="soilDao" />
 		<property name="soilPropertyDao" ref="soilPropertyDao" />
 		<property name="phenologyGrowthDao" ref="phenologyGrowthDao" />
+		<property name="propertyDao" ref="propertyDao" />
 	</bean>
 
-	<!-- Actions -->
+	<!-- ======================================================================= -->
+	<!-- ============================ TPE Actions ============================== -->
+	<!-- ======================================================================= -->
 
 	<bean id="tpeAction" class="org.cgiar.dapa.ccafs.tpe.action.TPEAction"
 		scope="request">
@@ -108,6 +116,7 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
+
 
 
 

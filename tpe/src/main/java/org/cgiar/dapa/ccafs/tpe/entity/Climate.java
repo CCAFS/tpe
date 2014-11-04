@@ -45,15 +45,17 @@ public class Climate extends BaseResult {
 	/**
 	 * The daily minimum temperature.
 	 */
-	private Float tmin;
+	// private Float tmin;
 	/**
 	 * The daily maximum temperature
 	 */
-	private Float tmax;
+	// private Float tmax;
 	/**
 	 * The daily irradiance
 	 */
-	private Float irradiance;
+	// private Float irradiance;
+
+	private Property property;
 	/**
 	 * The category of the climate
 	 */
@@ -65,7 +67,7 @@ public class Climate extends BaseResult {
 	/**
 	 * The daily precipitation
 	 */
-	private Float precipitation;
+	// private Float precipitation;
 	/**
 	 * The region that relates to this climate from the given station
 	 */
@@ -86,6 +88,10 @@ public class Climate extends BaseResult {
 	 * The date the when the climate was recorded.
 	 */
 	private Date recordedOn;
+	/**
+	 * The value of the climate property
+	 */
+	private Double propertyValue;
 
 	@Column
 	public Integer getDay() {
@@ -94,33 +100,6 @@ public class Climate extends BaseResult {
 
 	public void setDay(Integer day) {
 		this.day = day;
-	}
-
-	@Column
-	public Float getTmin() {
-		return tmin;
-	}
-
-	public void setTmin(Float tmin) {
-		this.tmin = tmin;
-	}
-
-	@Column
-	public Float getTmax() {
-		return tmax;
-	}
-
-	public void setTmax(Float tmax) {
-		this.tmax = tmax;
-	}
-
-	@Column
-	public Float getIrradiance() {
-		return irradiance;
-	}
-
-	public void setIrradiance(Float irradiance) {
-		this.irradiance = irradiance;
 	}
 
 	@ManyToOne(targetEntity = Category.class)
@@ -141,15 +120,6 @@ public class Climate extends BaseResult {
 
 	public void setStation(Station station) {
 		this.station = station;
-	}
-
-	@Column(name = "precipitation")
-	public Float getPrecipitation() {
-		return precipitation;
-	}
-
-	public void setPrecipitation(Float precipitation) {
-		this.precipitation = precipitation;
 	}
 
 	// @ManyToOne(targetEntity = Region.class)
@@ -196,6 +166,25 @@ public class Climate extends BaseResult {
 
 	public void setRecordedOn(Date recordedOn) {
 		this.recordedOn = recordedOn;
+	}
+
+	@ManyToOne(targetEntity = Property.class)
+	@JoinColumn(name = "property_id", referencedColumnName = "property_id")
+	public Property getProperty() {
+		return property;
+	}
+
+	public void setProperty(Property property) {
+		this.property = property;
+	}
+
+	@Column(name = "property_value")
+	public Double getPropertyValue() {
+		return propertyValue;
+	}
+
+	public void setPropertyValue(Double propertyValue) {
+		this.propertyValue = propertyValue;
 	}
 
 }
