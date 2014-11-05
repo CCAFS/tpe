@@ -91,4 +91,18 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 */
 	Map<String, Object> getSoilFeaturesByRegion(Integer propertyId,
 			Integer subregion);
+
+	/**
+	 * Retrieves the soil properties data map for the specified country and soil
+	 * property ids. The retrieved query records will later be returned as
+	 * GroJson by the struts.xml actions
+	 * 
+	 * @param propertyIds
+	 *            the list of soil property ids
+	 * @param countryId
+	 *            the id of the country
+	 * @return soil GeoJson
+	 */
+	Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
+			Integer countryId);
 }

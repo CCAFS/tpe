@@ -44,6 +44,10 @@ public class Soil extends BaseEntity {
 	 * The code or abbreviation of the soil type
 	 */
 	private String code;
+	/**
+	 * The assigned color of the soil
+	 */
+	private String color;
 
 	@Column(name = "soil_name")
 	public String getName() {
@@ -70,5 +74,14 @@ public class Soil extends BaseEntity {
 				.append("]");
 		return sb.toString();
 
+	}
+
+	@Column(name = "soil_color")
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 }

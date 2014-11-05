@@ -404,4 +404,17 @@ public class TPEService implements ITPEService {
 
 		return phenologyGrowthDao.getTPEYears(countryId, cultivarId);
 	}
+
+	@Override
+	public Map<String, Object> getStationGeoJson(Integer countryId) {
+
+		return stationDao.getStationGeoJson(countryId);
+	}
+
+	@Override
+	public Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
+			Integer countryId) {
+
+		return soilPropertyDao.getSoilGeoJson(propertyIds, countryId);
+	}
 }

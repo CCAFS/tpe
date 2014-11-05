@@ -62,7 +62,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="/common/footer.jsp" />
+	<%-- <jsp:include page="/common/footer.jsp" /> --%>
 	<script type="text/javascript"
 		src="<s:url value="/script/gears/gears_init.js" />"></script>
 	<%-- <s:action name="google/analytics" namespace="/" executeResult="true"

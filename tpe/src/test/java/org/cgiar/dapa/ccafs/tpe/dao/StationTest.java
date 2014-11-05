@@ -88,4 +88,15 @@ public class StationTest extends BaseTest {
 		assertNotNull(stationPerRegions);
 		assertEquals(0, stationPerRegions.size());
 	}
+
+	public void testGetStationFeatures() {
+
+		// The country id property
+		Integer countryId = 4;
+
+		Map<String, Object> stationFeatures = tpeService
+				.getStationGeoJson(countryId);
+		assertNotNull(stationFeatures);
+		assertEquals(2, stationFeatures.size());
+	}
 }

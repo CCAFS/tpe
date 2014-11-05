@@ -116,8 +116,18 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
-
-
+	<bean id="stationGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.StationGeoJsonAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="soilGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.SoilGeoJsonAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="tpeGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.TPEGeoJsonAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
 
 
 

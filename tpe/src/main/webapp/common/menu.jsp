@@ -14,6 +14,7 @@
 <a style="margin-right: 10px;"
 	href="<s:url namespace="/" action="ccafsSites" />"
 	title="Other CCAFS Sites">CCAFS SITES</a>
-<a style="margin-right: 10px;"
-	href="<s:url namespace="/" action="geoJsonFeatures" />"
-	title="Tests for GeoJSON Features">GeoJSON Features</a>
+	
+	<a style="margin-right: 10px;"
+	href="<s:url namespace="/" action="soilGeoJson" />"
+	title="Tests for GeoJSON Features">Test Soil GeoJSON</a>

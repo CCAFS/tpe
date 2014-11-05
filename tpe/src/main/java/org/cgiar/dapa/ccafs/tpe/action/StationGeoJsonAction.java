@@ -13,6 +13,9 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -30,10 +33,31 @@ public class StationGeoJsonAction extends BaseAction {
 	private static final long serialVersionUID = 2439242303969872550L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
+	private Map<String, Object> stations = new LinkedHashMap<String, Object>();
+	private Integer countryId = 1;
 
 	public String execute() {
-
+		// TODO Pass the country id from jsp page using session key or ajax
+		// request
+		// Retrieve the stations from the database
+		stations = tpeService.getStationGeoJson(countryId);
 		return ActionSupport.SUCCESS;
+	}
+
+	public Map<String, Object> getStations() {
+		return stations;
+	}
+
+	public void setStations(Map<String, Object> stations) {
+		this.stations = stations;
+	}
+
+	public Integer getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
 	}
 
 }

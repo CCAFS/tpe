@@ -77,6 +77,10 @@ public class FeatureProperty extends BaseGeo {
 	 * The name of the crop cultivar
 	 */
 	private String cultivar;
+	/**
+	 * The color of the feature
+	 */
+	private String color;
 
 	public FeatureProperty() {
 		super();
@@ -259,6 +263,14 @@ public class FeatureProperty extends BaseGeo {
 
 	public void setCultivar(String cultivar) {
 		this.cultivar = cultivar;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 }

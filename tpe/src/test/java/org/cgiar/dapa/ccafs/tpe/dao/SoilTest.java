@@ -93,6 +93,14 @@ public class SoilTest extends BaseTest {
 				.getSoilFeaturesByRegion(propertyId, subregion);
 		assertNotNull(soilFeatures);
 		assertEquals(2, soilFeatures.size());
+
+		List<Integer> propertyIds = new ArrayList<Integer>(Arrays.asList(1, 2));
+		// Ret()rieve soil GeoJson by a list of properties
+		soilFeatures = tpeService.getSoilGeoJson(propertyIds,countryId);
+		assertNotNull(soilFeatures);
+		assertEquals(2, soilFeatures.size());
+		 
+
 	}
 
 	public void testGetSoilTextures() {

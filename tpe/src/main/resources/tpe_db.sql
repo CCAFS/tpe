@@ -324,26 +324,46 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `tpe_db`.`property`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `tpe_db`.`property` ;
+
+CREATE TABLE IF NOT EXISTS `tpe_db`.`property` (
+  `property_id` INT NOT NULL AUTO_INCREMENT,
+  `property_name` VARCHAR(100) NULL,
+  `property_description` VARCHAR(255) NULL,
+  `category_id` INT NULL,
+  `entity_class` VARCHAR(45) NULL,
+  PRIMARY KEY (`property_id`),
+  INDEX `fk_property_category_idx` (`category_id` ASC),
+  CONSTRAINT `fk_property_category`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `tpe_db`.`category` (`category_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `tpe_db`.`climate`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `tpe_db`.`climate` ;
 
 CREATE TABLE IF NOT EXISTS `tpe_db`.`climate` (
   `climate_id` BIGINT NOT NULL AUTO_INCREMENT,
-  `irradiance` FLOAT NULL,
-  `tmin` FLOAT NULL,
-  `tmax` FLOAT NULL,
   `day` INT NULL,
   `station_id` BIGINT NULL,
   `category_id` INT NULL,
-  `precipitation` FLOAT NULL,
   `author` VARCHAR(255) NULL,
   `source` VARCHAR(255) NULL,
   `year` VARCHAR(10) NULL,
   `recordedOn` DATETIME NULL,
+  `property_id` INT NULL,
+  `property_value` DOUBLE NULL,
   PRIMARY KEY (`climate_id`),
   INDEX `fk_climate_station_idx` (`station_id` ASC),
   INDEX `fk_climate_category_idx` (`category_id` ASC),
+  INDEX `fk_climate_property_idx` (`property_id` ASC),
   CONSTRAINT `fk_climate_station`
     FOREIGN KEY (`station_id`)
     REFERENCES `tpe_db`.`station` (`station_id`)
@@ -352,6 +372,11 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`climate` (
   CONSTRAINT `fk_climate_category`
     FOREIGN KEY (`category_id`)
     REFERENCES `tpe_db`.`category` (`category_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_climate_property`
+    FOREIGN KEY (`property_id`)
+    REFERENCES `tpe_db`.`property` (`property_id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -363,60 +388,23 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `tpe_db`.`soil_property` ;
 
 CREATE TABLE IF NOT EXISTS `tpe_db`.`soil_property` (
-  `property_id` BIGINT NOT NULL AUTO_INCREMENT,
-  `category_id` INT NULL,
+  `soil_property_id` BIGINT NOT NULL AUTO_INCREMENT,
   `soil_id` INT NULL,
   `station_id` BIGINT NULL,
-  `mean_ds` FLOAT NULL,
-  `std_dev_ds` FLOAT NULL,
-  `mean_teta_s` FLOAT NULL,
-  `std_dev_teta_s` FLOAT NULL,
-  `mean_cc` FLOAT NULL,
-  `std_dev_cc` FLOAT NULL,
-  `mean_teta_r` FLOAT NULL,
-  `std_dev_teta_r` FLOAT NULL,
-  `mean_ks` FLOAT NULL,
-  `std_dev_ks` FLOAT NULL,
-  `mean_om` FLOAT NULL,
-  `std_dev_om` FLOAT NULL,
-  `mean_hz_de_fn` FLOAT NULL,
-  `std_dev_hz_de_fn` FLOAT NULL,
-  `mean_clay` FLOAT NULL,
-  `std_dev_clay` FLOAT NULL,
-  `mean_sand` FLOAT NULL,
-  `std_dev_sand` FLOAT NULL,
-  `no_of_profiles` INT NULL,
-  `lower_limit` FLOAT NULL,
-  `soil_water_available` FLOAT NULL,
-  `ks` FLOAT NULL,
-  `wcmin` FLOAT NULL,
   `year` INT NULL,
   `model_id` BIGINT NULL,
-  `organic_carbon` FLOAT NULL,
-  `water_cont_field_capacity` FLOAT NULL,
-  `water_cont_wilting_point` FLOAT NULL,
-  `ph` FLOAT NULL,
-  `depth` FLOAT NULL,
-  `organic_matter` FLOAT NULL,
-  `taxonomy` INT NULL,
-  `buky_density` FLOAT NULL,
-  `cation_exchange` FLOAT NULL,
-  `available_soil_water` FLOAT NULL,
   `longitude` DOUBLE NULL,
   `latitude` DOUBLE NULL,
-  PRIMARY KEY (`property_id`),
+  `property_id` INT NULL,
+  `property_value` DOUBLE NULL,
+  PRIMARY KEY (`soil_property_id`),
   INDEX `fk_property_soil_idx` (`soil_id` ASC),
-  INDEX `fk_property_category_idx` (`category_id` ASC),
   INDEX `fk_property_station_idx` (`station_id` ASC),
   INDEX `fk_property_model_idx` (`model_id` ASC),
+  INDEX `fk_soil_property_property_idx` (`property_id` ASC),
   CONSTRAINT `fk_property_soil`
     FOREIGN KEY (`soil_id`)
     REFERENCES `tpe_db`.`soil` (`soil_id`)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_property_category`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `tpe_db`.`category` (`category_id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_property_station`
@@ -427,6 +415,11 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`soil_property` (
   CONSTRAINT `fk_property_model`
     FOREIGN KEY (`model_id`)
     REFERENCES `tpe_db`.`model` (`model_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_soil_property_property`
+    FOREIGN KEY (`property_id`)
+    REFERENCES `tpe_db`.`property` (`property_id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

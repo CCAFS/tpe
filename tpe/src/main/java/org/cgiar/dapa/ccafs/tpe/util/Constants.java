@@ -83,4 +83,15 @@ public interface Constants {
 	public static final String PROPERTY_AUTHOR = "author";
 	public static final String PROPERTY_YEAR = "year";
 	public static final String PROPERTY_SOURCE = "source";
+	public static final String STATION_COORDINATES = "stationCoordinates";
+	/**
+	 * The station property id constant
+	 */
+	public static final String STATION_ID = "stationId";
+	/**
+	 * The soil color property constant
+	 */
+	public static final String SOIL_COLOR = "soilColor";
+
+	public static final String SOIL_PROPERTY_ID = "soilPropertyId";
 }

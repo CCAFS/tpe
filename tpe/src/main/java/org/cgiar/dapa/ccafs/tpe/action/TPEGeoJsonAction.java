@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -30,10 +32,101 @@ public class TPEGeoJsonAction extends BaseAction {
 	private static final long serialVersionUID = 2409450891248252753L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
+	/**
+	 * The soil GeoJson data.
+	 */
+	private Map<String, Object> tpeGeoJson;
+
+	/**
+	 * The id of the selected country
+	 */
+	private Integer country;
+	/**
+	 * The id of the selected crop cultivar
+	 */
+	private Integer cultivar;
+	/**
+	 * The selected year
+	 */
+	private String year;
+	/**
+	 * The id of the selected sowing window;
+	 */
+	private Integer swindow;
+	/**
+	 * The id of the selected scenario
+	 */
+	private Integer scenario;
+	/**
+	 * The id of the selected crop
+	 */
+	private Integer crop;
 
 	public String execute() {
+		// Retrieve the data that will be converted into GeoJson by this action
+		// from the struts.xml
+		// TODO Get the parameters from the session or pass them from the ajax
+		// call.
+		tpeGeoJson = tpeService.getTPEGeoJSON(cultivar, country, swindow, year,
+				scenario);
 
 		return ActionSupport.SUCCESS;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public Integer getSwindow() {
+		return swindow;
+	}
+
+	public void setSwindow(Integer swindow) {
+		this.swindow = swindow;
+	}
+
+	public Integer getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(Integer scenario) {
+		this.scenario = scenario;
+	}
+
+	public Map<String, Object> getTpeGeoJson() {
+		return tpeGeoJson;
+	}
+
+	public void setTpeGeoJson(Map<String, Object> tpeGeoJson) {
+		this.tpeGeoJson = tpeGeoJson;
+	}
+
+	public Integer getCountry() {
+		return country;
+	}
+
+	public void setCountry(Integer country) {
+		this.country = country;
+	}
+
+	public Integer getCultivar() {
+		return cultivar;
+	}
+
+	public void setCultivar(Integer cultivar) {
+		this.cultivar = cultivar;
+	}
+
+	public Integer getCrop() {
+		return crop;
+	}
+
+	public void setCrop(Integer crop) {
+		this.crop = crop;
 	}
 
 }

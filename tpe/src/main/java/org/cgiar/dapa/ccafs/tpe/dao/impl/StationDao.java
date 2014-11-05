@@ -24,6 +24,8 @@ import javax.persistence.Query;
 import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePoint;
+import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -165,6 +167,44 @@ public class StationDao extends GenericDao<Station, Integer> implements
 		}
 
 		return stationsMap;
+	}
+
+	@Override
+	public Map<String, Object> getStationGeoJson(Integer countryId) {
+		Map<String, Object> stationGeoJSON = new LinkedHashMap<String, Object>();
+		List<FeaturePoint> stationFeatures = new LinkedList<FeaturePoint>();
+		GeometryPoint stationGeometry;
+		// FeatureProperty stationProperty;
+		Map<String, Object> properties = new LinkedHashMap<String, Object>();
+
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.region.parent.id =:country");
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("country", countryId);
+		List<Station> results = query.getResultList();
+
+		Station station;
+		for (Iterator<Station> iterator = results.iterator(); iterator
+				.hasNext();) {
+			station = iterator.next();
+			stationGeometry = new GeometryPoint(station.getCoordinates());
+			properties.put(STATION_ID, station.getId());
+			properties.put(STATION_NAME, station.getName());
+			// properties.put(STATION_NUMBER, station.getNumber());
+			properties.put(REGION_NAME, station.getRegion().getName());
+			properties.put(STATION_COORDINATES, station.getCoordinates());
+
+			stationFeatures.add(new FeaturePoint(FEATURES_TYPE,
+					stationGeometry, properties));
+			// Empty the station map or initalise it
+			properties = new LinkedHashMap<String, Object>();
+		}
+		stationGeoJSON.put(GEOJSON_KEY_TYPE, GEOJSON_VALUE_FEATURE_COLLECTION);
+		// Add the feature to the feature collection
+		stationGeoJSON.put(GEOJSON_KEY_FEATURES, stationFeatures);
+
+		return stationGeoJSON;
 	}
 
 }

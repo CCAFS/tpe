@@ -30,4 +30,23 @@ $(document).ready(function() {
 	$("select#select_output").change(function() {
 		$('#params_out').slideUp(0).slideDown(1000);
 	});
+
+	// Slide toggle the select variables
+	$('#select_variables h4').click(function() {
+		$(this).toggleClass('expanded').toggleClass('collapsed');
+		$('#variables').stop().slideToggle('slow', function() {
+
+		});
+	});
+
+	// Slide toggle the select tpe analytics divs
+	$('#tpe_analytics h4').click(function() {
+
+		$('#analytics').stop().slideToggle('slow', function() {
+
+		});
+		$('#tpe_analytics').toggleClass('tpe_analytics');
+		$(this).toggleClass('expanded').toggleClass('collapsed');
+		$('#tpe_map').toggleClass('tpe_map_min').toggleClass('tpe_map_max');
+	});
 });

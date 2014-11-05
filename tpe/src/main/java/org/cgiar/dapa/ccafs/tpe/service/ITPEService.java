@@ -559,4 +559,28 @@ public interface ITPEService {
 	 */
 	List<String> getTPEYears(Integer countryId, Integer cultivarId);
 
+	/**
+	 * Retrieves the station Geo Json data from the database for the specified
+	 * country id
+	 * 
+	 * @param countryId
+	 *            the id of the country
+	 * @return stations
+	 */
+	Map<String, Object> getStationGeoJson(Integer countryId);
+
+	/**
+	 * Retrieves the soil properties data map for the specified country and soil
+	 * property ids. The retrieved query records will later be returned as
+	 * GroJson by the struts.xml actions
+	 * 
+	 * @param propertyIds
+	 *            the list of soil property ids
+	 * @param countryId
+	 *            the id of the country
+	 * @return soil GeoJson
+	 */
+	Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
+			Integer countryId);
+
 }

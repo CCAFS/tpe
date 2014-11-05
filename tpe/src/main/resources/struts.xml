@@ -9,7 +9,7 @@
 	<constant name="struts.ui.theme" value="simple" />
 	<constant name="struts.multipart.maxSize" value="56235557" />
 	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
-	<constant name="struts.action.extension" value="jspx,action" />
+	<constant name="struts.action.extension" value="jspx,action,json,geojson" />
 	<constant name="struts.enable.SlashesInActionNames" value="true" />
 	<constant name="struts.i18n.encoding" value="UTF-8" />
 	<constant name="struts.objectFactory" value="spring" />
@@ -103,6 +103,21 @@
 		<action name="geoJsonFeatures" class="geoJsonAction">
 			<result type="json">
 				<param name="includeProperties">collections.*</param>
+			</result>
+		</action>
+		<action name="stationGeoJson" class="stationGeoJsonAction">
+			<result type="json">
+				<param name="includeProperties">stations.*</param>
+			</result>
+		</action>
+		<action name="soilGeoJson" class="soilGeoJsonAction">
+			<result type="json">
+				<param name="includeProperties">soilGeoJson.*</param>
+			</result>
+		</action>
+		<action name="tpeGeoJson" class="tpeGeoJsonAction">
+			<result type="json">
+				<param name="includeProperties">tpeGeoJson.*</param>
 			</result>
 		</action>
 	</package>

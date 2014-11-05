@@ -181,7 +181,7 @@ public class SoilProperty extends BaseResult {
 				this.getLongitude()));
 	}
 
-	@Column(name = "proeprty_value")
+	@Column(name = "property_value")
 	public Double getPropertyValue() {
 		return propertyValue;
 	}

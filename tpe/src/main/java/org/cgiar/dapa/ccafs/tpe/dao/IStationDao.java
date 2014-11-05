@@ -65,4 +65,14 @@ public interface IStationDao extends IGenericDao<Station, Integer> {
 	 * @return stations per region
 	 */
 	Map<String, List<LatLng>> getStationByRegion(List<Integer> regions);
+
+	/**
+	 * Retrieves the station Geo Json data from the database for the specified
+	 * country id
+	 * 
+	 * @param countryId
+	 *            the id of the country
+	 * @return stations
+	 */
+	Map<String, Object> getStationGeoJson(Integer countryId);
 }

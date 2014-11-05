@@ -161,6 +161,8 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 			climateFeatures.add(new FeaturePoint(FEATURES_TYPE,
 					climateGeometry, properties));
+			// Re initialize the properties map
+			properties = new LinkedHashMap<String, Object>();
 		}
 		climateGeoJSON.put(GEOJSON_KEY_TYPE, GEOJSON_VALUE_FEATURE_COLLECTION);
 		// Add the feature to the feature collection
