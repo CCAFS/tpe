@@ -58,6 +58,10 @@ public class Model extends BaseEntity {
 	 * The crop cultivar attached to this model
 	 */
 	private Cultivar cultivar;
+	/**
+	 * The simulation id
+	 */
+	private String simulationId;
 
 	@Column(name = "model_date")
 	public Date getCreatedOn() {
@@ -103,5 +107,14 @@ public class Model extends BaseEntity {
 
 	public void setCultivar(Cultivar cultivar) {
 		this.cultivar = cultivar;
+	}
+
+	@Column(name = "simulation_id")
+	public String getSimulationId() {
+		return simulationId;
+	}
+
+	public void setSimulationId(String simulationId) {
+		this.simulationId = simulationId;
 	}
 }

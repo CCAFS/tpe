@@ -11,16 +11,28 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.dao;
+package org.cgiar.dapa.ccafs.tpe.util;
 
-import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 
 /**
- * The interface that defines the method for the scenario in the model
+ * This class represents the scenario(rainfall, irrigation, etc) in the
+ * simulation model
  * 
  * @author NMATOVU
- *
+ * 
  */
-public interface IScenarioDao extends IGenericDao<Scenario, Integer> {
+public enum Scenario {
+	RAINFED("Rain Fed Condition Actual"), IRRIGATED(
+			"Irrigated Condition Attainable"), POTENTIAL("Potential Condition");
+
+	private String scenario;
+
+	private Scenario(String scenario) {
+		this.scenario = scenario;
+	}
+
+	public String getScenario() {
+		return scenario;
+	}
 
 }

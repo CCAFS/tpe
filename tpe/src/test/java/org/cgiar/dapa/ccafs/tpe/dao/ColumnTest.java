@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
+import org.cgiar.dapa.ccafs.tpe.util.Scenario;
 
 /**
  * This class tests for the column chart data
@@ -31,14 +32,14 @@ public class ColumnTest extends BaseTest {
 	public void testGetColumnSeries() {
 		// The spline chart series
 		List<Chart> series = new LinkedList<Chart>();
-		Integer scenarioId = 1;
+		String scenario = Scenario.RAINFED.toString();
 		Integer cultivarId = 1;
 		Integer categoryId = 1;
 		Integer subregionId = 1;
 		String year = "2012";
 		Integer swindow = 1;
 		series = tpeService.getTPEColumnSeries(subregionId, categoryId,
-				scenarioId, cultivarId, year, swindow);
+				scenario, cultivarId, year, swindow);
 		assertNotNull(series);
 		assertEquals(0, series.size());
 

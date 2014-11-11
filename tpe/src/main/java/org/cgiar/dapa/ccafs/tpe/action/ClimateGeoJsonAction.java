@@ -13,9 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,86 +27,41 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public class ClimateGeoJsonAction extends BaseAction {
+public class ClimateGeoJsonAction extends BaseGeoJsonAction {
 
 	private static final long serialVersionUID = 8564417689624834186L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
-	/**
-	 * The soil GeoJson map that will provide the GeoJson features on the Google
-	 * Map
-	 */
-	private Map<String, Object> climateGeoJson = new LinkedHashMap<String, Object>();
-	/**
-	 * The country id from the selection pane
-	 */
-	private Integer country;
-	/**
-	 * The id of the selected climate property from the selection pane
-	 */
-	private Integer property;
-	/**
-	 * The selected year from the selection pane
-	 */
-	private String year;
+
 	/**
 	 * The selected weather stations from the jsp page
 	 */
 	private List<Integer> stations;
 	/**
-	 * The selected subregions from the jsp page
+	 * The soil properties from the selection pane
 	 */
-	private List<Integer> subregions;
+	private List<Integer> properties;
 
 	public String execute() {
 		// TODO Pass the country param from the jsp page.
 		// TODO Pass properties params from the jsp page.
 
 		// Retrieve the soil GeoJson data from the database
-		if (stations != null || !stations.isEmpty() && !subregions.isEmpty()
-				|| subregions != null) {
+		if (stations != null || !stations.isEmpty()
+				&& !this.getRegions().isEmpty() || this.getRegions() != null
+				&& !getYears().isEmpty() || getYears() != null
+				&& getProperties() != null || !getProperties().isEmpty()) {
 			// Assume the user selected specific stations and sub regions
 			// Query for those specific params
 			// TODO Query climateGeoJson for the selected states and sub regions
 
 		} else
 			// Assume the user selected all stations and all sub regions
-			climateGeoJson = tpeService.getClimateGeoJSON(property, country,
-					year);
+			this.setGeoJson(tpeService.getClimateGeoJSON(
+					getProperties().get(0), this.getCountry(), getYears()
+							.get(0)));
 
 		return ActionSupport.SUCCESS;
-	}
-
-	public Integer getProperty() {
-		return property;
-	}
-
-	public void setProperty(Integer property) {
-		this.property = property;
-	}
-
-	public Map<String, Object> getClimateGeoJson() {
-		return climateGeoJson;
-	}
-
-	public void setClimateGeoJson(Map<String, Object> climateGeoJson) {
-		this.climateGeoJson = climateGeoJson;
-	}
-
-	public Integer getCountry() {
-		return country;
-	}
-
-	public void setCountry(Integer country) {
-		this.country = country;
-	}
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
 	}
 
 	public List<Integer> getStations() {
@@ -119,12 +72,12 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.stations = stations;
 	}
 
-	public List<Integer> getSubregions() {
-		return subregions;
+	public List<Integer> getProperties() {
+		return properties;
 	}
 
-	public void setSubregions(List<Integer> subregions) {
-		this.subregions = subregions;
+	public void setProperties(List<Integer> properties) {
+		this.properties = properties;
 	}
 
 }

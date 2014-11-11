@@ -13,8 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,28 +25,17 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public class TPEGeoJsonAction extends BaseAction {
+public class TPEGeoJsonAction extends BaseGeoJsonAction {
 
 	private static final long serialVersionUID = 2409450891248252753L;
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
-	/**
-	 * The soil GeoJson data.
-	 */
-	private Map<String, Object> tpeGeoJson;
 
-	/**
-	 * The id of the selected country
-	 */
-	private Integer country;
 	/**
 	 * The id of the selected crop cultivar
 	 */
 	private Integer cultivar;
-	/**
-	 * The selected year
-	 */
-	private String year;
+
 	/**
 	 * The id of the selected sowing window;
 	 */
@@ -56,7 +43,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The id of the selected scenario
 	 */
-	private Integer scenario;
+	private String scenario;
 	/**
 	 * The id of the selected crop
 	 */
@@ -67,18 +54,10 @@ public class TPEGeoJsonAction extends BaseAction {
 		// from the struts.xml
 		// TODO Get the parameters from the session or pass them from the ajax
 		// call.
-		tpeGeoJson = tpeService.getTPEGeoJSON(cultivar, country, swindow, year,
-				scenario);
+		this.setGeoJson(tpeService.getTPEGeoJSON(cultivar, this.getCountry(),
+				swindow, getYears().get(0), scenario));
 
 		return ActionSupport.SUCCESS;
-	}
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
 	}
 
 	public Integer getSwindow() {
@@ -89,28 +68,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.swindow = swindow;
 	}
 
-	public Integer getScenario() {
+	public String getScenario() {
 		return scenario;
 	}
 
-	public void setScenario(Integer scenario) {
+	public void setScenario(String scenario) {
 		this.scenario = scenario;
-	}
-
-	public Map<String, Object> getTpeGeoJson() {
-		return tpeGeoJson;
-	}
-
-	public void setTpeGeoJson(Map<String, Object> tpeGeoJson) {
-		this.tpeGeoJson = tpeGeoJson;
-	}
-
-	public Integer getCountry() {
-		return country;
-	}
-
-	public void setCountry(Integer country) {
-		this.country = country;
 	}
 
 	public Integer getCultivar() {

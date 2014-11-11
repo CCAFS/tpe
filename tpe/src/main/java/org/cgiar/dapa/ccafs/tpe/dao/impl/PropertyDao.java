@@ -34,7 +34,9 @@ public class PropertyDao extends GenericDao<Property, Integer> implements
 		IPropertyDao {
 	// private Logger log = Logger.getLogger(this.getClass());
 
-	private static final String PROPERTY_CATEGORY_SOIL = Soil.class
+	// private static final String PROPERTY_CATEGORY_SOIL = Soil.class
+	// .getSimpleName();
+	private static final String PROPERTY_ENTITY_SOIL = Soil.class
 			.getSimpleName();
 	private static final String PROPERTY_CATEGORY_CLIMATE = Climate.class
 			.getSimpleName();
@@ -58,10 +60,10 @@ public class PropertyDao extends GenericDao<Property, Integer> implements
 	@Override
 	public List<Property> getSoilProperties() {
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.category.name =:category").append(
+				.append(" r where r.entity =:entity").append(
 						" order by r.name asc");
 		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("category", PROPERTY_CATEGORY_SOIL);
+		query.setParameter("entity", PROPERTY_ENTITY_SOIL);
 
 		return query.getResultList();
 	}

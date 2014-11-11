@@ -16,6 +16,8 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.util.Scenario;
+
 /**
  * This class tests for the tpe (phenology and growth) DAO and service methods
  * 
@@ -44,11 +46,11 @@ public class TPETest extends BaseTest {
 		assertNotNull(regions);
 		assertEquals(0, regions.size());
 
-		Integer scenarioId = 1;
+		String scenario = Scenario.RAINFED.toString();
 		// TODO Use region ISO code
 		// Retrieve the regions. Include the scenario
 		regions = tpeService.getTPERegions(cultivarId, regionId, swindowId,
-				year, scenarioId);
+				year, scenario);
 		assertNotNull(regions);
 		assertEquals(0, regions.size());
 	}
@@ -70,10 +72,10 @@ public class TPETest extends BaseTest {
 		assertNotNull(tpeSoils);
 		assertEquals(0, tpeSoils.size());
 
-		Integer scenarioId = 1;
+		String scenario = Scenario.RAINFED.toString();
 		// Retrieve the tpe soil. Include the scenario
 		tpeSoils = tpeService.getTPESoil(cultivarId, regionId, swindowId, year,
-				scenarioId);
+				scenario);
 		assertNotNull(tpeSoils);
 		assertEquals(0, tpeSoils.size());
 	}
@@ -102,11 +104,11 @@ public class TPETest extends BaseTest {
 		assertNotNull(tpeGeoJSON);
 		assertEquals(0, tpeGeoJSON.size());
 
-		Integer scenarioId = 1;
+		String scenario = Scenario.IRRIGATED.toString();
 		// TODO Use region ISO code
 		// Retrieve the regions. Include the scenario
 		tpeGeoJSON = tpeService.getTPEGeoJSON(cultivarId, countryId, swindowId,
-				year, scenarioId);
+				year, scenario);
 		assertNotNull(tpeGeoJSON);
 		assertEquals(0, tpeGeoJSON.size());
 	}

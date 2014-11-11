@@ -25,7 +25,6 @@ import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
-import org.cgiar.dapa.ccafs.tpe.dao.IScenarioDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
@@ -36,7 +35,6 @@ import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
-import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
@@ -57,7 +55,6 @@ public class TPEService implements ITPEService {
 	private IRegionDao regionDao;
 	private ICategoryDao categoryDao;
 	private IStationDao stationDao;
-	private IScenarioDao scenarioDao;
 	private IClimateDao climateDao;
 	private ISoilPropertyDao soilPropertyDao;
 	private IPhenologyGrowthDao phenologyGrowthDao;
@@ -83,10 +80,6 @@ public class TPEService implements ITPEService {
 
 	public void setClimateDao(IClimateDao climateDao) {
 		this.climateDao = climateDao;
-	}
-
-	public void setScenarioDao(IScenarioDao scenarioDao) {
-		this.scenarioDao = scenarioDao;
 	}
 
 	public void setStationDao(IStationDao stationDao) {
@@ -186,18 +179,6 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public List<Scenario> getAllScenarios() {
-
-		return scenarioDao.getAll();
-	}
-
-	@Override
-	public Scenario getScenarioById(Integer scenarioId) {
-
-		return scenarioDao.getById(scenarioId);
-	}
-
-	@Override
 	public List<Climate> getClimateByStations(List<Integer> stationIds,
 			Integer categoryId, String year) {
 
@@ -264,10 +245,10 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId) {
+			Integer regionId, Integer swindowId, String year, String scenario) {
 
 		return phenologyGrowthDao.getTPERegions(cultivarId, regionId,
-				swindowId, year, scenarioId);
+				swindowId, year, scenario);
 	}
 
 	@Override
@@ -280,10 +261,10 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId) {
+			Integer regionId, Integer swindowId, String year, String scenario) {
 
 		return phenologyGrowthDao.getTPESoil(cultivarId, regionId, swindowId,
-				year, scenarioId);
+				year, scenario);
 	}
 
 	@Override
@@ -336,19 +317,18 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
-			Integer countryId, Integer swindowId, String year,
-			Integer scenarioId) {
+			Integer countryId, Integer swindowId, String year, String scenario) {
 
 		return phenologyGrowthDao.getTPEGeoJSON(cultivarId, countryId,
-				swindowId, year, scenarioId);
+				swindowId, year, scenario);
 	}
 
 	@Override
 	public List<Chart> getTPEColumnSeries(Integer subregionId,
-			Integer categoryId, Integer scenarioId, Integer cultivarId,
+			Integer categoryId, String scenario, Integer cultivarId,
 			String year, Integer swindow) {
 		return phenologyGrowthDao.getTPEColumnSeries(subregionId, categoryId,
-				scenarioId, cultivarId, year, swindow);
+				scenario, cultivarId, year, swindow);
 	}
 
 	@Override

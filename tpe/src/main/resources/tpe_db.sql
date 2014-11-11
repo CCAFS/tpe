@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`model` (
   `cultivar_id` BIGINT NULL,
   `number` INT NULL,
   `model_title` VARCHAR(255) NULL,
+  `simulation_id` VARCHAR(255) NULL,
   PRIMARY KEY (`model_id`),
   INDEX `fk_model_variety_idx` (`cultivar_id` ASC),
   CONSTRAINT `fk_model_cultivar`
@@ -142,20 +143,9 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`soil` (
   `soil_id` INT NOT NULL AUTO_INCREMENT,
   `soil_name` VARCHAR(45) NULL,
   `soil_code` VARCHAR(45) NULL,
+  `soil_color` VARCHAR(45) NULL,
   PRIMARY KEY (`soil_id`),
   UNIQUE INDEX `soil_code_UNIQUE` (`soil_code` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `tpe_db`.`scenario`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `tpe_db`.`scenario` ;
-
-CREATE TABLE IF NOT EXISTS `tpe_db`.`scenario` (
-  `scenario_id` INT NOT NULL AUTO_INCREMENT,
-  `scenario` VARCHAR(150) NULL,
-  PRIMARY KEY (`scenario_id`))
 ENGINE = InnoDB;
 
 
@@ -268,9 +258,10 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`phenology_growth` (
   `EMD` INT NULL,
   `DAE` INT NULL,
   `soil_id` INT NULL,
-  `scenario_id` INT NULL,
+  `scenario` VARCHAR(50) NULL,
   `window_id` INT NULL,
   `year` VARCHAR(10) NULL,
+  `cluster` SMALLINT NULL,
   PRIMARY KEY (`result_id`),
   INDEX `fk_yield_variety_idx` (`cultivar_id` ASC),
   INDEX `fk_result_model_idx` (`model_id` ASC),
@@ -278,7 +269,6 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`phenology_growth` (
   INDEX `fk_result_station_idx` (`station_id` ASC),
   INDEX `fk_result_region_idx` (`region_id` ASC),
   INDEX `fk_phenology_soil_idx` (`soil_id` ASC),
-  INDEX `fk_phenoloy_scenario_idx` (`scenario_id` ASC),
   INDEX `fk_phenology_window_idx` (`window_id` ASC),
   CONSTRAINT `fk_result_cultivar`
     FOREIGN KEY (`cultivar_id`)
@@ -308,11 +298,6 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`phenology_growth` (
   CONSTRAINT `fk_phenology_soil`
     FOREIGN KEY (`soil_id`)
     REFERENCES `tpe_db`.`soil` (`soil_id`)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_phenoloy_scenario`
-    FOREIGN KEY (`scenario_id`)
-    REFERENCES `tpe_db`.`scenario` (`scenario_id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_phenology_window`

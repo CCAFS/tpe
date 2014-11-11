@@ -13,14 +13,21 @@
  *****************************************************************/
 
 package org.cgiar.dapa.ccafs.tpe.action;
-  
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
-
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.util.ServletContextAware;
 
+import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
 /**
  * This is the base action that provides the core methods that will be utilized
@@ -29,7 +36,8 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public abstract class BaseAction extends ActionSupport {
+public abstract class BaseAction extends ActionSupport implements Preparable,
+		ServletContextAware {
 
 	private static final long serialVersionUID = 3706037816101380217L;
 	@SuppressWarnings("unused")
@@ -37,10 +45,52 @@ public abstract class BaseAction extends ActionSupport {
 	protected static final String TPE = "tpe";
 	protected static final String SOIL = "soil";
 	protected static final String CLIMATE = "climate";
+	private String path;
+	@SuppressWarnings("unused")
+	private Region region;
 	/**
 	 * The TPE Service
 	 */
 	protected ITPEService tpeService;
+	private Integer regionId;
+
+	public BaseAction() {
+		super();
+	}
+
+	@Override
+	public void setServletContext(ServletContext arg0) {
+		this.path = arg0.getRealPath("/");
+	}
+
+	@Override
+	public void prepare() {
+
+	}
+
+	@Override
+	public String execute() {
+		return Action.SUCCESS;
+	}
+
+	public String getVirtualDirectory() {
+		ActionContext ac = ActionContext.getContext().getActionInvocation()
+				.getInvocationContext();
+		HttpServletRequest request = (HttpServletRequest) ac
+				.get(ServletActionContext.HTTP_REQUEST);
+		String contextPath = request.getContextPath();
+		return request == null ? null : (contextPath.equals("/") ? null
+				: contextPath);
+	}
+
+	public String getHostname() {
+		ActionContext ac = ActionContext.getContext().getActionInvocation()
+				.getInvocationContext();
+		HttpServletRequest request = (HttpServletRequest) ac
+				.get(ServletActionContext.HTTP_REQUEST);
+		String host = request.getHeader("Host");
+		return host;
+	}
 
 	public ITPEService getTpeService() {
 		return tpeService;
@@ -48,6 +98,30 @@ public abstract class BaseAction extends ActionSupport {
 
 	public void setTpeService(ITPEService tpeService) {
 		this.tpeService = tpeService;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public Region getRegion() {
+		return tpeService.getRegionById(regionId);
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	public Integer getRegionId() {
+		return regionId;
+	}
+
+	public void setRegionId(Integer regionId) {
+		this.regionId = regionId;
 	}
 
 }

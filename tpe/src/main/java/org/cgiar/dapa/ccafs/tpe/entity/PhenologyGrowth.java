@@ -13,12 +13,21 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.cgiar.dapa.ccafs.tpe.util.Scenario;
 
 /**
  * This class represents the crop cultivar phenology and growth properties in th
@@ -357,6 +366,18 @@ public class PhenologyGrowth extends BaseResult {
 	 * The year
 	 */
 	private String year;
+	/**
+	 * The latitude of the weather station
+	 */
+	private Double latitude;
+	/**
+	 * The longitude of the weather station
+	 */
+	private Double longitude;
+	/**
+	 * The cluster categorizes the environments (HFE, LFE, FE)
+	 */
+	private Integer cluster;
 
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
@@ -1021,8 +1042,10 @@ public class PhenologyGrowth extends BaseResult {
 		this.window = window;
 	}
 
-	@ManyToOne(targetEntity = Scenario.class)
-	@JoinColumn(name = "scenario_id", referencedColumnName = "scenario_id")
+	// @ManyToOne(targetEntity = Scenario.class)
+	// @JoinColumn(name = "scenario_id", referencedColumnName = "scenario_id")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "scenario")
 	public Scenario getScenario() {
 		return scenario;
 	}
@@ -1038,6 +1061,43 @@ public class PhenologyGrowth extends BaseResult {
 
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	@Column(name = "cluster")
+	public Integer getCluster() {
+		return cluster;
+	}
+
+	public void setCluster(Integer cluster) {
+		this.cluster = cluster;
+	}
+
+	@Column(name = "station_latitude")
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	@Column(name = "station_longitude")
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	@Transient
+	public List<Double> getCoordinates() {
+
+		if (this.getLatitude() != null && this.getLongitude() != null)
+			return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
+					this.getLongitude()));
+
+		return this.getStation().getCoordinates();
 	}
 
 }

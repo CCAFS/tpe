@@ -11,22 +11,13 @@
 <meta name="description" content="BookStore">
 <meta name="author" content="asic">
 
-<!-- Le styles -->
-<link
-	href="<s:url value='/static/css/bootstrap.min.css' includeParams='none'/>"
-	rel="stylesheet" />
+ 
 <style>
 body {
 	padding-top: 60px;
 	/* 60px to make the container go all the way to the bottom of the topbar */
 }
-</style>
-<link
-	href="<s:url value='/static/css/bootstrap-responsive.min.css' includeParams='none'/>"
-	rel="stylesheet" />
-<link
-	href="<s:url value='/static/css/styles.css' includeParams='none'/>"
-	rel="stylesheet" />
+</style>  
 </head>
 
 <body>
@@ -57,13 +48,7 @@ body {
 
 	</div>
 	<!-- /container -->
-
-	<script
-		src="<s:url value='/static/javascript/jquery.js' includeParams='none'/>"></script>
-	<script
-		src="<s:url value='/static/javascript/bootstrap.min.js' includeParams='none'/>"></script>
-	<script
-		src="<s:url value='/static/javascript/validation.js' includeParams='none'/>"></script>
+ 
 
 	<script type="text/javascript">
 		

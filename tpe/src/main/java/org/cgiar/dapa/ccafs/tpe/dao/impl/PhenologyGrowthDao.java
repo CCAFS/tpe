@@ -31,6 +31,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePolygon;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
+import org.cgiar.dapa.ccafs.tpe.util.Cluster;
 import org.cgiar.dapa.ccafs.tpe.util.TPEType;
 
 /**
@@ -83,7 +84,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 	@Override
 	public Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId) {
+			Integer regionId, Integer swindowId, String year, String scenario) {
 		// regions map
 		Map<String, Map<Double, Double>> regionsMap = new LinkedHashMap<String, Map<Double, Double>>();
 		// Point map
@@ -95,7 +96,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				.append(" and r.cultivar.id =:cultivar")
 				.append(" and r.window.id =:swindow")
 				.append(" and r.year =:year")
-				.append(" and r.scenario.id =:scenario");
+				.append(" and r.scenario =:scenario");
 
 		Query query = entityManager.createQuery(q.toString());
 
@@ -103,7 +104,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		query.setParameter("country", regionId);
 		query.setParameter("cultivar", cultivarId);
 		query.setParameter("year", year);
-		query.setParameter("scenario", scenarioId);
+		query.setParameter("scenario", scenario);
 
 		List<Region> results = query.getResultList();
 
@@ -151,7 +152,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 	@Override
 	public Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId) {
+			Integer regionId, Integer swindowId, String year, String scenario) {
 		// soil map Map<SoilCode,Map<regionISO,yield>>
 		Map<String, Map<String, Double>> soilMap = new LinkedHashMap<String, Map<String, Double>>();
 		// region-yield map (Map<regionISO,yield>)
@@ -164,7 +165,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				.append(" and r.cultivar.id =:cultivar")
 				.append(" and r.window.id =:swindow")
 				.append(" and r.year =:year")
-				.append(" and r.scenario.id =:scenario");
+				.append(" and r.scenario =:scenario");
 
 		Query query = entityManager.createQuery(q.toString());
 
@@ -172,7 +173,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		query.setParameter("country", regionId);
 		query.setParameter("cultivar", cultivarId);
 		query.setParameter("year", year);
-		query.setParameter("scenario", scenarioId);
+		query.setParameter("scenario", scenario);
 
 		List<Object[]> results = query.getResultList();
 
@@ -299,8 +300,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	@SuppressWarnings("unused")
 	@Override
 	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
-			Integer countryId, Integer swindowId, String year,
-			Integer scenarioId) {
+			Integer countryId, Integer swindowId, String year, String scenario) {
 		Map<String, Object> polygonGeoJSON = new LinkedHashMap<String, Object>();
 		List<FeaturePolygon> polygonFeatures = new LinkedList<FeaturePolygon>();
 		GeometryPolygon polygonGeometry = new GeometryPolygon();
@@ -319,41 +319,40 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				// TODO Check if the sub region has atleast 4 points for a
 				// given range (HFE, LFE)
 				// TODO Add index for yield wrr14 in the schema
-				for (TPEType type : TPEType.values()) {
+				for (Cluster cluster : Cluster.values()) {
 					// TODO Order by yield.
 					q.append(" r where r.station.region.id =:region")
 							.append(" and r.cultivar.id =:cultivar")
 							.append(" and r.window.id =:swindow")
-							.append(" and r.scenario.id =:scenario")
-							.append(" and r.year =:year");
+							.append(" and r.scenario =:scenario")
+							.append(" and r.cluster =:cluster")
+							.append(" and r.year =:year")
+							.append(" order by r.id asc");
 
 					// TODO Provide the TPE Range of values to that classify the
 					// environments.
 					// Min and max are set here for just testing purposes. Need
 					// to provide the range that categorizes the environments.
 
-					if (type.equals(TPEType.HFE)) {
-						min = new Float(600.2);
-						// max = new Float(1000.0);
-						q.append(" and r.wrr14 =>:min");
-					} else if (type.equals(TPEType.LFE)) {
-						min = new Float(200.2);
-						max = new Float(600.0);
-						q.append(" and r.wrr14 between :min and :max");
-					} else {
-						// Default FE:
-						// No need to specify the min value for the FE
-						max = new Float(200.0);
-						q.append(" and r.wrr14 <:max");
-					}
-					q.append(" order by r.id asc");
+					/*
+					 * if (type.equals(TPEType.HFE)) { min = new Float(600.2);
+					 * // max = new Float(1000.0);
+					 * q.append(" and r.wrr14 =>:min"); } else if
+					 * (type.equals(TPEType.LFE)) { min = new Float(200.2); max
+					 * = new Float(600.0);
+					 * q.append(" and r.wrr14 between :min and :max"); } else {
+					 * // Default FE: // No need to specify the min value for
+					 * the FE max = new Float(200.0);
+					 * q.append(" and r.wrr14 <:max"); }
+					 */
 
 					Query query = entityManager.createQuery(q.toString());
 					query.setParameter("region", subregionId);
 					query.setParameter("cultivar", cultivarId);
 					query.setParameter("swindow", swindowId);
 					query.setParameter("year", year);
-					query.setParameter("scenario", scenarioId);
+					query.setParameter("scenario", scenario);
+					query.setParameter("cluster", cluster.getEnv());
 
 					List<PhenologyGrowth> results = query.getResultList();
 					PhenologyGrowth phenologyGrowth = null;
@@ -362,14 +361,17 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					for (Iterator<PhenologyGrowth> iterator = results
 							.iterator(); iterator.hasNext();) {
 						phenologyGrowth = iterator.next();
-						coordinates.add(phenologyGrowth.getStation()
-								.getCoordinates());
+
+						// coordinates.add(phenologyGrowth.getStation()
+						// .getCoordinates());
+						coordinates.add(phenologyGrowth.getCoordinates());
 
 					}
 					// TODO Add the first coordinate once again to close the
 					// GeoJSON polygon. In GeoJSON, the first and last points
 					// have to be the same.
-					coordinates.add(coordinates.get(0));
+					if (!coordinates.isEmpty() && coordinates != null)
+						coordinates.add(coordinates.get(0));
 
 					if (phenologyGrowth != null)
 						// Get the properties from the last record.
@@ -398,7 +400,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 	@Override
 	public List<Chart> getTPEColumnSeries(Integer subregionId,
-			Integer categoryId, Integer scenarioId, Integer cultivarId,
+			Integer categoryId, String scenario, Integer cultivarId,
 			String year, Integer swindow) {
 		// TODO Auto-generated method stub
 		return null;

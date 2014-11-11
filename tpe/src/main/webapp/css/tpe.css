@@ -174,3 +174,33 @@ div#tpe_analytics {
 	border: 1px solid black;
 	margin-right: 6px;
 }
+
+.select_info {
+	color: #990000;
+	font-size: 12px;
+}
+
+#info {
+	display: none;
+	position: absolute;
+	top: 150px;
+	right: 350px;
+	font-family: "Roboto", "Arial", sans-serif;
+	font-size: 13px;
+	text-align: center;
+	z-index: 5;
+	box-shadow: 0 4px 6px -4px #333;
+	padding: 5px 10px;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
+		rgba(245, 245, 245, 1) 100%);
+	border: rgb(229, 229, 229) 1px solid;
+}
+
+.info_window {
+	line-height: 1.35;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 150px;
+	text-align: left;
+}

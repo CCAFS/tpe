@@ -42,7 +42,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class TPEAction extends BaseAction {
 
 	private static final long serialVersionUID = -4801328465223186532L;
-	@SuppressWarnings("unused")
+
 	private Log log = LogFactory.getLog(this.getClass());
 	private List<Category> outputs;
 	private Integer selectedOutput;
@@ -74,6 +74,9 @@ public class TPEAction extends BaseAction {
 	private List<WindowSowing> swindows;
 	private Integer preselectedWindow;
 	private Integer selectedWindow;
+	private List<String> scenarios;
+	private String selectedScenario;
+	private Integer preselectedScenario;
 
 	/**
 	 * This method will load the output variables.
@@ -119,6 +122,11 @@ public class TPEAction extends BaseAction {
 
 			// Retrieve all the crops from the database
 			crops = tpeService.getAllCrops();
+			// Generate the scenarios from the utils class
+			scenarios = Utils.getScenarios();
+			if (!scenarios.isEmpty() && scenarios != null)
+				// Select the first item in the list: zero based index
+				preselectedScenario = 0;
 
 			if (!crops.isEmpty() && crops != null) {
 				// Preselect the crop
@@ -128,7 +136,8 @@ public class TPEAction extends BaseAction {
 				// Preselect the crop cultivar
 				if (!cultivars.isEmpty() && cultivars != null) {
 					preselectedCultivar = cultivars.get(0).getId();
-					// Retrieve the years based on the selected country and crop
+					// Retrieve the years based on the selected country and
+					// crop
 					// cultivar
 					years = tpeService.getTPEYears(countries.get(0).getId(),
 							preselectedCultivar);
@@ -155,9 +164,10 @@ public class TPEAction extends BaseAction {
 				textures = new ArrayList<Soil>();
 			// Get soil properties
 			properties = tpeService.getSoilProperties();
-			if (!properties.isEmpty() && properties != null)
+			if (!properties.isEmpty() && properties != null) {
 				preselectedProperty = properties.get(0).getId();
-			else
+				log.info("Soil Properties: " + properties.size());
+			} else
 				properties = new ArrayList<Property>();
 			return SOIL;
 		} else if (this.getSelectedOutput().equals(ParamType.CLIMATE.getId())) {
@@ -451,6 +461,30 @@ public class TPEAction extends BaseAction {
 
 	public void setSelectedWindow(Integer selectedWindow) {
 		this.selectedWindow = selectedWindow;
+	}
+
+	public List<String> getScenarios() {
+		return scenarios;
+	}
+
+	public void setScenarios(List<String> scenarios) {
+		this.scenarios = scenarios;
+	}
+
+	public String getSelectedScenario() {
+		return selectedScenario;
+	}
+
+	public void setSelectedScenario(String selectedScenario) {
+		this.selectedScenario = selectedScenario;
+	}
+
+	public Integer getPreselectedScenario() {
+		return preselectedScenario;
+	}
+
+	public void setPreselectedScenario(Integer preselectedScenario) {
+		this.preselectedScenario = preselectedScenario;
 	}
 
 }

@@ -27,6 +27,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePoint;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
+import org.cgiar.dapa.ccafs.tpe.util.FeatureType;
 
 /**
  * This class implements the methods defined in the Climate DAO interface
@@ -113,7 +114,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	}
 
 	@Override
-	public Map<String, Object> getClimateGeoJSON(Integer categoryId,
+	public Map<String, Object> getClimateGeoJSON(Integer propertyId,
 			Integer countryId, String year) {
 		// TODO Assume each station appears once in the returned query results
 		// for the specified year
@@ -126,12 +127,12 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
 				.append(" r where r.station.region.parent.id =:country")
-				.append(" and r.category.id =:category")
+				.append(" and r.property.id =:property")
 				.append(" and r.year =:year");
 
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("country", countryId);
-		query.setParameter("category", categoryId);
+		query.setParameter("property", propertyId);
 		query.setParameter("year", year);
 		List<Climate> results = query.getResultList();
 		Climate climate;
@@ -140,8 +141,8 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			climate = iterator.next();
 			climateGeometry = new GeometryPoint(climate.getStation()
 					.getCoordinates());
-			properties.put(climate.getProperty().getName(),
-					climate.getPropertyValue());
+			properties.put(PROPERTY_NAME, climate.getProperty().getName());
+			properties.put(PROPERTY_VALUE, climate.getPropertyValue());
 			properties.put(STATION_NAME, climate.getStation().getName());
 			properties.put(PROPERTY_YEAR, climate.getYear());
 			properties.put(STATION_NUMBER, climate.getStation().getNumber());
@@ -149,7 +150,9 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 					.getName());
 			properties.put(PROPERTY_AUTHOR, climate.getAuthor());
 			properties.put(PROPERTY_SOURCE, climate.getSource());
-
+			properties.put(FEATURE_COLOR, STATION_COLOR_GREEN);
+			properties.put(FEATURE_TYPE, FeatureType.STATION.toString());
+ 
 			// climateProperty = new FeatureProperty(climate.getYear(), climate
 			// .getCategory().getName(),
 			//

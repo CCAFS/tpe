@@ -24,7 +24,6 @@ import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
-import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
@@ -137,22 +136,6 @@ public interface ITPEService {
 	 * @return station
 	 */
 	Station getStationById(Integer stationId);
-
-	/**
-	 * Retrieves all the scenarios from the database
-	 * 
-	 * @return scenarios
-	 */
-	List<Scenario> getAllScenarios();
-
-	/**
-	 * Retrieves the scenario by its id
-	 * 
-	 * @param scenarioId
-	 *            the id of the scenario to retrieve
-	 * @return scenario
-	 */
-	Scenario getScenarioById(Integer scenarioId);
 
 	/**
 	 * Retrieves the climate records for the specified category from the
@@ -309,12 +292,12 @@ public interface ITPEService {
 	 *            the sowing window id
 	 * @param year
 	 *            the year
-	 * @param scenarioId
+	 * @param scenario
 	 *            the scenario (rainfed or irrigated)
 	 * @return Map of TPE regions
 	 */
 	Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+			Integer regionId, Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the tpe soil textures with thier corresponding regions and crop
@@ -347,12 +330,12 @@ public interface ITPEService {
 	 *            the sowing window id
 	 * @param year
 	 *            the year
-	 * @param scenarioId
-	 *            the scenario id
+	 * @param scenario
+	 *            the scenario
 	 * @return tpe soil map with corresponding regions and yield
 	 */
 	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+			Integer regionId, Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the weather stations from each specified regions (sub regions
@@ -456,12 +439,12 @@ public interface ITPEService {
 	 *            the id of the selected window sowing
 	 * @param year
 	 *            the selected year
-	 * @param scenarioId
-	 *            the selected scenario id
+	 * @param scenario
+	 *            the selected scenario
 	 * @return TPE GeoJSON
 	 */
 	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
-			Integer swindowId, String year, Integer scenarioId);
+			Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the chart series for a selected (clicked) sub region from the
@@ -472,8 +455,8 @@ public interface ITPEService {
 	 *            the id of the clicked (selected) sub region (region)
 	 * @param categoryId
 	 *            the id of the selected category
-	 * @param scenarioId
-	 *            the id of the selected scenario
+	 * @param scenario
+	 *            the selected scenario
 	 * @param cultivarId
 	 *            the id of the selected crop cultivar
 	 * @param year
@@ -483,7 +466,7 @@ public interface ITPEService {
 	 * @return Chart data
 	 */
 	List<Chart> getTPEColumnSeries(Integer subregionId, Integer categoryId,
-			Integer scenarioId, Integer cultivarId, String year, Integer swindow);
+			String scenario, Integer cultivarId, String year, Integer swindow);
 
 	/**
 	 * Retrieves all the soil textures from the database.

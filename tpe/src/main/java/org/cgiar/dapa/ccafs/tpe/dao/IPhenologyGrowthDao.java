@@ -60,12 +60,12 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 *            the sowing window id
 	 * @param year
 	 *            the year
-	 * @param scenarioId
-	 *            the scenario (rainfed or irrigated)
+	 * @param scenario
+	 *            the selected scenario (rainfed or irrigated)
 	 * @return Map of TPE regions
 	 */
 	Map<String, Map<Double, Double>> getTPERegions(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+			Integer regionId, Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the tpe soil textures with thier corresponding regions and crop
@@ -98,12 +98,12 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 *            the sowing window id
 	 * @param year
 	 *            the year
-	 * @param scenarioId
-	 *            the scenario id
+	 * @param scenario
+	 *            the selected scenario
 	 * @return tpe soil map with corresponding regions and yield
 	 */
 	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
-			Integer regionId, Integer swindowId, String year, Integer scenarioId);
+			Integer regionId, Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the TPE records for the specified variables. The result
@@ -136,12 +136,12 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 *            the id of the selected window sowing
 	 * @param year
 	 *            the selected year
-	 * @param scenarioId
-	 *            the selected scenario id
+	 * @param scenario
+	 *            the selected scenario
 	 * @return TPE GeoJSON
 	 */
 	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
-			Integer swindowId, String year, Integer scenarioId);
+			Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the chart series for a selected (clicked) sub region from the
@@ -152,8 +152,8 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 *            the id of the clicked (selected) sub region (region)
 	 * @param categoryId
 	 *            the id of the selected category
-	 * @param scenarioId
-	 *            the id of the selected scenario
+	 * @param scenario
+	 *            the selected scenario
 	 * @param cultivarId
 	 *            the id of the selected crop cultivar
 	 * @param year
@@ -163,7 +163,7 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 * @return Chart data
 	 */
 	List<Chart> getTPEColumnSeries(Integer subregionId, Integer categoryId,
-			Integer scenarioId, Integer cultivarId, String year, Integer swindow);
+			String scenario, Integer cultivarId, String year, Integer swindow);
 
 	/**
 	 * Retrieves the years based on the selected country and crop cultivar

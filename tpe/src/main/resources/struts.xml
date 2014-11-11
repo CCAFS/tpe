@@ -79,7 +79,7 @@
 			<result name="success">/WEB-INF/pages/index.jsp</result>
 		</action>
 		<action name="tpeParams" class="tpeAction">
-			<result name="success">/WEB-INF/pages/tpe/tpe.jsp</result>
+			<result name="success">/WEB-INF/pages/tpe/tpe-index.jsp</result>
 		</action>
 		<action name="paramsOut" class="tpeAction" method="paramsOut">
 			<result name="soil">/WEB-INF/pages/tpe/soil-params.jsp</result>
@@ -112,12 +112,17 @@
 		</action>
 		<action name="soilGeoJson" class="soilGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">soilGeoJson.*</param>
+				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
 			</result>
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">tpeGeoJson.*</param>
+				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
+			</result>
+		</action>
+		<action name="climateGeoJson" class="tpeGeoJsonAction">
+			<result type="json">
+				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
 			</result>
 		</action>
 	</package>

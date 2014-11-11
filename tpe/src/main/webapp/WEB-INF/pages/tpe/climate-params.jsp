@@ -7,7 +7,7 @@
 <s:select name="selectedProperties" listKey="id" listValue="name"
 	id="select_properties" list="properties" value="preselectedProperty"
 	cssStyle="width:100%;" multiple="true" size="4" required="true" />
-<h3>Country</h3>
+<h3>Country <span class="select_info">(Initially Brazil y Colombia)</span></h3>
 <s:select name="selectedCountry" listKey="id" listValue="name"
 	id="select_country" list="countries" value="preselectedCountry"
 	cssStyle="width:100%;" multiple="false" size="1" required="true" />

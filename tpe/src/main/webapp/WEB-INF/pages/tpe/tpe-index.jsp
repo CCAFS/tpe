@@ -5,16 +5,29 @@
 <title>CCAFS TPE Platform</title>
 <style>
 </style>
-<!-- <script
-	src="https://maps.googleapis.com/maps/api/js?client=google-developers&v=3.exp"></script> -->
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="${ctx}/script/select-params.js"></script>
-<script type="text/javascript" src="${ctx}/script/tpe-map.js"></script>
+<script type="text/javascript" src="${ctx}/script/init-map.js"></script>
 <script type='text/javascript'>
-	
-				
+	$(document).ready(function() {
+
+		/* $.getJSON('testGeoJson.json', function(data) {
+								console.log('GEOJON DATA: ' + data);
+							}); */
+
+		/* $.ajax({
+			type : 'GET',
+			url : 'script/test.json',
+			dataType : 'json'
+		}).done(function(data) {
+			console.log(JSON.stringify(data));
+		}); */
+
+	});
 </script>
 </head>
 
@@ -35,6 +48,10 @@
 	<div id="tpe_main">
 		<!--  TPE Google Map-->
 		<div id="tpe_map" class="tpe_map_min"></div>
+		<div id="info">
+			<h2>Feature Infos goes here</h2>
+			<b>Details</b>: <span id="info_details">Details!</span>
+		</div>
 		<div id="legend-container">
 			<h3>TPE Legend</h3>
 		</div>

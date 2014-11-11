@@ -27,7 +27,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public class GeoJsonAction extends BaseAction {
+public class GeoJsonAction extends BaseGeoJsonAction {
 
 	private static final long serialVersionUID = -6473893732734090515L;
 	private Log log = LogFactory.getLog(this.getClass());

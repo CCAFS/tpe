@@ -13,14 +13,11 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -31,20 +28,11 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public class SoilGeoJsonAction extends BaseAction {
+public class SoilGeoJsonAction extends BaseGeoJsonAction {
 
 	private static final long serialVersionUID = -2150409370455878988L;
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
-	/**
-	 * The soil GeoJson map that will provide the GeoJson features on the Google
-	 * Map
-	 */
-	private Map<String, Object> soilGeoJson = new LinkedHashMap<String, Object>();
-	/**
-	 * The country id from the selection pane
-	 */
-	private Integer countryId;
+
 	/**
 	 * The soil properties from the selection pane
 	 */
@@ -56,29 +44,39 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public String execute() {
 		// TODO Pass the country param from the jsp page.
-		countryId = 1;
+		// this.setRegionId(1);
 		// TODO Pass properties params from the jsp page.
-		properties = new ArrayList<Integer>(Arrays.asList(1));
+		// properties = new ArrayList<Integer>(Arrays.asList(1));
+
+		log.info("Properties: " + properties);
+		log.info("Textures: " + textures);
+		log.info("Regions: " + getRegions());
+		log.info("Lat: " + getLat());
+		log.info("Lng: " + getLng());
+		log.info("Years: " + getYears());
+		log.info("Zoom: " + getZoom());
+
 		// Retrieve the soil GeoJson data from the database
-		soilGeoJson = tpeService.getSoilGeoJson(properties, countryId);
+		if (this.getCountry() != null && !getYears().isEmpty()
+				|| getYears() != null && getProperties() != null
+				|| !getProperties().isEmpty()) {
+			this.setRegion(tpeService.getRegionById(getCountry()));
+			if (getRegion() != null) {
+				setLat(getRegion().getLatitude());
+				setLng(getRegion().getLongitude());
+			}
+			this.setGeoJson(tpeService.getSoilGeoJson(properties, getCountry()));
 
+		} else {
+			// TODO Add
+		}
+
+		// countryGeoJson = Utils.loadJSON(this.getPath()
+		// + "script/COLOMBIA.geo.json");
+		setCountryGeoJson(Utils.loadJSON(this.getPath()
+				+ "script/BRAZIL.geo.json"));
+		log.info(getCountryGeoJson());
 		return ActionSupport.SUCCESS;
-	}
-
-	public Map<String, Object> getSoilGeoJson() {
-		return soilGeoJson;
-	}
-
-	public void setSoilGeoJson(Map<String, Object> soilGeoJson) {
-		this.soilGeoJson = soilGeoJson;
-	}
-
-	public Integer getCountryId() {
-		return countryId;
-	}
-
-	public void setCountryId(Integer countryId) {
-		this.countryId = countryId;
 	}
 
 	public List<Integer> getProperties() {

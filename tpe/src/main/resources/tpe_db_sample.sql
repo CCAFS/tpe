@@ -7,8 +7,8 @@ insert into category (category_name, entity_class) values
 insert into soil(soil_name,soil_color) values
 ('Clay','green'),('Sand','red'),('Loam','blue'),('Clay Sand','orange'),('Clay Loam','purple');
 
-insert into region (region_name,category_id) values
-('Brazil',4),('Colombia',4);
+insert into region (region_name,category_id,latitude,longitude) values
+('Brazil',4,-14.235004,-51.92528),('Colombia',4,4.214943141390651, -73.828125);
 
 insert into region (region_name,category_id,region_parent) values
 ('RO',5,1),('GO',5,1),('MT',5,1),('TO',5,1),('MS',5,1);
@@ -29,4 +29,4 @@ insert into station (station_name, station_latitude, station_longitude, region_i
 ('AltaFloresta',-56.75,-10.07,5),('Aripuana',-59.45,-10.15,5),('CampoVerde',-55.08,-15.31,5),('Canarana',-52.27,-13.47,5),('Comodoro',-59.45,-13.42,5);
 
 insert into soil_property(soil_id,property_id,property_value,station_id,longitude,latitude) values
-(1,1,7.2,1,-51.82,-16.97),(1,1,4.2,1,-52.23,-15.9),(1,1,8.5,1,-47.07,-18.12),(1,1,3.6,1,-47.27,-17.12);
+(1,1,7.2,1,-51.82,-16.97),(1,1,4.2,2,-52.23,-15.9),(1,1,8.5,3,-47.07,-18.12),(1,1,3.6,4,-47.27,-17.12);

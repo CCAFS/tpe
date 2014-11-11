@@ -75,7 +75,6 @@
 	<bean id="cropDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CropDao" />
 	<bean id="regionDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.RegionDao" />
 	<bean id="stationDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.StationDao" />
-	<bean id="scenarioDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ScenarioDao" />
 	<bean id="categoryDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CategoryDao" />
 	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" />
 	<bean id="windowSowingDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.WindowSowingDao" />
@@ -92,7 +91,6 @@
 	<bean id="tpeService" class="org.cgiar.dapa.ccafs.tpe.service.impl.TPEService">
 		<property name="cropDao" ref="cropDao" />
 		<property name="regionDao" ref="regionDao" />
-		<property name="scenarioDao" ref="scenarioDao" />
 		<property name="stationDao" ref="stationDao" />
 		<property name="categoryDao" ref="categoryDao" />
 		<property name="cultivarDao" ref="cultivarDao" />

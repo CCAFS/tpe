@@ -11,23 +11,33 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.dao.impl;
+package org.cgiar.dapa.ccafs.tpe.dao;
 
-import org.cgiar.dapa.ccafs.tpe.dao.IScenarioDao;
-import org.cgiar.dapa.ccafs.tpe.entity.Scenario;
+import org.apache.log4j.Logger;
+import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 /**
- * This class implements the methods defined in the scenario interface
+ * This class tests for loading the local JSON files
  * 
  * @author NMATOVU
  *
  */
-public class ScenarioDao extends GenericDao<Scenario, Integer> implements
-		IScenarioDao {
+public class FileTest extends BaseTest {
 
-	public ScenarioDao() {
-		super(Scenario.class);
-		// TODO Auto-generated constructor stub
+	private Logger log = Logger.getLogger(this.getClass());
+
+	public void testLoadJSONFile() {
+
+		// File file = new File("src/main/java/read.json");
+
+		// String filePath = "src/main/resources/test.json";
+		String file = "test.json";
+		Object json = null;
+
+		// json=Utils.loadJSONFile(file);
+
+		json = Utils.loadJSON(file);
+		log.info(json);
 	}
 
 }

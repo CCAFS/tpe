@@ -28,7 +28,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public class StationGeoJsonAction extends BaseAction {
+public class StationGeoJsonAction extends BaseGeoJsonAction {
 
 	private static final long serialVersionUID = 2439242303969872550L;
 	@SuppressWarnings("unused")

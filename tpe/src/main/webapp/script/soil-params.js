@@ -14,18 +14,26 @@ $(document).ready(function() {
 		// $(this).slideUp(0).slideDown(1000);
 	});
 	// Automatically reload the sub regions when the country is selected
-	$("select#select_country").click(function() {
-		// Get the selected country id
+	// $("select#select_country").click(function() {
+	// Get the selected country id
+	/*
+	 * var selectedCountry = $(this).val();
+	 * $("#params_regions").load(href_subregions, { // Pass the parameters to
+	 * the action to query sub regions selectedCountry : selectedCountry },
+	 * function() { $(this).slideUp(0).slideDown(1000); });
+	 */
+	// });
+	// Automatically reload the sub regions when the country change
+	$("select#select_country").change(function() {
 		var selectedCountry = $(this).val();
 		$("#params_regions").load(href_subregions, {
 			// Pass the parameters to the action to query sub regions
 			selectedCountry : selectedCountry
 		}, function() {
+			// Hide and slide the params_region div
+			$(this).hide().slideDown(1000);
 			/* $(this).slideUp(0).slideDown(1000); */
 		});
-	});
-	// Automatically reload the sub regions when the country change
-	$("select#select_country").change(function() {
-		$('#params_regions').slideUp(0).slideDown(1000);
+
 	});
 });

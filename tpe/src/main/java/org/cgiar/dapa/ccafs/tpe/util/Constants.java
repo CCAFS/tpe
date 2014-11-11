@@ -94,4 +94,33 @@ public interface Constants {
 	public static final String SOIL_COLOR = "soilColor";
 
 	public static final String SOIL_PROPERTY_ID = "soilPropertyId";
+	/**
+	 * The property id of the Google Map feature or point
+	 */
+	public static final String FEATURE_ID = "id";
+	/**
+	 * The name property of the feature on the Google Map
+	 */
+	public static final String FEATURE_NAME = "name";
+	/**
+	 * The property color constant for the Google Map feature
+	 */
+	public static final String FEATURE_COLOR = "color";
+	/**
+	 * The property color value for the weather station
+	 */
+	public static final Object STATION_COLOR_GREEN = "station_green";
+	public static final String PROPERTY_ID = "property";
+	/**
+	 * The constant for the property name
+	 */
+	public static final String PROPERTY_NAME = "propertyName";
+	/**
+	 * The constant for the property value
+	 */
+	public static final String PROPERTY_VALUE = "propertyValue";
+	public static final String SOIL_PROPERTY_NAME = "soilPropertyName";
+	public static final String SOIL_PROPERTY_VALUE = "soilPropertyValue";
+	// private static final Object FEATURE_TYPE_SOIL = "SOIL";
+	public static final String FEATURE_TYPE = "featureType";
 }
