@@ -1,5 +1,6 @@
 //$(document)
 //	.ready(
+
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
  * For SOIL
@@ -11,7 +12,9 @@
 function initializeGoogleMap() {
 	console.log('Initializing the Google Map....');
 	// Get the parameters
-	var selectedCountry, selectedOutput, selectedScenario, selectedTexture, selectedProperties, selectedRregions, selectedYears, selectedStations, selectedCrop, selectedCultivar, selectedSWindow;
+	// var selectedCountry, selectedOutput, selectedScenario, selectedTexture,
+	// selectedProperties, selectedRregions, selectedYears, selectedStations,
+	// selectedCrop, selectedCultivar, selectedSWindow;
 	// The currently selected output
 	// var output =
 	// $("select#select_output").val();
@@ -19,6 +22,7 @@ function initializeGoogleMap() {
 	// texture
 	// Get the selected output
 	// Get the select#select_output text
+	var selectedOutput;
 	var output = document.getElementById('select_output');
 	selectedOutput = output.options[output.selectedIndex].text;
 
@@ -37,14 +41,15 @@ function initializeGoogleMap() {
 		// Selected TPE. The get the
 		// corresponding selected TPE
 		// params
-		selectedCrop = $("select#select_crop").val();
-		selectedCultivar = $("select#select_cultivar").val();
-		selectedCountry = $("select#select_country").val();
-		selectedYears = $("select#select_years").val();
-		selectedSWindow = $("select#select_window").val();
-		selectedScenario = $("select#select_scenario").val();
+		/*
+		 * selectedCrop = $("select#select_crop").val(); selectedCultivar =
+		 * $("select#select_cultivar").val(); selectedCountry =
+		 * $("select#select_country").val(); selectedYears =
+		 * $("select#select_years").val(); selectedSWindow =
+		 * $("select#select_window").val(); selectedScenario =
+		 * $("select#select_scenario").val();
+		 */
 		// Initialise the TPE map for the selected params
-
 		// The params list
 		params = {
 			crop : selectedCrop,
@@ -57,7 +62,7 @@ function initializeGoogleMap() {
 		// The action url for the soil map
 		actionJson = 'tpeGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
-		geoJsonData(actionJson, params);
+		geoJsonData(actionJson);
 		// initializeMap();
 		break;
 
@@ -65,23 +70,23 @@ function initializeGoogleMap() {
 		// Soil is selected. Then get
 		// the corresponding selcted
 		// SOIL params
-		selectedTextures = $("select#select_textures").val();
-		selectedProperties = $("select#select_properties").val();
-		selectedCountry = $("select#select_country").val();
-		selectedRegions = $("select#select_regions").val();
+		/*
+		 * selectedTextures = $("select#select_textures").val();
+		 * selectedProperties = $("select#select_properties").val();
+		 * selectedCountry = $("select#select_country").val(); selectedRegions =
+		 * $("select#select_regions").val();
+		 */
 		// Initialise the soil map for the selected params
-
 		// Retrieve Geo Json using AJAX
 		// The params list
-		params = {
-			properties : selectedProperties,
-			textures : selectedTextures,
-			country : selectedCountry
-		};
+		/*
+		 * params = { properties : selectedProperties, textures :
+		 * selectedTextures, country : selectedCountry };
+		 */
 		// The action url for the soil map
 		actionJson = 'soilGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
-		geoJsonData(actionJson, params);
+		geoJsonData(actionJson);
 		/*
 		 * $.getJSON(markersAction, { properties : selectedProperties, textures :
 		 * selectedTextures, regionId : selectedCountry }, function(data) {
@@ -95,25 +100,24 @@ function initializeGoogleMap() {
 		// Climate is selected: The get
 		// the corresponding selected
 		// params
-		selectedStations = $("select#select_stations").val();
-		selectedProperties = $("select#select_properties").val();
-		selectedCountry = $("select#select_country").val();
-		selectedYears = $("select#select_years").val();
-		selectedRegions = $("select#select_regions").val();
+		/*
+		 * selectedStations = $("select#select_stations").val();
+		 * selectedProperties = $("select#select_properties").val();
+		 * selectedCountry = $("select#select_country").val(); selectedYears =
+		 * $("select#select_years").val(); selectedRegions =
+		 * $("select#select_regions").val();
+		 */
 		// Initialise the Climate map for the selected params
-
 		// The params list
-		params = {
-			properties : selectedProperties,
-			stations : selectedStations,
-			regions : selectedRegions,
-			years : selectedYears,
-			country : selectedCountry
-		};
+		/*
+		 * params = { properties : selectedProperties, stations :
+		 * selectedStations, regions : selectedRegions, years : selectedYears,
+		 * country : selectedCountry };
+		 */
 		// The action url for the soil map
 		actionJson = 'climateGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
-		geoJsonData(actionJson, params);
+		geoJsonData(actionJson);
 		// initializeMap();
 		break;
 	default:
@@ -327,23 +331,26 @@ function featureInfo(event) {
  * This action retrieves the Geo Json data and then calls the initializeMap()
  * function.
  */
-function geoJsonData(action, parameters) {
+function geoJsonData(action) {
+
 	/*
-	 * $.getJSON(action, parameters, function(data) { console.log(data.geoJson);
+	 * $.getJSON(action, $('#tpe_index').serialize(), function(data) {
+	 * console.log(data); // console.log(data.geoJson);
 	 * console.log(data.countryGeoJson); // Call the initialize map function
 	 * initializeMap(data); });
 	 */
-console.log(parameters);
+
+	// console.log(parameters);
 	$.ajax({
 		type : "GET",
 		url : action,
-		data : parameters,
+		data : $('#tpe_index').serialize(),
 		dataType : "json",
-		success : function(json) {
-			// var columnData = null, columnNames = result.colNames ;
-			console.log(data.geoJson);
-			console.log(data.countryGeoJson);
-			initializeMap(data);
+		success : function(dataJson) { //
+			// var columnData = null, columnNames = result.colNames;
+			// console.log(dataJson.geoJson);
+			console.log(dataJson.countryGeoJson);
+			initializeMap(dataJson);
 		}
 	});
 

@@ -46,13 +46,12 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 	protected static final String SOIL = "soil";
 	protected static final String CLIMATE = "climate";
 	private String path;
-	@SuppressWarnings("unused")
-	private Region region;
+	protected Region region;
 	/**
 	 * The TPE Service
 	 */
 	protected ITPEService tpeService;
-	private Integer regionId;
+	protected Integer regionId;
 
 	public BaseAction() {
 		super();
@@ -109,7 +108,7 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 	}
 
 	public Region getRegion() {
-		return tpeService.getRegionById(regionId);
+		return this.region;
 	}
 
 	public void setRegion(Region region) {

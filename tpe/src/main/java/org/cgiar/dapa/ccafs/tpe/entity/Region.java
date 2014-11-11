@@ -88,6 +88,10 @@ public class Region extends BaseEntity {
 	 * The level or administrative division of the region (level one)
 	 */
 	private String level;
+	/**
+	 * The default Google Map zoom for this region
+	 */
+	private Integer zoom;
 
 	@Column(name = "region_name")
 	public String getName() {
@@ -172,9 +176,19 @@ public class Region extends BaseEntity {
 		return sb.toString();
 
 	}
+
 	@Transient
 	public List<Double> getCoordinates() {
 		return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
 				this.getLongitude()));
+	}
+
+	@Column(name = "zoom")
+	public Integer getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(Integer zoom) {
+		this.zoom = zoom;
 	}
 }

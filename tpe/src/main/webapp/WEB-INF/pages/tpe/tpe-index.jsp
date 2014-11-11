@@ -32,39 +32,40 @@
 </head>
 
 <body>
-	<div id="select_variables">
-		<h4 class="expanded">Select Variables</h4>
-		<div id="variables">
-			<h3>Output</h3>
-			<s:select name="selectedOutput" listKey="id" listValue="name"
-				id="select_output" list="outputs" value="preselectedOutput"
-				cssStyle="width:100%;" multiple="false" size="1" required="true" />
-			<div id="params_out"></div>
-			<!-- <div id="params_soil"></div>
+	<s:form id="tpe_index" name="tpe_index">
+		<div id="select_variables">
+			<h4 class="expanded">Select Variables</h4>
+			<div id="variables">
+				<h3>Output</h3>
+				<s:select name="selectedOutput" listKey="id" listValue="name"
+					id="select_output" list="outputs" value="preselectedOutput"
+					cssStyle="width:100%;" multiple="false" size="1" required="true" />
+				<div id="params_out"></div>
+				<!-- <div id="params_soil"></div>
 			<div id="params_climate"></div> -->
-		</div>
-	</div>
-
-	<div id="tpe_main">
-		<!--  TPE Google Map-->
-		<div id="tpe_map" class="tpe_map_min"></div>
-		<div id="info">
-			<h2>Feature Infos goes here</h2>
-			<b>Details</b>: <span id="info_details">Details!</span>
-		</div>
-		<div id="legend-container">
-			<h3>TPE Legend</h3>
-		</div>
-		<div id="tpe_analytics">
-			<h4 class="expanded">TPE Analytics</h4>
-			<div id="analytics">
-				<div class="tpe_plot"></div>
-				<div class="tpe_plot"></div>
-				<div class="tpe_plot"></div>
-				<div class="tpe_plot"></div>
 			</div>
 		</div>
-	</div>
 
+		<div id="tpe_main">
+			<!--  TPE Google Map-->
+			<div id="tpe_map" class="tpe_map_min"></div>
+			<div id="info">
+				<h2>Feature Infos goes here</h2>
+				<b>Details</b>: <span id="info_details">Details!</span>
+			</div>
+			<div id="legend-container">
+				<h3>TPE Legend</h3>
+			</div>
+			<div id="tpe_analytics">
+				<h4 class="expanded">TPE Analytics</h4>
+				<div id="analytics">
+					<div class="tpe_plot"></div>
+					<div class="tpe_plot"></div>
+					<div class="tpe_plot"></div>
+					<div class="tpe_plot"></div>
+				</div>
+			</div>
+		</div>
+	</s:form>
 </body>
 </html>

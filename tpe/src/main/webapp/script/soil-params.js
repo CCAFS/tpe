@@ -33,7 +33,21 @@ $(document).ready(function() {
 			// Hide and slide the params_region div
 			$(this).hide().slideDown(1000);
 			/* $(this).slideUp(0).slideDown(1000); */
+
+			// Load the Google Map, the selected country chnages
+			initializeGoogleMap();
 		});
 
 	});
+
+	// Automatically reload the Google Map when the soil properties change
+	$("select#select_properties").change(function() {
+		initializeGoogleMap();
+	});
+
+	// Automatically reload the Google Map when the soil textures change
+	$("select#select_textures").change(function() {
+		initializeGoogleMap();
+	});
+
 });

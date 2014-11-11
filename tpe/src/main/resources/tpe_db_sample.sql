@@ -7,11 +7,11 @@ insert into category (category_name, entity_class) values
 insert into soil(soil_name,soil_color) values
 ('Clay','green'),('Sand','red'),('Loam','blue'),('Clay Sand','orange'),('Clay Loam','purple');
 
-insert into region (region_name,category_id,latitude,longitude) values
-('Brazil',4,-14.235004,-51.92528),('Colombia',4,4.214943141390651, -73.828125);
+insert into region (region_name,category_id,latitude,longitude,zoom) values
+('Brazil',4,-14.235004,-51.92528,4),('Colombia',4,4.214943141390651, -73.828125,6);
 
-insert into region (region_name,category_id,region_parent) values
-('RO',5,1),('GO',5,1),('MT',5,1),('TO',5,1),('MS',5,1);
+insert into region (region_name,category_id,region_parent,zoom) values
+('RO',5,1,8),('GO',5,1,8),('MT',5,1,8),('TO',5,1,8),('MS',5,1,8);
 
 insert into property(property_name,category_id,entity_class) values
 ('PH',10,'Soil'),('Depth',9,'Soil'),('Organic Matter',10,'Soil'),('Bulky Density',10,'Soil'),('Taxonomy',9,'Soil'),

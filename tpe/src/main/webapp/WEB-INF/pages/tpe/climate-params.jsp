@@ -1,7 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <head>
-<script type="text/javascript" src="${ctx}/script/climate-params.js"></script>
-
+<%-- <script type="text/javascript" src="${ctx}/script/climate-params.js"></script>
+ --%>
 </head>
 <h3>Property</h3>
 <s:select name="selectedProperties" listKey="id" listValue="name"

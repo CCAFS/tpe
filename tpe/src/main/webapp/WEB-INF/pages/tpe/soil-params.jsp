@@ -1,6 +1,6 @@
 <%@ include file="/common/taglibs.jsp"%>
 <head>
-<script type="text/javascript" src="${ctx}/script/soil-params.js"></script>
+<%-- <script type="text/javascript" src="${ctx}/script/soil-params.js"></script> --%>
 
 </head>
 

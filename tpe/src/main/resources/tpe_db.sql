@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`region` (
   `category_id` INT NULL,
   `region_level` VARCHAR(45) NULL,
   `region_numeric_iso` SMALLINT NULL,
+  `zoom` SMALLINT NULL,
   PRIMARY KEY (`region_id`),
   INDEX `fk_region_region_idx` (`region_parent` ASC),
   INDEX `fk_region_category_idx` (`category_id` ASC),

@@ -48,8 +48,8 @@ public class ClimateGeoJsonAction extends BaseGeoJsonAction {
 
 		// Retrieve the soil GeoJson data from the database
 		if (stations != null || !stations.isEmpty()
-				&& !this.getRegions().isEmpty() || this.getRegions() != null
-				&& !getYears().isEmpty() || getYears() != null
+				&& !this.getSelectedRegions().isEmpty() || this.getSelectedRegions() != null
+				&& !getSelectedYears().isEmpty() || getSelectedYears() != null
 				&& getProperties() != null || !getProperties().isEmpty()) {
 			// Assume the user selected specific stations and sub regions
 			// Query for those specific params
@@ -58,7 +58,7 @@ public class ClimateGeoJsonAction extends BaseGeoJsonAction {
 		} else
 			// Assume the user selected all stations and all sub regions
 			this.setGeoJson(tpeService.getClimateGeoJSON(
-					getProperties().get(0), this.getCountry(), getYears()
+					getProperties().get(0), this.getSelectedCountry(), getSelectedYears()
 							.get(0)));
 
 		return ActionSupport.SUCCESS;

@@ -17,6 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.entity.Region;
+
 /**
  * The base action for the GeoJson action classes.
  * 
@@ -29,43 +31,43 @@ public abstract class BaseGeoJsonAction extends BaseAction {
 	/**
 	 * The country or region latitude
 	 */
-	private Double lat;
+	protected Double lat;
 	/**
 	 * The country or region longitude to initialize the lng
 	 */
-	private Double lng;
+	protected Double lng;
 	/**
 	 * The selected TPE output from the jsp page
 	 */
-	private String output;
+	protected String selectedOutput;
 	/**
 	 * The id of the selected country from the jsp page
 	 */
-	private Integer country;
+	protected Integer selectedCountry;
 	/**
 	 * The selected sub regions from the jsp page
 	 */
-	private List<Integer> regions;
+	protected List<Integer> selectedRegions;
 	/**
 	 * The default Google Map zoom
 	 */
-	private Integer zoom=4;
+	protected Integer zoom = 4;
 	/**
 	 * The selected list of years
 	 */
-	private List<String> years;
+	protected List<String> selectedYears;
 	/**
 	 * The field for holding the selected country geo json data from the json
 	 * file from the server
 	 */
-	private Object countryGeoJson;
+	protected Object countryGeoJson;
 
 	/**
 	 * The soil GeoJson map that will provide the GeoJson features on the Google
 	 * Map
 	 */
-	private Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
-
+	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
+	protected Region region;
 	public Double getLat() {
 		return lat;
 	}
@@ -80,30 +82,6 @@ public abstract class BaseGeoJsonAction extends BaseAction {
 
 	public void setLng(Double lng) {
 		this.lng = lng;
-	}
-
-	public String getOutput() {
-		return output;
-	}
-
-	public void setOutput(String output) {
-		this.output = output;
-	}
-
-	public Integer getCountry() {
-		return country;
-	}
-
-	public void setCountry(Integer country) {
-		this.country = country;
-	}
-
-	public List<Integer> getRegions() {
-		return regions;
-	}
-
-	public void setRegions(List<Integer> regions) {
-		this.regions = regions;
 	}
 
 	public Integer getZoom() {
@@ -122,20 +100,44 @@ public abstract class BaseGeoJsonAction extends BaseAction {
 		this.geoJson = geoJson;
 	}
 
-	public List<String> getYears() {
-		return years;
-	}
-
-	public void setYears(List<String> years) {
-		this.years = years;
-	}
-
 	public Object getCountryGeoJson() {
 		return countryGeoJson;
 	}
 
 	public void setCountryGeoJson(Object countryGeoJson) {
 		this.countryGeoJson = countryGeoJson;
+	}
+
+	public String getSelectedOutput() {
+		return selectedOutput;
+	}
+
+	public void setSelectedOutput(String selectedOutput) {
+		this.selectedOutput = selectedOutput;
+	}
+
+	public Integer getSelectedCountry() {
+		return selectedCountry;
+	}
+
+	public void setSelectedCountry(Integer selectedCountry) {
+		this.selectedCountry = selectedCountry;
+	}
+
+	public List<Integer> getSelectedRegions() {
+		return selectedRegions;
+	}
+
+	public void setSelectedRegions(List<Integer> selectedRegions) {
+		this.selectedRegions = selectedRegions;
+	}
+
+	public List<String> getSelectedYears() {
+		return selectedYears;
+	}
+
+	public void setSelectedYears(List<String> selectedYears) {
+		this.selectedYears = selectedYears;
 	}
 
 }

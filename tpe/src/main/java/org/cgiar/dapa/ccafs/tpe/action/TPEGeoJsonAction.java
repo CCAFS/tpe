@@ -54,8 +54,9 @@ public class TPEGeoJsonAction extends BaseGeoJsonAction {
 		// from the struts.xml
 		// TODO Get the parameters from the session or pass them from the ajax
 		// call.
-		this.setGeoJson(tpeService.getTPEGeoJSON(cultivar, this.getCountry(),
-				swindow, getYears().get(0), scenario));
+		this.setGeoJson(tpeService.getTPEGeoJSON(cultivar,
+				this.getSelectedCountry(), swindow, getSelectedYears().get(0),
+				scenario));
 
 		return ActionSupport.SUCCESS;
 	}
