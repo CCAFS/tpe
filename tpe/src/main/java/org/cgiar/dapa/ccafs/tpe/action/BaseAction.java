@@ -45,6 +45,9 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 	protected static final String TPE = "tpe";
 	protected static final String SOIL = "soil";
 	protected static final String CLIMATE = "climate";
+	protected static final String CULTIVARS = "cultivars";
+	protected static final String SUBREGIONS = "subregions";
+	protected static final String YEARS = "years";
 	private String path;
 	protected Region region;
 	/**

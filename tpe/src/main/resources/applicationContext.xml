@@ -126,7 +126,10 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
-
+	<bean id="climateGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.ClimateGeoJsonAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
 
 
 </beans>

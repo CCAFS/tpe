@@ -42,7 +42,6 @@ import org.cgiar.dapa.ccafs.tpe.util.FeatureType;
 public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		ISoilPropertyDao {
 
-
 	// private static final Object FEATURE_TYPE_STATION = "STATION";
 
 	private Log log = LogFactory.getLog(this.getClass());
@@ -182,6 +181,9 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 	@Override
 	public Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
 			Integer countryId) {
+
+		log.info(propertyIds);
+		log.info(countryId);
 		// TODO Use the projection class to query the properties and geometry
 		// Initialize the features list with new LinkedList to keep the desired
 		// sorting
@@ -191,8 +193,9 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		// TODO Should get the region name not the country name
 		// r.station.region.parent.id
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.region.parent.id =:region").append(
-						" and r.property.id in (:properties)");
+				.append(" r where r.station.region.parent.id =:region")
+				.append(" or r.region.parent.parent.id =:region")
+				.append(" and r.property.id in (:properties)");
 
 		Query query = entityManager.createQuery(q.toString());
 
@@ -205,38 +208,43 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		GeometryPoint geometry;
 		// FeatureProperty property;
 		Map<String, Object> properties = new LinkedHashMap<String, Object>();
-		for (Iterator<SoilProperty> iterator = results.iterator(); iterator
-				.hasNext();) {
-			soilProperty = iterator.next();
-			// Create the feature geometry
-			geometry = new GeometryPoint(soilProperty.getCoordinates());
-			// Add soil properties
-			properties.put(soilProperty.getProperty().getName(),
-					soilProperty.getPropertyValue());
-			properties.put(SOIL_NAME, soilProperty.getSoil().getName());
-			properties.put(STATION_NAME, soilProperty.getStation().getName());
-			properties.put(REGION_NAME, soilProperty.getStation().getRegion()
-					.getName());
-			properties.put(FEATURE_COLOR, soilProperty.getSoil().getColor());
-			properties.put(FEATURE_ID, soilProperty.getId() + "_"
-					+ soilProperty.getSoil().getName());
-			properties.put(FEATURE_NAME, soilProperty.getSoil().getName());
-			properties
-					.put(SOIL_PROPERTY_VALUE, soilProperty.getPropertyValue());
-			properties.put(SOIL_PROPERTY_NAME, soilProperty.getProperty()
-					.getName());
-			properties.put(FEATURE_TYPE, FeatureType.SOIL.toString());
+		if (results != null)
+			for (Iterator<SoilProperty> iterator = results.iterator(); iterator
+					.hasNext();) {
+				soilProperty = iterator.next();
+				// Create the feature geometry
+				geometry = new GeometryPoint(soilProperty.getCoordinates());
+				// Add soil properties
+				properties.put(soilProperty.getProperty().getName(),
+						soilProperty.getPropertyValue());
+				properties.put(SOIL_NAME, soilProperty.getSoil().getName());
+				properties.put(STATION_NAME, soilProperty.getStation()
+						.getName());
+				properties.put(REGION_NAME, soilProperty.getStation()
+						.getRegion().getName());
+				properties
+						.put(FEATURE_COLOR, soilProperty.getSoil().getColor());
+				properties.put(FEATURE_ID, soilProperty.getId() + "_"
+						+ soilProperty.getSoil().getName());
+				properties.put(FEATURE_NAME, soilProperty.getSoil().getName());
+				properties.put(SOIL_PROPERTY_VALUE,
+						soilProperty.getPropertyValue());
+				properties.put(SOIL_PROPERTY_NAME, soilProperty.getProperty()
+						.getName());
+				properties.put(FEATURE_TYPE, FeatureType.SOIL.toString());
 
-			// Add the feature to the feature list
-			features.add(new FeaturePoint(FEATURES_TYPE, geometry, properties));
-			// Re initialize the properties map
-			properties = new LinkedHashMap<String, Object>();
-		}
+				// Add the feature to the feature list
+				features.add(new FeaturePoint(FEATURES_TYPE, geometry,
+						properties));
+				// Re initialize the properties map
+				properties = new LinkedHashMap<String, Object>();
+			}
 		// Query and add station features
 		// The Google Map will contain both the weather stations and the soil
 		// features
-		q = new StringBuffer("from " + Station.class.getName())
-				.append(" r where r.region.parent.id =:region");
+		q = new StringBuffer("from " + Station.class.getName()).append(
+				" r where r.region.parent.id =:region").append(
+				" or r.region.parent.parent.id =:region");
 		query = entityManager.createQuery(q.toString());
 		query.setParameter("region", countryId);
 
@@ -244,31 +252,34 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		log.info("# of stations: " + stations.size());
 		Station station;
 		properties = new LinkedHashMap<String, Object>();
-		for (Iterator<Station> iterator = stations.iterator(); iterator
-				.hasNext();) {
-			station = iterator.next();
-			// Create the feature geometry
-			geometry = new GeometryPoint(station.getCoordinates());
-			// Create the feature properties
 
-			properties.put(STATION_NAME, station.getName());
-			properties.put(STATION_NUMBER, station.getNumber());
-			properties.put(REGION_NAME, station.getRegion().getName());
-			properties.put(COUNTRY_NAME, station.getRegion().getParent()
-					.getName());
-			properties.put(FEATURE_ID,
-					station.getId() + "_" + station.getName());
-			properties.put(FEATURE_NAME, station.getName());
-			properties.put(FEATURE_COLOR, STATION_COLOR_GREEN);
-			properties.put(FEATURE_TYPE, FeatureType.STATION.toString());
-			// property = new FeatureProperty(station.getName(),
-			// station.getNumber(), station.getRegion().getName(), station
-			// .getRegion().getParent().getName());
-			// Add the feature to the feature list
-			features.add(new FeaturePoint(FEATURES_TYPE, geometry, properties));
-			// Re initialize the properties map
-			properties = new LinkedHashMap<String, Object>();
-		}
+		if (stations != null)
+			for (Iterator<Station> iterator = stations.iterator(); iterator
+					.hasNext();) {
+				station = iterator.next();
+				// Create the feature geometry
+				geometry = new GeometryPoint(station.getCoordinates());
+				// Create the feature properties
+
+				properties.put(STATION_NAME, station.getName());
+				properties.put(STATION_NUMBER, station.getNumber());
+				properties.put(REGION_NAME, station.getRegion().getName());
+				properties.put(COUNTRY_NAME, station.getRegion().getParent()
+						.getName());
+				properties.put(FEATURE_ID,
+						station.getId() + "_" + station.getName());
+				properties.put(FEATURE_NAME, station.getName());
+				properties.put(FEATURE_COLOR, STATION_COLOR_GREEN);
+				properties.put(FEATURE_TYPE, FeatureType.STATION.toString());
+				// property = new FeatureProperty(station.getName(),
+				// station.getNumber(), station.getRegion().getName(), station
+				// .getRegion().getParent().getName());
+				// Add the feature to the feature list
+				features.add(new FeaturePoint(FEATURES_TYPE, geometry,
+						properties));
+				// Re initialize the properties map
+				properties = new LinkedHashMap<String, Object>();
+			}
 
 		// Add the results to the soil features map
 		// The soil features map includes features for soil textures and weather

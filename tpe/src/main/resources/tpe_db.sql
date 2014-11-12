@@ -263,6 +263,8 @@ CREATE TABLE IF NOT EXISTS `tpe_db`.`phenology_growth` (
   `window_id` INT NULL,
   `year` VARCHAR(10) NULL,
   `cluster` SMALLINT NULL,
+  `latitude` DOUBLE NULL,
+  `longitude` DOUBLE NULL,
   PRIMARY KEY (`result_id`),
   INDEX `fk_yield_variety_idx` (`cultivar_id` ASC),
   INDEX `fk_result_model_idx` (`model_id` ASC),

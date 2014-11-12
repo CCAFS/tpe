@@ -12,6 +12,8 @@
 		<pattern>/google*.html</pattern>
 		<pattern>/*.txt</pattern>
 		<pattern>/subregions.*</pattern>
+		<pattern>/cultivars.*</pattern>
+		<pattern>/years.*</pattern>
 		<pattern>/paramsOut.*</pattern>
 	</excludes>
 	<decorator name="layout" page="layout.jsp">

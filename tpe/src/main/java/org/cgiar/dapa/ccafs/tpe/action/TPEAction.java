@@ -166,7 +166,7 @@ public class TPEAction extends BaseAction {
 			properties = tpeService.getSoilProperties();
 			if (!properties.isEmpty() && properties != null) {
 				preselectedProperty = properties.get(0).getId();
-				log.info("Soil Properties: " + properties.size());
+				//log.info("Soil Properties: " + properties.size());
 			} else
 				properties = new ArrayList<Property>();
 			return SOIL;
@@ -200,18 +200,14 @@ public class TPEAction extends BaseAction {
 	}
 
 	/**
-	 * Retrieves the sub regions for the specified or selected country from the
-	 * TPE page
+	 * This method handles the display of sub regions
 	 * 
 	 * @return
 	 */
-	public String subregionParams() {
+	public String loadSubregions() {
 
-		// Initialize the preselectedRegions and regions list with empty
-		// arraylists
 		preselectedRegions = new ArrayList<Integer>();
 		regions = new ArrayList<Region>();
-
 		if (selectedCountry != null) {
 			// Get the sub regions
 			regions = tpeService.getSubregionsByCountry(selectedCountry);
@@ -219,8 +215,53 @@ public class TPEAction extends BaseAction {
 			if (!regions.isEmpty() && regions != null)
 				preselectedRegions = Utils.getRegionIds(regions);
 		}
+		return SUBREGIONS;
+	}
 
-		return ActionSupport.SUCCESS;
+	/**
+	 * This method handles the display of crop cultivars
+	 * 
+	 * @return
+	 */
+	public String loadCultivars() {
+		// Retrieve the crop cultivars for the selected crop
+		if (selectedCrop != null) {
+			cultivars = tpeService.getCultivarsByCrop(selectedCrop);
+
+			if (!cultivars.isEmpty() && cultivars != null)
+				// Preselect the id of the first crop cultivar in the
+				// list
+				preselectedCultivar = cultivars.get(0).getId();
+			// log.info("# of cultivars: " + cultivars.size());
+		}
+		return CULTIVARS;
+
+	}
+
+	/**
+	 * This method handles the display of years
+	 * 
+	 * @return
+	 */
+	public String loadYears() {
+
+		// Retrieve the years for the selected region based on the climate
+		if ((selectedCultivar == null) && selectedCountry != null) {
+			years = tpeService.getClimateYears(getSelectedCountry());
+
+		} else if (selectedCultivar != null && selectedCountry != null) {
+			// Retrieve the years based on the crop cultivar and country
+			years = tpeService.getTPEYears(selectedCountry, selectedCultivar);
+		} else
+			years = new ArrayList<String>();
+
+		if (!years.isEmpty() && years != null)
+			// Preselect the first year in the list
+			preselectedYear = years.get(0);
+		// log.info("# of years: " + years.size());
+
+		return YEARS;
+
 	}
 
 	public List<Category> getOutputs() {

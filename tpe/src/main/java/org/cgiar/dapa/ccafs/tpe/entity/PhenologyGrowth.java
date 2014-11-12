@@ -1072,7 +1072,7 @@ public class PhenologyGrowth extends BaseResult {
 		this.cluster = cluster;
 	}
 
-	@Column(name = "station_latitude")
+	@Column(name = "latitude")
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -1081,7 +1081,7 @@ public class PhenologyGrowth extends BaseResult {
 		this.latitude = latitude;
 	}
 
-	@Column(name = "station_longitude")
+	@Column(name = "longitude")
 	public Double getLongitude() {
 		return longitude;
 	}

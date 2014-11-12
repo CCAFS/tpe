@@ -51,14 +51,14 @@ function initializeGoogleMap() {
 		 */
 		// Initialise the TPE map for the selected params
 		// The params list
-		params = {
+		/*params = {
 			crop : selectedCrop,
 			cultivar : selectedCultivar,
 			country : selectedCountry,
 			years : selectedYears,
 			scenario : selectedScenario,
 			swindow : selectedSWindow
-		};
+		};*/
 		// The action url for the soil map
 		actionJson = 'tpeGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action

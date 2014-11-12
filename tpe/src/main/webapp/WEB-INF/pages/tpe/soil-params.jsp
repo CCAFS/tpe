@@ -17,4 +17,5 @@
 	id="select_country" list="countries" value="preselectedCountry"
 	cssStyle="width:100%;" multiple="false" size="1" required="true" />
 <h3>Sub Region(s)</h3>
+<!-- The div for loading the country sub regions dynamically -->
 <div id="params_regions"></div>

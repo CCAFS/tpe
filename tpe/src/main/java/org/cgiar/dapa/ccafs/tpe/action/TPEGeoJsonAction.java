@@ -13,8 +13,13 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -25,72 +30,198 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author NMATOVU
  *
  */
-public class TPEGeoJsonAction extends BaseGeoJsonAction {
+public class TPEGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 2409450891248252753L;
+
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
 	 * The id of the selected crop cultivar
 	 */
-	private Integer cultivar;
+	private Integer selectedCultivar;
 
 	/**
 	 * The id of the selected sowing window;
 	 */
-	private Integer swindow;
+	private Integer selectedWindow;
 	/**
 	 * The id of the selected scenario
 	 */
-	private String scenario;
+	private String selectedScenario;
 	/**
 	 * The id of the selected crop
 	 */
-	private Integer crop;
+	private Integer selectedCrop;
+	/**
+	 * The selected TPE output from the jsp page
+	 */
+	protected String selectedOutput;
+	/**
+	 * The id of the selected country from the jsp page
+	 */
+	protected Integer selectedCountry;
+	/**
+	 * The selected sub regions from the jsp page
+	 */
+	protected List<Integer> selectedRegions;
+	/**
+	 * The default Google Map zoom
+	 */
+	protected Integer zoom = 4;
+	/**
+	 * The selected list of years
+	 */
+	protected List<String> selectedYears;
+	/**
+	 * The field for holding the selected country geo json data from the json
+	 * file from the server
+	 */
+	protected Object countryGeoJson;
+
+	/**
+	 * The soil GeoJson map that will provide the GeoJson features on the Google
+	 * Map
+	 */
+	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
+
+	/**
+	 * The country or region latitude coordinate.
+	 */
+	protected Double lat;
+	/**
+	 * The country or region longitude to initialize the lng
+	 */
+	protected Double lng;
 
 	public String execute() {
 		// Retrieve the data that will be converted into GeoJson by this action
 		// from the struts.xml
 		// TODO Get the parameters from the session or pass them from the ajax
 		// call.
-		this.setGeoJson(tpeService.getTPEGeoJSON(cultivar,
-				this.getSelectedCountry(), swindow, getSelectedYears().get(0),
-				scenario));
+
+		if (getSelectedCountry() != null && getSelectedCultivar() != null) {
+
+			this.setGeoJson(tpeService.getTPEGeoJSON(getSelectedCultivar(),
+					this.getSelectedCountry(), getSelectedWindow(),
+					getSelectedYears().get(0), getSelectedScenario()));
+
+			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
+			setLat(getRegion().getLatitude());
+			setLng(getRegion().getLongitude());
+			this.setZoom(this.getRegion().getZoom());
+			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".geo.json"));
+		}
+
+		// log.info(getCountryGeoJson());
 
 		return ActionSupport.SUCCESS;
 	}
 
-	public Integer getSwindow() {
-		return swindow;
+	public Integer getSelectedCultivar() {
+		return selectedCultivar;
 	}
 
-	public void setSwindow(Integer swindow) {
-		this.swindow = swindow;
+	public void setSelectedCultivar(Integer selectedCultivar) {
+		this.selectedCultivar = selectedCultivar;
 	}
 
-	public String getScenario() {
-		return scenario;
+	public Integer getSelectedWindow() {
+		return selectedWindow;
 	}
 
-	public void setScenario(String scenario) {
-		this.scenario = scenario;
+	public void setSelectedWindow(Integer selectedWindow) {
+		this.selectedWindow = selectedWindow;
 	}
 
-	public Integer getCultivar() {
-		return cultivar;
+	public String getSelectedScenario() {
+		return selectedScenario;
 	}
 
-	public void setCultivar(Integer cultivar) {
-		this.cultivar = cultivar;
+	public void setSelectedScenario(String selectedScenario) {
+		this.selectedScenario = selectedScenario;
 	}
 
-	public Integer getCrop() {
-		return crop;
+	public Integer getSelectedCrop() {
+		return selectedCrop;
 	}
 
-	public void setCrop(Integer crop) {
-		this.crop = crop;
+	public void setSelectedCrop(Integer selectedCrop) {
+		this.selectedCrop = selectedCrop;
+	}
+
+	public String getSelectedOutput() {
+		return selectedOutput;
+	}
+
+	public void setSelectedOutput(String selectedOutput) {
+		this.selectedOutput = selectedOutput;
+	}
+
+	public Integer getSelectedCountry() {
+		return selectedCountry;
+	}
+
+	public void setSelectedCountry(Integer selectedCountry) {
+		this.selectedCountry = selectedCountry;
+	}
+
+	public List<Integer> getSelectedRegions() {
+		return selectedRegions;
+	}
+
+	public void setSelectedRegions(List<Integer> selectedRegions) {
+		this.selectedRegions = selectedRegions;
+	}
+
+	public Integer getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(Integer zoom) {
+		this.zoom = zoom;
+	}
+
+	public List<String> getSelectedYears() {
+		return selectedYears;
+	}
+
+	public void setSelectedYears(List<String> selectedYears) {
+		this.selectedYears = selectedYears;
+	}
+
+	public Object getCountryGeoJson() {
+		return countryGeoJson;
+	}
+
+	public void setCountryGeoJson(Object countryGeoJson) {
+		this.countryGeoJson = countryGeoJson;
+	}
+
+	public Map<String, Object> getGeoJson() {
+		return geoJson;
+	}
+
+	public void setGeoJson(Map<String, Object> geoJson) {
+		this.geoJson = geoJson;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
 	}
 
 }

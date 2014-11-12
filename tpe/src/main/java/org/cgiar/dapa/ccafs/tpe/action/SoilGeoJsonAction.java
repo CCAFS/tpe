@@ -43,6 +43,9 @@ public class SoilGeoJsonAction extends BaseAction {
 	 * The selected soil texture ids from the selection pane.
 	 */
 	private List<Integer> selectedTextures;
+	/**
+	 * The country or region latitude coordinate.
+	 */
 	protected Double lat;
 	/**
 	 * The country or region longitude to initialize the lng
@@ -87,40 +90,44 @@ public class SoilGeoJsonAction extends BaseAction {
 		// properties = new ArrayList<Integer>(Arrays.asList(1));
 
 		log.info("Properties: " + getSelectedProperties());
-		log.info("Textures: " + getSelectedTextures());
-		log.info("Regions: " + getSelectedRegions());
-
-		log.info("Years: " + getSelectedYears());
+		 log.info("Textures: " + getSelectedTextures());
+		// log.info("Regions: " + getSelectedRegions());
+		//
+		// log.info("Years: " + getSelectedYears());
 		log.info("Country: " + getSelectedCountry());
 
 		// Retrieve the soil GeoJson data from the database
-//		if (this.getSelectedCountry() != null && !getSelectedYears().isEmpty()
-//				|| getSelectedYears() != null
-//				&& getSelectedProperties() != null
-//				|| !getSelectedProperties().isEmpty()) {
-//
-//			// if (getRegion() != null) {
-//			// setLat(getRegion().getLatitude());
-//			// setLng(getRegion().getLongitude());
-//			// }
-//			this.setGeoJson(this.tpeService.getSoilGeoJson(
-//					getSelectedProperties(), getSelectedCountry()));
-		//
-		// } else {
-//			// TODO Add
-//		}
+		/*
+		 * if (this.getSelectedCountry() != null &&
+		 * !getSelectedYears().isEmpty() || getSelectedYears() != null &&
+		 * getSelectedProperties() != null ||
+		 * !getSelectedProperties().isEmpty()) {
+		 */
 
+		// if (getRegion() != null) {
+		// setLat(getRegion().getLatitude());
+		// setLng(getRegion().getLongitude());
+		// }
+
+		if (this.getSelectedCountry() != null
+				&& getSelectedProperties() != null
+				|| !getSelectedProperties().isEmpty()) {
+			this.setGeoJson(this.tpeService.getSoilGeoJson(
+					getSelectedProperties(), getSelectedCountry()));
+			if (getGeoJson() != null)
+				log.info("Yes, we have some geoJson data!!!");
+		}
 		// countryGeoJson = Utils.loadJSON(this.getPath()
 		// + "script/COLOMBIA.geo.json");
 
 		this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 
-		log.info(getRegion());
+		// log.info(getRegion());
 		setLat(getRegion().getLatitude());
 		setLng(getRegion().getLongitude());
 
-		log.info("Lat: " + getLat());
-		log.info("Lng: " + getLng());
+		// log.info("Lat: " + getLat());
+		// log.info("Lng: " + getLng());
 
 		/*
 		 * setCountryGeoJson(Utils.loadJSON(this.getPath() +
@@ -131,7 +138,7 @@ public class SoilGeoJsonAction extends BaseAction {
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
 
-		log.info(getCountryGeoJson());
+		// log.info(getCountryGeoJson());
 		return ActionSupport.SUCCESS;
 	}
 

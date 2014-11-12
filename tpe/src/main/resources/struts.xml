@@ -86,10 +86,16 @@
 			<result name="tpe">/WEB-INF/pages/tpe/tpe-params.jsp</result>
 			<result name="climate">/WEB-INF/pages/tpe/climate-params.jsp</result>
 		</action>
-		<action name="subregions" class="tpeAction" method="subregionParams">
-			<result name="success">/WEB-INF/pages/tpe/subregions.jsp
-			</result>
+		<action name="subregions" class="tpeAction" method="loadSubregions">
+			<result name="subregions">/WEB-INF/pages/tpe/subregions.jsp</result>
 		</action>
+		<action name="cultivars" class="tpeAction" method="loadCultivars">
+			<result name="cultivars">/WEB-INF/pages/tpe/cultivars.jsp</result>
+		</action>
+		<action name="years" class="tpeAction" method="loadYears">
+			<result name="years">/WEB-INF/pages/tpe/years.jsp</result>
+		</action>
+
 
 	</package>
 	<package name="tpeJson" extends="struts-default,json-default">
@@ -120,7 +126,7 @@
 				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
 			</result>
 		</action>
-		<action name="climateGeoJson" class="tpeGeoJsonAction">
+		<action name="climateGeoJson" class="climateGeoJsonAction">
 			<result type="json">
 				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
 			</result>
