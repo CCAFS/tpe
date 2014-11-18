@@ -182,8 +182,8 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 	public Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
 			Integer countryId) {
 
-		log.info(propertyIds);
-		log.info(countryId);
+		//log.info(propertyIds);
+		//log.info(countryId);
 		// TODO Use the projection class to query the properties and geometry
 		// Initialize the features list with new LinkedList to keep the desired
 		// sorting
@@ -194,7 +194,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		// r.station.region.parent.id
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
 				.append(" r where r.station.region.parent.id =:region")
-				.append(" or r.region.parent.parent.id =:region")
+				.append(" or r.station.region.parent.parent.id =:region")
 				.append(" and r.property.id in (:properties)");
 
 		Query query = entityManager.createQuery(q.toString());
@@ -269,7 +269,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 				properties.put(FEATURE_ID,
 						station.getId() + "_" + station.getName());
 				properties.put(FEATURE_NAME, station.getName());
-				properties.put(FEATURE_COLOR, STATION_COLOR_GREEN);
+				properties.put(FEATURE_COLOR, STATION_COLOR_BLACK);
 				properties.put(FEATURE_TYPE, FeatureType.STATION.toString());
 				// property = new FeatureProperty(station.getName(),
 				// station.getNumber(), station.getRegion().getName(), station

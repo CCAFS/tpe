@@ -98,11 +98,6 @@ public class TPETest extends BaseTest {
 		Integer countryId = 1;
 		Integer swindowId = 1;
 		String year = "2012";
-		// Retrieve the regions.
-		tpeGeoJSON = tpeService.getTPEGeoJSON(cultivarId, countryId, swindowId,
-				year);
-		assertNotNull(tpeGeoJSON);
-		assertEquals(0, tpeGeoJSON.size());
 
 		String scenario = Scenario.IRRIGATED.toString();
 		// TODO Use region ISO code

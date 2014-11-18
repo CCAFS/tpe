@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
+
 /**
  * This class represents the weather station entity in the crop simulation
  * model. Each station in the model belongs to a particular region and has geo
@@ -134,9 +136,25 @@ public class Station extends BaseEntity {
 
 	}
 
+	/**
+	 * The coordinates. The ordering of x and y are important, this means that
+	 * when representing latitude and longitiude the order is
+	 * [longitude,latitude].
+	 * 
+	 * @return coordinates [longitude,latitude]
+	 */
 	@Transient
 	public List<Double> getCoordinates() {
-		return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
-				this.getLongitude()));
+
+		return new LinkedList<Double>(Arrays.asList(this.getLongitude(),
+				this.getLatitude()));
+
+	}
+
+	@Transient
+	public ConvexHullPoint getConvexHullCoordinates() {
+
+		return new ConvexHullPoint(this.getLatitude(), this.getLongitude());
+
 	}
 }

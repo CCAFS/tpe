@@ -177,10 +177,20 @@ public class Region extends BaseEntity {
 
 	}
 
+	/**
+	 * The coordinates. The ordering of x and y are important, this means that
+	 * when representing latitude and longitiude the order is
+	 * [longitude,latitude].
+	 * 
+	 * @return coordinates [longitude,latitude]
+	 */
 	@Transient
 	public List<Double> getCoordinates() {
-		return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
-				this.getLongitude()));
+		// return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
+		// this.getLongitude()));
+
+		return new LinkedList<Double>(Arrays.asList(this.getLongitude(),
+				this.getLatitude()));
 	}
 
 	@Column(name = "zoom")

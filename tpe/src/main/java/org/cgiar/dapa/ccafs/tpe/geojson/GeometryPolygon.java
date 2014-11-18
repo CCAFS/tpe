@@ -16,6 +16,9 @@ package org.cgiar.dapa.ccafs.tpe.geojson;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
+import org.cgiar.dapa.ccafs.tpe.util.Utils;
+
 /**
  * Represents the GeoJSON feature for the Google Map API
  * 
@@ -49,6 +52,11 @@ public class GeometryPolygon extends BaseGeo {
 		super();
 		this.type = type;
 		this.coordinates = coordinates;
+	}
+
+	public GeometryPolygon(List<ConvexHullPoint> convexHullCoordinates,
+			String type) {
+		this.coordinates=Utils.convertFromConvexHull(convexHullCoordinates);
 	}
 
 	public String getType() {

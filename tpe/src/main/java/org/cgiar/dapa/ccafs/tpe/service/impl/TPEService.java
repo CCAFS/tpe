@@ -309,14 +309,6 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
-			Integer countryId, Integer swindowId, String year) {
-
-		return phenologyGrowthDao.getTPEGeoJSON(cultivarId, countryId,
-				swindowId, year);
-	}
-
-	@Override
-	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
 			Integer countryId, Integer swindowId, String year, String scenario) {
 
 		return phenologyGrowthDao.getTPEGeoJSON(cultivarId, countryId,
@@ -396,5 +388,11 @@ public class TPEService implements ITPEService {
 			Integer countryId) {
 
 		return soilPropertyDao.getSoilGeoJson(propertyIds, countryId);
+	}
+
+	@Override
+	public Map<String, Object> getSampleGeoJson() {
+
+		return stationDao.getSampleGeoJson();
 	}
 }

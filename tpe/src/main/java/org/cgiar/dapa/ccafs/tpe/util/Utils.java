@@ -18,11 +18,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.json.simple.parser.JSONParser;
@@ -36,7 +41,8 @@ import org.json.simple.parser.ParseException;
  *
  */
 public class Utils implements Constants {
-
+	@SuppressWarnings("unused")
+	private static Log log = LogFactory.getLog(Utils.class.getClass());
 	/**
 	 * Creates the marker symbol map for the highcharts spline chart
 	 * 
@@ -139,6 +145,22 @@ public class Utils implements Constants {
 			scenarios.add(sc.name().toString());
 		}
 		return scenarios;
+	}
+
+	public static List<List<List<Double>>> convertFromConvexHull(
+			List<ConvexHullPoint> convexHullCoordinates) {
+		List<List<Double>> coordinates = new LinkedList<List<Double>>();
+
+		for (Iterator<ConvexHullPoint> iteratorPoint = convexHullCoordinates
+				.iterator(); iteratorPoint.hasNext();) {
+
+			coordinates.add(iteratorPoint.next().getCoordinates());
+
+			System.out.println(coordinates);
+		}
+
+		return new LinkedList<List<List<Double>>>(Arrays.asList(coordinates));
+
 	}
 
 }

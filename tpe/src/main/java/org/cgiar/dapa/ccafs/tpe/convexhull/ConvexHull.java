@@ -70,39 +70,44 @@ public class ConvexHull implements ITPEConvexHull {
 			}
 
 			// The lower coordinates of the convex hull polygon
-			List<ConvexHullPoint> latLower = new LinkedList<ConvexHullPoint>();
+			/*
+			 * List<ConvexHullPoint> latLower = new
+			 * LinkedList<ConvexHullPoint>();
+			 */
 
 			// Add the first top two (max) coordinates from the latitudeSorted
 			// list to the latLowerf list
-			latLower.add(latitudeSorted.get(latitudeSorted.size() - 1));
-			latLower.add(latitudeSorted.get(latitudeSorted.size() - 2));
+			/*
+			 * latLower.add(latitudeSorted.get(latitudeSorted.size() - 1));
+			 * latLower.add(latitudeSorted.get(latitudeSorted.size() - 2));
+			 */
 
 			// int lowerCount = 2;
 
-			for (int i = n - 3; i >= 0; i--) {
-				// latLower.add(i,latitudeSorted.get(i));
-				latLower.add(latitudeSorted.get(i));
-				// lowerCount++;
-
-				while (latLower.size() > 2
-						&& counterClockWiseTurn(
-								latLower.get(latLower.size() - 3),
-								latLower.get(latLower.size() - 2),
-								latLower.get(latLower.size() - 1))) {
-
-					// Remove the middle coordinate of the three last
-					latLower.remove(latLower.size() - 2);
-					// lowerCount--;
-				}
-			}
+			/*
+			 * for (int i = n - 3; i >= 0; i--) { //
+			 * latLower.add(i,latitudeSorted.get(i));
+			 * latLower.add(latitudeSorted.get(i)); // lowerCount++;
+			 * 
+			 * while (latLower.size() > 2 && counterClockWiseTurn(
+			 * latLower.get(latLower.size() - 3), latLower.get(latLower.size() -
+			 * 2), latLower.get(latLower.size() - 1))) {
+			 * 
+			 * // Remove the middle coordinate of the three last
+			 * latLower.remove(latLower.size() - 2); // lowerCount--; } }
+			 */
 
 			List<ConvexHullPoint> convexHullPolygon = new LinkedList<ConvexHullPoint>();
 
 			convexHullPolygon.addAll(latUpper);
+			// Add the first coordinate to close the polygon
+			convexHullPolygon.add(latUpper.get(0));
+
 			// for (int i = 0; i < upperCount; i++) {
 			// convexHullPolygon.add(latUpper.get(i));
 			// }
-			convexHullPolygon.addAll(latLower);
+
+			// convexHullPolygon.addAll(latLower);
 			// for (int i = 1; i < lowerCount - 1; i++) {
 			// convexHullPolygon.add(latLower.get(i));
 			// }
@@ -233,7 +238,7 @@ public class ConvexHull implements ITPEConvexHull {
 							.getLatitude(), firstCoord.getLongitude()));
 
 					// TODO Add the firstCoordinate to close the polygon
-					rectilinearPolygon.add(firstCoord);
+					// rectilinearPolygon.add(firstCoord);
 
 					return rectilinearPolygon;
 				}

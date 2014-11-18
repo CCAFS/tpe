@@ -81,6 +81,14 @@ public class FeatureProperty extends BaseGeo {
 	 * The color of the feature
 	 */
 	private String color;
+	private String clusterName;
+	private String cropName;
+	private String windowTitle;
+	private String scenarioName;
+	/**
+	 * The feature id
+	 */
+	private String id;
 
 	public FeatureProperty() {
 		super();
@@ -104,11 +112,19 @@ public class FeatureProperty extends BaseGeo {
 		this.year = year;
 	}
 
-	public FeatureProperty(String cultivar, String year, String regionName) {
+	public FeatureProperty(String cultivar, String year, String regionName,
+			String clusterColor, String clusterName, String cropName,
+			String windowTitle, String scenarioName, String featureId) {
 		super();
 		this.cultivar = cultivar;
 		this.year = year;
 		this.regionName = regionName;
+		this.color = clusterColor;
+		this.clusterName = clusterName;
+		this.cropName = cropName;
+		this.windowTitle = windowTitle;
+		this.scenarioName = scenarioName;
+		this.setId(featureId);
 	}
 
 	public FeatureProperty(String stationName, Integer stationNumber,
@@ -271,6 +287,46 @@ public class FeatureProperty extends BaseGeo {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public String getClusterName() {
+		return clusterName;
+	}
+
+	public void setClusterName(String clusterName) {
+		this.clusterName = clusterName;
+	}
+
+	public String getCropName() {
+		return cropName;
+	}
+
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
+	}
+
+	public String getWindowTitle() {
+		return windowTitle;
+	}
+
+	public void setWindowTitle(String windowTitle) {
+		this.windowTitle = windowTitle;
+	}
+
+	public String getScenarioName() {
+		return scenarioName;
+	}
+
+	public void setScenarioName(String scenarioName) {
+		this.scenarioName = scenarioName;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

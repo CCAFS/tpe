@@ -111,24 +111,6 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 * struts.xml
 	 * 
 	 * @param cultivarId
-	 *            the crop cultivar id
-	 * @param countryId
-	 *            the country id
-	 * @param swindowId
-	 *            the sowing window id
-	 * @param year
-	 *            the year
-	 * @return TPE GeoJSON features
-	 */
-	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
-			Integer swindowId, String year);
-
-	/**
-	 * Retrieves the TPE records for the specified variables. The result
-	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
-	 * struts.xml
-	 * 
-	 * @param cultivarId
 	 *            the if of the selected crop cultivar
 	 * @param countryId
 	 *            the id of the selected country

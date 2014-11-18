@@ -110,6 +110,7 @@ public interface Constants {
 	 * The property color value for the weather station
 	 */
 	public static final Object STATION_COLOR_GREEN = "station_green";
+	public static final Object STATION_COLOR_BLACK = "station_black";
 	public static final String PROPERTY_ID = "property";
 	/**
 	 * The constant for the property name
