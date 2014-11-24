@@ -24,6 +24,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:application.properties</value>
+				<value>classpath:mail.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -67,6 +68,35 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
+	<!-- TPE mail properties -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.host">${mail.host}</prop>
+				<prop key="mail.smtp.port">${mail.port}</prop>
+				<prop key="mail.transport.protocol">${mail.protocol}</prop>
+				<prop key="mail.smtp.auth">${mail.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${mail.starttls}</prop>
+				<prop key="mail.debug">${mail.debug}</prop>
+			</props>
+		</property>
+
+	</bean>
+
+	<!-- Simple Mail message -->
+	<bean id="defaultMail" class="org.springframework.mail.SimpleMailMessage">
+		<property name="to" value="${mail.to}"></property>
+		<property name="from" value="${mail.from}"></property>
+		<property name="subject" value="Fatal Application Error Has Occured !!" />
+	</bean>
+
+
+	<bean id="mailService" class="org.cgiar.dapa.ccafs.tpe.service.impl.TPEMailService">
+		<property name="mailSender" ref="mailSender" />
+		<property name="defaultMail" ref="defaultMail" />
+	</bean>
 
 	<!-- ============================================================ -->
 	<!-- ========================== DAOs ============================ -->
@@ -109,6 +139,11 @@
 	<bean id="tpeAction" class="org.cgiar.dapa.ccafs.tpe.action.TPEAction"
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="indexAction" class="org.cgiar.dapa.ccafs.tpe.action.IndexAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+		<property name="mailService" ref="mailService" />
 	</bean>
 	<bean id="geoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.GeoJsonAction"
 		scope="request">

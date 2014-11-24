@@ -75,10 +75,19 @@
 		</global-exception-mappings>
 
 		<!-- Actions -->
-		<action name="index" class="tpeAction" method="execute">
+		<action name="index" class="indexAction" method="execute">
 			<result name="success">/WEB-INF/pages/index.jsp</result>
 		</action>
-		<action name="tpeParams" class="tpeAction">
+		<action name="documentation" class="indexAction" method="documentation">
+			<result name="success">/WEB-INF/pages/tpe/documentation.jsp</result>
+		</action>
+		<action name="contactUs" class="indexAction" method="contactUs">
+			<result name="success">/WEB-INF/pages/tpe/contact-us.jsp</result>
+		</action>
+		<action name="contribute" class="indexAction" method="contribute">
+			<result name="success">/WEB-INF/pages/tpe/contribute.jsp</result>
+		</action>
+		<action name="toolIndex" class="tpeAction">
 			<result name="success">/WEB-INF/pages/tpe/tpe-index.jsp</result>
 		</action>
 		<action name="paramsOut" class="tpeAction" method="paramsOut">
