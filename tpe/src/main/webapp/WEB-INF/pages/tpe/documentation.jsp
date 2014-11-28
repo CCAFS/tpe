@@ -11,42 +11,46 @@
 
 <body>
 	<div id="documentation">
-		<!--Documentation Area-->
-		<div class="tpe_sec">
-			<h4>About TPE Platform</h4>
-			<p>This is about TPE Platform</p>
+		<div class="pane_left">
+			<!--Documentation Area-->
+			<h4 class="navigation">
+				<a href="#">Documentation</a>
+			</h4>
+
+			<div class="tpe_sec">
+				<div class="tpe_sec_img">
+					<a href="project.jspx"><img src="img/tpe_map.jpg" alt="image" />
+					</a>
+				</div>
+				<h4>
+					<a href="project.jspx">Project</a>
+				</h4>
+				<p>This is about TPE Platform</p>
+			</div>
+			<div class="tpe_sec">
+				<div class="tpe_sec_img">
+					<a href="scientific.jspx"><img src="img/tpe_map.jpg"
+						alt="image" /> </a>
+				</div>
+				<h4>
+					<a href="scientific.jspx">Scientific Documentation</a>
+				</h4>
+				<p>This is about TPE Platform</p>
+			</div>
+			<div class="tpe_sec">
+				<div class="tpe_sec_img">
+					<a href="tutorials.jspx"><img src="img/tpe_map.jpg" alt="image" />
+					</a>
+				</div>
+				<h4>
+					<a href="tutorials.jspx">Tutorials</a>
+				</h4>
+				<p>This is about TPE Platform</p>
+			</div>
+
 		</div>
-
-		<div class="tpe_sec">
-			<h4>About Crop Simulation Models</h4>
-			<p>This is Crop Simulation Models Section</p>
-
-			<h4>About Crop Simulation Models Scripts</h4>
-			<p>This is Crop Simulation Models Scripts Section</p>
-		</div>
-
-		<div class="tpe_sec">
-			<h4>About How you can contribute</h4>
-			<p>This is How you can contribute to TPE Platform Section</p>
-		</div>
-
-		<div class="tpe_sec">
-			<h4>TPE Collaboration</h4>
-			<p>This is TPE Collaboration Section</p>
-		</div>
-
-		<div class="tpe_sec">
-			<h4>How to use TPE?</h4>
-			<p>
-				This is How to use TPE Section<br /> Step One: Select your desired
-				output from the first dropdown box
-			<ul>
-				<li>TPE</li>
-				<li>CLIMATE</li>
-				<li>SOIL</li>
-			</ul>
-			If CLIMATE is selected:
-			</p>
+		<div class="pane_right">
+			<jsp:include page="right_pane.jsp" />
 		</div>
 	</div>
 </body>

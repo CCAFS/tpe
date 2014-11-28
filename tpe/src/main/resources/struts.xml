@@ -105,6 +105,17 @@
 			<result name="years">/WEB-INF/pages/tpe/years.jsp</result>
 		</action>
 
+		<action name="project" class="indexAction" method="project">
+			<result name="success">/WEB-INF/pages/tpe/doc-project.jsp</result>
+		</action>
+
+		<action name="scientific" class="indexAction" method="scientific">
+			<result name="success">/WEB-INF/pages/tpe/doc-scientific.jsp</result>
+		</action>
+
+		<action name="tutorials" class="indexAction" method="tutorials">
+			<result name="success">/WEB-INF/pages/tpe/doc-tutorials.jsp</result>
+		</action>
 
 	</package>
 	<package name="tpeJson" extends="struts-default,json-default">

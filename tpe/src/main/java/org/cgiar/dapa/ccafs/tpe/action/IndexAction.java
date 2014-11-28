@@ -69,6 +69,18 @@ public class IndexAction extends BaseAction {
 
 	}
 
+	public String project() {
+		return ActionSupport.SUCCESS;
+	}
+
+	public String tutorials() {
+		return ActionSupport.SUCCESS;
+	}
+
+	public String scientific() {
+		return ActionSupport.SUCCESS;
+	}
+
 	public String getEmail() {
 		return email;
 	}
