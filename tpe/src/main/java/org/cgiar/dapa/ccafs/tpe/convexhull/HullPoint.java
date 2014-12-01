@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ConvexHullPoint {
+public class HullPoint {
 	/**
 	 * The latitude coordinate
 	 */
@@ -27,7 +27,7 @@ public class ConvexHullPoint {
 	 */
 	private Double longitude;
 
-	public ConvexHullPoint(Double latitude, Double longitude) {
+	public HullPoint(Double latitude, Double longitude) {
 		super();
 		this.latitude = latitude;
 		this.longitude = longitude;
