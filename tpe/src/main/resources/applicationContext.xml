@@ -113,6 +113,7 @@
 	<bean id="soilPropertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilPropertyDao" />
 	<bean id="phenologyGrowthDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PhenologyGrowthDao" />
 	<bean id="propertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PropertyDao" />
+	<bean id="environmentSoilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.EnvironmentSoilDao" />
 
 
 	<!-- ============================================================ -->
@@ -130,6 +131,7 @@
 		<property name="soilPropertyDao" ref="soilPropertyDao" />
 		<property name="phenologyGrowthDao" ref="phenologyGrowthDao" />
 		<property name="propertyDao" ref="propertyDao" />
+		<property name="environmentSoilDao" ref="environmentSoilDao" />
 	</bean>
 
 	<!-- ======================================================================= -->

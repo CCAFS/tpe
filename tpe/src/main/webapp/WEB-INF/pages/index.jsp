@@ -15,14 +15,14 @@
 	<!--TPE Content Area-->
 	<div id="tpe_slider">
 		<div class="slide">
-			<div class="sp-slideshow">
+			<!-- <div class="sp-slideshow">
 
 				<input id="button-1" type="radio" name="radio-set"
 					class="sp-selector-1" checked="checked" /> <label for="button-1"
 					class="button-label-1"></label> <input id="button-2" type="radio"
 					name="radio-set" class="sp-selector-2" /> <label for="button-2"
 					class="button-label-2"></label>
-
+ -->
 				<!-- <input id="button-3" type="radio"
 					name="radio-set" class="sp-selector-3" /> <label for="button-3"
 					class="button-label-3"></label> <input id="button-4" type="radio"
@@ -31,15 +31,15 @@
 					name="radio-set" class="sp-selector-5" /> <label for="button-5"
 					class="button-label-5"></label> 
 					 -->
-				<label for="button-1" class="sp-arrow sp-a1"></label> <label
+			<!-- 	<label for="button-1" class="sp-arrow sp-a1"></label> <label
 					for="button-2" class="sp-arrow sp-a2"></label>
-
+ -->
 
 				<!--  <label for="button-3"
 					class="sp-arrow sp-a3"></label> <label for="button-4"
 					class="sp-arrow sp-a4"></label> <label for="button-5"
 					class="sp-arrow sp-a5"></label> -->
-
+<!-- 
 				<div class="sp-content">
 					<div class="sp-parallax-bg"></div>
 					<ul class="sp-slider clearfix">
@@ -47,14 +47,14 @@
 							<h4 class="slide_text">Information about the TPE Map</h4></li>
 						<li><img src="img/slideshow/stability_map.jpg"
 							alt="Saltability_Map" />Information about the TPE Salitability
-							Map</li>
+							Map</li> -->
 						<!--   <li><img src="img/slideshow/image3.png" alt="image03" /></li>
             <li><img src="img/slideshow/image4.png" alt="image04" /></li>
             <li><img src="img/slideshow/image5.png" alt="image05" /></li> -->
-					</ul>
-				</div>
+					<!-- </ul>
+				</div> -->
 				<!-- sp-content -->
-			</div>
+			<!-- </div> -->
 			<!-- sp-slideshow -->
 		</div>
 	</div>

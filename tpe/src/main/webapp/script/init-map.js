@@ -51,14 +51,11 @@ function initializeGoogleMap() {
 		 */
 		// Initialise the TPE map for the selected params
 		// The params list
-		/*params = {
-			crop : selectedCrop,
-			cultivar : selectedCultivar,
-			country : selectedCountry,
-			years : selectedYears,
-			scenario : selectedScenario,
-			swindow : selectedSWindow
-		};*/
+		/*
+		 * params = { crop : selectedCrop, cultivar : selectedCultivar, country :
+		 * selectedCountry, years : selectedYears, scenario : selectedScenario,
+		 * swindow : selectedSWindow };
+		 */
 		// The action url for the soil map
 		actionJson = 'tpeGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -175,16 +172,15 @@ function initializeMap(data) {
 	 * idPropertyName : "stationId" }); } });
 	 */
 
-	// Add the selected country polygon feature to the map.
-	map.data.addGeoJson(data.countryGeoJson, {
-		idPropertyName : "id"
-	});
-
 	// Add the GeoJson features to the map
 	map.data.addGeoJson(data.geoJson, {
 		idPropertyName : "id"
 	});
-
+	console.log(data.geoJson);
+	// Add the selected country polygon feature to the map.
+	map.data.addGeoJson(data.countryGeoJson, {
+		idPropertyName : "id"
+	});
 	/*
 	 * $.getJSON(markersAction, function(data) { console.log(data.soilGeoJson)
 	 * console.log(data.countryGeoJson) map.data.addGeoJson(data.soilGeoJson, {
@@ -218,12 +214,53 @@ function initializeMap(data) {
 		};
 	});
 
-	// get the legend container, create a legend, add a
-	// legend renderer fn
-	var legendContainer = $('#legend-container');
+	var colorValues = [ "red", // 1
+	"blue", // 2
+	"green", // 3
+	"brown", // 4
+	"purple", // 5
+	"pink", "black", "orange" ];
+
+	// get the legend container, create a legend, add a legend renderer fn
+	var $legendContainer = $('#legend-container'), $legend = $(
+			'<div id="legend">').appendTo($legendContainer), renderLegend = function(
+			colorValuesArray) {
+		$legend.empty();
+		$.each(colorValuesArray, function(index, val) {
+			var texture;
+			if (val == 'red') {
+				texture = 'Sand';
+			} else if (val == 'blue') {
+				texture = 'Loam';
+			} else if (val == 'green') {
+				texture = 'Clay';
+			} else if (val == 'brown') {
+				texture = 'Sand Loam';
+			} else if (val == 'purple') {
+				texture = 'Clay Loam';
+			} else if (val == 'orange') {
+				texture = 'Clay Sand';
+			} else if (val == 'pink') {
+				texture = 'Sand Clay Loam';
+			} else if (val == 'black') {
+				texture = 'Station';
+			}
+
+			var $div = $('<div style="height:25px;">').append(
+					$('<div class="legend-color-box">').css({
+						backgroundColor : val,
+					})).append($('<div class="legend_text">').html(texture));
+
+			$legend.append($div);
+		});
+	}
+
+	// make a legend for the first time
+	renderLegend(colorValues);
+
 	// add the legend to the map
-	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM]
-			.push(legendContainer[0]);
+	map.controls[google.maps.ControlPosition.LEFT_BOTTOM]
+			.push($legendContainer[0]);
 
 	var infoWindow = new google.maps.InfoWindow({
 		content : ""
@@ -253,11 +290,31 @@ function initializeMap(data) {
 		// infowindow.setContent("<div
 		// style='width:150px; text-align:
 		// center;'>"+myHTML+"</div>");
-		infoWindow.setContent('<div class="info_window">' + featureInfo(event)
-				+ '</div>');
+		infoWindow.setContent('<div class="info_window">' + '<h2>'
+				+ event.feature.getProperty('name') + '</h2>'
+				+ featureInfo(event) + '</div>');
 		var anchor = new google.maps.MVCObject();
 		anchor.set("position", event.latLng);
 		infoWindow.open(map, anchor);
+
+		// TODO Create the plot
+
+		var data = e.feature.getProperty('data');
+		var categories = e.feature.getProperty('categories');
+		// TODO Iterate through the data and create JSON object and then
+		// JSONStringfy
+		var dataJSON = [];
+		$.each(data, function(env, envValue) {
+			var map = {
+				'name' : env,
+				'data' : envValue
+			};
+			dataJSON.push(map);
+
+			// $.each(envValue, function(envCode, envMap) {});
+		});
+
+		createSoilPlot(dataJSON, categories);
 	});
 
 	/* Add mouse events to trigger the TPE feature info */
@@ -266,7 +323,7 @@ function initializeMap(data) {
 		$('#info').show();
 		$('#info h2').text(e.feature.getProperty('name'));
 		// $('#info span').text(e.feature.getProperty('stationName'));
-		$('#info span').text(featureInfo(e));
+		$('#info span').html(featureInfo(e));
 
 		// document.getElementById('info-box').textContent =
 		// event.feature.j.NOMBRE_MPI;
@@ -275,6 +332,27 @@ function initializeMap(data) {
 			strokeColor : 'green',
 			fillColor : 'red'
 		});
+
+		// Display the corresponding plot chart
+
+		// TODO Add chart
+
+		var data = e.feature.getProperty('data');
+		var categories = e.feature.getProperty('categories');
+		// TODO Iterate through the data and create JSON object and then
+		// JSONStringfy
+		var dataJSON = [];
+		$.each(data, function(env, envValue) {
+			var map = {
+				'name' : env,
+				'data' : envValue
+			};
+			dataJSON.push(map);
+
+			// $.each(envValue, function(envCode, envMap) {});
+		});
+
+		createSoilPlot(dataJSON, categories);
 
 	});
 	map.data.addListener('mouseout', function(e) {
@@ -304,28 +382,42 @@ function initializeMap(data) {
  * This function returns the feature info details
  */
 function featureInfo(event) {
-	var text = "";
+
+	var $htmlText = '';
 	// If the station was clicked
-	if (event.feature.getProperty("featureType") == 'STATION') {
-		text = "Region: " + event.feature.getProperty("regionName") +
+	if (event.feature.getProperty('featureType') == 'STATION') {
+		/*
+		 * $htmlText = '<div>Region: ' +
+		 * event.feature.getProperty('regionName');
+		 */
 
-		"<br/>Station: " + event.feature.getProperty("stationName")
-				+ '<br/>Number:' + event.feature.getProperty('stationNumber');
-
-	} else if (event.feature.getProperty("featureType") == 'SOIL') {
+		$htmlText = $htmlText + '<div>Station: '
+				+ event.feature.getProperty("stationName");
+		$htmlText = $htmlText + '</div><div>Number:'
+				+ event.feature.getProperty('stationNumber') + '</div>';
+	} else if (event.feature.getProperty('featureType') == 'SOIL') {
 		// If the soil icon was clicked
-		text = "Region: " + event.feature.getProperty("regionName")
-				+ "<br/>Station: " + event.feature.getProperty("stationName")
-				+ "<br/><b>Texture: " + event.feature.getProperty("soilName")
-				+ "<br/>" + event.feature.getProperty("soilPropertyName")
-				+ ": " + event.feature.getProperty("soilPropertyValue");
+		$htmlText = '<div>Region: ' + event.feature.getProperty("regionName");
+		$htmlText = $htmlText + '</div><div>Station: '
+				+ event.feature.getProperty("stationName");
+		$htmlText = $htmlText + '</div><div>Texture: '
+				+ event.feature.getProperty("soilName");
+
+		$htmlText = $htmlText + '</div><div>Point: '
+				+ event.feature.getProperty("lat") + ','
+				+ event.feature.getProperty("lng");
+
+		$htmlText = $htmlText + '</div><div>'
+				+ event.feature.getProperty("soilPropertyName") + ': '
+				+ event.feature.getProperty("soilPropertyValue") + '</div>';
 	} else {
 		// If the Country or State region was clicked.
-		text = "Region: " + event.feature.getProperty("regionName");
+		$htmlText = '<div>Region: ' + event.feature.getProperty('regionName')
+				+ '</div>';
 		// TODO Add more details
 	}
 
-	return text;
+	return $htmlText;
 }
 /**
  * This action retrieves the Geo Json data and then calls the initializeMap()
@@ -354,5 +446,71 @@ function geoJsonData(action) {
 		}
 	});
 
+}
+
+// Create the chart plot
+
+function createSoilPlot(dataJSON, categories) {
+	$('#env_soil_container')
+			.highcharts(
+					{
+						chart : {
+							type : 'column'
+						},
+						title : {
+							text : 'Environment Soil Chart'
+						},
+						xAxis : {
+							categories : categories
+						},
+						yAxis : {
+							min : 0,
+							title : {
+								text : 'Probabiliti of Occurance'
+							},
+							stackLabels : {
+								enabled : true,
+								style : {
+									fontWeight : 'bold',
+									color : (Highcharts.theme && Highcharts.theme.textColor)
+											|| 'gray'
+								}
+							}
+						},
+						legend : {
+							align : 'right',
+							x : -70,
+							verticalAlign : 'top',
+							y : 20,
+							floating : true,
+							backgroundColor : (Highcharts.theme && Highcharts.theme.background2)
+									|| 'white',
+							borderColor : '#CCC',
+							borderWidth : 1,
+							shadow : false
+						},
+						tooltip : {
+							formatter : function() {
+								return '<b>' + this.x + '</b><br/>'
+										+ this.series.name + ': ' + this.y
+										+ '<br/>' + 'Total: '
+										+ this.point.stackTotal;
+							}
+						},
+						plotOptions : {
+							column : {
+								stacking : 'normal',
+								dataLabels : {
+									enabled : true,
+									color : (Highcharts.theme && Highcharts.theme.dataLabelsColor)
+											|| 'white',
+									style : {
+										textShadow : '0 0 3px black, 0 0 3px black'
+									}
+								}
+							}
+						},
+						series : dataJSON.data
+					});
 }
 // );
