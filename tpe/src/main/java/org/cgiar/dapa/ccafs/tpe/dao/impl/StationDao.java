@@ -21,11 +21,17 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHull;
+import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
+import org.cgiar.dapa.ccafs.tpe.convexhull.ITPEConvexHull;
 import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePoint;
+import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePolygon;
+import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
+import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -205,6 +211,60 @@ public class StationDao extends GenericDao<Station, Integer> implements
 		stationGeoJSON.put(GEOJSON_KEY_FEATURES, stationFeatures);
 
 		return stationGeoJSON;
+	}
+
+	@Override
+	public Map<String, Object> getSampleGeoJson() {
+		ITPEConvexHull convexHull = new ConvexHull();
+		Map<String, Object> polygonGeoJSON = new LinkedHashMap<String, Object>();
+		List<FeaturePolygon> polygonFeatures = new LinkedList<FeaturePolygon>();
+		GeometryPolygon polygonGeometry = new GeometryPolygon();
+		FeatureProperty polygonProperty = new FeatureProperty();
+		StringBuffer
+
+		q = new StringBuffer("from " + this.entityClass.getName()).append(" r");
+
+		Query query = entityManager.createQuery(q.toString());
+
+		List<Station> stations = query.getResultList();
+
+		Station station = null;
+
+		// List<List<Double>> coordinates = new LinkedList<List<Double>>();
+		List<HullPoint> convexHullCoordinates = new LinkedList<HullPoint>();
+		if (stations != null)
+			for (Iterator<Station> iterator = stations.iterator(); iterator
+					.hasNext();) {
+				station = iterator.next();
+
+				// coordinates.add(station.getCoordinates());
+				convexHullCoordinates.add(station.getConvexHullCoordinates());
+			}
+		// if (!coordinates.isEmpty() && coordinates != null)
+		// coordinates.add(coordinates.get(0));
+
+		polygonProperty = new FeatureProperty(station.getName(),
+				station.getNumber(), station.getRegion().getName(), station
+						.getRegion().getName());
+		// Add the coordinates to the polygon.
+		polygonGeometry = new GeometryPolygon(
+				convexHull
+						.getRectilinearConvexHullPolygon(convexHullCoordinates),
+				null);
+		
+		
+//		polygonGeometry = new GeometryPolygon(convexHull.getConvexHullPolygon(convexHullCoordinates),null);
+		
+
+		polygonFeatures.add(new FeaturePolygon(FEATURES_TYPE, polygonGeometry,
+				polygonProperty));
+
+		// Create feature collection
+		polygonGeoJSON.put(GEOJSON_KEY_TYPE, GEOJSON_VALUE_FEATURE_COLLECTION);
+		// Add the feature to the feature collection
+		polygonGeoJSON.put(GEOJSON_KEY_FEATURES, polygonFeatures);
+
+		return polygonGeoJSON;
 	}
 
 }

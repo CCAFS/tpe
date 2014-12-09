@@ -1,6 +1,8 @@
 //$(document)
 //	.ready(
 
+var probabilitiesJSON, categoriesJSON;
+
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
  * For SOIL
@@ -10,7 +12,7 @@
  * selectedSubregions, selectedYears, selectedStations)
  */
 function initializeGoogleMap() {
-	console.log('Initializing the Google Map....');
+	// console.log('Initializing the Google Map....');
 	// Get the parameters
 	// var selectedCountry, selectedOutput, selectedScenario, selectedTexture,
 	// selectedProperties, selectedRregions, selectedYears, selectedStations,
@@ -26,7 +28,7 @@ function initializeGoogleMap() {
 	var output = document.getElementById('select_output');
 	selectedOutput = output.options[output.selectedIndex].text;
 
-	console.log('Out put: ' + selectedOutput.toUpperCase());
+	// console.log('Out put: ' + selectedOutput.toUpperCase());
 	// The actions
 	var soilGeoJsonAction = 'soilGeoJson.geojson';
 	var tpeGeoJsonAction = 'tpeGeoJson.geojson';
@@ -41,21 +43,7 @@ function initializeGoogleMap() {
 		// Selected TPE. The get the
 		// corresponding selected TPE
 		// params
-		/*
-		 * selectedCrop = $("select#select_crop").val(); selectedCultivar =
-		 * $("select#select_cultivar").val(); selectedCountry =
-		 * $("select#select_country").val(); selectedYears =
-		 * $("select#select_years").val(); selectedSWindow =
-		 * $("select#select_window").val(); selectedScenario =
-		 * $("select#select_scenario").val();
-		 */
-		// Initialise the TPE map for the selected params
-		// The params list
-		/*
-		 * params = { crop : selectedCrop, cultivar : selectedCultivar, country :
-		 * selectedCountry, years : selectedYears, scenario : selectedScenario,
-		 * swindow : selectedSWindow };
-		 */
+
 		// The action url for the soil map
 		actionJson = 'tpeGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -64,53 +52,16 @@ function initializeGoogleMap() {
 		break;
 
 	case 'SOIL':
-		// Soil is selected. Then get
-		// the corresponding selcted
-		// SOIL params
-		/*
-		 * selectedTextures = $("select#select_textures").val();
-		 * selectedProperties = $("select#select_properties").val();
-		 * selectedCountry = $("select#select_country").val(); selectedRegions =
-		 * $("select#select_regions").val();
-		 */
-		// Initialise the soil map for the selected params
-		// Retrieve Geo Json using AJAX
-		// The params list
-		/*
-		 * params = { properties : selectedProperties, textures :
-		 * selectedTextures, country : selectedCountry };
-		 */
+
 		// The action url for the soil map
 		actionJson = 'soilGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
 		geoJsonData(actionJson);
-		/*
-		 * $.getJSON(markersAction, { properties : selectedProperties, textures :
-		 * selectedTextures, regionId : selectedCountry }, function(data) {
-		 * console.log(data.soilGeoJson) console.log(data.countryGeoJson) //
-		 * Call the initialize map function initializeMap(data); });
-		 */
 
 		break;
 
 	case 'CLIMATE':
-		// Climate is selected: The get
-		// the corresponding selected
-		// params
-		/*
-		 * selectedStations = $("select#select_stations").val();
-		 * selectedProperties = $("select#select_properties").val();
-		 * selectedCountry = $("select#select_country").val(); selectedYears =
-		 * $("select#select_years").val(); selectedRegions =
-		 * $("select#select_regions").val();
-		 */
-		// Initialise the Climate map for the selected params
-		// The params list
-		/*
-		 * params = { properties : selectedProperties, stations :
-		 * selectedStations, regions : selectedRegions, years : selectedYears,
-		 * country : selectedCountry };
-		 */
+
 		// The action url for the soil map
 		actionJson = 'climateGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -127,6 +78,8 @@ function initializeGoogleMap() {
  * The function that initializes the Google Map
  */
 function initializeMap(data) {
+
+	createSoilPlot();
 
 	// var mapStyle = [ ];
 
@@ -176,7 +129,7 @@ function initializeMap(data) {
 	map.data.addGeoJson(data.geoJson, {
 		idPropertyName : "id"
 	});
-	console.log(data.geoJson);
+	// console.log(data.geoJson);
 	// Add the selected country polygon feature to the map.
 	map.data.addGeoJson(data.countryGeoJson, {
 		idPropertyName : "id"
@@ -213,7 +166,6 @@ function initializeMap(data) {
 			fillColor : "#009900"
 		};
 	});
-
 	var colorValues = [ "red", // 1
 	"blue", // 2
 	"green", // 3
@@ -267,64 +219,46 @@ function initializeMap(data) {
 	});
 
 	// listen for click events
-	map.data.addListener('click', function(event) {
-
-		/*
-		 * var text = ""; // If the station was clicked if
-		 * (event.feature.getProperty("featureType") == 'STATION') { text =
-		 * "Region: " + event.feature.getProperty("regionName") + "<br/>Station: " +
-		 * event.feature.getProperty("stationName") + '<br/>Number:' +
-		 * event.feature.getProperty('stationNumber'); } else if
-		 * (event.feature.getProperty("featureType") == 'SOIL') { // If the soil
-		 * icon was clicked text = "Region: " +
-		 * event.feature.getProperty("regionName") + "<br/>Station: " +
-		 * event.feature.getProperty("stationName") + "<br/><b>Texture: " +
-		 * event.feature.getProperty("soilName") + "<br/>" +
-		 * event.feature.getProperty("soilPropertyName") + ": " +
-		 * event.feature.getProperty("soilPropertyValue"); } else { // If the
-		 * Country or State region was clicked. text = "Region: " +
-		 * event.feature.getProperty("regionName"); // TODO Add more details }
-		 */
+	map.data.addListener('click', function(e) {
 
 		// show an infowindow on click
 		// infowindow.setContent("<div
 		// style='width:150px; text-align:
 		// center;'>"+myHTML+"</div>");
-		infoWindow.setContent('<div class="info_window">' + '<h2>'
-				+ event.feature.getProperty('name') + '</h2>'
-				+ featureInfo(event) + '</div>');
-		var anchor = new google.maps.MVCObject();
-		anchor.set("position", event.latLng);
-		infoWindow.open(map, anchor);
+		// Show the info window only for other features but not country
+		if ((e.feature.getProperty('featureType') == 'SOIL')
+				|| (e.feature.getProperty('featureType') == 'STATION')
+				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')) {
+			infoWindow.setContent('<div class="info_window">' + '<h2>'
+					+ e.feature.getProperty('name') + '</h2>' + featureInfo(e)
+					+ '</div>');
+			var anchor = new google.maps.MVCObject();
+			anchor.set("position", e.latLng);
+			infoWindow.open(map, anchor);
+
+		}
 
 		// TODO Create the plot
-
-		var data = e.feature.getProperty('data');
-		var categories = e.feature.getProperty('categories');
-		// TODO Iterate through the data and create JSON object and then
-		// JSONStringfy
-		var dataJSON = [];
-		$.each(data, function(env, envValue) {
-			var map = {
-				'name' : env,
-				'data' : envValue
-			};
-			dataJSON.push(map);
-
-			// $.each(envValue, function(envCode, envMap) {});
-		});
-
-		createSoilPlot(dataJSON, categories);
+		if (e.feature.getProperty('featureType') == 'SOIL') {
+			// Display the plot only for the soil feature
+			var probJSON = probabilitiesJSON[e.feature.getProperty('code')];
+			createSoilPlot(categoriesJSON, probJSON);
+		}
 	});
 
 	/* Add mouse events to trigger the TPE feature info */
 	map.data.addListener('mouseover', function(e) {
 		e.feature.setProperty('selected', true);
-		$('#info').show();
-		$('#info h2').text(e.feature.getProperty('name'));
-		// $('#info span').text(e.feature.getProperty('stationName'));
-		$('#info span').html(featureInfo(e));
 
+		// Don't display the info window for the feature type country
+		if ((e.feature.getProperty('featureType') == 'SOIL')
+				|| (e.feature.getProperty('featureType') == 'STATION')
+				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')) {
+			$('#info').show();
+			$('#info h2').text(e.feature.getProperty('name'));
+			// $('#info span').text(e.feature.getProperty('stationName'));
+			$('#info span').html(featureInfo(e));
+		}
 		// document.getElementById('info-box').textContent =
 		// event.feature.j.NOMBRE_MPI;
 		// map.data.revertStyle();
@@ -337,22 +271,11 @@ function initializeMap(data) {
 
 		// TODO Add chart
 
-		var data = e.feature.getProperty('data');
-		var categories = e.feature.getProperty('categories');
-		// TODO Iterate through the data and create JSON object and then
-		// JSONStringfy
-		var dataJSON = [];
-		$.each(data, function(env, envValue) {
-			var map = {
-				'name' : env,
-				'data' : envValue
-			};
-			dataJSON.push(map);
-
-			// $.each(envValue, function(envCode, envMap) {});
-		});
-
-		createSoilPlot(dataJSON, categories);
+		if (e.feature.getProperty('featureType') == 'SOIL') {
+			// Display the plot only for the soil point features
+			var probJSON = probabilitiesJSON[e.feature.getProperty('code')];
+			createSoilPlot(categoriesJSON, probJSON);
+		}
 
 	});
 	map.data.addListener('mouseout', function(e) {
@@ -363,19 +286,6 @@ function initializeMap(data) {
 			fillColor : '#009900'
 		});
 	});
-	// Test GeoJson
-	/*
-	 * $.getJSON('${ctx}/script/testGeoJson.json', function(data) {
-	 * console.log(data); });
-	 */
-
-	/*
-	 * map.data.addListener('mouseover', function(event) {
-	 * document.getElementById('info-box').textContent =
-	 * event.feature.j.NOMBRE_MPI; map.data.revertStyle();
-	 * map.data.overrideStyle(event.feature,
-	 * {strokeColor:'red',fillColor:'red'}); });
-	 */
 
 }
 /**
@@ -386,15 +296,13 @@ function featureInfo(event) {
 	var $htmlText = '';
 	// If the station was clicked
 	if (event.feature.getProperty('featureType') == 'STATION') {
-		/*
-		 * $htmlText = '<div>Region: ' +
-		 * event.feature.getProperty('regionName');
-		 */
-
 		$htmlText = $htmlText + '<div>Station: '
 				+ event.feature.getProperty("stationName");
 		$htmlText = $htmlText + '</div><div>Number:'
 				+ event.feature.getProperty('stationNumber') + '</div>';
+
+		// TODO Add climate data into each station feature
+
 	} else if (event.feature.getProperty('featureType') == 'SOIL') {
 		// If the soil icon was clicked
 		$htmlText = '<div>Region: ' + event.feature.getProperty("regionName");
@@ -425,23 +333,24 @@ function featureInfo(event) {
  */
 function geoJsonData(action) {
 
-	/*
-	 * $.getJSON(action, $('#tpe_index').serialize(), function(data) {
-	 * console.log(data); // console.log(data.geoJson);
-	 * console.log(data.countryGeoJson); // Call the initialize map function
-	 * initializeMap(data); });
-	 */
-
 	// console.log(parameters);
 	$.ajax({
 		type : "GET",
+		async : false,// thats the trick
 		url : action,
 		data : $('#tpe_index').serialize(),
 		dataType : "json",
 		success : function(dataJson) { //
 			// var columnData = null, columnNames = result.colNames;
 			// console.log(dataJson.geoJson);
-			console.log(dataJson.countryGeoJson);
+			// console.log(dataJson.countryGeoJson);
+
+			// probabilitiesJSON = dataJson.data;
+			probabilitiesJSON = dataJson.probabilities;
+
+			// console.log(dataJson.probabilities);
+			categoriesJSON = dataJson.categories;
+
 			initializeMap(dataJson);
 		}
 	});
@@ -450,18 +359,49 @@ function geoJsonData(action) {
 
 // Create the chart plot
 
-function createSoilPlot(dataJSON, categories) {
+function createSoilPlot(categoriesJSON, seriesJSON) {
+
 	$('#env_soil_container')
 			.highcharts(
 					{
 						chart : {
-							type : 'column'
+							type : 'column',
+							marginTop : 70,
+							marginLeft : 65,
+
+						},
+						credits : {
+							enabled : true,
+							text : 'Source: CCAFS TPE (www.ccafs.org)',
+							href : 'http://www.ccafs.org',
+							style : {
+								color : '#4e2700',
+								fontWeight : 'bold',
+								fontSize : '10px',
+							}
 						},
 						title : {
-							text : 'Environment Soil Chart'
+							text : 'Environment Soil',
+							style : {
+								color : '#4e2700',
+								fontWeight : 'bold',
+								fontSize : '12px',
+								// backgroundColor : 'green',
+								border : '1px solid black'
+							}
 						},
 						xAxis : {
-							categories : categories
+							categories : categoriesJSON,
+							labels : {
+								rotation : -45,
+								style : {
+									fontSize : '10px',
+									fontFamily : 'Verdana, sans-serif'
+								}
+							},
+							title : {
+								text : 'Planting Dates'
+							},
 						},
 						yAxis : {
 							min : 0,
@@ -469,19 +409,26 @@ function createSoilPlot(dataJSON, categories) {
 								text : 'Probabiliti of Occurance'
 							},
 							stackLabels : {
-								enabled : true,
-								style : {
-									fontWeight : 'bold',
-									color : (Highcharts.theme && Highcharts.theme.textColor)
-											|| 'gray'
-								}
-							}
+								enabled : false
+							},
+							labels : {
+								format : '{value}%'
+							},
+							floor : 0,
+							ceiling : 100
 						},
 						legend : {
+
+							itemStyle : {
+								color : '#000000',
+								// fontWeight : 'bold',
+								fontSize : '10px'
+							},
+
 							align : 'right',
-							x : -70,
+							// x : -70,
 							verticalAlign : 'top',
-							y : 20,
+							y : 22,
 							floating : true,
 							backgroundColor : (Highcharts.theme && Highcharts.theme.background2)
 									|| 'white',
@@ -491,26 +438,21 @@ function createSoilPlot(dataJSON, categories) {
 						},
 						tooltip : {
 							formatter : function() {
-								return '<b>' + this.x + '</b><br/>'
-										+ this.series.name + ': ' + this.y
-										+ '<br/>' + 'Total: '
-										+ this.point.stackTotal;
+								return '<b>' + this.series.name + ': ' + this.y
+										+ '</b>' + '<br/><b>Planting Date: '
+										+ this.x + '</b>'
+
 							}
 						},
 						plotOptions : {
 							column : {
 								stacking : 'normal',
 								dataLabels : {
-									enabled : true,
-									color : (Highcharts.theme && Highcharts.theme.dataLabelsColor)
-											|| 'white',
-									style : {
-										textShadow : '0 0 3px black, 0 0 3px black'
-									}
+									enabled : false
 								}
 							}
 						},
-						series : dataJSON.data
+						series : seriesJSON
 					});
+
 }
-// );

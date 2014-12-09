@@ -78,6 +78,7 @@ public class Soil extends BaseEntity {
 
 	@Column(name = "soil_color")
 	public String getColor() {
+		
 		return color;
 	}
 

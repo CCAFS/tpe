@@ -25,7 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
+import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 
 /**
  * This class represents the weather station entity in the crop simulation
@@ -152,9 +152,9 @@ public class Station extends BaseEntity {
 	}
 
 	@Transient
-	public ConvexHullPoint getConvexHullCoordinates() {
+	public HullPoint getConvexHullCoordinates() {
 
-		return new ConvexHullPoint(this.getLatitude(), this.getLongitude());
+		return new HullPoint(this.getLatitude(), this.getLongitude());
 
 	}
 }

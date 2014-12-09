@@ -8,24 +8,13 @@
 
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="${ctx}/script/select-params.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="${ctx}/script/init-map.js"></script>
 <script type='text/javascript'>
 	$(document).ready(function() {
-
-		/* $.getJSON('testGeoJson.json', function(data) {
-								console.log('GEOJON DATA: ' + data);
-							}); */
-
-		/* $.ajax({
-			type : 'GET',
-			url : 'script/test.json',
-			dataType : 'json'
-		}).done(function(data) {
-			console.log(JSON.stringify(data));
-		}); */
 
 	});
 </script>
@@ -39,10 +28,8 @@
 				<h3>Output</h3>
 				<s:select name="selectedOutput" listKey="id" listValue="name"
 					id="select_output" list="outputs" value="preselectedOutput"
-					cssStyle="width:100%;" multiple="false" size="1" required="true" />
+					cssStyle="width:100%;" multiple="false" size="3" required="true" />
 				<div id="params_out"></div>
-				<!-- <div id="params_soil"></div>
-			<div id="params_climate"></div> -->
 			</div>
 		</div>
 
@@ -50,19 +37,18 @@
 			<!--  TPE Google Map-->
 			<div id="tpe_map" class="tpe_map_min"></div>
 			<div id="info">
-				<h2>Feature Infos goes here</h2>
-				<b>Details</b>: <span id="info_details">Details!</span>
+				<h2></h2>
+				<span id="info_details">Details!</span>
 			</div>
 			<div id="legend-container">
-				<h3>TPE Legend</h3>
+				<h3>Legend: Soil Texture</h3>
 			</div>
 			<div id="tpe_analytics">
 				<h4 class="expanded">TPE Analytics</h4>
 				<div id="analytics">
-					<div class="tpe_plot"></div>
-					<div class="tpe_plot"></div>
-					<div class="tpe_plot"></div>
-					<div class="tpe_plot"></div>
+					<div class="tpe_plot">
+						<div id="env_soil_container"></div>
+					</div>
 				</div>
 			</div>
 		</div>

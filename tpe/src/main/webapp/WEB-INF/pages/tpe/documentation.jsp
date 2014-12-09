@@ -19,8 +19,10 @@
 
 			<div class="tpe_sec">
 				<div class="tpe_sec_img">
-					<a href="project.jspx"><img src="img/tpe_map.jpg" alt="image" />
-					</a>
+					<div class="img_box">
+						<a href="project.jspx"><img src="img/tpe_map.jpg" alt="image" />
+						</a>
+					</div>
 				</div>
 				<h4>
 					<a href="project.jspx">Project</a>
@@ -29,8 +31,10 @@
 			</div>
 			<div class="tpe_sec">
 				<div class="tpe_sec_img">
-					<a href="scientific.jspx"><img src="img/tpe_map.jpg"
-						alt="image" /> </a>
+					<div class="img_box">
+						<a href="scientific.jspx"><img src="img/tpe_map.jpg"
+							alt="image" /> </a>
+					</div>
 				</div>
 				<h4>
 					<a href="scientific.jspx">Scientific Documentation</a>
@@ -39,8 +43,10 @@
 			</div>
 			<div class="tpe_sec">
 				<div class="tpe_sec_img">
-					<a href="tutorials.jspx"><img src="img/tpe_map.jpg" alt="image" />
-					</a>
+					<div class="img_box">
+						<a href="tutorials.jspx"><img src="img/tpe_map.jpg"
+							alt="image" /> </a>
+					</div>
 				</div>
 				<h4>
 					<a href="tutorials.jspx">Tutorials</a>

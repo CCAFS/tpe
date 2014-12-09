@@ -75,4 +75,7 @@ public interface IStationDao extends IGenericDao<Station, Integer> {
 	 * @return stations
 	 */
 	Map<String, Object> getStationGeoJson(Integer countryId);
+	
+	
+	Map<String, Object> getSampleGeoJson();
 }

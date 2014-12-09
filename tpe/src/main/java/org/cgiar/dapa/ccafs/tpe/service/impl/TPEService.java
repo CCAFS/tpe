@@ -18,10 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
+import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IEnvironmentSoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
@@ -59,6 +61,11 @@ public class TPEService implements ITPEService {
 	private ISoilPropertyDao soilPropertyDao;
 	private IPhenologyGrowthDao phenologyGrowthDao;
 	private IPropertyDao propertyDao;
+	private IEnvironmentSoilDao environmentSoilDao;
+
+	public void setEnvironmentSoilDao(IEnvironmentSoilDao environmentSoilDao) {
+		this.environmentSoilDao = environmentSoilDao;
+	}
 
 	public void setPropertyDao(IPropertyDao propertyDao) {
 		this.propertyDao = propertyDao;
@@ -301,10 +308,10 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public Map<String, Object> getClimateGeoJSON(Integer categoryId,
-			Integer countryId, String year) {
+	public Map<String, Object> getClimateGeoJSON(Integer countryId,
+			List<Integer> indicators) {
 
-		return climateDao.getClimateGeoJSON(categoryId, countryId, year);
+		return climateDao.getClimateGeoJSON(countryId, indicators);
 	}
 
 	@Override
@@ -394,5 +401,18 @@ public class TPEService implements ITPEService {
 	public Map<String, Object> getSampleGeoJson() {
 
 		return stationDao.getSampleGeoJson();
+	}
+
+	@Override
+	public List<String> getEnvSowingDates(Integer country) {
+
+		return environmentSoilDao.getEnvSowingDates(country);
+	}
+
+	@Override
+	public Map<String, List<Probability>> getEnvSoilProbabilities(
+			Integer country) {
+
+		return environmentSoilDao.getEnvSoilProbabilities(country);
 	}
 }

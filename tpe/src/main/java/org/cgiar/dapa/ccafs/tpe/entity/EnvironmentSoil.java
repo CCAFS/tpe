@@ -33,6 +33,7 @@ public class EnvironmentSoil extends BaseEntity {
 	private Soil soil;
 	private String sowingDate;
 	private Float probability;
+	private Region region;
 
 	@ManyToOne(targetEntity = Environment.class)
 	@JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
@@ -70,6 +71,16 @@ public class EnvironmentSoil extends BaseEntity {
 
 	public void setSowingDate(String sowingDate) {
 		this.sowingDate = sowingDate;
+	}
+
+	@ManyToOne(targetEntity = Region.class)
+	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 }

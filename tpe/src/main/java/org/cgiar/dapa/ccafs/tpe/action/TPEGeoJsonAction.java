@@ -65,7 +65,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The selected sub regions from the jsp page
 	 */
-	protected List<Integer> selectedRegions;
+	// protected List<Integer> selectedRegions;
 	/**
 	 * The default Google Map zoom
 	 */
@@ -101,16 +101,19 @@ public class TPEGeoJsonAction extends BaseAction {
 		// TODO Get the parameters from the session or pass them from the ajax
 		// call.
 
-		if (getSelectedCountry() != null && getSelectedCultivar() != null) {
+		if (getSelectedCountry() != null) {
 
-			this.setGeoJson(tpeService.getTPEGeoJSON(getSelectedCultivar(),
-					this.getSelectedCountry(), getSelectedWindow(),
-					getSelectedYears().get(0), getSelectedScenario()));
+//			this.setGeoJson(tpeService.getTPEGeoJSON(getSelectedCultivar(),
+//					this.getSelectedCountry(), getSelectedWindow(),
+//					getSelectedYears().get(0), getSelectedScenario()));
 
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 			this.setZoom(this.getRegion().getZoom());
+
+			log.info("REGION: " + getRegion().getName().toUpperCase());
+
 			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 					+ getRegion().getName().toUpperCase() + ".geo.json"));
 		}
@@ -166,14 +169,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setSelectedCountry(Integer selectedCountry) {
 		this.selectedCountry = selectedCountry;
-	}
-
-	public List<Integer> getSelectedRegions() {
-		return selectedRegions;
-	}
-
-	public void setSelectedRegions(List<Integer> selectedRegions) {
-		this.selectedRegions = selectedRegions;
 	}
 
 	public Integer getZoom() {

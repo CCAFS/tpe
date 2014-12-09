@@ -114,8 +114,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	}
 
 	@Override
-	public Map<String, Object> getClimateGeoJSON(Integer propertyId,
-			Integer countryId, String year) {
+	public Map<String, Object> getClimateGeoJSON(Integer countryId,List<Integer>indicators) {
 		// TODO Assume each station appears once in the returned query results
 		// for the specified year
 		// Initialize the climateGeoJSON with a LinkedHashMap();
@@ -127,13 +126,14 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
 				.append(" r where r.station.region.parent.id =:country")
-				.append(" and r.property.id =:property")
-				.append(" and r.year =:year");
+				.append(" or r.station.region.parent.parent.id =:country");
 
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("country", countryId);
-		query.setParameter("property", propertyId);
-		query.setParameter("year", year);
+		/*
+		 * query.setParameter("property", propertyId);
+		 * query.setParameter("year", year);
+		 */
 		List<Climate> results = query.getResultList();
 		Climate climate;
 		for (Iterator<Climate> iterator = results.iterator(); iterator
@@ -150,9 +150,9 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 					.getName());
 			properties.put(PROPERTY_AUTHOR, climate.getAuthor());
 			properties.put(PROPERTY_SOURCE, climate.getSource());
-			properties.put(FEATURE_COLOR, STATION_COLOR_GREEN);
+			properties.put(FEATURE_COLOR, STATION_COLOR_BLACK);
 			properties.put(FEATURE_TYPE, FeatureType.STATION.toString());
- 
+
 			// climateProperty = new FeatureProperty(climate.getYear(), climate
 			// .getCategory().getName(),
 			//
@@ -186,4 +186,18 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		return query.getResultList();
 
 	}
+
+	@SuppressWarnings("unused")
+	private List<Station> getStations(Integer countryId) {
+
+		StringBuffer q = new StringBuffer("from " + Station.class.getName())
+				.append(" r where r.region.parent.id =:region").append(
+						" or r.region.parent.parent.id =:region");
+		Query query = entityManager.createQuery(q.toString());
+		query = entityManager.createQuery(q.toString());
+		query.setParameter("region", countryId);
+
+		return query.getResultList();
+	}
+
 }

@@ -14,11 +14,13 @@
 package org.cgiar.dapa.ccafs.tpe.action;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -33,6 +35,8 @@ import com.opensymphony.xwork2.ActionSupport;
 public class SoilGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = -2150409370455878988L;
+
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -62,7 +66,7 @@ public class SoilGeoJsonAction extends BaseAction {
 	/**
 	 * The selected sub regions from the jsp page
 	 */
-	protected List<Integer> selectedRegions;
+	// protected List<Integer> selectedRegions;
 	/**
 	 * The default Google Map zoom
 	 */
@@ -83,18 +87,13 @@ public class SoilGeoJsonAction extends BaseAction {
 	 */
 	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
 
-	public String execute() {
-		// TODO Pass the country param from the jsp page.
-		// this.setRegionId(1);
-		// TODO Pass properties params from the jsp page.
-		// properties = new ArrayList<Integer>(Arrays.asList(1));
+	private Map<String, List<Probability>> probabilities = new LinkedHashMap<String, List<Probability>>();
+	// private Map<String, List<Map<String, Object>>> probabilities = new
+	// LinkedHashMap<String, List<Map<String, Object>>>();
 
-		log.info("Properties: " + getSelectedProperties());
-		 log.info("Textures: " + getSelectedTextures());
-		// log.info("Regions: " + getSelectedRegions());
-		//
-		// log.info("Years: " + getSelectedYears());
-		log.info("Country: " + getSelectedCountry());
+	private List<String> categories = new LinkedList<String>();
+
+	public String execute() {
 
 		// Retrieve the soil GeoJson data from the database
 		/*
@@ -111,11 +110,20 @@ public class SoilGeoJsonAction extends BaseAction {
 
 		if (this.getSelectedCountry() != null
 				&& getSelectedProperties() != null
-				|| !getSelectedProperties().isEmpty()) {
+				|| !getSelectedProperties().isEmpty()
+				&& getSelectedTextures() != null
+				|| !getSelectedTextures().isEmpty()) {
+
+			categories = tpeService.getEnvSowingDates(getSelectedCountry());
+
+			probabilities = tpeService
+					.getEnvSoilProbabilities(getSelectedCountry());
+			// log.info("About to query data.");
+
 			this.setGeoJson(this.tpeService.getSoilGeoJson(
 					getSelectedProperties(), getSelectedCountry()));
-			if (getGeoJson() != null)
-				log.info("Yes, we have some geoJson data!!!");
+			// TODO Add cultivar parameter
+
 		}
 		// countryGeoJson = Utils.loadJSON(this.getPath()
 		// + "script/COLOMBIA.geo.json");
@@ -135,8 +143,11 @@ public class SoilGeoJsonAction extends BaseAction {
 		 */
 
 		this.setZoom(this.getRegion().getZoom());
+
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
+
+		// data = probabilities.get("C");
 
 		// log.info(getCountryGeoJson());
 		return ActionSupport.SUCCESS;
@@ -190,14 +201,6 @@ public class SoilGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public List<Integer> getSelectedRegions() {
-		return selectedRegions;
-	}
-
-	public void setSelectedRegions(List<Integer> selectedRegions) {
-		this.selectedRegions = selectedRegions;
-	}
-
 	public Integer getZoom() {
 		return zoom;
 	}
@@ -228,6 +231,22 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public void setGeoJson(Map<String, Object> geoJson) {
 		this.geoJson = geoJson;
+	}
+
+	public Map<String, List<Probability>> getProbabilities() {
+		return probabilities;
+	}
+
+	public void setProbabilities(Map<String, List<Probability>> probabilities) {
+		this.probabilities = probabilities;
+	}
+
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
 	}
 
 }

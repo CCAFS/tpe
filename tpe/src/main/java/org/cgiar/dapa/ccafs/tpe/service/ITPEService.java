@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
+import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
@@ -394,19 +395,18 @@ public interface ITPEService {
 			Integer subregion);
 
 	/**
-	 * Retrieves the climate data for the specified country, category and year,
-	 * that will be returned as GeoJSON format by the action
+	 * Retrieves the climate data for the specified country that will be
+	 * returned as GeoJSON format by the action
 	 * 
-	 * @param categoryId
-	 *            climate category id
 	 * @param countryId
 	 *            the country id
-	 * @param year
-	 *            the year
+	 * @param indicators
+	 *            the climate indicators
+	 * 
 	 * @return climate GeoJSON features
 	 */
-	Map<String, Object> getClimateGeoJSON(Integer categoryId,
-			Integer countryId, String year);
+	Map<String, Object> getClimateGeoJSON(Integer countryId,
+			List<Integer> indicators);
 
 	/**
 	 * Retrieves the TPE records for the specified variables. The result
@@ -549,5 +549,23 @@ public interface ITPEService {
 			Integer countryId);
 
 	Map<String, Object> getSampleGeoJson();
+
+	/**
+	 * Gets the sowing dates
+	 * 
+	 * @param country
+	 *            the country id
+	 * @return sowing dates
+	 */
+	List<String> getEnvSowingDates(Integer country);
+
+	/**
+	 * Gets the environment soil probabilities
+	 * 
+	 * @param country
+	 *            country id
+	 * @return probabilities
+	 */
+	Map<String, List<Probability>> getEnvSoilProbabilities(Integer country);
 
 }

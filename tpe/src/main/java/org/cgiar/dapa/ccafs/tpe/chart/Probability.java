@@ -11,27 +11,53 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.entity;
+package org.cgiar.dapa.ccafs.tpe.chart;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
-@Entity
-@Table(name = "environment")
-@AttributeOverride(name = "id", column = @Column(name = "environment_id"))
-public class Environment extends BaseEntity {
-
+/**
+ * The class that provides the environement soil probability data for ploting
+ * the stacked column plots
+ * 
+ * @author nmatovu
+ *
+ */
+public class Probability implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8685908858056101959L;
+	private static final long serialVersionUID = 6008372178313292379L;
+	// Map<Environment,List<Probability>>
+	private List<Float> data = new LinkedList<Float>();
+	// List<sowingDate>
+	/**
+	 * The sowing date
+	 */
+	// private List<String> categories = new LinkedList<String>();
+
 	private String name;
-	private String code;
+	/**
+	 * The series color.
+	 */
 	private String color;
 
-	@Column(name = "environment_name")
+	public Probability(String name, List<Float> data, String color) {
+		super();
+		this.name = name;
+		this.data = data;
+		this.color = color;
+	}
+
+	public List<Float> getData() {
+		return data;
+	}
+
+	public void setData(List<Float> data) {
+		this.data = data;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -40,16 +66,6 @@ public class Environment extends BaseEntity {
 		this.name = name;
 	}
 
-	@Column(name = "environment_code")
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	@Column(name = "environment_color")
 	public String getColor() {
 		return color;
 	}

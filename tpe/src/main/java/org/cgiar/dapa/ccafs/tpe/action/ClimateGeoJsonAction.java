@@ -40,12 +40,13 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The selected weather stations from the jsp page
 	 */
-	private List<Integer> selectedStations;
+	// TODO Ignore the station selection in the beta version
+	// private List<Integer> selectedStations;
 
 	/**
 	 * The soil properties from the selection pane
 	 */
-	private List<Integer> selectedProperties;
+	private List<Integer> selectedIndicators;
 
 	/**
 	 * The country or region latitude coordinate.
@@ -67,7 +68,8 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The selected sub regions from the jsp page
 	 */
-	protected List<Integer> selectedRegions;
+	// TODO Ignore the state selection or sub regions in the beta version
+	// protected List<Integer> selectedRegions;
 	/**
 	 * The default Google Map zoom
 	 */
@@ -89,25 +91,19 @@ public class ClimateGeoJsonAction extends BaseAction {
 	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
 
 	public String execute() {
+
 		// TODO Pass the country param from the jsp page.
 		// TODO Pass properties params from the jsp page.
 
 		// Retrieve the soil GeoJson data from the database
-		if (getSelectedStations() != null || !getSelectedStations().isEmpty()
-				&& !this.getSelectedRegions().isEmpty()
-				|| this.getSelectedRegions() != null
-				&& !getSelectedYears().isEmpty() || getSelectedYears() != null
-				&& getSelectedProperties() != null
-				|| !getSelectedProperties().isEmpty()) {
-			// Assume the user selected specific stations and sub regions
-			// Query for those specific params
-			// TODO Query climateGeoJson for the selected states and sub regions
+		if (getSelectedCountry() != null && getSelectedIndicators() != null
+				&& !getSelectedIndicators().isEmpty()) {
 
-		} else
-			// Assume the user selected all stations and all sub regions
+			// TODO Initially dont consider selection of climate indicators
 			this.setGeoJson(tpeService.getClimateGeoJSON(
-					getSelectedProperties().get(0), this.getSelectedCountry(),
-					getSelectedYears().get(0)));
+					this.getSelectedCountry(), getSelectedIndicators()));
+
+		}
 
 		this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 		setLat(getRegion().getLatitude());
@@ -115,26 +111,9 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.setZoom(this.getRegion().getZoom());
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
-
 		// log.info(getCountryGeoJson());
 
 		return ActionSupport.SUCCESS;
-	}
-
-	public List<Integer> getSelectedStations() {
-		return selectedStations;
-	}
-
-	public void setSelectedStations(List<Integer> selectedStations) {
-		this.selectedStations = selectedStations;
-	}
-
-	public List<Integer> getSelectedProperties() {
-		return selectedProperties;
-	}
-
-	public void setSelectedProperties(List<Integer> selectedProperties) {
-		this.selectedProperties = selectedProperties;
 	}
 
 	public Double getLat() {
@@ -169,14 +148,6 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public List<Integer> getSelectedRegions() {
-		return selectedRegions;
-	}
-
-	public void setSelectedRegions(List<Integer> selectedRegions) {
-		this.selectedRegions = selectedRegions;
-	}
-
 	public Integer getZoom() {
 		return zoom;
 	}
@@ -207,6 +178,14 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	public void setGeoJson(Map<String, Object> geoJson) {
 		this.geoJson = geoJson;
+	}
+
+	public List<Integer> getSelectedIndicators() {
+		return selectedIndicators;
+	}
+
+	public void setSelectedIndicators(List<Integer> selectedIndicators) {
+		this.selectedIndicators = selectedIndicators;
 	}
 
 }

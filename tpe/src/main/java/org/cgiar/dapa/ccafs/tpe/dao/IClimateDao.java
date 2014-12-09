@@ -101,19 +101,18 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 			Integer categoryId, Integer regionId);
 
 	/**
-	 * Retrieves the climate data for the specified country, category and year,
-	 * that will be returned as GeoJSON format by the action
+	 * Retrieves the climate data for the specified country that will be
+	 * returned as GeoJSON format by the action
 	 * 
-	 * @param categoryId
-	 *            climate category id
 	 * @param countryId
 	 *            the country id
-	 * @param year
-	 *            the year
+	 * @param indicators
+	 *            the climate indicators
+	 * 
 	 * @return climate GeoJSON features
 	 */
-	Map<String, Object> getClimateGeoJSON(Integer categoryId,
-			Integer countryId, String year);
+	Map<String, Object> getClimateGeoJSON(Integer countryId,
+			List<Integer> indicators);
 
 	/**
 	 * LIst all the years linked to the specified country id (or its sub regions

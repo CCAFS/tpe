@@ -13,6 +13,10 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.entity.EnvironmentSoil;
 
 /**
@@ -21,6 +25,24 @@ import org.cgiar.dapa.ccafs.tpe.entity.EnvironmentSoil;
  * @author NMATOVU
  *
  */
-public interface IEnvironmentSoilDao extends IGenericDao<EnvironmentSoil, Integer> {
-	
+public interface IEnvironmentSoilDao extends
+		IGenericDao<EnvironmentSoil, Integer> {
+
+	/**
+	 * Gets the sowing dates
+	 * 
+	 * @param country
+	 *            the country id
+	 * @return sowing dates
+	 */
+	List<String> getEnvSowingDates(Integer country);
+
+	/**
+	 * Gets the environment soil probabilities
+	 * 
+	 * @param country
+	 *            country id
+	 * @return probabilities
+	 */
+	Map<String, List<Probability>> getEnvSoilProbabilities(Integer country);
 }

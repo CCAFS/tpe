@@ -20,13 +20,13 @@
 		</div>
 		<div id="follow_us">
 			<a href="www.twitter.com/ccafs_tpe"><img src="img/twitter.png"
-				alt="twitter" /> </a> &nbsp <a href="www.facebook.com/ccafs_tpe"><img
-				src="img/facebook.png" alt="facebook" /> </a> &nbsp <a
+				alt="twitter" /></a>&nbsp<a href="www.facebook.com/ccafs_tpe"><img
+				src="img/facebook.png" alt="facebook" /></a>&nbsp<a
 				href="www.youtube.com/ccafs_tpe"><img src="img/youtube.png"
-				alt="in" /> </a> &nbsp <a href="www.flickr.com/ccafs_tpe"><img
-				src="img/flickr.png" alt="in" /> </a> &nbsp <a
-				href="www.rssfeed.com/ccafs_tpe"><img src="img/email.png"
-				alt="email" /> </a>
+				alt="in" /></a>&nbsp<a href="www.flickr.com/ccafs_tpe"><img
+				src="img/flickr.png" alt="in" /></a>&nbsp<a
+				href="www.rssfeed.com/ccafs_tpe"><img src="img/rss.png"
+				alt="email" /></a>
 		</div>
 		<div id="tpe_copyright">
 			<a href="http://www.ccafs-tpe.org" target="_blank">CCAFS Target

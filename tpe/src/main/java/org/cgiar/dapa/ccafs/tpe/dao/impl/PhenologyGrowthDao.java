@@ -23,7 +23,7 @@ import javax.persistence.Query;
 
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHull;
-import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
+import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.convexhull.ITPEConvexHull;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
@@ -251,7 +251,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					PhenologyGrowth phenologyGrowth = null;
 					// List<List<Double>> coordinates = new
 					// LinkedList<List<Double>>();
-					List<ConvexHullPoint> convexHullCoordinates = new LinkedList<ConvexHullPoint>();
+					List<HullPoint> convexHullCoordinates = new LinkedList<HullPoint>();
 					for (Iterator<PhenologyGrowth> iterator = results
 							.iterator(); iterator.hasNext();) {
 						phenologyGrowth = iterator.next();

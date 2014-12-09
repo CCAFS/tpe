@@ -9,7 +9,7 @@ $(document).ready(function() {
 	var preselected_country, preselected_crop, preselected_cultivar;
 
 	// href for loading the sub regions
-	var href_subregions = "subregions.action";
+	// var href_subregions = "subregions.action";
 	// The url for loading the crop cultivars
 	var href_cultivars = "cultivars.action";
 	// The url to load the years
@@ -22,10 +22,15 @@ $(document).ready(function() {
 	// console.log("Output VALUE: " + outputValue);
 	// console.log("Output Text: " + outputText);
 	// Initialize the sub regions
+
+	// console.log('preselected tpe item value: ' + outputValue);
+	// console.log('preselected tpe item text: ' + outputText);
+
 	$("#params_out").load(href_output, {
 		// Pass the selected param to the server before loading the
 		// corresponding output params div
 		selectedOutput : outputValue
+
 	}, function() {
 		// Initialize or preload the variables
 		loadVariables(outputText);
@@ -49,7 +54,7 @@ $(document).ready(function() {
 		// $('#params_out').hide().slideDown(1000);
 		// Get the selected output id or text
 		outputValue = $(this).val();
-		console.log('Selected out: ' + outputValue);
+		// console.log('Selected out: ' + outputValue);
 		// Dynamically load the params div
 		$("#params_out").load(href_output, {
 			// Pass the parameters to the action to return the params div
@@ -135,30 +140,31 @@ $(document).ready(function() {
 				initializeGoogleMap();
 			});
 
-			// Load the sub regions for the selected country
-			loadSubregions();
-			// Automatically reload the google map
-			$("select#select_regions").change(function() {
-				// Load the Google Map, the selected sub regions changes
-				initializeGoogleMap();
-
-			});
-			$("select#select_regions").click(function() {
-				// Load the Google Map, the selected sub regions changes
-				initializeGoogleMap();
-
-			});
+			/*
+			 * // Load the sub regions for the selected country
+			 * loadSubregions(); // Automatically reload the google map
+			 * $("select#select_regions").change(function() { // Load the Google
+			 * Map, the selected sub regions changes initializeGoogleMap();
+			 * 
+			 * }); $("select#select_regions").click(function() { // Load the
+			 * Google Map, the selected sub regions changes
+			 * initializeGoogleMap();
+			 * 
+			 * });
+			 */
 
 			// Load the years
-			loadYears();
+			// loadYears();
 			// Automatically reload the Google Map when the selected years
 			// change
-		/*	$("select#select_years").change(function() {
-				initializeGoogleMap();
-			});*/
-			$("select#select_years").click(function() {
-				initializeGoogleMap();
-			});
+			/*
+			 * $("select#select_years").change(function() {
+			 * initializeGoogleMap(); });
+			 */
+			/*
+			 * $("select#select_years").click(function() {
+			 * initializeGoogleMap(); });
+			 */
 			// Automatically reload the Google Map when the selected scenario
 			// change
 			$("select#select_scenario").change(function() {
@@ -168,95 +174,118 @@ $(document).ready(function() {
 			// Automatically reload the Google Map when the selected sowing
 			// window
 			// change
-			$("select#select_window").change(function() {
+			/*
+			 * $("select#select_window").change(function() {
+			 * initializeGoogleMap(); });
+			 */
+			$("select#select_country").change(function() {
 				initializeGoogleMap();
 			});
 
 			break;
 
 		case 'SOIL':
-			// console.log('TPE SELECTED: '+ot);
-			// Load the sub regions for the selected country
-			loadSubregions();
-			// Automatically reload the google map
-		/*	$("select#select_regions").change(function() {
-				// Load the Google Map, the selected sub regions changes
-				initializeGoogleMap();
-
-			});*/
-			$("select#select_regions").click(function() {
-				// Load the Google Map, the selected sub regions changes
-				initializeGoogleMap();
-
-			});
+			/*
+			 * // console.log('TPE SELECTED: '+ot); // Load the sub regions for
+			 * the selected country loadSubregions(); // Automatically reload
+			 * the google map $("select#select_regions").change(function() { //
+			 * Load the Google Map, the selected sub regions changes
+			 * initializeGoogleMap();
+			 * 
+			 * }); $("select#select_regions").click(function() { // Load the
+			 * Google Map, the selected sub regions changes
+			 * initializeGoogleMap();
+			 * 
+			 * });
+			 */
 			// Automatically reload the Google Map when the soil properties
 			// change
-		/*	$("select#select_properties").change(function() {
-				initializeGoogleMap();
-			});*/
+			/*
+			 * $("select#select_properties").change(function() {
+			 * initializeGoogleMap(); });
+			 */
 			$("select#select_properties").click(function() {
 				initializeGoogleMap();
 			});
 
 			// Automatically reload the Google Map when the soil textures change
-		/*	$("select#select_textures").change(function() {
-				initializeGoogleMap();
-			});*/
+			/*
+			 * $("select#select_textures").change(function() {
+			 * initializeGoogleMap(); });
+			 */
 			$("select#select_textures").click(function() {
 				initializeGoogleMap();
 			});
+
+			// Automatically reload the map when the country change
+			$("select#select_country").change(function() {
+				initializeGoogleMap();
+			});
+
 			break;
 
 		case 'CLIMATE':
+
+			$("select#select_country").change(function() {
+				initializeGoogleMap();
+			});
+
 			// console.log('TPE SELECTED: ' + outputText.toUpperCase());
 			// Automatically reload the Google Map when the climate properties
 			// change
-		/*	$("select#select_properties").change(function() {
-				initializeGoogleMap();
-			});*/
-			$("select#select_properties").click(function() {
+
+			$("select#select_indicators").change(function() {
 				initializeGoogleMap();
 			});
+
+			/*
+			 * $("select#select_properties").click(function() {
+			 * initializeGoogleMap(); });
+			 */
 			// Load the sub regions
-
-			loadSubregions();
-			// Automatically reload the google map
-			/*$("select#select_regions").change(function() {
-				// Load the Google Map, the selected sub regions changes
-				initializeGoogleMap();
-
-			});*/
-			$("select#select_regions").click(function() {
-				// Load the Google Map, the selected sub regions changes
-				initializeGoogleMap();
-
-			});
+			/*
+			 * loadSubregions(); // Automatically reload the google map
+			 * 
+			 * $("select#select_regions").change(function() { // Load the Google
+			 * Map, the selected sub regions changes initializeGoogleMap();
+			 * 
+			 * });
+			 * 
+			 * $("select#select_regions").click(function() { // Load the Google
+			 * Map, the selected sub regions changes initializeGoogleMap();
+			 * 
+			 * });
+			 */
 
 			// Load the years
-			loadYears();
-
+			// loadYears();
 			// Automatically reload the Google Map when the selected years
 			// change
-		/*	$("select#select_years").change(function() {
-				initializeGoogleMap();
-			});*/
-			$("select#select_years").click(function() {
-				initializeGoogleMap();
-			});
+			/*
+			 * $("select#select_years").change(function() {
+			 * initializeGoogleMap(); });
+			 */
+			/*
+			 * $("select#select_years").click(function() {
+			 * initializeGoogleMap(); });
+			 */
 
 			// Automatically reload the Google Map when the soil textures change
-		/*	$("select#select_stations").change(function() {
-				initializeGoogleMap();
-			});*/
-			$("select#select_stations").click(function() {
-				initializeGoogleMap();
-			});
+			/*
+			 * $("select#select_stations").change(function() {
+			 * initializeGoogleMap(); });
+			 */
+			/*
+			 * $("select#select_stations").click(function() {
+			 * initializeGoogleMap(); });
+			 */
 
 			break;
 		default:
 			break;
 		}
 	}
+
 	/**
 	 * This function loads the sub regions
 	 */
@@ -289,7 +318,7 @@ $(document).ready(function() {
 				/* $(this).slideUp(0).slideDown(1000); */
 
 				// Load the Google Map, the selected country changes
-				 initializeGoogleMap();
+				initializeGoogleMap();
 			});
 
 		});

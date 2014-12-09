@@ -92,6 +92,10 @@ public class Climate extends BaseResult {
 	 * The value of the climate property
 	 */
 	private Double propertyValue;
+	/**
+	 * The date the climate data was recorded.
+	 */
+	private Date date;
 
 	@Column
 	public Integer getDay() {
@@ -185,6 +189,15 @@ public class Climate extends BaseResult {
 
 	public void setPropertyValue(Double propertyValue) {
 		this.propertyValue = propertyValue;
+	}
+
+	@Column(name = "date")
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

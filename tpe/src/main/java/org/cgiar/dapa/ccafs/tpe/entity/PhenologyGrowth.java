@@ -27,7 +27,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
+import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.util.Scenario;
 
 /**
@@ -1102,9 +1102,9 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@Transient
-	public ConvexHullPoint getConvexHullCoordinates() {
+	public HullPoint getConvexHullCoordinates() {
 
-		return new ConvexHullPoint(this.getLatitude(), this.getLongitude());
+		return new HullPoint(this.getLatitude(), this.getLongitude());
 
 	}
 }

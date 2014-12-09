@@ -549,7 +549,7 @@ div#tpe_map_canvas {
 
 .tpe_plot {
 	background: #f7f5ed;
-	height: 200px;
+	height: 300px;
 	border: 1px solid #487429;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -558,6 +558,13 @@ div#tpe_map_canvas {
 	-webkit-box-shadow: 0 1px 3px #487429;
 	-o-box-shadow: 0 1px 3px #487429;
 	box-shadow: 0 1px 3px #487429;
+}
+
+div#env_soil_container {
+	height: 100%;
+	width: 100%;
+	/* position:absolute; */
+	/* margin: 0 auto; */
 }
 
 div#select_variables {

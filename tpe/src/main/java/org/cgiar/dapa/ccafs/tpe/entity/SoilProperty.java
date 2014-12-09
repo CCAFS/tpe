@@ -121,7 +121,7 @@ public class SoilProperty extends BaseResult {
 	 * Soil property value. Since different properties have different data
 	 * types, we chose to use string or object data type for all.
 	 */
-	private Double propertyValue;
+	private Double propertyValue = 0d;
 	/**
 	 * The soil property
 	 */
@@ -175,15 +175,31 @@ public class SoilProperty extends BaseResult {
 		this.latitude = latitude;
 	}
 
+	/**
+	 * The coordinates. The ordering of x and y are important, this means that
+	 * when representing latitude and longitiude the order is
+	 * [longitude,latitude].
+	 * 
+	 * @return coordinates [longitude,latitude]
+	 */
 	@Transient
 	public List<Double> getCoordinates() {
-		return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
-				this.getLongitude()));
+		// return new LinkedList<Double>(Arrays.asList(this.getLatitude(),
+		// this.getLongitude()));
+		if (getLatitude() != null && getLongitude() != null)
+			return new LinkedList<Double>(Arrays.asList(this.getLongitude(),
+					this.getLatitude()));
+
+		return new LinkedList<Double>();
+
 	}
 
 	@Column(name = "property_value")
 	public Double getPropertyValue() {
-		return propertyValue;
+		if (propertyValue != null)
+			return propertyValue;
+		else
+			return null;
 	}
 
 	public void setPropertyValue(Double propertyValue) {
@@ -199,5 +215,7 @@ public class SoilProperty extends BaseResult {
 	public void setProperty(Property property) {
 		this.property = property;
 	}
+
+	 
 
 }
