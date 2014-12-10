@@ -281,7 +281,6 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 								cluster.name().toString(),
 								phenologyGrowth.getCultivar().getCrop()
 										.getName(),
-								phenologyGrowth.getWindow().getTitle(),
 								phenologyGrowth.getScenario().name().toString(),
 								phenologyGrowth.getCluster()
 										+ "_"

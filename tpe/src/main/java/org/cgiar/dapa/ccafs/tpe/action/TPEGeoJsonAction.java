@@ -14,7 +14,6 @@
 package org.cgiar.dapa.ccafs.tpe.action;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -45,7 +44,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The id of the selected sowing window;
 	 */
-	private Integer selectedWindow;
+	// private Integer selectedWindow;
 	/**
 	 * The id of the selected scenario
 	 */
@@ -73,7 +72,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The selected list of years
 	 */
-	protected List<String> selectedYears;
+	// protected List<String> selectedYears;
 	/**
 	 * The field for holding the selected country geo json data from the json
 	 * file from the server
@@ -103,16 +102,10 @@ public class TPEGeoJsonAction extends BaseAction {
 
 		if (getSelectedCountry() != null) {
 
-//			this.setGeoJson(tpeService.getTPEGeoJSON(getSelectedCultivar(),
-//					this.getSelectedCountry(), getSelectedWindow(),
-//					getSelectedYears().get(0), getSelectedScenario()));
-
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 			this.setZoom(this.getRegion().getZoom());
-
-			log.info("REGION: " + getRegion().getName().toUpperCase());
 
 			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 					+ getRegion().getName().toUpperCase() + ".geo.json"));
@@ -129,14 +122,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setSelectedCultivar(Integer selectedCultivar) {
 		this.selectedCultivar = selectedCultivar;
-	}
-
-	public Integer getSelectedWindow() {
-		return selectedWindow;
-	}
-
-	public void setSelectedWindow(Integer selectedWindow) {
-		this.selectedWindow = selectedWindow;
 	}
 
 	public String getSelectedScenario() {
@@ -177,14 +162,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setZoom(Integer zoom) {
 		this.zoom = zoom;
-	}
-
-	public List<String> getSelectedYears() {
-		return selectedYears;
-	}
-
-	public void setSelectedYears(List<String> selectedYears) {
-		this.selectedYears = selectedYears;
 	}
 
 	public Object getCountryGeoJson() {

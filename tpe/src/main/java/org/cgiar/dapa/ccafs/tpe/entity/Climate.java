@@ -13,8 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import java.util.Date;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,21 +39,21 @@ public class Climate extends BaseResult {
 	/**
 	 * The day, it is numeric
 	 */
-	private Integer day;
+	// private Integer day;
 	/**
-	 * The daily minimum temperature.
+	 * The average daily minimum temperature for all years
 	 */
-	// private Float tmin;
+	private Double tmin;
 	/**
-	 * The daily maximum temperature
+	 * The average daily maximum temperature for all years
 	 */
-	// private Float tmax;
+	private Double tmax;
 	/**
-	 * The daily irradiance
+	 * The average daily irradiance for all years
 	 */
-	// private Float irradiance;
+	private Double radiation;
 
-	private Property property;
+	// private Property property;
 	/**
 	 * The category of the climate
 	 */
@@ -65,9 +63,9 @@ public class Climate extends BaseResult {
 	 */
 	private Station station;
 	/**
-	 * The daily precipitation
+	 * The average daily precipitation for all years
 	 */
-	// private Float precipitation;
+	private Double precipitation;
 	/**
 	 * The region that relates to this climate from the given station
 	 */
@@ -75,7 +73,7 @@ public class Climate extends BaseResult {
 	/**
 	 * The year in which the climate was recorded
 	 */
-	private String year;
+	// private String year;
 	/**
 	 * The source of the climatic or weather data
 	 */
@@ -84,27 +82,19 @@ public class Climate extends BaseResult {
 	 * The author that provided the climatic data
 	 */
 	private String author;
+
 	/**
 	 * The date the when the climate was recorded.
 	 */
-	private Date recordedOn;
+	// private Date recordedOn;
 	/**
 	 * The value of the climate property
 	 */
-	private Double propertyValue;
+	// private Double propertyValue;
 	/**
 	 * The date the climate data was recorded.
 	 */
-	private Date date;
-
-	@Column
-	public Integer getDay() {
-		return day;
-	}
-
-	public void setDay(Integer day) {
-		this.day = day;
-	}
+	// private Date date;
 
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -126,26 +116,7 @@ public class Climate extends BaseResult {
 		this.station = station;
 	}
 
-	// @ManyToOne(targetEntity = Region.class)
-	// @JoinColumn(name = "region_id", referencedColumnName = "region_id")
-	// public Region getRegion() {
-	// return region;
-	// }
-	//
-	// public void setRegion(Region region) {
-	// this.region = region;
-	// }
-
-	@Column
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	@Column
+	@Column(name = "source")
 	public String getSource() {
 		return source;
 	}
@@ -154,7 +125,7 @@ public class Climate extends BaseResult {
 		this.source = source;
 	}
 
-	@Column
+	@Column(name = "author")
 	public String getAuthor() {
 		return author;
 	}
@@ -163,41 +134,40 @@ public class Climate extends BaseResult {
 		this.author = author;
 	}
 
-	@Column(name = "recordedOn")
-	public Date getRecordedOn() {
-		return recordedOn;
+	@Column(name = "min_temperature")
+	public Double getTmin() {
+		return tmin;
 	}
 
-	public void setRecordedOn(Date recordedOn) {
-		this.recordedOn = recordedOn;
+	public void setTmin(Double tmin) {
+		this.tmin = tmin;
 	}
 
-	@ManyToOne(targetEntity = Property.class)
-	@JoinColumn(name = "property_id", referencedColumnName = "property_id")
-	public Property getProperty() {
-		return property;
+	@Column(name = "max_temperature")
+	public Double getTmax() {
+		return tmax;
 	}
 
-	public void setProperty(Property property) {
-		this.property = property;
+	public void setTmax(Double tmax) {
+		this.tmax = tmax;
 	}
 
-	@Column(name = "property_value")
-	public Double getPropertyValue() {
-		return propertyValue;
+	@Column(name = "precipitation")
+	public Double getPrecipitation() {
+		return precipitation;
 	}
 
-	public void setPropertyValue(Double propertyValue) {
-		this.propertyValue = propertyValue;
+	public void setPrecipitation(Double precipitation) {
+		this.precipitation = precipitation;
 	}
 
-	@Column(name = "date")
-	public Date getDate() {
-		return date;
+	@Column(name = "radiation")
+	public Double getRadiation() {
+		return radiation;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setRadiation(Double radiation) {
+		this.radiation = radiation;
 	}
 
 }

@@ -23,11 +23,9 @@ import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
-import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
-import org.cgiar.dapa.ccafs.tpe.entity.Station;
-import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
+import org.cgiar.dapa.ccafs.tpe.entity.Station; 
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -69,15 +67,7 @@ public interface ITPEService {
 	 * @return years
 	 */
 	List<String> getYearsByCultivar(Integer cultivarId);
-
-	/**
-	 * Retrieves all the window sowing for teh specified crop cultivar id
-	 * 
-	 * @param cultivarId
-	 *            the crop cultivar id to retrieve the sowing windows
-	 * @return window sowing
-	 */
-	List<WindowSowing> getWindowSowingByCultivar(Integer cultivarId);
+ 
 
 	/**
 	 * Retrieves all the regions of the category country from the database
@@ -465,31 +455,6 @@ public interface ITPEService {
 	List<Category> getOutputs();
 
 	/**
-	 * Retrieves all the properties from the database
-	 * 
-	 * @return properties
-	 */
-	List<Property> getAllProperties();
-
-	/**
-	 * Retrieves a property for the specified id
-	 * 
-	 * @param propertyId
-	 *            the id of the property to retrieve
-	 * @return property
-	 */
-	Property getPropertyById(Integer propertyId);
-
-	/**
-	 * Retrieves the properties for the specified category
-	 * 
-	 * @param categoryId
-	 *            the id of the category
-	 * @return properties
-	 */
-	List<Property> getPropertiesByCategory(Integer categoryId);
-
-	/**
 	 * LIst all the years linked to the specified country id (or its sub regions
 	 * and stations) from the climate table.
 	 * 
@@ -498,20 +463,6 @@ public interface ITPEService {
 	 * @return years
 	 */
 	List<String> getClimateYears(Integer countryId);
-
-	/**
-	 * Retrieves all the properties of soil category
-	 * 
-	 * @return properties
-	 */
-	List<Property> getSoilProperties();
-
-	/**
-	 * Retrieves all the properties of climate category from the database
-	 * 
-	 * @return properties
-	 */
-	List<Property> getClimateProperties();
 
 	/**
 	 * Retrieves the years based on the selected country and crop cultivar

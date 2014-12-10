@@ -46,6 +46,16 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 	private static final String SOIL_LAT = "lat";
 	private static final String SOIL_LNG = "lng";
 	private static final String SOIL_CODE = "code";
+	private static final String AVAILABLE_SOIL_WATER = "availableSoilWater";
+	private static final String BULK_DENSITY = "bulkDensity";
+	private static final String CATION_EXCHANGE = "cationExchange";
+	private static final String SOIL_DEPTH = "depth";
+	private static final String ORGANIC_CARBON = "organicCarbon";
+	private static final String SOIL_PH = "ph";
+	private static final String ORGANIC_MATTER = "organicMatter";
+	private static final String WATER_CONTENT_FIELD_CAPACITY = "waterContentFieldCapacity";
+	private static final String TAXONOMY = "taxonomy";
+	private static final String WATER_CAPACITY_WILT_POINT = "waterCapacityWiltPoint";
 	// private static final String PLOT_CATEGORIES = "categories";
 	// private static final String PLOT_DATA = "data";
 	@SuppressWarnings("unused")
@@ -152,8 +162,9 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 			geometry = new GeometryPoint(new LinkedList<Double>(
 					soilProperty.getCoordinates()));
 			// Create the feature properties
-			properties.put(soilProperty.getProperty().getName(),
-					soilProperty.getPropertyValue());
+			// TODO Add the soil properties
+			// properties.put(soilProperty.getProperty().getName(),
+			// soilProperty.getPropertyValue());
 			properties.put(SOIL_NAME, soilProperty.getSoil().getName());
 			properties.put(STATION_NAME, soilProperty.getStation().getName());
 			properties.put(REGION_NAME, soilProperty.getStation().getRegion()
@@ -196,17 +207,15 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		// TODO Should get the region name not the country name
 		// r.station.region.parent.id
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.region.parent.id =:region")
-				.append(" or r.station.region.parent.parent.id =:region")
-				.append(" or r.station.id =:station")
-				.append(" and r.property.id in (:properties)");
+				.append(" r where r.station.region.parent.id =:region").append(
+						" or r.station.region.parent.parent.id =:region");
 
 		Query query = entityManager.createQuery(q.toString());
 
-		query.setParameter("properties", propertyIds);
+		// query.setParameter("properties", propertyIds);
 		query.setParameter("region", countryId);
 		// TODO Remove the station id
-		query.setParameter("station", 1);
+		// query.setParameter("station", 1);
 
 		List<SoilProperty> results = query.getResultList();
 		// log.info("# of soil properties: " + results.size());
@@ -225,18 +234,26 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 				// Create the feature geometry
 				geometry = new GeometryPoint(soilProperty.getCoordinates());
 				// Add soil properties
-				properties.put(soilProperty.getProperty().getName(),
-						soilProperty.getPropertyValue());
-
+				properties.put(AVAILABLE_SOIL_WATER,
+						soilProperty.getAvailableSoilWater());
+				properties.put(BULK_DENSITY, soilProperty.getBulkDensity());
+				properties.put(CATION_EXCHANGE,
+						soilProperty.getCationExchange());
+				properties.put(SOIL_DEPTH, soilProperty.getDepth());
+				properties.put(ORGANIC_CARBON, soilProperty.getOrganicCarbon());
+				properties.put(ORGANIC_MATTER, soilProperty.getOrganicMatter());
+				properties.put(SOIL_PH, soilProperty.getPh());
+				properties.put(TAXONOMY, soilProperty.getTaxnomy());
+				properties.put(WATER_CONTENT_FIELD_CAPACITY,
+						soilProperty.getWaterCFCapacity());
+				properties.put(WATER_CAPACITY_WILT_POINT,
+						soilProperty.getWaterCWpoint());
 				properties.put(SOIL_LAT, soilProperty.getLatitude());
-
 				properties.put(SOIL_LNG, soilProperty.getLongitude());
-
 				properties.put(STATION_NAME, soilProperty.getStation()
 						.getName());
 				properties.put(REGION_NAME, soilProperty.getStation()
 						.getRegion().getName());
-
 				if (soilProperty.getSoil() != null) {
 					properties.put(FEATURE_ID, soilProperty.getId() + "_"
 							+ soilProperty.getSoil().getName());
@@ -249,10 +266,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 							.getColor());
 					properties.put(SOIL_NAME, soilProperty.getSoil().getName());
 				}
-				properties.put(SOIL_PROPERTY_VALUE,
-						soilProperty.getPropertyValue());
-				properties.put(SOIL_PROPERTY_NAME, soilProperty.getProperty()
-						.getName());
+
 				properties.put(FEATURE_TYPE, FeatureType.SOIL.toString());
 
 				// TODO Add plot data to properties for each soil feature
@@ -287,5 +301,4 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		return soilFeatures;
 	}
 
-	
 }

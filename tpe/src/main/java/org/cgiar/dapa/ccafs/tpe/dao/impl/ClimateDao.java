@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.cgiar.dapa.ccafs.tpe.chart.ClimatePlot;
 import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
@@ -35,9 +37,15 @@ import org.cgiar.dapa.ccafs.tpe.util.FeatureType;
  * @author NMATOVU
  *
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "unused" })
 public class ClimateDao extends GenericDao<Climate, Long> implements
 		IClimateDao {
+
+	private static final String TMIN = "minT";
+	private static final String TMAX = "maxT";
+	private static final String RADIATION = "radiation";
+	private static final String PRECIPITATION = "precipitation";
+	private static final String PLOT_DATA = "plotData";
 
 	public ClimateDao() {
 		super(Climate.class);
@@ -114,26 +122,22 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	}
 
 	@Override
-	public Map<String, Object> getClimateGeoJSON(Integer countryId,List<Integer>indicators) {
-		// TODO Assume each station appears once in the returned query results
-		// for the specified year
+	public Map<String, Object> getClimateGeoJSON(Integer countryId,
+			List<Integer> indicators) {
+
+		// TODO Ignore the indicators
 		// Initialize the climateGeoJSON with a LinkedHashMap();
 		Map<String, Object> climateGeoJSON = new LinkedHashMap<String, Object>();
 		List<FeaturePoint> climateFeatures = new LinkedList<FeaturePoint>();
 		GeometryPoint climateGeometry;
 		// FeatureProperty climateProperty;
 		Map<String, Object> properties = new LinkedHashMap<String, Object>();
-
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
 				.append(" r where r.station.region.parent.id =:country")
 				.append(" or r.station.region.parent.parent.id =:country");
-
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("country", countryId);
-		/*
-		 * query.setParameter("property", propertyId);
-		 * query.setParameter("year", year);
-		 */
+		// query.setParameter("indicators", indicators);
 		List<Climate> results = query.getResultList();
 		Climate climate;
 		for (Iterator<Climate> iterator = results.iterator(); iterator
@@ -141,26 +145,43 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			climate = iterator.next();
 			climateGeometry = new GeometryPoint(climate.getStation()
 					.getCoordinates());
-			properties.put(PROPERTY_NAME, climate.getProperty().getName());
-			properties.put(PROPERTY_VALUE, climate.getPropertyValue());
-			properties.put(STATION_NAME, climate.getStation().getName());
-			properties.put(PROPERTY_YEAR, climate.getYear());
+			properties.put(FEATURE_NAME, climate.getStation().getName());
 			properties.put(STATION_NUMBER, climate.getStation().getNumber());
+			properties.put(STATION_NAME, climate.getStation().getName());
+			properties.put(TMIN, climate.getTmin());
+			properties.put(TMAX, climate.getTmax());
+			properties.put(RADIATION, climate.getRadiation());
+			properties.put(PRECIPITATION, climate.getPrecipitation());
 			properties.put(REGION_NAME, climate.getStation().getRegion()
 					.getName());
 			properties.put(PROPERTY_AUTHOR, climate.getAuthor());
 			properties.put(PROPERTY_SOURCE, climate.getSource());
 			properties.put(FEATURE_COLOR, STATION_COLOR_BLACK);
-			properties.put(FEATURE_TYPE, FeatureType.STATION.toString());
+			properties.put(FEATURE_TYPE, FeatureType.CLIMATE.toString());
 
-			// climateProperty = new FeatureProperty(climate.getYear(), climate
-			// .getCategory().getName(),
-			//
-			// climate.getStation().getName(), climate.getStation().getNumber(),
-			// climate.getStation().getRegion().getName(),
-			// climate.getTmax(), climate.getTmin(),
-			// climate.getIrradiance(), climate.getPrecipitation(),
-			// climate.getSource(), climate.getAuthor());
+			// Add chart data
+			// TODO Complete
+			List<Object> dat = new LinkedList<Object>();
+			List<List<Object>> data = new LinkedList<List<Object>>();
+			// Max temp
+			dat.add(TMAX);
+			dat.add(climate.getTmax());
+			data.add(dat);
+			dat = new LinkedList<Object>();
+			// Min Temp
+			dat.add(TMIN);
+			dat.add(climate.getTmin());
+			data.add(dat);
+			dat = new LinkedList<Object>();
+			// Precipitation
+			dat.add(PRECIPITATION);
+			dat.add(climate.getPrecipitation());
+			data.add(dat);
+			dat = new LinkedList<Object>();
+			properties.put(
+					PLOT_DATA,
+					new LinkedList<ClimatePlot>(Arrays.asList(new ClimatePlot(
+							"Environment Sensibility", data))));
 
 			climateFeatures.add(new FeaturePoint(FEATURES_TYPE,
 					climateGeometry, properties));
@@ -187,7 +208,6 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 	}
 
-	@SuppressWarnings("unused")
 	private List<Station> getStations(Integer countryId) {
 
 		StringBuffer q = new StringBuffer("from " + Station.class.getName())

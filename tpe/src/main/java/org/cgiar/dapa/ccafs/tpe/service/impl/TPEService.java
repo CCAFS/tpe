@@ -25,21 +25,17 @@ import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IEnvironmentSoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
-import org.cgiar.dapa.ccafs.tpe.dao.IPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
-import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
-import org.cgiar.dapa.ccafs.tpe.dao.IWindowSowingDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IStationDao; 
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
-import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
-import org.cgiar.dapa.ccafs.tpe.entity.Station;
-import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
+import org.cgiar.dapa.ccafs.tpe.entity.Station; 
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 
@@ -51,8 +47,7 @@ import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
  */
 
 public class TPEService implements ITPEService {
-	private ICropDao cropDao;
-	private IWindowSowingDao windowSowingDao;
+	private ICropDao cropDao; 
 	private ICultivarDao cultivarDao;
 	private IRegionDao regionDao;
 	private ICategoryDao categoryDao;
@@ -60,15 +55,11 @@ public class TPEService implements ITPEService {
 	private IClimateDao climateDao;
 	private ISoilPropertyDao soilPropertyDao;
 	private IPhenologyGrowthDao phenologyGrowthDao;
-	private IPropertyDao propertyDao;
+
 	private IEnvironmentSoilDao environmentSoilDao;
 
 	public void setEnvironmentSoilDao(IEnvironmentSoilDao environmentSoilDao) {
 		this.environmentSoilDao = environmentSoilDao;
-	}
-
-	public void setPropertyDao(IPropertyDao propertyDao) {
-		this.propertyDao = propertyDao;
 	}
 
 	public void setPhenologyGrowthDao(IPhenologyGrowthDao phenologyGrowthDao) {
@@ -97,9 +88,7 @@ public class TPEService implements ITPEService {
 		this.categoryDao = categoryDao;
 	}
 
-	public void setWindowSowingDao(IWindowSowingDao windowSowingDao) {
-		this.windowSowingDao = windowSowingDao;
-	}
+	 
 
 	public void setCultivarDao(ICultivarDao cultivarDao) {
 		this.cultivarDao = cultivarDao;
@@ -137,12 +126,7 @@ public class TPEService implements ITPEService {
 		return cultivarDao.getYearsByCultivar(cultivarId);
 	}
 
-	@Override
-	public List<WindowSowing> getWindowSowingByCultivar(Integer cultivarId) {
-
-		return windowSowingDao.getWindowSowingByCultivar(cultivarId);
-	}
-
+	 
 	@Override
 	public List<Region> getCountries() {
 
@@ -343,39 +327,9 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public List<Property> getAllProperties() {
-
-		return propertyDao.getAll();
-	}
-
-	@Override
-	public Property getPropertyById(Integer propertyId) {
-
-		return propertyDao.getById(propertyId);
-	}
-
-	@Override
-	public List<Property> getPropertiesByCategory(Integer categoryId) {
-
-		return propertyDao.getPropertiesByCategory(categoryId);
-	}
-
-	@Override
 	public List<String> getClimateYears(Integer countryId) {
 
 		return climateDao.getClimateYears(countryId);
-	}
-
-	@Override
-	public List<Property> getSoilProperties() {
-
-		return propertyDao.getSoilProperties();
-	}
-
-	@Override
-	public List<Property> getClimateProperties() {
-
-		return propertyDao.getClimateProperties();
 	}
 
 	@Override

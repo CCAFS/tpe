@@ -106,13 +106,11 @@
 	<bean id="regionDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.RegionDao" />
 	<bean id="stationDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.StationDao" />
 	<bean id="categoryDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CategoryDao" />
-	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" />
-	<bean id="windowSowingDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.WindowSowingDao" />
+	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" /> 
 	<bean id="climateDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ClimateDao" />
 	<bean id="soilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilDao" />
 	<bean id="soilPropertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilPropertyDao" />
 	<bean id="phenologyGrowthDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PhenologyGrowthDao" />
-	<bean id="propertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PropertyDao" />
 	<bean id="environmentSoilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.EnvironmentSoilDao" />
 
 
@@ -124,13 +122,11 @@
 		<property name="regionDao" ref="regionDao" />
 		<property name="stationDao" ref="stationDao" />
 		<property name="categoryDao" ref="categoryDao" />
-		<property name="cultivarDao" ref="cultivarDao" />
-		<property name="windowSowingDao" ref="windowSowingDao" />
+		<property name="cultivarDao" ref="cultivarDao" /> 
 		<property name="climateDao" ref="climateDao" />
 		<property name="soilDao" ref="soilDao" />
 		<property name="soilPropertyDao" ref="soilPropertyDao" />
 		<property name="phenologyGrowthDao" ref="phenologyGrowthDao" />
-		<property name="propertyDao" ref="propertyDao" />
 		<property name="environmentSoilDao" ref="environmentSoilDao" />
 	</bean>
 

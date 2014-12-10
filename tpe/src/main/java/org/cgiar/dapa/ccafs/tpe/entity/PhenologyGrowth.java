@@ -357,7 +357,7 @@ public class PhenologyGrowth extends BaseResult {
 	/**
 	 * The window sowing that relates to this record
 	 */
-	private WindowSowing window;
+	// private WindowSowing window;
 	/**
 	 * The scenario (rainfed, irrigated, etc)
 	 */
@@ -1033,15 +1033,15 @@ public class PhenologyGrowth extends BaseResult {
 		this.soil = soil;
 	}
 
-	@ManyToOne(targetEntity = WindowSowing.class)
-	@JoinColumn(name = "window_id", referencedColumnName = "window_id")
-	public WindowSowing getWindow() {
-		return window;
-	}
-
-	public void setWindow(WindowSowing window) {
-		this.window = window;
-	}
+	// @ManyToOne(targetEntity = WindowSowing.class)
+	// @JoinColumn(name = "window_id", referencedColumnName = "window_id")
+	// public WindowSowing getWindow() {
+	// return window;
+	// }
+	//
+	// public void setWindow(WindowSowing window) {
+	// this.window = window;
+	// }
 
 	// @ManyToOne(targetEntity = Scenario.class)
 	// @JoinColumn(name = "scenario_id", referencedColumnName = "scenario_id")

@@ -92,7 +92,10 @@ public class Station extends BaseEntity {
 
 	@Column(name = "station_number")
 	public Integer getNumber() {
-		return number;
+
+		if (this.number != null)
+			return number;
+		return 0;
 	}
 
 	public void setNumber(Integer number) {

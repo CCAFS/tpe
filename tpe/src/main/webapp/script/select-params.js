@@ -204,9 +204,9 @@ $(document).ready(function() {
 			 * $("select#select_properties").change(function() {
 			 * initializeGoogleMap(); });
 			 */
-			$("select#select_properties").click(function() {
+			/*$("select#select_properties").click(function() {
 				initializeGoogleMap();
-			});
+			});*/
 
 			// Automatically reload the Google Map when the soil textures change
 			/*
@@ -234,9 +234,9 @@ $(document).ready(function() {
 			// Automatically reload the Google Map when the climate properties
 			// change
 
-			$("select#select_indicators").change(function() {
+			/*$("select#select_indicators").change(function() {
 				initializeGoogleMap();
-			});
+			});*/
 
 			/*
 			 * $("select#select_properties").click(function() {

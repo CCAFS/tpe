@@ -14,7 +14,6 @@
 package org.cgiar.dapa.ccafs.tpe.action;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -46,7 +45,7 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The soil properties from the selection pane
 	 */
-	private List<Integer> selectedIndicators;
+	// private List<Integer> selectedIndicators;
 
 	/**
 	 * The country or region latitude coordinate.
@@ -77,7 +76,7 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The selected list of years
 	 */
-	protected List<String> selectedYears;
+	// protected List<String> selectedYears;
 	/**
 	 * The field for holding the selected country geo json data from the json
 	 * file from the server
@@ -92,16 +91,12 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	public String execute() {
 
-		// TODO Pass the country param from the jsp page.
-		// TODO Pass properties params from the jsp page.
-
 		// Retrieve the soil GeoJson data from the database
-		if (getSelectedCountry() != null && getSelectedIndicators() != null
-				&& !getSelectedIndicators().isEmpty()) {
+		if (getSelectedCountry() != null) {
 
 			// TODO Initially dont consider selection of climate indicators
 			this.setGeoJson(tpeService.getClimateGeoJSON(
-					this.getSelectedCountry(), getSelectedIndicators()));
+					this.getSelectedCountry(), null));
 
 		}
 
@@ -111,7 +106,6 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.setZoom(this.getRegion().getZoom());
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
-		// log.info(getCountryGeoJson());
 
 		return ActionSupport.SUCCESS;
 	}
@@ -156,14 +150,6 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.zoom = zoom;
 	}
 
-	public List<String> getSelectedYears() {
-		return selectedYears;
-	}
-
-	public void setSelectedYears(List<String> selectedYears) {
-		this.selectedYears = selectedYears;
-	}
-
 	public Object getCountryGeoJson() {
 		return countryGeoJson;
 	}
@@ -178,14 +164,6 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	public void setGeoJson(Map<String, Object> geoJson) {
 		this.geoJson = geoJson;
-	}
-
-	public List<Integer> getSelectedIndicators() {
-		return selectedIndicators;
-	}
-
-	public void setSelectedIndicators(List<Integer> selectedIndicators) {
-		this.selectedIndicators = selectedIndicators;
 	}
 
 }

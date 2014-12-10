@@ -42,7 +42,7 @@ public class SoilGeoJsonAction extends BaseAction {
 	/**
 	 * The soil properties from the selection pane
 	 */
-	private List<Integer> selectedProperties;
+	// private List<Integer> selectedProperties;
 	/**
 	 * The selected soil texture ids from the selection pane.
 	 */
@@ -74,7 +74,7 @@ public class SoilGeoJsonAction extends BaseAction {
 	/**
 	 * The selected list of years
 	 */
-	protected List<String> selectedYears;
+	// protected List<String> selectedYears;
 	/**
 	 * The field for holding the selected country geo json data from the json
 	 * file from the server
@@ -108,57 +108,31 @@ public class SoilGeoJsonAction extends BaseAction {
 		// setLng(getRegion().getLongitude());
 		// }
 
-		if (this.getSelectedCountry() != null
-				&& getSelectedProperties() != null
-				|| !getSelectedProperties().isEmpty()
-				&& getSelectedTextures() != null
+		if (this.getSelectedCountry() != null && getSelectedTextures() != null
 				|| !getSelectedTextures().isEmpty()) {
 
-			categories = tpeService.getEnvSowingDates(getSelectedCountry());
+			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 
+			// log.info(getRegion());
+			setLat(getRegion().getLatitude());
+			setLng(getRegion().getLongitude());
+
+			this.setZoom(this.getRegion().getZoom());
+
+			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".geo.json"));
+
+			categories = tpeService.getEnvSowingDates(getSelectedCountry());
 			probabilities = tpeService
 					.getEnvSoilProbabilities(getSelectedCountry());
 			// log.info("About to query data.");
-
-			this.setGeoJson(this.tpeService.getSoilGeoJson(
-					getSelectedProperties(), getSelectedCountry()));
+			this.setGeoJson(this.tpeService.getSoilGeoJson(null,
+					getSelectedCountry()));
 			// TODO Add cultivar parameter
 
 		}
-		// countryGeoJson = Utils.loadJSON(this.getPath()
-		// + "script/COLOMBIA.geo.json");
 
-		this.setRegion(tpeService.getRegionById(getSelectedCountry()));
-
-		// log.info(getRegion());
-		setLat(getRegion().getLatitude());
-		setLng(getRegion().getLongitude());
-
-		// log.info("Lat: " + getLat());
-		// log.info("Lng: " + getLng());
-
-		/*
-		 * setCountryGeoJson(Utils.loadJSON(this.getPath() +
-		 * "script/BRAZIL.geo.json"));
-		 */
-
-		this.setZoom(this.getRegion().getZoom());
-
-		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
-				+ getRegion().getName().toUpperCase() + ".geo.json"));
-
-		// data = probabilities.get("C");
-
-		// log.info(getCountryGeoJson());
 		return ActionSupport.SUCCESS;
-	}
-
-	public List<Integer> getSelectedProperties() {
-		return selectedProperties;
-	}
-
-	public void setSelectedProperties(List<Integer> selectedProperties) {
-		this.selectedProperties = selectedProperties;
 	}
 
 	public List<Integer> getSelectedTextures() {
@@ -207,14 +181,6 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public void setZoom(Integer zoom) {
 		this.zoom = zoom;
-	}
-
-	public List<String> getSelectedYears() {
-		return selectedYears;
-	}
-
-	public void setSelectedYears(List<String> selectedYears) {
-		this.selectedYears = selectedYears;
 	}
 
 	public Object getCountryGeoJson() {

@@ -22,11 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
-import org.cgiar.dapa.ccafs.tpe.entity.Property;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
-import org.cgiar.dapa.ccafs.tpe.entity.Station;
-import org.cgiar.dapa.ccafs.tpe.entity.WindowSowing;
 import org.cgiar.dapa.ccafs.tpe.util.ParamType;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
@@ -43,37 +40,44 @@ public class TPEAction extends BaseAction {
 
 	private static final long serialVersionUID = -4801328465223186532L;
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 	private List<Category> outputs;
 	private Integer selectedOutput;
 	private Integer preselectedOutput;
 	private List<Soil> textures;
 	private List<Integer> selectedTextures;
-	private Integer preselectedTexture;
+	private List<Integer> preselectedTextures;
 	private List<Region> countries;
 	private Integer selectedCountry;
 	private Integer preselectedCountry;
-	private List<Property> properties;
-	private List<Integer> selectedProperties;
-	private Integer preselectedProperty;
-	private List<Region> regions;
-	private List<Integer> selectedRegions;
-	private List<Integer> preselectedRegions;
-	private List<String> years;
-	private List<String> selectedYears;
-	private String preselectedYear;
-	private List<Station> stations;
-	private List<Integer> selectedStations;
-	private List<Integer> preselectedStations;
+	// private List<Property> properties;
+	// private List<Integer> selectedProperties;
+	// private Integer preselectedProperty;
+
+	// private List<Property> indicators;
+	// private List<Integer> selectedIndicators;
+	// private Integer preselectedIndicator;
+
+	// private List<Region> regions;
+	// private List<Integer> selectedRegions;
+	// private List<Integer> preselectedRegions;
+	// private List<String> years;
+	// private List<String> selectedYears;
+	// private String preselectedYear;
+	/*
+	 * private List<Station> stations; private List<Integer> selectedStations;
+	 * private List<Integer> preselectedStations;
+	 */
 	private List<Crop> crops;
 	private Integer selectedCrop;
 	private Integer preselectedCrop;
 	private List<Cultivar> cultivars;
 	private Integer selectedCultivar;
 	private Integer preselectedCultivar;
-	private List<WindowSowing> swindows;
-	private Integer preselectedWindow;
-	private Integer selectedWindow;
+	// private List<WindowSowing> swindows;
+	// private Integer preselectedWindow;
+	// private Integer selectedWindow;
 	private List<String> scenarios;
 	private String selectedScenario;
 	private Integer preselectedScenario;
@@ -104,19 +108,24 @@ public class TPEAction extends BaseAction {
 		// Retrieve the countries from the database
 		countries = tpeService.getCountries();
 		// Initialize the years
-		years = new ArrayList<String>();
+		// years = new ArrayList<String>();
 		if (!countries.isEmpty() && countries != null) {
 			// Preselect the country
 			preselectedCountry = countries.get(0).getId();
+
+			// TODO Ignore the sub regions and stations in the beta version
 			// Get the sub regions
-			regions = tpeService.getSubregionsByCountry(preselectedCountry);
-			if (!regions.isEmpty() && regions != null)
-				preselectedRegions = Utils.getRegionIds(regions);
-		} else {
+			/*
+			 * regions = tpeService.getSubregionsByCountry(preselectedCountry);
+			 * if (!regions.isEmpty() && regions != null) preselectedRegions =
+			 * Utils.getRegionIds(regions);
+			 */
+		} else
 			countries = new ArrayList<Region>();
-			regions = new ArrayList<Region>();
-			preselectedRegions = new ArrayList<Integer>();
-		}
+		/*
+		 * regions = new ArrayList<Region>(); preselectedRegions = new
+		 * ArrayList<Integer>();
+		 */
 
 		if (this.getSelectedOutput().equals(ParamType.TPE.getId())) {
 
@@ -139,18 +148,20 @@ public class TPEAction extends BaseAction {
 					// Retrieve the years based on the selected country and
 					// crop
 					// cultivar
-					years = tpeService.getTPEYears(countries.get(0).getId(),
-							preselectedCultivar);
-					if (!years.isEmpty() && years != null)
-						preselectedYear = years.get(0);
+					/*
+					 * years = tpeService.getTPEYears(countries.get(0).getId(),
+					 * preselectedCultivar); if (!years.isEmpty() && years !=
+					 * null) preselectedYear = years.get(0);
+					 */
 					// Retrieve the sowing windows for the selected cultivar
-					swindows = tpeService
-							.getWindowSowingByCultivar(preselectedCultivar);
-
-					if (!swindows.isEmpty() && swindows != null) {
-						// Preselect the swindow
-						preselectedWindow = swindows.get(0).getId();
-					}
+					/*
+					 * swindows = tpeService
+					 * .getWindowSowingByCultivar(preselectedCultivar);
+					 * 
+					 * if (!swindows.isEmpty() && swindows != null) { //
+					 * Preselect the swindow preselectedWindow =
+					 * swindows.get(0).getId(); }
+					 */
 				}
 			}
 
@@ -159,40 +170,54 @@ public class TPEAction extends BaseAction {
 
 			textures = tpeService.getSoilTextures();
 			if (!textures.isEmpty() && textures != null)
-				preselectedTexture = textures.get(0).getId();
+				// preselectedTexture = textures.get(0).getId();
+				// preselectedTextures = textures.get(0).getId();
+
+				setPreselectedTextures(Utils.getTextureId(textures));
 			else
 				textures = new ArrayList<Soil>();
 			// Get soil properties
-			properties = tpeService.getSoilProperties();
-			if (!properties.isEmpty() && properties != null) {
-				preselectedProperty = properties.get(0).getId();
-				//log.info("Soil Properties: " + properties.size());
-			} else
-				properties = new ArrayList<Property>();
+			// properties = tpeService.getSoilProperties();
+			// if (!properties.isEmpty() && properties != null) {
+			// preselectedProperty = properties.get(3).getId();
+			// // log.info("Soil Properties: " + properties.size());
+			// } else
+			// properties = new ArrayList<Property>();
 			return SOIL;
 		} else if (this.getSelectedOutput().equals(ParamType.CLIMATE.getId())) {
-			if (!countries.isEmpty() && countries != null) {
-				// Get stations for the first country in the list
-				stations = tpeService.getStationsByRegion(countries.get(0)
-						.getId());
-				if (!stations.isEmpty() && stations != null) {
-					preselectedStations = Utils.getStationIds(stations);
-				} else
-					stations = new ArrayList<Station>();
+			// The climate indicator will be selected before the year is
+			// selected
+			// indicators = tpeService.getClimateProperties();
+			// if (!indicators.isEmpty() && indicators != null)
+			// preselectedIndicator = indicators.get(0).getId();
+			// else
+			// indicators = new ArrayList<Property>();
 
-				properties = tpeService.getClimateProperties();
-				if (!properties.isEmpty() && properties != null)
-					preselectedProperty = properties.get(0).getId();
-				else
-					properties = new ArrayList<Property>();
-				// Get years
-				// TODO Preselect the years based on the selected country and
-				// climate property.
-				years = tpeService.getClimateYears(countries.get(0).getId());
-				if (!years.isEmpty() && years != null)
-					preselectedYear = years.get(0);
+			// if (!countries.isEmpty() && countries != null) {
+			// TODO The stations and sub regions will be ignored in the beta
+			// version but will be consired in the improved version
+			// Get stations for the first country in the list
+			/*
+			 * stations = tpeService.getStationsByRegion(countries.get(0)
+			 * .getId()); if (!stations.isEmpty() && stations != null) {
+			 * preselectedStations = Utils.getStationIds(stations); } else
+			 * stations = new ArrayList<Station>();
+			 */
 
-			}
+			// Get years
+			// TODO Preselect the years based on the selected country and
+			// climate property.
+
+			// The years will be populated basing on the selected year (s)
+			/*
+			 * years = tpeService.getClimateYears(countries.get(0).getId()); if
+			 * (!years.isEmpty() && years != null) preselectedYear =
+			 * years.get(0);
+			 */
+
+			// TODO Add the dates FROM and TO
+
+			// }
 			return CLIMATE;
 		}
 
@@ -206,15 +231,13 @@ public class TPEAction extends BaseAction {
 	 */
 	public String loadSubregions() {
 
-		preselectedRegions = new ArrayList<Integer>();
-		regions = new ArrayList<Region>();
-		if (selectedCountry != null) {
-			// Get the sub regions
-			regions = tpeService.getSubregionsByCountry(selectedCountry);
-			// Preselect all the sub regions by default
-			if (!regions.isEmpty() && regions != null)
-				preselectedRegions = Utils.getRegionIds(regions);
-		}
+		/*
+		 * preselectedRegions = new ArrayList<Integer>(); regions = new
+		 * ArrayList<Region>(); if (selectedCountry != null) { // Get the sub
+		 * regions regions = tpeService.getSubregionsByCountry(selectedCountry);
+		 * // Preselect all the sub regions by default if (!regions.isEmpty() &&
+		 * regions != null) preselectedRegions = Utils.getRegionIds(regions); }
+		 */
 		return SUBREGIONS;
 	}
 
@@ -246,20 +269,19 @@ public class TPEAction extends BaseAction {
 	public String loadYears() {
 
 		// Retrieve the years for the selected region based on the climate
-		if ((selectedCultivar == null) && selectedCountry != null) {
-			years = tpeService.getClimateYears(getSelectedCountry());
-
-		} else if (selectedCultivar != null && selectedCountry != null) {
-			// Retrieve the years based on the crop cultivar and country
-			years = tpeService.getTPEYears(selectedCountry, selectedCultivar);
-		} else
-			years = new ArrayList<String>();
-
-		if (!years.isEmpty() && years != null)
-			// Preselect the first year in the list
-			preselectedYear = years.get(0);
-		// log.info("# of years: " + years.size());
-
+		/*
+		 * if ((selectedCultivar == null) && selectedCountry != null) { years =
+		 * tpeService.getClimateYears(getSelectedCountry());
+		 * 
+		 * } else if (selectedCultivar != null && selectedCountry != null) { //
+		 * Retrieve the years based on the crop cultivar and country years =
+		 * tpeService.getTPEYears(selectedCountry, selectedCultivar); } else
+		 * years = new ArrayList<String>();
+		 * 
+		 * if (!years.isEmpty() && years != null) // Preselect the first year in
+		 * the list preselectedYear = years.get(0); // log.info("# of years: " +
+		 * years.size());
+		 */
 		return YEARS;
 
 	}
@@ -304,12 +326,12 @@ public class TPEAction extends BaseAction {
 		this.selectedTextures = selectedTextures;
 	}
 
-	public Integer getPreselectedTexture() {
-		return preselectedTexture;
+	public List<Integer> getPreselectedTextures() {
+		return preselectedTextures;
 	}
 
-	public void setPreselectedTexture(Integer preselectedTexture) {
-		this.preselectedTexture = preselectedTexture;
+	public void setPreselectedTextures(List<Integer> preselectedTextures) {
+		this.preselectedTextures = preselectedTextures;
 	}
 
 	public List<Region> getCountries() {
@@ -334,102 +356,6 @@ public class TPEAction extends BaseAction {
 
 	public void setPreselectedCountry(Integer preselectedCountry) {
 		this.preselectedCountry = preselectedCountry;
-	}
-
-	public List<Property> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(List<Property> properties) {
-		this.properties = properties;
-	}
-
-	public List<Integer> getSelectedProperties() {
-		return selectedProperties;
-	}
-
-	public void setSelectedProperties(List<Integer> selectedProperties) {
-		this.selectedProperties = selectedProperties;
-	}
-
-	public Integer getPreselectedProperty() {
-		return preselectedProperty;
-	}
-
-	public void setPreselectedProperty(Integer preselectedProperty) {
-		this.preselectedProperty = preselectedProperty;
-	}
-
-	public List<Region> getRegions() {
-		return regions;
-	}
-
-	public void setRegions(List<Region> regions) {
-		this.regions = regions;
-	}
-
-	public List<Integer> getSelectedRegions() {
-		return selectedRegions;
-	}
-
-	public void setSelectedRegions(List<Integer> selectedRegions) {
-		this.selectedRegions = selectedRegions;
-	}
-
-	public List<Integer> getPreselectedRegions() {
-		return preselectedRegions;
-	}
-
-	public void setPreselectedRegions(List<Integer> preselectedRegions) {
-		this.preselectedRegions = preselectedRegions;
-	}
-
-	public List<String> getYears() {
-		return years;
-	}
-
-	public void setYears(List<String> years) {
-		this.years = years;
-	}
-
-	public List<String> getSelectedYears() {
-		return selectedYears;
-	}
-
-	public void setSelectedYears(List<String> selectedYears) {
-		this.selectedYears = selectedYears;
-	}
-
-	public String getPreselectedYear() {
-		return preselectedYear;
-	}
-
-	public void setPreselectedYear(String preselectedYear) {
-		this.preselectedYear = preselectedYear;
-	}
-
-	public List<Station> getStations() {
-		return stations;
-	}
-
-	public void setStations(List<Station> stations) {
-		this.stations = stations;
-	}
-
-	public List<Integer> getSelectedStations() {
-		return selectedStations;
-	}
-
-	public void setSelectedStations(List<Integer> selectedStations) {
-		this.selectedStations = selectedStations;
-	}
-
-	public List<Integer> getPreselectedStations() {
-		return preselectedStations;
-	}
-
-	public void setPreselectedStations(List<Integer> preselectedStations) {
-		this.preselectedStations = preselectedStations;
 	}
 
 	public List<Crop> getCrops() {
@@ -478,30 +404,6 @@ public class TPEAction extends BaseAction {
 
 	public void setPreselectedCultivar(Integer preselectedCultivar) {
 		this.preselectedCultivar = preselectedCultivar;
-	}
-
-	public List<WindowSowing> getSwindows() {
-		return swindows;
-	}
-
-	public void setSwindows(List<WindowSowing> swindows) {
-		this.swindows = swindows;
-	}
-
-	public Integer getPreselectedWindow() {
-		return preselectedWindow;
-	}
-
-	public void setPreselectedWindow(Integer preselectedWindow) {
-		this.preselectedWindow = preselectedWindow;
-	}
-
-	public Integer getSelectedWindow() {
-		return selectedWindow;
-	}
-
-	public void setSelectedWindow(Integer selectedWindow) {
-		this.selectedWindow = selectedWindow;
 	}
 
 	public List<String> getScenarios() {

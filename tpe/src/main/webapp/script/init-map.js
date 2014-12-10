@@ -1,7 +1,7 @@
 //$(document)
 //	.ready(
 
-var probabilitiesJSON, categoriesJSON;
+var probabilitiesJSON, categoriesJSON, dataJSON;
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -228,7 +228,8 @@ function initializeMap(data) {
 		// Show the info window only for other features but not country
 		if ((e.feature.getProperty('featureType') == 'SOIL')
 				|| (e.feature.getProperty('featureType') == 'STATION')
-				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')) {
+				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')
+				|| (e.feature.getProperty('featureType') == 'CLIMATE')) {
 			infoWindow.setContent('<div class="info_window">' + '<h2>'
 					+ e.feature.getProperty('name') + '</h2>' + featureInfo(e)
 					+ '</div>');
@@ -253,7 +254,8 @@ function initializeMap(data) {
 		// Don't display the info window for the feature type country
 		if ((e.feature.getProperty('featureType') == 'SOIL')
 				|| (e.feature.getProperty('featureType') == 'STATION')
-				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')) {
+				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')
+				|| (e.feature.getProperty('featureType') == 'CLIMATE')) {
 			$('#info').show();
 			$('#info h2').text(e.feature.getProperty('name'));
 			// $('#info span').text(e.feature.getProperty('stationName'));
@@ -269,12 +271,18 @@ function initializeMap(data) {
 
 		// Display the corresponding plot chart
 
-		// TODO Add chart
-
+		// TODO Add Soil chart
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			// Display the plot only for the soil point features
 			var probJSON = probabilitiesJSON[e.feature.getProperty('code')];
 			createSoilPlot(categoriesJSON, probJSON);
+		}
+
+		// TODO Add Climate chart
+		if (e.feature.getProperty('featureType') == 'CLIMATE') {
+			// Display the plot only for the soil point features
+			var plotJSON = e.feature.getProperty('plotData');
+			createClimatePlot(plotJSON);
 		}
 
 	});
@@ -296,9 +304,12 @@ function featureInfo(event) {
 	var $htmlText = '';
 	// If the station was clicked
 	if (event.feature.getProperty('featureType') == 'STATION') {
-		$htmlText = $htmlText + '<div>Station: '
-				+ event.feature.getProperty("stationName");
-		$htmlText = $htmlText + '</div><div>Number:'
+		/*
+		 * $htmlText = $htmlText + '<div>Station: '+
+		 * event.feature.getProperty("stationName");
+		 */
+
+		$htmlText = $htmlText + '<div>Station No:'
 				+ event.feature.getProperty('stationNumber') + '</div>';
 
 		// TODO Add climate data into each station feature
@@ -308,16 +319,65 @@ function featureInfo(event) {
 		$htmlText = '<div>Region: ' + event.feature.getProperty("regionName");
 		$htmlText = $htmlText + '</div><div>Station: '
 				+ event.feature.getProperty("stationName");
-		$htmlText = $htmlText + '</div><div>Texture: '
-				+ event.feature.getProperty("soilName");
-
+		// Add the coordinates
 		$htmlText = $htmlText + '</div><div>Point: '
 				+ event.feature.getProperty("lat") + ','
 				+ event.feature.getProperty("lng");
+		// Add the soil properties
+		// PH
+		$htmlText = $htmlText + '</div><div>PH: '
+				+ event.feature.getProperty("ph") + '</div>';
+		// Depth
+		$htmlText = $htmlText + '</div><div>Depth: '
+				+ event.feature.getProperty("depth") + '</div>';
+		// availableSoilWater
+		$htmlText = $htmlText + '</div><div>Available Soil Water: '
+				+ event.feature.getProperty("availableSoilWater") + '</div>';
+		// Bulk Density
+		$htmlText = $htmlText + '</div><div>Bulk Density: '
+				+ event.feature.getProperty("bulkDensity") + '</div>';
+		// Cation Exchange
+		$htmlText = $htmlText + '</div><div>Cation Exchange: '
+				+ event.feature.getProperty("cationExchange") + '</div>';
+		// Organic Carbon
+		$htmlText = $htmlText + '</div><div>Organic Carbon: '
+				+ event.feature.getProperty("organicCarbon") + '</div>';
+		// Organic Matter
+		$htmlText = $htmlText + '</div><div>Organic Matter: '
+				+ event.feature.getProperty("organicMatter") + '</div>';
+		// Water Content Field Capacity
+		$htmlText = $htmlText + '</div><div>Water Content Field Capacity: '
+				+ event.feature.getProperty("waterContentFieldCapacity")
+				+ '</div>';
+		// Taxonomy
+		$htmlText = $htmlText + '</div><div>Taxonomy: '
+				+ event.feature.getProperty("taxonomy") + '</div>';
+		// Water Capacity Wilt Point
+		$htmlText = $htmlText + '</div><div>Water Capacity Wilt Point: '
+				+ event.feature.getProperty("waterCapacityWiltPoint")
+				+ '</div>';
+	} else if (event.feature.getProperty('featureType') == 'CLIMATE') {
+		/*
+		 * $htmlText = $htmlText + '<div>Station: '+
+		 * event.feature.getProperty("stationName");
+		 */
 
-		$htmlText = $htmlText + '</div><div>'
-				+ event.feature.getProperty("soilPropertyName") + ': '
-				+ event.feature.getProperty("soilPropertyValue") + '</div>';
+		$htmlText = $htmlText + '<div>Station No:'
+				+ event.feature.getProperty('stationNumber') + '</div>';
+		// Add climate properties here
+		// Min Temperature
+		$htmlText = $htmlText + '</div><div>Min Temperature: '
+				+ event.feature.getProperty("minT") + '</div>';
+		// Max Temperature
+		$htmlText = $htmlText + '</div><div>Max Temperature: '
+				+ event.feature.getProperty("maxT") + '</div>';
+		// Precipitation
+		$htmlText = $htmlText + '</div><div>Precipitation: '
+				+ event.feature.getProperty("precipitation") + '</div>';
+		// Radiation
+		$htmlText = $htmlText + '</div><div>Radiation: '
+				+ event.feature.getProperty("radiation") + '</div>';
+
 	} else {
 		// If the Country or State region was clicked.
 		$htmlText = '<div>Region: ' + event.feature.getProperty('regionName')
@@ -357,8 +417,55 @@ function geoJsonData(action) {
 
 }
 
-// Create the chart plot
+// Create the climate plot chart
+function createClimatePlot(seriesJSON) {
+	$('#env_soil_container').highcharts({
+		chart : {
+			type : 'column'
+		},
+		credits : {
+			enabled : true,
+			text : 'Source: CCAFS TPE (www.ccafs.org)',
+			href : 'http://www.ccafs.org',
+			style : {
+				color : '#4e2700',
+				fontWeight : 'bold',
+				fontSize : '10px',
+			}
+		},
+		title : {
+			text : 'Environment Sensibility'
+		},
+		subtitle : {
+			text : 'Source: <a href="http://www.ccafs.org">CCAFS</a>'
+		},
+		xAxis : {
+			type : 'category',
+			labels : {
+				rotation : -45,
+				style : {
+					fontSize : '12px',
+					fontFamily : 'Verdana, sans-serif'
+				}
+			}
+		},
+		yAxis : {
+			min : 0,
+			title : {
+				text : '% of R2'
+			}
+		},
+		legend : {
+			enabled : false
+		},
+		tooltip : {
+			pointFormat : 'Environment Sensibility: <b>{point.y:.1f} %</b>'
+		},
+		series : seriesJSON
+	});
+}
 
+// Create the SOIL chart plot
 function createSoilPlot(categoriesJSON, seriesJSON) {
 
 	$('#env_soil_container')

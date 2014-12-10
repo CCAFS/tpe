@@ -44,7 +44,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "soil_property")
-@AttributeOverride(name = "id", column = @Column(name = "soil_property_id"))
+@AttributeOverride(name = "id", column = @Column(name = "property_id"))
 public class SoilProperty extends BaseResult {
 
 	/**
@@ -68,47 +68,47 @@ public class SoilProperty extends BaseResult {
 	 * The model
 	 */
 	private Model model;
-	// /**
-	// * The organic matter (chamical property)
-	// */
-	// private Float organicCarbon;
-	// /**
-	// * The water content at field capacity. (hydraulic property)
-	// */
-	// private Float waterCFCapacity;
-	// /**
-	// * The water capacity at wilting point and it follows under the hydraulic
-	// * category.
-	// */
-	// private Float waterCWpoint;
-	// /**
-	// * The soil ph. The ph is categorized as a chemical properties.
-	// */
-	// private Float ph;
-	// /**
-	// * The soil depth of the soil layer
-	// */
-	// private Float depth;
-	// /**
-	// * The soil organic matter
-	// */
-	// private Float organicMatter;
-	// /**
-	// * The Taxonomy
-	// */
-	// private Integer taxnomy;
-	// /**
-	// * Bulk density
-	// */
-	// private Float bulkDensity;
-	// /**
-	// * The cation exchange capacity;
-	// */
-	// private Float cationExchange;
-	// /**
-	// * Available soil water;
-	// */
-	// private Float availableSoilWater;
+	/**
+	 * The average organic carbon (chamical property)
+	 */
+	private Float organicCarbon;
+	/**
+	 * The water content at field capacity. (hydraulic property)
+	 */
+	private Float waterCFCapacity;
+	/**
+	 * The water capacity at wilting point and it follows under the hydraulic
+	 * category.
+	 */
+	private Float waterCWpoint;
+	/**
+	 * The soil ph. The ph is categorized as a chemical properties.
+	 */
+	private Float ph;
+	/**
+	 * The soil depth of the soil layer
+	 */
+	private Float depth;
+	/**
+	 * The averagef soil organic matter
+	 */
+	private Float organicMatter;
+	/**
+	 * The Taxonomy
+	 */
+	private Integer taxnomy;
+	/**
+	 * Bulk density
+	 */
+	private Float bulkDensity;
+	/**
+	 * The cation exchange capacity;
+	 */
+	private Float cationExchange;
+	/**
+	 * Available soil water;
+	 */
+	private Float availableSoilWater;
 	/**
 	 * The longitude of the soil texture from a given region
 	 */
@@ -117,15 +117,16 @@ public class SoilProperty extends BaseResult {
 	 * The latitude of the soil texture from a given region
 	 */
 	private Double latitude;
+
 	/**
 	 * Soil property value. Since different properties have different data
 	 * types, we chose to use string or object data type for all.
 	 */
-	private Double propertyValue = 0d;
+	// private Double propertyValue = 0d;
 	/**
 	 * The soil property
 	 */
-	private Property property;
+	// private Property property;
 
 	@ManyToOne(targetEntity = Soil.class)
 	@JoinColumn(name = "soil_id", referencedColumnName = "soil_id")
@@ -194,28 +195,94 @@ public class SoilProperty extends BaseResult {
 
 	}
 
-	@Column(name = "property_value")
-	public Double getPropertyValue() {
-		if (propertyValue != null)
-			return propertyValue;
-		else
-			return null;
+	@Column(name = "organic_carbon")
+	public Float getOrganicCarbon() {
+		return organicCarbon;
 	}
 
-	public void setPropertyValue(Double propertyValue) {
-		this.propertyValue = propertyValue;
+	public void setOrganicCarbon(Float organicCarbon) {
+		this.organicCarbon = organicCarbon;
 	}
 
-	@ManyToOne(targetEntity = Property.class)
-	@JoinColumn(name = "property_id", referencedColumnName = "property_id")
-	public Property getProperty() {
-		return property;
+	@Column(name = "water_content_field_capacity")
+	public Float getWaterCFCapacity() {
+		return waterCFCapacity;
 	}
 
-	public void setProperty(Property property) {
-		this.property = property;
+	public void setWaterCFCapacity(Float waterCFCapacity) {
+		this.waterCFCapacity = waterCFCapacity;
 	}
 
-	 
+	@Column(name = "water_capacity_wilt_point")
+	public Float getWaterCWpoint() {
+		return waterCWpoint;
+	}
+
+	public void setWaterCWpoint(Float waterCWpoint) {
+		this.waterCWpoint = waterCWpoint;
+	}
+
+	@Column(name = "ph")
+	public Float getPh() {
+		return ph;
+	}
+
+	public void setPh(Float ph) {
+		this.ph = ph;
+	}
+
+	@Column(name = "depth")
+	public Float getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Float depth) {
+		this.depth = depth;
+	}
+
+	@Column(name = "organic_matter")
+	public Float getOrganicMatter() {
+		return organicMatter;
+	}
+
+	public void setOrganicMatter(Float organicMatter) {
+		this.organicMatter = organicMatter;
+	}
+
+	@Column(name = "taxonomy")
+	public Integer getTaxnomy() {
+		return taxnomy;
+	}
+
+	public void setTaxnomy(Integer taxnomy) {
+		this.taxnomy = taxnomy;
+	}
+
+	@Column(name = "bulky_density")
+	public Float getBulkDensity() {
+		return bulkDensity;
+	}
+
+	public void setBulkDensity(Float bulkDensity) {
+		this.bulkDensity = bulkDensity;
+	}
+
+	@Column(name = "cation_exchange")
+	public Float getCationExchange() {
+		return cationExchange;
+	}
+
+	public void setCationExchange(Float cationExchange) {
+		this.cationExchange = cationExchange;
+	}
+
+	@Column(name = "available_soil_water")
+	public Float getAvailableSoilWater() {
+		return availableSoilWater;
+	}
+
+	public void setAvailableSoilWater(Float availableSoilWater) {
+		this.availableSoilWater = availableSoilWater;
+	}
 
 }

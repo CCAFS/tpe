@@ -20,6 +20,6 @@ package org.cgiar.dapa.ccafs.tpe.util;
  *
  */
 public enum FeatureType {
-	STATION, SOIL, ENVIRONMENT
+	STATION, SOIL, ENVIRONMENT, CLIMATE
 
 }
