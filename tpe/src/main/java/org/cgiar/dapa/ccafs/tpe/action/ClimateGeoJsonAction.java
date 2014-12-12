@@ -88,6 +88,10 @@ public class ClimateGeoJsonAction extends BaseAction {
 	 * Map
 	 */
 	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
+	/**
+	 * The corresponding country states geojson data
+	 */
+	private Object statesGeoJson;
 
 	public String execute() {
 
@@ -106,7 +110,9 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.setZoom(this.getRegion().getZoom());
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
-
+		// Load states geo json data
+		this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+				+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
 		return ActionSupport.SUCCESS;
 	}
 
@@ -164,6 +170,14 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	public void setGeoJson(Map<String, Object> geoJson) {
 		this.geoJson = geoJson;
+	}
+
+	public Object getStatesGeoJson() {
+		return statesGeoJson;
+	}
+
+	public void setStatesGeoJson(Object statesGeoJson) {
+		this.statesGeoJson = statesGeoJson;
 	}
 
 }

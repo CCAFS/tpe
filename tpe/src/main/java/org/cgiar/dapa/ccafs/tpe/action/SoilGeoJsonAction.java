@@ -80,6 +80,10 @@ public class SoilGeoJsonAction extends BaseAction {
 	 * file from the server
 	 */
 	protected Object countryGeoJson;
+	/**
+	 * The corresponding country states geojson data
+	 */
+	private Object statesGeoJson;
 
 	/**
 	 * The soil GeoJson map that will provide the GeoJson features on the Google
@@ -119,8 +123,11 @@ public class SoilGeoJsonAction extends BaseAction {
 
 			this.setZoom(this.getRegion().getZoom());
 
-			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
-					+ getRegion().getName().toUpperCase() + ".geo.json"));
+			// Load the country geojson file
+			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"+ getRegion().getName().toUpperCase() + ".geo.json"));
+			// Load the corresponding country states
+			
+			this.statesGeoJson=Utils.loadJSONData(this.getPath() + "script/"+ getRegion().getName().toUpperCase() + ".STATES.geo.json");
 
 			categories = tpeService.getEnvSowingDates(getSelectedCountry());
 			probabilities = tpeService
@@ -213,6 +220,14 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
+	}
+
+	public Object getStatesGeoJson() {
+		return statesGeoJson;
+	}
+
+	public void setStatesGeoJson(Object statesGeoJson) {
+		this.statesGeoJson = statesGeoJson;
 	}
 
 }

@@ -134,6 +134,12 @@ function initializeMap(data) {
 	map.data.addGeoJson(data.countryGeoJson, {
 		idPropertyName : "id"
 	});
+
+	// Add the selected country states polygon features to the map.
+	map.data.addGeoJson(data.statesGeoJson, {
+		idPropertyName : "id"
+	});
+
 	/*
 	 * $.getJSON(markersAction, function(data) { console.log(data.soilGeoJson)
 	 * console.log(data.countryGeoJson) map.data.addGeoJson(data.soilGeoJson, {
@@ -252,15 +258,19 @@ function initializeMap(data) {
 		e.feature.setProperty('selected', true);
 
 		// Don't display the info window for the feature type country
-		if ((e.feature.getProperty('featureType') == 'SOIL')
-				|| (e.feature.getProperty('featureType') == 'STATION')
-				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')
-				|| (e.feature.getProperty('featureType') == 'CLIMATE')) {
-			$('#info').show();
-			$('#info h2').text(e.feature.getProperty('name'));
-			// $('#info span').text(e.feature.getProperty('stationName'));
-			$('#info span').html(featureInfo(e));
-		}
+
+		/*
+		 * if ((e.feature.getProperty('featureType') == 'SOIL') ||
+		 * (e.feature.getProperty('featureType') == 'STATION') ||
+		 * (e.feature.getProperty('featureType') == 'ENVIRONMENT') ||
+		 * (e.feature.getProperty('featureType') == 'CLIMATE')) {
+		 */
+
+		$('#info').show();
+		$('#info h2').text(e.feature.getProperty('name'));
+		// $('#info span').text(e.feature.getProperty('stationName'));
+		$('#info span').html(featureInfo(e));
+		/* } */
 		// document.getElementById('info-box').textContent =
 		// event.feature.j.NOMBRE_MPI;
 		// map.data.revertStyle();
@@ -380,7 +390,7 @@ function featureInfo(event) {
 
 	} else {
 		// If the Country or State region was clicked.
-		$htmlText = '<div>Region: ' + event.feature.getProperty('regionName')
+		$htmlText = '<div>Region: ' + event.feature.getProperty('name')
 				+ '</div>';
 		// TODO Add more details
 	}

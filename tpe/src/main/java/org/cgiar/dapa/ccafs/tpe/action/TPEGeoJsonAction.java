@@ -93,6 +93,10 @@ public class TPEGeoJsonAction extends BaseAction {
 	 * The country or region longitude to initialize the lng
 	 */
 	protected Double lng;
+	/**
+	 * The corresponding country states geojson data
+	 */
+	private Object statesGeoJson;
 
 	public String execute() {
 		// Retrieve the data that will be converted into GeoJson by this action
@@ -109,6 +113,10 @@ public class TPEGeoJsonAction extends BaseAction {
 
 			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 					+ getRegion().getName().toUpperCase() + ".geo.json"));
+
+			// Load the states geo json data
+			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
 		}
 
 		// log.info(getCountryGeoJson());
@@ -194,6 +202,14 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setLng(Double lng) {
 		this.lng = lng;
+	}
+
+	public Object getStatesGeoJson() {
+		return statesGeoJson;
+	}
+
+	public void setStatesGeoJson(Object statesGeoJson) {
+		this.statesGeoJson = statesGeoJson;
 	}
 
 }
