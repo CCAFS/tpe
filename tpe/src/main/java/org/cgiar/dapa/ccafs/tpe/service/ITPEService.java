@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
@@ -25,7 +26,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
-import org.cgiar.dapa.ccafs.tpe.entity.Station; 
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -67,7 +68,6 @@ public interface ITPEService {
 	 * @return years
 	 */
 	List<String> getYearsByCultivar(Integer cultivarId);
- 
 
 	/**
 	 * Retrieves all the regions of the category country from the database
@@ -518,5 +518,16 @@ public interface ITPEService {
 	 * @return probabilities
 	 */
 	Map<String, List<Probability>> getEnvSoilProbabilities(Integer country);
+
+	/**
+	 * Gets the TPE box plot data for the selected country and crop cultivar.
+	 * 
+	 * @param country
+	 *            the selected country id
+	 * @param cultivar
+	 *            the selected crop cultivar id
+	 * @return data
+	 */
+	List<BoxPlot> getTPEBox(Integer country, Integer cultivar);
 
 }

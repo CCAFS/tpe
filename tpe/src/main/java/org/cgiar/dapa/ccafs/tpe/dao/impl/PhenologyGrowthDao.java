@@ -21,11 +21,13 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHull;
 import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.convexhull.ITPEConvexHull;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
+import org.cgiar.dapa.ccafs.tpe.entity.Environment;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
@@ -34,6 +36,7 @@ import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
 import org.cgiar.dapa.ccafs.tpe.util.Cluster;
 import org.cgiar.dapa.ccafs.tpe.util.ClusterColor;
+import org.cgiar.dapa.ccafs.tpe.util.StatisticsTPE;
 
 /**
  * This class provides the implementation of the methods defined in the
@@ -322,9 +325,9 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	public List<String> getTPEYears(Integer countryId, Integer cultivarId) {
 		StringBuffer q = new StringBuffer("select distinct r.year from "
 				+ entityClass.getName())
-				.append(" r where r.station.region.parent.id =:country")
-				.append(" or r.station.region.id =:country")
-				.append(" and r.cultivar.id =:cultivar");
+				.append(" r where r.region.id =:country")
+				.append(" and r.cultivar.id =:cultivar")
+				.append(" order by r.year asc");
 
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("country", countryId);
@@ -348,6 +351,72 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				" order by r.id asc");
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("country", countryId);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<BoxPlot> getTPEBox(Integer country, Integer cultivar) {
+		List<BoxPlot> data = new LinkedList<BoxPlot>();
+		List<Environment> environments = getEnvironments();
+		Environment env;
+		// org.apache.commons.math3.util
+		List<String> years = new LinkedList<String>();
+		years = getTPEYears(country, cultivar);
+		for (Iterator<Environment> envIterator = environments.iterator(); envIterator
+				.hasNext();) {
+			env = envIterator.next();
+			List<Float> yield = new LinkedList<Float>();
+			List<List<Float>> YieldList = new LinkedList<List<Float>>();
+			for (String year : years) {
+				StringBuffer q = new StringBuffer("select r.wrr14 from "
+						+ entityClass.getName())
+						.append(" r where r.region.id =:country")
+						.append(" and r.cultivar.id =:cultivar")
+						.append(" and r.environment.id =:environment")
+						.append(" and r.year =:year")
+						.append(" order by r.wrr14 asc");
+
+				Query query = entityManager.createQuery(q.toString());
+
+				query.setParameter("country", country);
+				query.setParameter("cultivar", cultivar);
+				query.setParameter("year", year);
+				query.setParameter("environment", env.getId());
+
+				List<Number> results = query.getResultList();
+
+				// List<PhenologyGrowth> results = query.getResultList();
+				yield = new LinkedList<Float>();
+				// YieldList = new LinkedList<List<Float>>();
+				// Quartiles
+				Number q1, q2, q3, q4;
+
+				q1 = StatisticsTPE.minValue(results);
+				q2 = StatisticsTPE.quartile1(results);
+				q3 = StatisticsTPE.quartile3(results);
+				q4 = StatisticsTPE.maxValue(results);
+
+				yield.add((Float) q1);
+				yield.add((Float) q2);
+				yield.add((Float) q3);
+				yield.add((Float) q4);
+
+				YieldList.add(yield);
+				yield = new LinkedList<Float>();
+			}
+			data.add(new BoxPlot(YieldList, env.getName(), env.getColor()));
+
+		}
+
+		return data;
+	}
+
+	private List<Environment> getEnvironments() {
+
+		StringBuffer q = new StringBuffer("from "
+				+ Environment.class.getSimpleName()).append(" r ");
+		Query query = entityManager.createQuery(q.toString());
 
 		return query.getResultList();
 	}

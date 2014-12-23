@@ -1,7 +1,7 @@
 //$(document)
 //	.ready(
 
-var probabilitiesJSON, categoriesJSON, dataJSON;
+var dataJSON, categoriesJSON;
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -105,7 +105,9 @@ function initializeMap(data) {
 	var mapOptions = {
 		zoom : defaultZoom,
 		center : defaultLatLng,
-		mapTypeId : google.maps.MapTypeId.ROADMAP
+		mapTypeId : google.maps.MapTypeId.ROADMAP,
+		draggableCursor : 'crosshair',
+		draggableCursor : 'default'
 	}
 
 	// Create the new map and make sure the tpe_map div
@@ -139,6 +141,16 @@ function initializeMap(data) {
 	map.data.addGeoJson(data.statesGeoJson, {
 		idPropertyName : "id"
 	});
+	// Add tpe boundary json data
+
+	map.data.addGeoJson(data.tpeBoundaryJson, {
+		idPropertyName : "id"
+	});
+
+	// Add the TPE for the selected country features to the map.
+	map.data.addGeoJson(data.tpeGeoJson, {
+		idPropertyName : "id"
+	});
 
 	/*
 	 * $.getJSON(markersAction, function(data) { console.log(data.soilGeoJson)
@@ -156,6 +168,34 @@ function initializeMap(data) {
 	map.data.setStyle(function(feature) {
 		var name = feature.getProperty('name');
 		var color = feature.getProperty('color');
+
+		if ((feature.getProperty('name') == 'LFE')
+				|| (feature.getProperty('name') == 'HFE')
+				|| (feature.getProperty('name') == 'FE')) {
+
+			return {
+				visible : true,
+				clickable : true,
+				title : name,
+				strokeWeight : 1,
+				strokeColor : feature.getProperty('colour'),
+				// strokeOpacity : 1,
+				// fillOpacity : 1,
+				fillColor : feature.getProperty('colour')
+			};
+		} else if (feature.getProperty('name') == 'TPE_BOUNDARY') {
+			return {
+				visible : true,
+				clickable : true,
+				title : name,
+				strokeWeight : 2,
+				strokeColor : "#000",
+				fillOpacity : 0,
+				// fillOpacity: 0.20,
+				fillColor : "#ffffff"
+			};
+		}
+
 		return {
 			icon : {
 				url : 'img/' + color + '.png'
@@ -165,11 +205,13 @@ function initializeMap(data) {
 			visible : true,
 			clickable : true,
 			title : name,
-			strokeWeight : 2,
-			strokeColor : "#990000",
+			strokeWeight : 1,
+			strokeColor : "#bdbdbd",
+			// strokeColor : "#000000",
 			// strokeOpacity : 0.5,
+			fillOpacity : 0,
 			// fillOpacity: 0.20,
-			fillColor : "#009900"
+			fillColor : "#ffffff"
 		};
 	});
 	var colorValues = [ "red", // 1
@@ -248,8 +290,11 @@ function initializeMap(data) {
 		// TODO Create the plot
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			// Display the plot only for the soil feature
-			var probJSON = probabilitiesJSON[e.feature.getProperty('code')];
+			var probJSON = dataJSON[e.feature.getProperty('code')];
 			createSoilPlot(categoriesJSON, probJSON);
+		} else if (e.feature.getProperty('featureType') == 'TPE') {
+			// Display the TPE Box plot
+			createTPEBoxPlot(categoriesJSON, dataJSON);
 		}
 	});
 
@@ -274,22 +319,44 @@ function initializeMap(data) {
 		// document.getElementById('info-box').textContent =
 		// event.feature.j.NOMBRE_MPI;
 		// map.data.revertStyle();
-		map.data.overrideStyle(e.feature, {
-			strokeColor : 'green',
-			fillColor : 'red'
-		});
+		if (e.feature.getProperty('name') == 'LFE') {
+			map.data.overrideStyle(e.feature, {
+				strokeColor : '#ff0000',
+				fillOpacity : 0.5,
+				fillColor : '#ff0000'
+			});
+		} else if (e.feature.getProperty('name') == 'HFE') {
+			map.data.overrideStyle(e.feature, {
+				strokeColor : '#00ff00',
+				fillOpacity : 0.5,
+				fillColor : '#00ff00'
+			});
+		} else if (e.feature.getProperty('name') == 'FE') {
+			map.data.overrideStyle(e.feature, {
+				strokeColor : '#0041a0',
+				fillOpacity : 0.5,
+				fillColor : '#0041a0'
+			});
+		}
 
 		// Display the corresponding plot chart
 
 		// TODO Add Soil chart
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			// Display the plot only for the soil point features
-			var probJSON = probabilitiesJSON[e.feature.getProperty('code')];
+			var probJSON = dataJSON[e.feature.getProperty('code')];
 			createSoilPlot(categoriesJSON, probJSON);
+		} else if (e.feature.getProperty('featureType') == 'TPE') {
+
+			console.log(categoriesJSON);
+			console.log(dataJSON);
+
+			// Display the TPE Box plot
+			createTPEBoxPlot(categoriesJSON, dataJSON);
 		}
 
 		// TODO Add Climate chart
-		if (e.feature.getProperty('featureType') == 'CLIMATE') {
+		else if (e.feature.getProperty('featureType') == 'CLIMATE') {
 			// Display the plot only for the soil point features
 			var plotJSON = e.feature.getProperty('plotData');
 			createClimatePlot(plotJSON);
@@ -299,10 +366,22 @@ function initializeMap(data) {
 	map.data.addListener('mouseout', function(e) {
 		e.feature.setProperty('selected', false);
 		$('#info').hide();
-		map.data.overrideStyle(e.feature, {
-			strokeColor : '#990000',
-			fillColor : '#009900'
-		});
+
+		/*
+		 * map.data.overrideStyle(e.feature, { strokeColor : '#990000',
+		 * fillColor : '#009900' });
+		 */
+
+		if ((e.feature.getProperty('name') == 'LFE')
+				|| (e.feature.getProperty('name') == 'HFE')
+				|| (e.feature.getProperty('name') == 'FE')) {
+			map.data.overrideStyle(e.feature, {
+				strokeColor : e.feature.getProperty('colour'),
+				fillOpacity : 0.20,
+				fillColor : e.feature.getProperty('colour')
+			});
+		}
+
 	});
 
 }
@@ -416,7 +495,7 @@ function geoJsonData(action) {
 			// console.log(dataJson.countryGeoJson);
 
 			// probabilitiesJSON = dataJson.data;
-			probabilitiesJSON = dataJson.probabilities;
+			dataJSON = dataJson.dataJson;
 
 			// console.log(dataJson.probabilities);
 			categoriesJSON = dataJson.categories;
@@ -429,7 +508,7 @@ function geoJsonData(action) {
 
 // Create the climate plot chart
 function createClimatePlot(seriesJSON) {
-	$('#env_soil_container').highcharts({
+	$('#env_container').highcharts({
 		chart : {
 			type : 'column'
 		},
@@ -478,7 +557,7 @@ function createClimatePlot(seriesJSON) {
 // Create the SOIL chart plot
 function createSoilPlot(categoriesJSON, seriesJSON) {
 
-	$('#env_soil_container')
+	$('#env_container')
 			.highcharts(
 					{
 						chart : {
@@ -572,4 +651,54 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 						series : seriesJSON
 					});
 
+}
+
+// Create Box Plot
+function createTPEBoxPlot(cats, ser) {
+
+	$('#env_container').highcharts({
+		chart : {
+			type : 'boxplot'
+		},
+
+		title : {
+			text : 'TPE Box Plot'
+		},
+
+		legend : {
+		 enabled: false
+		},
+
+		xAxis : [{
+			categories : ser,
+			offset : 0,
+			gridLineWidth : 1,
+//			width : 200,
+			title : {
+				text : 'Harvest Years'
+			}
+//			left : 324
+		} ],
+
+		yAxis : {
+			title : {
+				text : 'Yield (Kg/ha)'
+			},
+			plotLines : [ {
+				value : 932,
+				color : 'red',
+				width : 1,
+				label : {
+					text : 'Theoretical mean: 932',
+					align : 'center',
+					style : {
+						color : 'gray'
+					}
+				}
+			} ]
+		},
+
+		series : cats
+
+	});
 }

@@ -11,6 +11,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="${ctx}/script/select-params.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="${ctx}/script/init-map.js"></script>
 <script type='text/javascript'>
@@ -47,7 +48,7 @@
 				<h4 class="expanded">TPE Analytics</h4>
 				<div id="analytics">
 					<div class="tpe_plot">
-						<div id="env_soil_container"></div>
+						<div id="env_container"></div>
 					</div>
 				</div>
 			</div>

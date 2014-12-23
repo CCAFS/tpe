@@ -33,6 +33,8 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 8564417689624834186L;
 
+	private static final Object COUNTRY_COLOMBIA = "COLOMBIA";
+
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
@@ -111,8 +113,14 @@ public class ClimateGeoJsonAction extends BaseAction {
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
 		// Load states geo json data
-		this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
-				+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
+
+		if (getRegion().getName().toUpperCase().equals(COUNTRY_COLOMBIA))
+			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".CLIMATE.geo.json"));
+		else
+			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
+
 		return ActionSupport.SUCCESS;
 	}
 

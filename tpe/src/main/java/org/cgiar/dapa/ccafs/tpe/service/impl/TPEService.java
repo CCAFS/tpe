@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
@@ -28,14 +29,14 @@ import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
-import org.cgiar.dapa.ccafs.tpe.dao.IStationDao; 
+import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
-import org.cgiar.dapa.ccafs.tpe.entity.Station; 
+import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 
@@ -47,7 +48,7 @@ import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
  */
 
 public class TPEService implements ITPEService {
-	private ICropDao cropDao; 
+	private ICropDao cropDao;
 	private ICultivarDao cultivarDao;
 	private IRegionDao regionDao;
 	private ICategoryDao categoryDao;
@@ -88,8 +89,6 @@ public class TPEService implements ITPEService {
 		this.categoryDao = categoryDao;
 	}
 
-	 
-
 	public void setCultivarDao(ICultivarDao cultivarDao) {
 		this.cultivarDao = cultivarDao;
 	}
@@ -126,7 +125,6 @@ public class TPEService implements ITPEService {
 		return cultivarDao.getYearsByCultivar(cultivarId);
 	}
 
-	 
 	@Override
 	public List<Region> getCountries() {
 
@@ -368,5 +366,11 @@ public class TPEService implements ITPEService {
 			Integer country) {
 
 		return environmentSoilDao.getEnvSoilProbabilities(country);
+	}
+
+	@Override
+	public List<BoxPlot> getTPEBox(Integer country, Integer cultivar) {
+
+		return phenologyGrowthDao.getTPEBox(country, cultivar);
 	}
 }

@@ -13,11 +13,12 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -33,7 +34,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 2409450891248252753L;
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -80,10 +80,10 @@ public class TPEGeoJsonAction extends BaseAction {
 	protected Object countryGeoJson;
 
 	/**
-	 * The soil GeoJson map that will provide the GeoJson features on the Google
+	 * The TPE GeoJson map that will provide the GeoJson features on the Google
 	 * Map
 	 */
-	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
+	private Object tpeGeoJson;
 
 	/**
 	 * The country or region latitude coordinate.
@@ -97,6 +97,15 @@ public class TPEGeoJsonAction extends BaseAction {
 	 * The corresponding country states geojson data
 	 */
 	private Object statesGeoJson;
+	/**
+	 * The tpe boundary geo json
+	 */
+	private Object tpeBoundaryJson;
+	/**
+	 * The list of box plot data
+	 */
+	private List<BoxPlot> dataJson = new LinkedList<BoxPlot>();
+	private List<String> categories = new LinkedList<String>();
 
 	public String execute() {
 		// Retrieve the data that will be converted into GeoJson by this action
@@ -117,6 +126,24 @@ public class TPEGeoJsonAction extends BaseAction {
 			// Load the states geo json data
 			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
 					+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
+
+			// Load the TPE geo json data
+			this.setTpeGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".TPE.geo.json"));
+
+			this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath()
+					+ "script/" + getRegion().getName().toUpperCase()
+					+ ".BOUNDARY.json"));
+
+			dataJson = tpeService.getTPEBox(getSelectedCountry(),
+					getSelectedCultivar());
+
+			log.info(getSelectedCountry());
+			log.info(getSelectedCultivar());
+			log.info(dataJson);
+			categories = tpeService.getTPEYears(getSelectedCountry(),
+					getSelectedCultivar());
+			log.info(categories);
 		}
 
 		// log.info(getCountryGeoJson());
@@ -180,12 +207,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.countryGeoJson = countryGeoJson;
 	}
 
-	public Map<String, Object> getGeoJson() {
-		return geoJson;
+	public Object getTpeGeoJson() {
+		return tpeGeoJson;
 	}
 
-	public void setGeoJson(Map<String, Object> geoJson) {
-		this.geoJson = geoJson;
+	public void setTpeGeoJson(Object tpeGeoJson) {
+		this.tpeGeoJson = tpeGeoJson;
 	}
 
 	public Double getLat() {
@@ -210,6 +237,30 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setStatesGeoJson(Object statesGeoJson) {
 		this.statesGeoJson = statesGeoJson;
+	}
+
+	public Object getTpeBoundaryJson() {
+		return tpeBoundaryJson;
+	}
+
+	public void setTpeBoundaryJson(Object tpeBoundaryJson) {
+		this.tpeBoundaryJson = tpeBoundaryJson;
+	}
+
+	public List<BoxPlot> getDataJson() {
+		return dataJson;
+	}
+
+	public void setDataJson(List<BoxPlot> dataJson) {
+		this.dataJson = dataJson;
+	}
+
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
 	}
 
 }

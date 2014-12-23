@@ -16,6 +16,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 
@@ -157,4 +158,14 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 * @return years
 	 */
 	List<String> getTPEYears(Integer countryId, Integer cultivarId);
+	/**
+	 * Gets the TPE box plot data for the selected country and crop cultivar.
+	 * 
+	 * @param country
+	 *            the selected country id
+	 * @param cultivar
+	 *            the selected crop cultivar id
+	 * @return data
+	 */
+	List<BoxPlot> getTPEBox(Integer country, Integer cultivar);
 }

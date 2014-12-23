@@ -27,8 +27,9 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHullPoint;
+import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -41,8 +42,13 @@ import org.json.simple.parser.ParseException;
  *
  */
 public class Utils implements Constants {
+	/**
+	 * The size of the tile
+	 */
+	private static final Double TILE_SIZE_64 = 20.0;
 	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(Utils.class.getClass());
+
 	/**
 	 * Creates the marker symbol map for the highcharts spline chart
 	 * 
@@ -148,10 +154,10 @@ public class Utils implements Constants {
 	}
 
 	public static List<List<List<Double>>> convertFromConvexHull(
-			List<ConvexHullPoint> convexHullCoordinates) {
+			List<HullPoint> convexHullCoordinates) {
 		List<List<Double>> coordinates = new LinkedList<List<Double>>();
 
-		for (Iterator<ConvexHullPoint> iteratorPoint = convexHullCoordinates
+		for (Iterator<HullPoint> iteratorPoint = convexHullCoordinates
 				.iterator(); iteratorPoint.hasNext();) {
 
 			coordinates.add(iteratorPoint.next().getCoordinates());
@@ -163,4 +169,198 @@ public class Utils implements Constants {
 
 	}
 
+	/**
+	 * Calculates the distance between two coordinates on the Google Map
+	 * 
+	 * @param firstCooordinate
+	 *            the first LatLng coordinate
+	 * @param secondCoordinate
+	 *            the second LatLng coordinate
+	 * @return distance
+	 */
+	public static Double distnceBtnLatLng(HullPoint firstCooordinate,
+			HullPoint secondCoordinate) {
+		// Radius of the Earth in Km (6371)
+		Double radiusEarth = new Double(6371);
+
+		Double dLat = degToRad(secondCoordinate.getLatitude(),
+				firstCooordinate.getLatitude());
+
+		Double dLng = degToRad(secondCoordinate.getLongitude(),
+				firstCooordinate.getLongitude());
+
+		Double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+				+ Math.cos(degToRad(firstCooordinate.getLatitude()))
+				* Math.cos(degToRad(secondCoordinate.getLatitude()))
+				* Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+		Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+		Double d = radiusEarth * c;
+
+		// if (d > 1)
+		// return new Double(Math.round(d));
+		//
+		// else if (d <= 1)
+		//
+		// return new Double(Math.round(d * 1000));
+
+		return d;
+
+	}
+
+	public static Double degToRad(Double secondCoordinate,
+			Double firstCoordinate) {
+
+		return (secondCoordinate - firstCoordinate) * Math.PI / 180;
+	}
+
+	public static Double degToRad(Double coordinate) {
+
+		return coordinate * Math.PI / 180;
+	}
+
+	public static double radTodeg(double rad) {
+		return (rad * 180.0 / Math.PI);
+	}
+
+	public static Integer numberOfTiles(Double distance, Double tileSize) {
+		Double tiles = 0.0;
+
+		if (distance != null && distance != 0) {
+			tiles = distance / TILE_SIZE_64;
+
+			if (tiles > 1.0)
+				return tiles.intValue();
+		} else
+			return 0;
+
+		return tiles.intValue();
+	}
+
+	public static Integer numberOfTiles(HullPoint firstCooordinate,
+			HullPoint secondCoordinate) {
+
+		Double distance = distnceBtnLatLng(firstCooordinate, secondCoordinate);
+		Double tiles = 0.0;
+
+		if (distance != null && distance != 0) {
+			tiles = distance / TILE_SIZE_64;
+
+			if (tiles > 1.0)
+				return tiles.intValue();
+		} else
+			return 0;
+
+		return tiles.intValue();
+	}
+
+	// Map<Lat, Lng>
+	public static Map<Double, Double> pixelStep(HullPoint firstCooordinate,
+			HullPoint secondCoordinate) {
+		// Map<Lat, Lng>
+		Map<Double, Double> pixelSteps = new HashMap<Double, Double>();
+
+		Integer numberOfTiles = numberOfTiles(firstCooordinate,
+				secondCoordinate);
+
+		Double stepLat = (firstCooordinate.getLatitude() - secondCoordinate
+				.getLatitude()) / numberOfTiles;
+
+		Double stepLng = (firstCooordinate.getLongitude() - secondCoordinate
+				.getLongitude()) / numberOfTiles;
+
+		pixelSteps.put(stepLat, stepLng);
+
+		return pixelSteps;
+
+	}
+
+	public static List<HullPoint> getPixelCoordinates(
+			HullPoint firstCooordinate, HullPoint secondCoordinate,
+			boolean lowerHull) {
+		// The Convex Hull Points from the first coordinate to the second
+		// coordinate
+		List<HullPoint> pixelPoints = new LinkedList<HullPoint>();
+		// The points from point A to point B
+		List<HullPoint> pointsAB = new LinkedList<HullPoint>();
+
+		Integer numberOfTiles = numberOfTiles(firstCooordinate,
+				secondCoordinate);
+
+		Double stepLat = (firstCooordinate.getLatitude() - secondCoordinate
+				.getLatitude()) / numberOfTiles;
+
+		Double stepLng = (firstCooordinate.getLongitude() - secondCoordinate
+				.getLongitude()) / numberOfTiles;
+
+		// Get the points on line AB
+		// Initialize the list with the coordinates of the first point A
+		pointsAB.add(firstCooordinate);
+		for (int i = 0; i < numberOfTiles; i++) {
+			pointsAB.add(new HullPoint(
+					firstCooordinate.getLatitude() + stepLat, firstCooordinate
+							.getLongitude() + stepLng));
+		}
+		// Then add the last coordinates from the second point B
+		pointsAB.add(secondCoordinate);
+
+		if (!lowerHull) {
+			// For lower hull, start with (FirstLat,PixelLng)
+			for (int i = 0; i < pointsAB.size(); i++) {
+				pixelPoints.add(pointsAB.get(i));
+				// Add the perpendicular coordinate if is not the last point
+				if (i != pointsAB.size() - 1)
+					pixelPoints.add(new HullPoint(
+							pointsAB.get(i).getLatitude(), pointsAB.get(i + 1)
+									.getLongitude()));
+			}
+		} else {
+			// TODO Consider or check the magnitude of the coordinates
+			// For lower hull, start with (FirstLat)
+			for (int i = 0; i < pointsAB.size(); i++) {
+				pixelPoints.add(pointsAB.get(i));
+				// Add the perpendicular coordinate if is not the last point
+				if (i != pointsAB.size() - 1)
+					pixelPoints.add(new HullPoint(pointsAB.get(i + 1)
+							.getLatitude(), pointsAB.get(i).getLongitude()));
+			}
+		}
+
+		return pixelPoints;
+
+	}
+
+	public static List<Integer> getTextureId(List<Soil> textures) {
+		List<Integer> ids = new LinkedList<Integer>();
+		for (Soil soil : textures)
+			ids.add(soil.getId());
+		return ids;
+	}
+
+	/**
+	 * The method for loading a JSON file data
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static Object loadJSONData(String fileName) {
+
+		JSONParser parser = new JSONParser();
+		Object json = null;
+		try {
+			json = parser.parse(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return json;
+	}
 }

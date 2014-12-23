@@ -138,21 +138,21 @@
 		</action>
 		<action name="soilGeoJson" class="soilGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,probabilities.*,categories.*</param>
+				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,dataJson.*,categories.*,statesGeoJson.*,tpeBoundaryJson.*</param>
 			</result>
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
+				<param name="includeProperties">tpeGeoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,dataJson.*,categories.*</param>
 			</result>
 		</action>
 		<action name="climateGeoJson" class="climateGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*</param>
+				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,statesGeoJson.*</param>
 			</result>
 		</action>
 
-		 
+
 
 	</package>
 

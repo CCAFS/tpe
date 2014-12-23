@@ -379,6 +379,10 @@ public class PhenologyGrowth extends BaseResult {
 	 * The cluster categorizes the environments (HFE, LFE, FE)
 	 */
 	private Integer cluster;
+	/**
+	 * The environment cluster id
+	 */
+	private Environment environment;
 
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
@@ -1106,5 +1110,15 @@ public class PhenologyGrowth extends BaseResult {
 
 		return new HullPoint(this.getLatitude(), this.getLongitude());
 
+	}
+
+	@ManyToOne(targetEntity = Environment.class)
+	@JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
+	public Environment getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(Environment environment) {
+		this.environment = environment;
 	}
 }

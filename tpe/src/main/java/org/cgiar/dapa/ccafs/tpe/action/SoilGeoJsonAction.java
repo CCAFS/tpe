@@ -91,11 +91,12 @@ public class SoilGeoJsonAction extends BaseAction {
 	 */
 	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
 
-	private Map<String, List<Probability>> probabilities = new LinkedHashMap<String, List<Probability>>();
+	private Map<String, List<Probability>> dataJson = new LinkedHashMap<String, List<Probability>>();
 	// private Map<String, List<Map<String, Object>>> probabilities = new
 	// LinkedHashMap<String, List<Map<String, Object>>>();
 
 	private List<String> categories = new LinkedList<String>();
+	private Object tpeBoundaryJson;
 
 	public String execute() {
 
@@ -124,18 +125,23 @@ public class SoilGeoJsonAction extends BaseAction {
 			this.setZoom(this.getRegion().getZoom());
 
 			// Load the country geojson file
-			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"+ getRegion().getName().toUpperCase() + ".geo.json"));
+			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".geo.json"));
 			// Load the corresponding country states
-			
-			this.statesGeoJson=Utils.loadJSONData(this.getPath() + "script/"+ getRegion().getName().toUpperCase() + ".STATES.geo.json");
+
+			this.statesGeoJson = Utils.loadJSONData(this.getPath() + "script/"
+					+ getRegion().getName().toUpperCase() + ".STATES.geo.json");
 
 			categories = tpeService.getEnvSowingDates(getSelectedCountry());
-			probabilities = tpeService
-					.getEnvSoilProbabilities(getSelectedCountry());
+			dataJson = tpeService.getEnvSoilProbabilities(getSelectedCountry());
 			// log.info("About to query data.");
 			this.setGeoJson(this.tpeService.getSoilGeoJson(null,
 					getSelectedCountry()));
 			// TODO Add cultivar parameter
+
+			this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath()
+					+ "script/" + getRegion().getName().toUpperCase()
+					+ ".BOUNDARY.json"));
 
 		}
 
@@ -206,12 +212,12 @@ public class SoilGeoJsonAction extends BaseAction {
 		this.geoJson = geoJson;
 	}
 
-	public Map<String, List<Probability>> getProbabilities() {
-		return probabilities;
+	public Map<String, List<Probability>> getDataJson() {
+		return dataJson;
 	}
 
-	public void setProbabilities(Map<String, List<Probability>> probabilities) {
-		this.probabilities = probabilities;
+	public void setDataJson(Map<String, List<Probability>> dataJson) {
+		this.dataJson = dataJson;
 	}
 
 	public List<String> getCategories() {
@@ -228,6 +234,14 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public void setStatesGeoJson(Object statesGeoJson) {
 		this.statesGeoJson = statesGeoJson;
+	}
+
+	public Object getTpeBoundaryJson() {
+		return tpeBoundaryJson;
+	}
+
+	public void setTpeBoundaryJson(Object tpeBoundaryJson) {
+		this.tpeBoundaryJson = tpeBoundaryJson;
 	}
 
 }
