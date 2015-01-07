@@ -143,7 +143,7 @@
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">tpeGeoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,dataJson.*,categories.*</param>
+				<param name="includeProperties">tpeGeoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,dataJson.*,categories.*,categoriesList.*,categoriesTempRain.*,plotBands.*,seriesLai.*,seriesPcew.*,seriesRainCum.*,seriesTempRain.*</param>
 			</result>
 		</action>
 		<action name="climateGeoJson" class="climateGeoJsonAction">

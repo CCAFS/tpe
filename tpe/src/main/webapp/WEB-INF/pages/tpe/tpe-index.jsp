@@ -36,7 +36,11 @@
 
 		<div id="tpe_main">
 			<!--  TPE Google Map-->
-			<div id="tpe_map" class="tpe_map_min"></div>
+			<div id="tpe_map" class="tpe_map_min">
+				<div id="loading">
+					<img src="${ctx}/img/ajax-loader.gif" />
+				</div>
+			</div>
 			<div id="info">
 				<h2></h2>
 				<span id="info_details">Details!</span>
@@ -49,6 +53,15 @@
 				<div id="analytics">
 					<div class="tpe_plot">
 						<div id="env_container"></div>
+					</div>
+					<div class="tpe_plot">
+						<div id="plot_lai"></div>
+					</div>
+					<div class="tpe_plot">
+						<div id="plot_pcew"></div>
+					</div>
+					<div class="tpe_plot">
+						<div id="plot_temprain"></div>
 					</div>
 				</div>
 			</div>

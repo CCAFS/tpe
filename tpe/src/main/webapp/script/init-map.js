@@ -1,7 +1,7 @@
 //$(document)
 //	.ready(
 
-var dataJSON, categoriesJSON;
+var dataJSON, categoriesJSON, categoriesList, plotBands, seriesLai, seriesPcew, seriesRainCum, seriesTempRain, categoriesTempRain;
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -78,7 +78,6 @@ function initializeGoogleMap() {
  * The function that initializes the Google Map
  */
 function initializeMap(data) {
-
 	createSoilPlot();
 
 	// var mapStyle = [ ];
@@ -206,8 +205,8 @@ function initializeMap(data) {
 			clickable : true,
 			title : name,
 			strokeWeight : 1,
-			strokeColor : "#bdbdbd",
-			// strokeColor : "#000000",
+			//strokeColor : "#bdbdbd",
+			 strokeColor : "#000000",
 			// strokeOpacity : 0.5,
 			fillOpacity : 0,
 			// fillOpacity: 0.20,
@@ -295,6 +294,11 @@ function initializeMap(data) {
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 			// Display the TPE Box plot
 			createTPEBoxPlot(categoriesJSON, dataJSON);
+
+			createLAIPlot(categoriesList, seriesLai, plotBands);
+			createPCEWPlot(categoriesList, seriesPcew, plotBands);
+			createTempRainPlot(categoriesTempRain, seriesTempRain);
+
 		}
 	});
 
@@ -348,11 +352,15 @@ function initializeMap(data) {
 			createSoilPlot(categoriesJSON, probJSON);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 
-			console.log(categoriesJSON);
-			console.log(dataJSON);
+			// console.log(categoriesJSON);
+			// console.log(dataJSON);
 
 			// Display the TPE Box plot
 			createTPEBoxPlot(categoriesJSON, dataJSON);
+
+			createLAIPlot(categoriesList, seriesLai, plotBands);
+			createPCEWPlot(categoriesList, seriesPcew, plotBands);
+			createTempRainPlot(categoriesTempRain, seriesTempRain);
 		}
 
 		// TODO Add Climate chart
@@ -417,32 +425,32 @@ function featureInfo(event) {
 		$htmlText = $htmlText + '</div><div>PH: '
 				+ event.feature.getProperty("ph") + '</div>';
 		// Depth
-		$htmlText = $htmlText + '</div><div>Depth: '
+		$htmlText = $htmlText + '<div>Depth: '
 				+ event.feature.getProperty("depth") + '</div>';
 		// availableSoilWater
-		$htmlText = $htmlText + '</div><div>Available Soil Water: '
+		$htmlText = $htmlText + '<div>Available Soil Water: '
 				+ event.feature.getProperty("availableSoilWater") + '</div>';
 		// Bulk Density
-		$htmlText = $htmlText + '</div><div>Bulk Density: '
+		$htmlText = $htmlText + '<div>Bulk Density: '
 				+ event.feature.getProperty("bulkDensity") + '</div>';
 		// Cation Exchange
-		$htmlText = $htmlText + '</div><div>Cation Exchange: '
+		$htmlText = $htmlText + '<div>Cation Exchange: '
 				+ event.feature.getProperty("cationExchange") + '</div>';
 		// Organic Carbon
-		$htmlText = $htmlText + '</div><div>Organic Carbon: '
+		$htmlText = $htmlText + '<div>Organic Carbon: '
 				+ event.feature.getProperty("organicCarbon") + '</div>';
 		// Organic Matter
-		$htmlText = $htmlText + '</div><div>Organic Matter: '
+		$htmlText = $htmlText + '<div>Organic Matter: '
 				+ event.feature.getProperty("organicMatter") + '</div>';
 		// Water Content Field Capacity
-		$htmlText = $htmlText + '</div><div>Water Content Field Capacity: '
+		$htmlText = $htmlText + '<div>Water Content Field Capacity: '
 				+ event.feature.getProperty("waterContentFieldCapacity")
 				+ '</div>';
 		// Taxonomy
-		$htmlText = $htmlText + '</div><div>Taxonomy: '
+		$htmlText = $htmlText + '<div>Taxonomy: '
 				+ event.feature.getProperty("taxonomy") + '</div>';
 		// Water Capacity Wilt Point
-		$htmlText = $htmlText + '</div><div>Water Capacity Wilt Point: '
+		$htmlText = $htmlText + '<div>Water Capacity Wilt Point: '
 				+ event.feature.getProperty("waterCapacityWiltPoint")
 				+ '</div>';
 	} else if (event.feature.getProperty('featureType') == 'CLIMATE') {
@@ -455,19 +463,31 @@ function featureInfo(event) {
 				+ event.feature.getProperty('stationNumber') + '</div>';
 		// Add climate properties here
 		// Min Temperature
-		$htmlText = $htmlText + '</div><div>Min Temperature: '
+		$htmlText = $htmlText + '<div>Min Temperature: '
 				+ event.feature.getProperty("minT") + '</div>';
 		// Max Temperature
-		$htmlText = $htmlText + '</div><div>Max Temperature: '
+		$htmlText = $htmlText + '<div>Max Temperature: '
 				+ event.feature.getProperty("maxT") + '</div>';
 		// Precipitation
-		$htmlText = $htmlText + '</div><div>Precipitation: '
+		$htmlText = $htmlText + '<div>Precipitation: '
 				+ event.feature.getProperty("precipitation") + '</div>';
 		// Radiation
-		$htmlText = $htmlText + '</div><div>Radiation: '
+		$htmlText = $htmlText + '<div>Radiation: '
 				+ event.feature.getProperty("radiation") + '</div>';
 
-	} else {
+	} else if (event.feature.getProperty('featureType') == 'TPE') {
+
+		$htmlText = '<div style="color:' + event.feature.getProperty('colour')
+				+ '";">' + event.feature.getProperty('description') + '</div>';
+
+		$htmlText = $htmlText + '<div>Crop: '
+				+ event.feature.getProperty("crop") + '</div>';
+
+		$htmlText = $htmlText + '<div>Cultivar: '
+				+ event.feature.getProperty("cultivar") + '</div>';
+	}
+
+	else {
 		// If the Country or State region was clicked.
 		$htmlText = '<div>Region: ' + event.feature.getProperty('name')
 				+ '</div>';
@@ -500,6 +520,14 @@ function geoJsonData(action) {
 			// console.log(dataJson.probabilities);
 			categoriesJSON = dataJson.categories;
 
+			categoriesList = dataJson.categoriesList;
+			plotBands = dataJson.plotBands;
+			seriesLai = dataJson.seriesLai;
+			seriesPcew = dataJson.seriesPcew;
+			seriesRainCum = dataJson.seriesRainCum;
+			seriesTempRain = dataJson.seriesTempRain;
+			categoriesTempRain = dataJson.categoriesTempRain;
+
 			initializeMap(dataJson);
 		}
 	});
@@ -510,7 +538,15 @@ function geoJsonData(action) {
 function createClimatePlot(seriesJSON) {
 	$('#env_container').highcharts({
 		chart : {
-			type : 'column'
+			type : 'column',
+			style : {
+				fontFamily : 'serif',
+				fontSize : '8px'
+			},
+			marginBottom : 60,
+			marginTop : 10,
+			marginLeft : 60,
+			marginRight : 10
 		},
 		credits : {
 			enabled : true,
@@ -523,7 +559,12 @@ function createClimatePlot(seriesJSON) {
 			}
 		},
 		title : {
-			text : 'Environment Sensibility'
+			text : 'Environment Sensibility',
+			style : {
+				color : '#4e2700',
+				// fontWeight : 'bold',
+				fontSize : '10px'
+			}
 		},
 		subtitle : {
 			text : 'Source: <a href="http://www.ccafs.org">CCAFS</a>'
@@ -533,7 +574,7 @@ function createClimatePlot(seriesJSON) {
 			labels : {
 				rotation : -45,
 				style : {
-					fontSize : '12px',
+					fontSize : '8px',
 					fontFamily : 'Verdana, sans-serif'
 				}
 			}
@@ -562,8 +603,18 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 					{
 						chart : {
 							type : 'column',
-							marginTop : 70,
-							marginLeft : 65,
+							//marginTop : 70,
+							//marginLeft : 65,
+							
+							style : {
+								fontFamily : 'serif',
+								fontSize : '8px'
+							},
+							marginBottom : 60,
+							marginTop : 30,
+							marginLeft : 60,
+							marginRight : 2
+							
 
 						},
 						credits : {
@@ -618,18 +669,18 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 							itemStyle : {
 								color : '#000000',
 								// fontWeight : 'bold',
-								fontSize : '10px'
+								fontSize : '8px'
 							},
 
-							align : 'right',
+							//align : 'right',
 							// x : -70,
-							verticalAlign : 'top',
+							verticalAlign : 'bottom',
 							y : 22,
-							floating : true,
+							//floating : true,
 							backgroundColor : (Highcharts.theme && Highcharts.theme.background2)
 									|| 'white',
 							borderColor : '#CCC',
-							borderWidth : 1,
+							//borderWidth : 1,
 							shadow : false
 						},
 						tooltip : {
@@ -654,51 +705,291 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 }
 
 // Create Box Plot
-function createTPEBoxPlot(cats, ser) {
+function createTPEBoxPlot(categories, series) {
 
 	$('#env_container').highcharts({
 		chart : {
-			type : 'boxplot'
+			type : 'boxplot',
+			style : {
+				fontFamily : 'serif',
+				fontSize : '8px'
+			}
+	/*,
+			marginBottom : 2,
+			marginTop : 10,
+			marginLeft : 60,
+			marginRight : 10*/
 		},
-
+		credits : {
+			enabled : true,
+			text : 'Source: CCAFS TPE (www.ccafs.org) (Low Favourable Environment)' ,
+			href : 'http://www.ccafs.org',
+			style : {
+				color : '#4e2700'
+			// fontWeight : 'bold',
+			// fontSize : '8px'
+			}
+		},
 		title : {
-			text : 'TPE Box Plot'
+			text : 'TPE Trend Yield - Boxplot',
+			style : {
+				color : '#4e2700',
+				// fontWeight : 'bold',
+				fontSize : '10px'
+			}
 		},
 
 		legend : {
-		 enabled: false
+			enabled : true
 		},
 
-		xAxis : [{
-			categories : ser,
-			offset : 0,
-			gridLineWidth : 1,
-//			width : 200,
+		xAxis : {
+			categories : categories,
+			// offset : 0,
+			// gridLineWidth : 1,
+			// width : 200,
 			title : {
 				text : 'Harvest Years'
 			}
-//			left : 324
-		} ],
+		// left : 324
+		},
 
 		yAxis : {
 			title : {
 				text : 'Yield (Kg/ha)'
-			},
-			plotLines : [ {
-				value : 932,
-				color : 'red',
-				width : 1,
-				label : {
-					text : 'Theoretical mean: 932',
-					align : 'center',
-					style : {
-						color : 'gray'
-					}
-				}
-			} ]
+			}
 		},
 
-		series : cats
+		series : series
 
+	});
+}
+
+function createLAIPlot(categories, series, plotBands) {
+	$('#plot_lai')
+			.highcharts(
+					{
+						credits : {
+							// This hides highcharts.com from the legend
+							// enabled : false
+							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+							href : 'http://www.ccafs-tpe.org',
+							// href: null
+							// style : {
+							// width : 300
+							// },
+							position : {
+								align : 'left',
+								x : 10
+							}
+						},
+						chart : {
+							style : {
+								fontFamily : 'serif',
+								fontSize : '8px'
+							},
+							marginBottom : 50,
+							marginTop : 25,
+							marginLeft : 50,
+							marginRight : 10
+						// width: null,
+						// height: null
+						},
+						title : {
+							text : 'Env Stress LAI',
+							style : {
+								color : '#4e2700',
+								// fontWeight : 'bold'
+								fontSize : '10px'
+							}
+						},
+						subtitle : {
+							text : 'HFE (High Favourable Environments)',
+							style : {
+								color : '#4e2700'
+							// fontWeight : 'bold',
+							// fontSize : '10px',
+							}
+						},
+						xAxis : {
+							categories : categories,
+							title : {
+								text : 'Days After Emergency',
+								align : 'high'
+							},
+							plotBands : plotBands
+						},
+						yAxis : {
+							title : {
+								text : 'LAI and Actual Transpiration (mm)'
+							},
+							labels : {
+								overflow : 'justify'
+							}
+						},
+						plotOptions : {
+							column : {
+								stacking : 'normal',
+								dataLabels : {
+									enabled : true,
+									color : (Highcharts.theme && Highcharts.theme.dataLabelsColor)
+											|| 'white'
+								}
+							}
+						},
+						series : series
+					});
+}
+
+function createPCEWPlot(categories, series, plotBands) {
+	$('#plot_pcew').highcharts({
+		credits : {
+			// This hides highcharts.com from the legend
+			// enabled : false
+			text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+			href : 'http://www.ccafs-tpe.org',
+			// href: null
+			// style : {
+			// width : 300
+			// },
+			position : {
+				align : 'left',
+				x : 10
+			}
+		},
+		chart : {
+			style : {
+				fontFamily : 'serif',
+				fontSize : '8px'
+			},
+			marginBottom : 60,
+			marginTop : 25,
+			marginLeft : 45,
+			marginRight : 10
+		},
+		title : {
+			text : 'Env Stress PCEW',
+			style : {
+				color : '#4e2700',
+				// fontWeight : 'bold',
+				fontSize : '10px'
+			}
+		},
+		subtitle : {
+			text : 'HFE (High Favourable Environments)',
+			style : {
+				color : '#4e2700'
+			// fontWeight : 'bold',
+			// fontSize : '10px',
+			}
+		},
+		xAxis : {
+			categories : categories,
+			title : {
+				text : 'Days After Emergency',
+				align : 'high'
+			},
+			plotBands : plotBands
+		},
+		yAxis : {
+			title : {
+				text : 'Stress Index (ETa/ETp)'
+			},
+			labels : {
+				overflow : 'justify'
+			}
+		},
+		series : series
+	});
+}
+
+function createTempRainPlot(categories, series) {
+	$('#plot_temprain').highcharts({
+		credits : {
+			// This hides highcharts.com from the legend
+			// enabled : false
+			text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+			href : 'http://www.ccafs-tpe.org',
+			// href: null
+			// style : {
+			// width : 300
+			// },
+			position : {
+				align : 'left',
+				x : 10
+			}
+		},
+		chart : {
+			zoomType : 'xy',
+			style : {
+				fontFamily : 'serif',
+				fontSize : '8px'
+			}
+	/*	,
+			marginBottom : 60,
+			marginTop : 25,
+			marginLeft : 60,
+			marginRight : 10*/
+		},
+		title : {
+			text : 'Average Monthly Temperature and Rainfall',
+			style : {
+				color : '#4e2700',
+				// fontWeight : 'bold',
+				fontSize : '10px'
+			}
+		},
+		subtitle : {
+			text : 'HFE (High Favourable Environments)',
+			style : {
+				color : '#4e2700'
+			// fontWeight : 'bold',
+			// fontSize : '10px',
+			}
+		},
+		xAxis : {
+			categories : categories
+		},
+		yAxis : [ { // Primary yAxis
+			labels : {
+				format : '{value}°C',
+				style : {
+					color : '#89A54E'
+				}
+			},
+			title : {
+				text : 'Temperature',
+				style : {
+					color : '#89A54E'
+				}
+			}
+		}, { // Secondary yAxis
+			title : {
+				text : 'Rainfall',
+				style : {
+					color : '#4572A7'
+				}
+			},
+			labels : {
+				format : '{value} mm',
+				style : {
+					color : '#4572A7'
+				}
+			},
+			opposite : true
+		} ],
+		tooltip : {
+			shared : true
+		},
+		legend : {
+			layout : 'horizontal',
+			align : 'left',
+			// x : 120,
+			verticalAlign : 'bottom',
+			// y : 5,
+			floating : true,
+			backgroundColor : '#FFFFFF'
+		},
+		series : series
 	});
 }

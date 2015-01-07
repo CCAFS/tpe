@@ -1,4 +1,13 @@
 $(document).ready(function() {
+	jQuery.ajaxSetup({
+		beforeSend : function() {
+			jQuery("#loading").show();
+		},
+		complete : function() {
+			jQuery("#loading").hide();
+		}
+	});
+	
 	// href for loading the selected params
 	var href_output = "paramsOut.action";
 	// Get the preselected Output (TPE, SOIL, CLIMATE)
@@ -114,7 +123,7 @@ $(document).ready(function() {
 				/* $(this).slideUp(0).slideDown(1000); */
 
 				// Load the Google Map, the selected crop cultivar changes
-				// initializeGoogleMap();
+				 initializeGoogleMap();
 			});
 
 			// Automatically reload the crop cultivars when the crop change
@@ -130,7 +139,7 @@ $(document).ready(function() {
 					/* $(this).slideUp(0).slideDown(1000); */
 
 					// Load the Google Map, the selected crop changes
-					// initializeGoogleMap();
+					initializeGoogleMap();
 				});
 
 			});

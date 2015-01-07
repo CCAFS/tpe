@@ -517,7 +517,8 @@ div#info {
 	border: rgb(229, 229, 229) 1px solid;
 	width: 250px;
 	height: auto;
-	z-index: 60
+	z-index: 60;
+	color: #4e2700;
 }
 
 div#info_details div {
@@ -551,7 +552,7 @@ div#tpe_map_canvas {
 
 .tpe_plot {
 	background: #f7f5ed;
-	height: 300px;
+	height: 200px;
 	border: 1px solid #487429;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -562,7 +563,7 @@ div#tpe_map_canvas {
 	box-shadow: 0 1px 3px #487429;
 }
 
-div#env_container {
+div#env_container,div#plot_lai,div#plot_pcew,div#plot_temprain {
 	height: 100%;
 	width: 100%;
 	/* position:absolute; */
@@ -931,6 +932,13 @@ div#documentation {
 	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.2em;
 	line-height: 1.2em;
+}
+
+div#loading{
+	margin: auto;
+	position: absolute;
+	top: 30%;
+	left: 45%;
 }
 
 /*=====================SLides ==========================*/

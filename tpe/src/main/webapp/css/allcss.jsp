@@ -3,4 +3,4 @@
 
 <%@ include file="/css/styles.css" %>
 <%@ include file="/css/tpe.css" %>
-<%@ include file="/css/slide.css" %>
+<%@ include file="/css/slider.css" %>
