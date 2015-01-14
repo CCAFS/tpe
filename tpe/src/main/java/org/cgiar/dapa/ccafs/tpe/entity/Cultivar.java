@@ -45,6 +45,30 @@ public class Cultivar extends BaseEntity {
 	 * The crop to which the cultivar belongs
 	 */
 	private Crop crop;
+	/**
+	 * The start day of the vegetative plot band
+	 */
+	private Integer vegetativeStartDay;
+	/**
+	 * The end day of the vegetative plot band
+	 */
+	private Integer vegetativeEndDay;
+	/**
+	 * The start day of the reproductive plot band
+	 */
+	private Integer reproductiveStartDay;
+	/**
+	 * The end day of the reproductive plot band
+	 */
+	private Integer reproductiveEndDay;
+	/**
+	 * The start day of the filling grain plot band
+	 */
+	private Integer fillingGrainStartDay;
+	/**
+	 * The end day of the filling grain plot band
+	 */
+	private Integer fillingGrainEndDay;
 
 	@Column(name = "cultivar_name")
 	public String getName() {
@@ -73,4 +97,59 @@ public class Cultivar extends BaseEntity {
 		return sb.toString();
 
 	}
+
+	@Column(name = "vegetative_start_day")
+	public Integer getVegetativeStartDay() {
+		return vegetativeStartDay;
+	}
+
+	public void setVegetativeStartDay(Integer vegetativeStartDay) {
+		this.vegetativeStartDay = vegetativeStartDay;
+	}
+
+	@Column(name = "vegetative_end_day")
+	public Integer getVegetativeEndDay() {
+		return vegetativeEndDay;
+	}
+
+	public void setVegetativeEndDay(Integer vegetativeEndDay) {
+		this.vegetativeEndDay = vegetativeEndDay;
+	}
+
+	@Column(name = "reproductive_start_day")
+	public Integer getReproductiveStartDay() {
+		return reproductiveStartDay;
+	}
+
+	public void setReproductiveStartDay(Integer reproductiveStartDay) {
+		this.reproductiveStartDay = reproductiveStartDay;
+	}
+
+	@Column(name = "reproductive_end_day")
+	public Integer getReproductiveEndDay() {
+		return reproductiveEndDay;
+	}
+
+	public void setReproductiveEndDay(Integer reproductiveEndDay) {
+		this.reproductiveEndDay = reproductiveEndDay;
+	}
+
+	@Column(name = "fillinggrain_start_day")
+	public Integer getFillingGrainStartDay() {
+		return fillingGrainStartDay;
+	}
+
+	public void setFillingGrainStartDay(Integer fillingGrainStartDay) {
+		this.fillingGrainStartDay = fillingGrainStartDay;
+	}
+
+	@Column(name = "fillinggrain_end_day")
+	public Integer getFillingGrainEndDay() {
+		return fillingGrainEndDay;
+	}
+
+	public void setFillingGrainEndDay(Integer fillingGrainEndDay) {
+		this.fillingGrainEndDay = fillingGrainEndDay;
+	}
+
 }

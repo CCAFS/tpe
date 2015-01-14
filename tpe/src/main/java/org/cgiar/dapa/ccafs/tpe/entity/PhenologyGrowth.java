@@ -383,6 +383,41 @@ public class PhenologyGrowth extends BaseResult {
 	 * The environment cluster id
 	 */
 	private Environment environment;
+	/**
+	 * The stress index (ETa/ETp)
+	 */
+	private Float stressIndex;
+	/**
+	 * The average weekly rainfall
+	 */
+	private Float averageWeeklyRain;
+
+	/**
+	 * Leaf area index (LAI)
+	 */
+	private Float lai;
+
+	/**
+	 * Actual transpiration
+	 */
+	private Float actualTranspiration;
+	/**
+	 * The category
+	 */
+	private Category category;
+	/**
+	 * The name of the graphic plot. This field is related or associated with
+	 * (lai,actualTranspiration,averageWeeklyRain,stressIndex)
+	 */
+	private String graphicName;
+	/**
+	 * The series id
+	 */
+	private Series series;
+	/**
+	 * For generating the plot.
+	 */
+	private Double value;
 
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
@@ -1121,4 +1156,79 @@ public class PhenologyGrowth extends BaseResult {
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
 	}
+
+	@Column(name = "stress_index")
+	public Float getStressIndex() {
+		return stressIndex;
+	}
+
+	public void setStressIndex(Float stressIndex) {
+		this.stressIndex = stressIndex;
+	}
+
+	@Column(name = "average_weekly_rain")
+	public Float getAverageWeeklyRain() {
+		return averageWeeklyRain;
+	}
+
+	public void setAverageWeeklyRain(Float averageWeeklyRain) {
+		this.averageWeeklyRain = averageWeeklyRain;
+	}
+
+	@Column(name = "lai")
+	public Float getLai() {
+		return lai;
+	}
+
+	public void setLai(Float lai) {
+		this.lai = lai;
+	}
+
+	@Column(name = "actual_transpiration")
+	public Float getActualTranspiration() {
+		return actualTranspiration;
+	}
+
+	public void setActualTranspiration(Float actualTranspiration) {
+		this.actualTranspiration = actualTranspiration;
+	}
+
+	@ManyToOne(targetEntity = Category.class)
+	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Column(name = "graphic_name")
+	public String getGraphicName() {
+		return graphicName;
+	}
+
+	public void setGraphicName(String graphicName) {
+		this.graphicName = graphicName;
+	}
+
+	@ManyToOne(targetEntity = Series.class)
+	@JoinColumn(name = "series_id", referencedColumnName = "series_id")
+	public Series getSeries() {
+		return series;
+	}
+
+	public void setSeries(Series series) {
+		this.series = series;
+	}
+
+	@Column(name = "value")
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
+	}
+
 }

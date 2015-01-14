@@ -158,6 +158,7 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 * @return years
 	 */
 	List<String> getTPEYears(Integer countryId, Integer cultivarId);
+
 	/**
 	 * Gets the TPE box plot data for the selected country and crop cultivar.
 	 * 
@@ -168,4 +169,30 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 * @return data
 	 */
 	List<BoxPlot> getTPEBox(Integer country, Integer cultivar);
+
+	// Map<String, List<Object>> getStressCategories(List<String> stressSeries);
+	/**
+	 * Gets the categories for the charts which is the DAE (Day After Emergency)
+	 * 
+	 * @param stressSeries
+	 *            the series names
+	 * @param cultivarId
+	 *            the selected cultivar id
+	 * @param countryId
+	 *            the selected country id
+	 * @return categories
+	 */
+	List<Object> getStressCategories(List<String> stressSeries,
+			Integer cultivarId, Integer countryId);
+
+	/**
+	 * Gets the categories for the charts which is the DAE (Day After Emergency)
+	 * 
+	 * @param cultivarId
+	 *            cultivar id
+	 * @param countryId
+	 *            country id
+	 * @return lai series data
+	 */
+	Map<String, Object> getSeriesData(Integer cultivarId, Integer countryId);
 }

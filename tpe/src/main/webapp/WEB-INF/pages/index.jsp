@@ -6,6 +6,7 @@
 <meta charset="utf-8">
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/script/slider.js"></script>
 
 <title>CCAFS TPE Platform</title>
 
@@ -15,47 +16,94 @@
 	<!--TPE Content Area-->
 	<div id="tpe_slider">
 		<div class="slide">
-			<!-- <div class="sp-slideshow">
+			<div id="header">
+				<div class="wrap">
+					<div id="slide-holder">
+						<div id="slide-runner">
+							<a href=""><img id="slide-img-1"
+								src="img/slideshow/nature-photo.jpg" class="slide" alt="" /></a> <a
+								href=""><img id="slide-img-2"
+								src="img/slideshow/nature-photo1.jpg" class="slide" alt="" /></a> <a
+								href=""><img id="slide-img-3"
+								src="img/slideshow/nature-photo2.jpg" class="slide" alt="" /></a> <a
+								href=""><img id="slide-img-4"
+								src="img/slideshow/nature-photo3.jpg" class="slide" alt="" /></a> <a
+								href=""><img id="slide-img-5"
+								src="img/slideshow/nature-photo4.jpg" class="slide" alt="" /></a> <a
+								href=""><img id="slide-img-6"
+								src="img/slideshow/nature-photo5.jpg" class="slide" alt="" /></a> <a
+								href=""><img id="slide-img-7"
+								src="img/slideshow/nature-photo6.jpg" class="slide" alt="" /></a>
+							<div id="slide-controls">
+								<p id="slide-nav"></p>
+							</div>
 
-				<input id="button-1" type="radio" name="radio-set"
-					class="sp-selector-1" checked="checked" /> <label for="button-1"
-					class="button-label-1"></label> <input id="button-2" type="radio"
-					name="radio-set" class="sp-selector-2" /> <label for="button-2"
-					class="button-label-2"></label>
- -->
-				<!-- <input id="button-3" type="radio"
-					name="radio-set" class="sp-selector-3" /> <label for="button-3"
-					class="button-label-3"></label> <input id="button-4" type="radio"
-					name="radio-set" class="sp-selector-4" /> <label for="button-4"
-					class="button-label-4"></label> <input id="button-5" type="radio"
-					name="radio-set" class="sp-selector-5" /> <label for="button-5"
-					class="button-label-5"></label> 
-					 -->
-			<!-- 	<label for="button-1" class="sp-arrow sp-a1"></label> <label
-					for="button-2" class="sp-arrow sp-a2"></label>
- -->
+							<div id="slide_arrows">
+								<a id="slide_prev"></a> <a id="slide_next"></a>
+							</div>
 
-				<!--  <label for="button-3"
-					class="sp-arrow sp-a3"></label> <label for="button-4"
-					class="sp-arrow sp-a4"></label> <label for="button-5"
-					class="sp-arrow sp-a5"></label> -->
-<!-- 
-				<div class="sp-content">
-					<div class="sp-parallax-bg"></div>
-					<ul class="sp-slider clearfix">
-						<li><img src="img/slideshow/tpe_map.jpg" alt="TPE_Map" />
-							<h4 class="slide_text">Information about the TPE Map</h4></li>
-						<li><img src="img/slideshow/stability_map.jpg"
-							alt="Saltability_Map" />Information about the TPE Salitability
-							Map</li> -->
-						<!--   <li><img src="img/slideshow/image3.png" alt="image03" /></li>
-            <li><img src="img/slideshow/image4.png" alt="image04" /></li>
-            <li><img src="img/slideshow/image5.png" alt="image05" /></li> -->
-					<!-- </ul>
-				</div> -->
-				<!-- sp-content -->
-			<!-- </div> -->
-			<!-- sp-slideshow -->
+							<div id="slide_text">
+								<p id="slide-info" class="text">
+									<strong><span></span></strong>
+								</p>
+								<p id="slide-readmore" class="text">
+									<a href="#">Read More<b>></b></a>
+								</p>
+							</div>
+
+						</div>
+
+						<!--content featured gallery here -->
+					</div>
+					<script type="text/javascript">
+						if (!window.slider)
+							var slider = {};
+						slider.data = [
+								{
+									"id" : "slide-img-1",
+									"client" : "nature beauty",
+									"desc" : "nature beauty photography",
+									"info" : "TPE Slider Image Info One"
+								},
+								{
+									"id" : "slide-img-2",
+									"client" : "nature beauty",
+									"desc" : "add your description here",
+									"info" : "TPE Slider Image Info Two"
+								},
+								{
+									"id" : "slide-img-3",
+									"client" : "nature beauty",
+									"desc" : "add your description here",
+									"info" : "TPE Slider Image Info Three"
+								},
+								{
+									"id" : "slide-img-4",
+									"client" : "nature beauty",
+									"desc" : "add your description here",
+									"info" : "TPE Slider Image Info Four"
+								},
+								{
+									"id" : "slide-img-5",
+									"client" : "nature beauty",
+									"desc" : "add your description here",
+									"info" : "TPE Slider Image Info Five"
+								},
+								{
+									"id" : "slide-img-6",
+									"client" : "nature beauty",
+									"desc" : "add your description here",
+									"info" : "blah blah"
+								},
+								{
+									"id" : "slide-img-7",
+									"client" : "nature beauty",
+									"desc" : "add your description here",
+									"info" : "Pic by Neil Palmer (CIAT). Biofortified rice at the institution's headquarters in Colombia. Please credit accordingly and let us know when you use a CIAT pic. Contact n.palmer@cgiar.org"
+								} ];
+					</script>
+				</div>
+			</div>
 		</div>
 	</div>
 

@@ -13,7 +13,7 @@
 <!-- The div for loading the crop cultivars dynamically -->
 <div id="params_cultivars"></div>
 <h3>
-	Country <span style="color: #990000; font-size: 10px;">(Initially Brazil y Colombia)</span>
+	Region(s) <span style="color: #990000; font-size: 10px;">(Initially Brazil y Colombia)</span>
 </h3>
 <s:select name="selectedCountry" listKey="id" listValue="name"
 	id="select_country" list="countries" value="preselectedCountry"

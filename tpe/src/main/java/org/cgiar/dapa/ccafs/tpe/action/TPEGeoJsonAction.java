@@ -15,10 +15,12 @@ package org.cgiar.dapa.ccafs.tpe.action;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
+import org.cgiar.dapa.ccafs.tpe.util.ChartUtil;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -107,12 +109,39 @@ public class TPEGeoJsonAction extends BaseAction {
 	private List<BoxPlot> dataJson = new LinkedList<BoxPlot>();
 	private List<String> categories = new LinkedList<String>();
 
+	// private List<Object> categoriesList;
+	private List<Object> categoriesTempRain;
+	// private List<Map<String, Object>> series;
+	private List<Map<String, Object>> plotBands;
+
+	// private List<Map<String, Object>> seriesLai;
+
+	// private List<Map<String, Object>> seriesPcew;
+
+	// private List<Map<String, Object>> seriesRainCum;
+
+	private List<Map<String, Object>> seriesTempRain;
+	/**
+	 * The Highcharts categories for the LAI, PCEW, RAIN_CUM, RAIN_S,WAGT plots
+	 */
+	// Map<LAI, [1,2,3,4]>
+	// private Map<String, List<Object>> categoriesStress;
+	// private List<Object> categoriesStress;
+
+	private Map<String, Object> seriesData;
+	// private Map<String, Object> pcewData;
+	private Map<String, Object> rainCumData;
+	// private Map<String, Object> wagtData;
+	// private Map<String, Object> rainSData;
+	private Map<String, Object> rainTempData;
+
 	public String execute() {
 		// Retrieve the data that will be converted into GeoJson by this action
 		// from the struts.xml
 		// TODO Get the parameters from the session or pass them from the ajax
 		// call.
-
+		// log.info("selected cultivar: " + selectedCultivar);
+		// log.info("selected crop: " + selectedCrop);
 		if (getSelectedCountry() != null) {
 
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
@@ -120,6 +149,7 @@ public class TPEGeoJsonAction extends BaseAction {
 			setLng(getRegion().getLongitude());
 			this.setZoom(this.getRegion().getZoom());
 
+			// Loads the Country Region Geo json file.
 			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 					+ getRegion().getName().toUpperCase() + ".geo.json"));
 
@@ -127,10 +157,30 @@ public class TPEGeoJsonAction extends BaseAction {
 			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
 					+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
 
-			// Load the TPE geo json data
-			this.setTpeGeoJson(Utils.loadJSONData(this.getPath() + "script/"
-					+ getRegion().getName().toUpperCase() + ".TPE.geo.json"));
+			if (selectedCultivar != null) {
 
+				this.setCultivar(tpeService.getCultivar(selectedCultivar));
+				// Load the TPE geo json data
+				this.setTpeGeoJson(Utils.loadJSONData(this.getPath()
+						+ "script/" + getRegion().getName().toUpperCase() + "."
+						+ getCultivar().getName().toUpperCase()
+						+ ".TPE.geo.json"));
+
+				// Get the categories for LAI, WAGT, etc
+				// It is the same for all clusters and environments
+				// TODO Add params.
+				// categoriesStress =
+				// tpeService.getStressCategories(Utils.getStressSeries(),
+				// getCultivar().getId(),getSelectedCountry());
+
+//				log.info("Getting the series data... ");
+
+				seriesData = tpeService.getSeriesData(getCultivar().getId(),
+						getSelectedCountry());
+//				log.info(seriesData.size());
+			}
+
+			// Loads the TPE boundary for the selected country and crop
 			this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath()
 					+ "script/" + getRegion().getName().toUpperCase()
 					+ ".BOUNDARY.json"));
@@ -138,12 +188,28 @@ public class TPEGeoJsonAction extends BaseAction {
 			dataJson = tpeService.getTPEBox(getSelectedCountry(),
 					getSelectedCultivar());
 
-			log.info(getSelectedCountry());
-			log.info(getSelectedCultivar());
-			log.info(dataJson);
+			// log.info(getSelectedCountry());
+			// log.info(getSelectedCultivar());
+			// log.info(dataJson);
 			categories = tpeService.getTPEYears(getSelectedCountry(),
 					getSelectedCultivar());
-			log.info(categories);
+			// log.info(categories);
+
+			// LAI
+			// categoriesList = ChartUtil.categories();
+			// seriesLai = ChartUtil.seriesLAI();
+			plotBands = ChartUtil.plotBands();
+
+			// PCEW
+			// seriesPcew = ChartUtil.seriesPCEW();
+
+			// RAIN CUM
+			// seriesRainCum = ChartUtil.seriesRainCum();
+
+			// TEMP RAIN
+			setCategoriesTempRain(ChartUtil.categoriesTempRain());
+			seriesTempRain = ChartUtil.seriesTempRain();
+
 		}
 
 		// log.info(getCountryGeoJson());
@@ -261,6 +327,54 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
+	}
+
+	public List<Map<String, Object>> getSeriesTempRain() {
+		return seriesTempRain;
+	}
+
+	public void setSeriesTempRain(List<Map<String, Object>> seriesTempRain) {
+		this.seriesTempRain = seriesTempRain;
+	}
+
+	public List<Map<String, Object>> getPlotBands() {
+		return plotBands;
+	}
+
+	public void setPlotBands(List<Map<String, Object>> plotBands) {
+		this.plotBands = plotBands;
+	}
+
+	public List<Object> getCategoriesTempRain() {
+		return categoriesTempRain;
+	}
+
+	public void setCategoriesTempRain(List<Object> categoriesTempRain) {
+		this.categoriesTempRain = categoriesTempRain;
+	}
+
+	public Map<String, Object> getRainCumData() {
+		return rainCumData;
+	}
+
+	public void setRainCumData(Map<String, Object> rainCumData) {
+		this.rainCumData = rainCumData;
+	}
+
+	public Map<String, Object> getRainTempData() {
+		return rainTempData;
+	}
+
+	public void setRainTempData(Map<String, Object> rainTempData) {
+		this.rainTempData = rainTempData;
+	}
+
+	public Map<String, Object> getSeriesData() {
+		return seriesData;
+	}
+
+	public void setSeriesData(Map<String, Object> seriesData) {
+		this.seriesData = seriesData;
 	}
 
 }

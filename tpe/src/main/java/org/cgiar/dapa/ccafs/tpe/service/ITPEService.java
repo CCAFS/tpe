@@ -530,4 +530,39 @@ public interface ITPEService {
 	 */
 	List<BoxPlot> getTPEBox(Integer country, Integer cultivar);
 
+	/**
+	 * Retrieves the crop cultivar from the database for the specified id
+	 * 
+	 * @param cultivarId
+	 *            cultivar id
+	 * @return cultivar
+	 */
+	Cultivar getCultivar(Integer cultivarId);
+
+	// Map<String, List<Object>> getStressCategories(List<String> stressSeries);
+	/**
+	 * Gets the categories for the charts which is the DAE (Day After Emergency)
+	 * 
+	 * @param stressSeries
+	 *            the series names
+	 * @param cultivarId
+	 *            the selected cultivar id
+	 * @param countryId
+	 *            the selected country id
+	 * @return categories
+	 */
+	List<Object> getStressCategories(List<String> stressSeries,
+			Integer cultivarId, Integer countryId);
+
+	/**
+	 * Gets the categories for the charts which is the DAE (Day After Emergency)
+	 * 
+	 * @param cultivarId
+	 *            cultivar id
+	 * @param countryId
+	 *            country id
+	 * @return lai series data
+	 */
+	Map<String, Object> getSeriesData(Integer cultivarId, Integer countryId);
+
 }

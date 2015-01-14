@@ -373,4 +373,26 @@ public class TPEService implements ITPEService {
 
 		return phenologyGrowthDao.getTPEBox(country, cultivar);
 	}
+
+	@Override
+	public Cultivar getCultivar(Integer cultivarId) {
+
+		return cultivarDao.getById(cultivarId);
+	}
+
+	@Override
+	public List<Object> getStressCategories(List<String> stressSeries,
+			Integer cultivarId, Integer countryId) {
+
+		return phenologyGrowthDao.getStressCategories(stressSeries, cultivarId,
+				countryId);
+	}
+
+	@Override
+	public Map<String, Object> getSeriesData(Integer cultivarId, Integer countryId) {
+
+		return phenologyGrowthDao.getSeriesData(cultivarId, countryId)
+
+		;
+	}
 }

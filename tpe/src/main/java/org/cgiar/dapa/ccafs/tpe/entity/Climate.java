@@ -95,6 +95,10 @@ public class Climate extends BaseResult {
 	 * The date the climate data was recorded.
 	 */
 	// private Date date;
+	/**
+	 * The month
+	 */
+	private Integer month;
 
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
@@ -168,6 +172,15 @@ public class Climate extends BaseResult {
 
 	public void setRadiation(Double radiation) {
 		this.radiation = radiation;
+	}
+
+	@Column(name = "month")
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
 	}
 
 }

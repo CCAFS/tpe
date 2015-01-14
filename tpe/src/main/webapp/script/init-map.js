@@ -1,7 +1,8 @@
 //$(document)
 //	.ready(
 
-var dataJSON, categoriesJSON, categoriesList, plotBands, seriesLai, seriesPcew, seriesRainCum, seriesTempRain, categoriesTempRain;
+var dataJSON, categoriesJSON, plotBands, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics';
+var hfeSeries, lfeSeries, feSeries;
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -78,6 +79,16 @@ function initializeGoogleMap() {
  * The function that initializes the Google Map
  */
 function initializeMap(data) {
+
+	/*
+	 * $('#zoomImage').hide(); $('#container').mouseenter(function(e) {
+	 * $('#zoomImage').show(); }).mouseleave(function(e) {
+	 * $('#zoomImage').hide(); });
+	 */
+
+	viewPlot();
+	// dialogBoxPlot(categoriesJSON, dataJSON);
+
 	createSoilPlot();
 
 	// var mapStyle = [ ];
@@ -180,7 +191,8 @@ function initializeMap(data) {
 				strokeColor : feature.getProperty('colour'),
 				// strokeOpacity : 1,
 				// fillOpacity : 1,
-				fillColor : feature.getProperty('colour')
+				fillColor : feature.getProperty('colour'),
+				zIndex : 1000
 			};
 		} else if (feature.getProperty('name') == 'TPE_BOUNDARY') {
 			return {
@@ -205,8 +217,8 @@ function initializeMap(data) {
 			clickable : true,
 			title : name,
 			strokeWeight : 1,
-			//strokeColor : "#bdbdbd",
-			 strokeColor : "#000000",
+			// strokeColor : "#bdbdbd",
+			strokeColor : "#000000",
 			// strokeOpacity : 0.5,
 			fillOpacity : 0,
 			// fillOpacity: 0.20,
@@ -290,14 +302,36 @@ function initializeMap(data) {
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			// Display the plot only for the soil feature
 			var probJSON = dataJSON[e.feature.getProperty('code')];
-			createSoilPlot(categoriesJSON, probJSON);
+			createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 			// Display the TPE Box plot
-			createTPEBoxPlot(categoriesJSON, dataJSON);
+			createTPEBoxPlot(categoriesJSON, dataJSON, true);
 
-			createLAIPlot(categoriesList, seriesLai, plotBands);
-			createPCEWPlot(categoriesList, seriesPcew, plotBands);
-			createTempRainPlot(categoriesTempRain, seriesTempRain);
+			// createLAIPlot(categoriesList, seriesLai, plotBands);
+			// createPCEWPlot(categoriesList, seriesPcew, plotBands);
+			// createTempRainPlot(categoriesTempRain, seriesTempRain, true);
+			var environmentSeries;
+			if (e.feature.getProperty('name') == 'HFE') {
+				environmentSeries = hfeSeries;
+			} else if (e.feature.getProperty('name') == 'LFE') {
+				environmentSeries = lfeSeries;
+			} else if (e.feature.getProperty('name') == 'FE') {
+				environmentSeries = feSeries;
+			}
+			// Iterate the list of series map
+			$.each(environmentSeries, function(indx, seriesMap) {
+
+				if (seriesMap.type == 'LAI') {
+					// Create LAI Plot
+					plotLAI(seriesMap, e.feature.getProperty('name'), true);
+				} else if (seriesMap.type == 'PCEW') {
+					plotPCEW(seriesMap, e.feature.getProperty('name'), true);
+				} else if (seriesMap.type == 'WAGT') {
+
+				} else if (seriesMap.type == 'RAIN') {
+					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
+				}
+			});
 
 		}
 	});
@@ -349,25 +383,52 @@ function initializeMap(data) {
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			// Display the plot only for the soil point features
 			var probJSON = dataJSON[e.feature.getProperty('code')];
-			createSoilPlot(categoriesJSON, probJSON);
+			createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 
 			// console.log(categoriesJSON);
 			// console.log(dataJSON);
 
 			// Display the TPE Box plot
-			createTPEBoxPlot(categoriesJSON, dataJSON);
+			createTPEBoxPlot(categoriesJSON, dataJSON, true);
 
-			createLAIPlot(categoriesList, seriesLai, plotBands);
-			createPCEWPlot(categoriesList, seriesPcew, plotBands);
-			createTempRainPlot(categoriesTempRain, seriesTempRain);
+			// createLAIPlot(categoriesList, seriesLai, plotBands);
+			// createPCEWPlot(categoriesList, seriesPcew, plotBands);
+			// createTempRainPlot(categoriesTempRain, seriesTempRain, true);
+
+			// Add plots using series data
+			var environmentSeries;
+			if (e.feature.getProperty('name') == 'HFE') {
+				environmentSeries = hfeSeries;
+				console.log(hfeSeries);
+			} else if (e.feature.getProperty('name') == 'LFE') {
+				environmentSeries = lfeSeries;
+			} else if (e.feature.getProperty('name') == 'FE') {
+				environmentSeries = feSeries;
+				// console.log(feSeries);
+			}
+			// Iterate the list of series map
+			$.each(environmentSeries, function(indx, seriesMap) {
+
+				if (seriesMap.type == 'LAI') {
+					// Create LAI Plot
+					plotLAI(seriesMap, e.feature.getProperty('name'), true);
+				} else if (seriesMap.type == 'PCEW') {
+					plotPCEW(seriesMap, e.feature.getProperty('name'), true);
+				} else if (seriesMap.type == 'WAGT') {
+
+				} else if (seriesMap.type == 'RAIN') {
+					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
+				}
+			});
+
 		}
 
 		// TODO Add Climate chart
 		else if (e.feature.getProperty('featureType') == 'CLIMATE') {
 			// Display the plot only for the soil point features
 			var plotJSON = e.feature.getProperty('plotData');
-			createClimatePlot(plotJSON);
+			createClimatePlot(plotJSON, true);
 		}
 
 	});
@@ -501,6 +562,11 @@ function featureInfo(event) {
  * function.
  */
 function geoJsonData(action) {
+	// Hide the charts
+	$('#env_container').hide();
+	$('#plot_lai').hide();
+	$('#plot_temprain').hide();
+	$('#plot_pcew').hide();
 
 	// console.log(parameters);
 	$.ajax({
@@ -520,13 +586,29 @@ function geoJsonData(action) {
 			// console.log(dataJson.probabilities);
 			categoriesJSON = dataJson.categories;
 
-			categoriesList = dataJson.categoriesList;
+			// categoriesList = dataJson.categoriesList;
 			plotBands = dataJson.plotBands;
-			seriesLai = dataJson.seriesLai;
-			seriesPcew = dataJson.seriesPcew;
-			seriesRainCum = dataJson.seriesRainCum;
+			// seriesLai = dataJson.seriesLai;
+			// seriesPcew = dataJson.seriesPcew;
+			// seriesRainCum = dataJson.seriesRainCum;
 			seriesTempRain = dataJson.seriesTempRain;
 			categoriesTempRain = dataJson.categoriesTempRain;
+			var seriesDataMap = dataJson.seriesData;
+			// var hfeSeries, lfeSeries, feSeries;
+			// console.log(seriesDataMap);
+			if (seriesDataMap != null)
+				$.each(seriesDataMap, function(envKey, listOfSeriesMap) {
+					// console.log(envKey);
+					// console.log(listOfSeriesMap);
+					if (envKey == 'HFE') {
+						hfeSeries = listOfSeriesMap;
+						console.log(listOfSeriesMap);
+					} else if (envKey == 'LFE') {
+						lfeSeries = listOfSeriesMap;
+					} else if (envKey == 'FE') {
+						feSeries = listOfSeriesMap;
+					}
+				});
 
 			initializeMap(dataJson);
 		}
@@ -535,86 +617,323 @@ function geoJsonData(action) {
 }
 
 // Create the climate plot chart
-function createClimatePlot(seriesJSON) {
-	$('#env_container').highcharts({
-		chart : {
-			type : 'column',
-			style : {
-				fontFamily : 'serif',
-				fontSize : '8px'
-			},
-			marginBottom : 60,
-			marginTop : 10,
-			marginLeft : 60,
-			marginRight : 10
-		},
-		credits : {
-			enabled : true,
-			text : 'Source: CCAFS TPE (www.ccafs.org)',
-			href : 'http://www.ccafs.org',
-			style : {
-				color : '#4e2700',
-				fontWeight : 'bold',
-				fontSize : '10px',
-			}
-		},
-		title : {
-			text : 'Environment Sensibility',
-			style : {
-				color : '#4e2700',
-				// fontWeight : 'bold',
-				fontSize : '10px'
-			}
-		},
-		subtitle : {
-			text : 'Source: <a href="http://www.ccafs.org">CCAFS</a>'
-		},
-		xAxis : {
-			type : 'category',
-			labels : {
-				rotation : -45,
-				style : {
-					fontSize : '8px',
-					fontFamily : 'Verdana, sans-serif'
-				}
-			}
-		},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '% of R2'
-			}
-		},
-		legend : {
-			enabled : false
-		},
-		tooltip : {
-			pointFormat : 'Environment Sensibility: <b>{point.y:.1f} %</b>'
-		},
-		series : seriesJSON
-	});
-}
+function createClimatePlot(seriesJSON, smallPlot) {
 
-// Create the SOIL chart plot
-function createSoilPlot(categoriesJSON, seriesJSON) {
-
-	$('#env_container')
+	$('#env_container').show();
+	var renderTo = 'env_container';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'env_container';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 25;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+	$('#' + renderTo)
 			.highcharts(
 					{
 						chart : {
 							type : 'column',
-							//marginTop : 70,
-							//marginLeft : 65,
-							
+							/*
+							 * style : { fontFamily : 'serif', fontSize : '8px' },
+							 * marginBottom : 60, marginTop : 10, marginLeft :
+							 * 60, marginRight : 10
+							 */
 							style : {
 								fontFamily : 'serif',
-								fontSize : '8px'
+								fontSize : fontSize
 							},
-							marginBottom : 60,
-							marginTop : 30,
-							marginLeft : 60,
-							marginRight : 2
-							
+							plotBorderWidth : 1,
+							// spacingTop:2,
+							// spacingRight:5,
+							spacingBottom : spacingBottom,
+							// spacingLeft:2,
+							borderWidth : 1,
+							borderRadius : 5,
+							borderColor : '#999',
+							// margin: [15,6,15,15],
+							marginBottom : marginBottom,
+							marginTop : marginTop,
+							marginLeft : marginLeft,
+							marginRight : marginRight,
+
+							events : {
+								load : function() {
+									if (smallPlot) {
+
+										this.renderer.image('img/zoom-in.png',
+												10, 2, 20, 20).on(
+												'click',
+												function() {
+													createClimatePlot(
+															seriesJSON, false);
+													$('#dialog-plot').dialog(
+															'open');
+												}).css({
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 300,
+											id : 'zoomImage'
+										}).add();
+									} else {
+										this.renderer
+												.image('img/ccafs_logo.png',
+														70, 2, 100, 50)
+												.on(
+														'click',
+														function() {
+															// Add CCAFS Link
+															location.href = 'http://www.ccafs-tpe.org'
+														})
+
+												.css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 100
+												}).add();
+									}
+								},
+
+								click : function() {
+									// If the small graphic was clicked on
+									if (smallPlot) {
+										createClimatePlot(seriesJSON, false);
+										// $('#report').html('click on title');
+										$('#dialog-plot').dialog('open');
+									}
+
+								}
+							}
+						},
+						credits : {
+							enabled : true,
+							text : 'Source: CCAFS TPE (www.ccafs.org)',
+							href : 'http://www.ccafs.org',
+							style : {
+								color : '#4e2700',
+								fontWeight : 'bold',
+								fontSize : fontSize
+							}
+						},
+						title : {
+							text : 'Environment Sensibility',
+							style : {
+								color : '#4e2700',
+								// fontWeight : 'bold',
+								fontSize : fontSize
+							}
+						},
+						subtitle : {
+							text : 'Source: <a href="http://www.ccafs.org">CCAFS</a>'
+						},
+						xAxis : {
+							type : 'category',
+							labels : {
+								rotation : -45,
+								style : {
+									fontSize : fontSize,
+									fontFamily : 'Verdana, sans-serif'
+								}
+							}
+						},
+						yAxis : {
+							min : 0,
+							title : {
+								text : '% of R2'
+							}
+						},
+						/*
+						 * legend : { enabled : false },
+						 */
+						legend : {
+
+							itemStyle : {
+								color : '#000000',
+								// fontWeight : 'bold',
+								fontSize : fontSize
+							},
+							// itemWidth : 60,
+							align : 'left',
+							x : 0,
+							verticalAlign : 'bottom',
+							y : legendY,
+							floating : true,
+							backgroundColor : (Highcharts.theme && Highcharts.theme.background2)
+									|| 'white',
+							borderColor : '#CCC',
+							// borderWidth : 1,
+							shadow : false
+						},
+						tooltip : {
+							pointFormat : 'Environment Sensibility: <b>{point.y:.1f} %</b>'
+						},
+						series : seriesJSON,
+						exporting : {
+							buttons : {
+								contextButton : {
+									// symbol: 'circle',
+									symbol : 'url(img/download_32.png)',
+								// symbolStrokeWidth : 1,
+								// symbolFill : '#bada55',
+								// symbolStroke : '#330033',
+								// symbolX : 6,
+								// symbolY : 6
+								}
+							}
+						}
+					});
+}
+
+// Create the SOIL chart plot
+function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
+	$('#env_container').show();
+	var renderTo = 'env_container';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'env_container';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 25;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+	$('#' + renderTo)
+			.highcharts(
+					{
+						chart : {
+							type : 'column',
+							// marginTop : 70,
+							// marginLeft : 65,
+							/*
+							 * style : { fontFamily : 'serif', fontSize : '8px' },
+							 * marginBottom : 60, marginTop : 30, marginLeft :
+							 * 60, marginRight : 2
+							 */
+
+							style : {
+								fontFamily : 'serif',
+								fontSize : fontSize
+							},
+							plotBorderWidth : 1,
+							// spacingTop:2,
+							// spacingRight:5,
+							spacingBottom : spacingBottom,
+							// spacingLeft:2,
+							borderWidth : 1,
+							borderRadius : 5,
+							borderColor : '#999',
+							// margin: [15,6,15,15],
+							marginBottom : marginBottom,
+							marginTop : marginTop,
+							marginLeft : marginLeft,
+							marginRight : marginRight,
+
+							events : {
+								load : function() {
+									if (smallPlot) {
+
+										this.renderer.image('img/zoom-in.png',
+												10, 2, 20, 20).on(
+												'click',
+												function() {
+													createSoilPlot(
+															categoriesJSON,
+															seriesJSON, false);
+													$('#dialog-plot').dialog(
+															'open');
+												}).css({
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 300,
+											id : 'zoomImage'
+										}).add();
+									} else {
+										this.renderer
+												.image('img/ccafs_logo.png',
+														70, 2, 100, 50)
+												.on(
+														'click',
+														function() {
+															// Add CCAFS Link
+															location.href = 'http://www.ccafs-tpe.org'
+														})
+
+												.css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 100
+												}).add();
+									}
+								},
+
+								click : function() {
+									// If the small graphic was clicked on
+									if (smallPlot) {
+										createSoilPlot(categoriesJSON,
+												seriesJSON, false);
+										// $('#report').html('click on title');
+										$('#dialog-plot').dialog('open');
+									}
+
+								}
+							}
 
 						},
 						credits : {
@@ -624,7 +943,7 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 							style : {
 								color : '#4e2700',
 								fontWeight : 'bold',
-								fontSize : '10px',
+								fontSize : fontSize
 							}
 						},
 						title : {
@@ -632,7 +951,7 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 							style : {
 								color : '#4e2700',
 								fontWeight : 'bold',
-								fontSize : '12px',
+								fontSize : titleFontSize,
 								// backgroundColor : 'green',
 								border : '1px solid black'
 							}
@@ -642,7 +961,7 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 							labels : {
 								rotation : -45,
 								style : {
-									fontSize : '10px',
+									fontSize : fontSize,
 									fontFamily : 'Verdana, sans-serif'
 								}
 							},
@@ -669,18 +988,18 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 							itemStyle : {
 								color : '#000000',
 								// fontWeight : 'bold',
-								fontSize : '8px'
+								fontSize : fontSize
 							},
-
-							//align : 'right',
-							// x : -70,
+							// itemWidth : 60,
+							align : 'left',
+							x : 0,
 							verticalAlign : 'bottom',
-							y : 22,
-							//floating : true,
+							y : legendY,
+							floating : true,
 							backgroundColor : (Highcharts.theme && Highcharts.theme.background2)
 									|| 'white',
 							borderColor : '#CCC',
-							//borderWidth : 1,
+							// borderWidth : 1,
 							shadow : false
 						},
 						tooltip : {
@@ -699,74 +1018,304 @@ function createSoilPlot(categoriesJSON, seriesJSON) {
 								}
 							}
 						},
-						series : seriesJSON
+						series : seriesJSON,
+						exporting : {
+							buttons : {
+								contextButton : {
+									// symbol: 'circle',
+									symbol : 'url(img/download_32.png)',
+								// symbolStrokeWidth : 1,
+								// symbolFill : '#bada55',
+								// symbolStroke : '#330033',
+								// symbolX : 6,
+								// symbolY : 6
+								}
+							}
+						}
 					});
 
 }
 
 // Create Box Plot
-function createTPEBoxPlot(categories, series) {
-
-	$('#env_container').highcharts({
+function createTPEBoxPlot(categories, series, smallPlot) {
+	$('#env_container').show();
+	var renderTo = 'env_container';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'env_container';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 20;
+		legendY = 25;
+		marginBottom: 2;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+	var chart = new Highcharts.Chart({
 		chart : {
 			type : 'boxplot',
+			renderTo : renderTo,
 			style : {
 				fontFamily : 'serif',
-				fontSize : '8px'
+				fontSize : fontSize
+			},
+			plotBorderWidth : 1,
+			// spacingTop:2,
+			// spacingRight:5,
+			spacingBottom : spacingBottom,
+			// spacingLeft:2,
+			borderWidth : 1,
+			borderRadius : 5,
+			borderColor : '#999',
+			// margin: [15,6,15,15],
+			marginBottom : marginBottom,
+			marginTop : marginTop,
+			marginLeft : marginLeft,
+			marginRight : marginRight,
+
+			events : {
+				load : function() {
+					if (smallPlot) {
+
+						this.renderer.image('img/zoom-in.png', 10, 2, 20, 20)
+								.on(
+										'click',
+										function() {
+											createTPEBoxPlot(categories,
+													series, false);
+											$('#dialog-plot').dialog('open');
+										}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 300,
+									id : 'zoomImage'
+								}).add();
+					} else {
+						this.renderer.image('img/ccafs_logo.png', 70, 2, 100,
+								50).on('click', function() {
+							// Add CCAFS Link
+							location.href = 'http://www.ccafs-tpe.org'
+						}).css({
+							cursor : 'Pointer'
+						}).css({
+							position : 'relative',
+							"margin-left" : "-90px"
+						// opacity : 0.75
+						}).attr({
+							zIndex : 100
+						}).add();
+					}
+
+					/*
+					 * if (smallPlot) { // add report div var ch = this, x = 20,
+					 * y = 57; ch.flashText = ch.renderer .text( '<div
+					 * id="flash"><div id="report">Click to enlarge</div></div>',
+					 * x, y + 10, true).css({ // width: circleradius*2, color :
+					 * '#009900', fontSize : '30px', textAlign : 'center'
+					 * }).attr({ zIndex : 101 }).add(); }
+					 */
+				},
+
+				click : function() {
+					// If the small graphic was clicked on
+					if (smallPlot) {
+						createTPEBoxPlot(categories, series, false);
+						// $('#report').html('click on title');
+						$('#dialog-plot').dialog('open');
+					}
+
+				}
 			}
-	/*,
-			marginBottom : 2,
-			marginTop : 10,
-			marginLeft : 60,
-			marginRight : 10*/
 		},
 		credits : {
 			enabled : true,
-			text : 'Source: CCAFS TPE (www.ccafs.org) (Low Favourable Environment)' ,
+			text : 'Source: CCAFS TPE (www.ccafs.org)',
 			href : 'http://www.ccafs.org',
 			style : {
-				color : '#4e2700'
-			// fontWeight : 'bold',
-			// fontSize : '8px'
+				color : '#4e2700',
+				fontWeight : 'bold',
+				fontSize : fontSize
 			}
 		},
 		title : {
 			text : 'TPE Trend Yield - Boxplot',
 			style : {
-				color : '#4e2700',
+				color : '#009900',
 				// fontWeight : 'bold',
-				fontSize : '10px'
+				fontSize : titleFontSize
+			}
+		},
+		legend : {
+			enabled : true,
+			layout : 'horizontal',
+			align : 'left',
+			x : legendX,
+			verticalAlign : 'bottom',
+			y : legendY,
+			floating : true,
+			backgroundColor : '#FFFFFF',
+			itemStyle : {
+				color : '#000',
+				fontFamily : 'MuseoS500',
+				// fontWeight : 'bold',
+				fontSize : fontSize
 			}
 		},
 
-		legend : {
-			enabled : true
-		},
-
-		xAxis : {
+		xAxis : [
+		/*
+		 * { labels : { x : 5, useHTML : true, formatter : function() { return '<img
+		 * src="img/ccafs_logo.png" style="height:50px; width:50px;"><img>'; } } },
+		 */
+		{
 			categories : categories,
 			// offset : 0,
 			// gridLineWidth : 1,
 			// width : 200,
 			title : {
-				text : 'Harvest Years'
+				text : 'Harvest Years',
+				style : {
+					color : '#000000',
+					fontSize : fontSize,
+				}
+			},
+			// left : 324
+			events : {
+
+				click : function() {
+					if (smallPlot) {
+						createTPEBoxPlot(categories, series, false);
+						// $('#report').html('click on title');
+						$('#dialog-plot').dialog('open');
+					}
+				}
+			},
+			gridLineWidth : 1,
+			labels : {
+				rotation : -45,
+				style : {
+					fontSize : fontSize,
+					fontFamily : 'Verdana, sans-serif'
+				}
 			}
-		// left : 324
-		},
+		} ],
 
 		yAxis : {
+			min : 0,
 			title : {
-				text : 'Yield (Kg/ha)'
+				text : 'Yield (Kg/ha)',
+				style : {
+					color : '#000000',
+					fontSize : fontSize,
+				}
+			},
+			events : {
+
+				click : function() {
+					if (smallPlot) {
+						createTPEBoxPlot(categories, series, false);
+						// $('#report').html('click on title');
+						$('#dialog-plot').dialog('open');
+					}
+				}
+			},
+			labels : {
+				formatter : function() {
+					return this.value.toString();
+				},
+				style : {
+					fontSize : fontSize,
+					fontFamily : 'Verdana, sans-serif'
+				}
+
+			}
+		},
+		labels : {
+			events : {
+
+				click : function() {
+					if (smallPlot) {
+						createTPEBoxPlot(categories, series, false);
+						// $('#report').html('click on title');
+						$('#dialog-plot').dialog('open');
+					}
+				}
 			}
 		},
 
-		series : series
-
+		series : series,
+		exporting : {
+			buttons : {
+				contextButton : {
+					// symbol: 'circle',
+					symbol : 'url(img/download_32.png)',
+				// symbolStrokeWidth : 1,
+				// symbolFill : '#bada55',
+				// symbolStroke : '#330033',
+				// symbolX : 6,
+				// symbolY : 6
+				}
+			}
+		}
 	});
+
 }
 
-function createLAIPlot(categories, series, plotBands) {
-	$('#plot_lai')
+function plotLAI(seriesMap, environment, smallPlot) {
+	$('#plot_lai').show();
+	var renderTo = 'plot_lai';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'plot_lai';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 20;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+	$('#' + renderTo)
 			.highcharts(
 					{
 						credits : {
@@ -784,19 +1333,102 @@ function createLAIPlot(categories, series, plotBands) {
 							}
 						},
 						chart : {
+							/*
+							 * style : { fontFamily : 'serif', fontSize : '8px' },
+							 * marginBottom : 50, marginTop : 25, marginLeft :
+							 * 50, marginRight : 10 // width: null, // height:
+							 * null
+							 */
 							style : {
 								fontFamily : 'serif',
-								fontSize : '8px'
+								fontSize : fontSize
 							},
-							marginBottom : 50,
-							marginTop : 25,
-							marginLeft : 50,
-							marginRight : 10
-						// width: null,
-						// height: null
+							plotBorderWidth : 1,
+							// spacingTop:2,
+							// spacingRight:5,
+							spacingBottom : spacingBottom,
+							// spacingLeft:2,
+							borderWidth : 1,
+							borderRadius : 5,
+							borderColor : '#999',
+							// margin: [15,6,15,15],
+							marginBottom : marginBottom,
+							marginTop : marginTop,
+							marginLeft : marginLeft,
+							marginRight : marginRight,
+
+							events : {
+								load : function() {
+									if (smallPlot) {
+
+										this.renderer
+												.image('img/zoom-in.png', 10,
+														2, 20, 20)
+												.on(
+														'click',
+														function() {
+															plotLAI(
+																	seriesMap,
+																	environment,
+																	false);
+															$('#dialog-plot')
+																	.dialog(
+																			'open');
+														}).css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 300,
+													id : 'zoomImage'
+												}).add();
+									} else {
+										this.renderer
+												.image('img/ccafs_logo.png',
+														70, 2, 100, 50)
+												.on(
+														'click',
+														function() {
+															// Add CCAFS Link
+															location.href = 'http://www.ccafs-tpe.org'
+														}).css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 100
+												}).add();
+									}
+
+									/*
+									 * if (smallPlot) { // add report div var ch =
+									 * this, x = 20, y = 57; ch.flashText =
+									 * ch.renderer .text( '<div id="flash"><div
+									 * id="report">Click to enlarge</div></div>',
+									 * x, y + 10, true).css({ // width:
+									 * circleradius*2, color : '#009900',
+									 * fontSize : '30px', textAlign : 'center'
+									 * }).attr({ zIndex : 101 }).add(); }
+									 */
+								},
+
+								click : function() {
+									// If the small graphic was clicked on
+									if (smallPlot) {
+										plotLAI(seriesMap, environment, false);
+										// $('#report').html('click on title');
+										$('#dialog-plot').dialog('open');
+									}
+
+								}
+							}
 						},
 						title : {
-							text : 'Env Stress LAI',
+							text : seriesMap.type,
 							style : {
 								color : '#4e2700',
 								// fontWeight : 'bold'
@@ -804,7 +1436,7 @@ function createLAIPlot(categories, series, plotBands) {
 							}
 						},
 						subtitle : {
-							text : 'HFE (High Favourable Environments)',
+							text : environment,
 							style : {
 								color : '#4e2700'
 							// fontWeight : 'bold',
@@ -812,19 +1444,722 @@ function createLAIPlot(categories, series, plotBands) {
 							}
 						},
 						xAxis : {
-							categories : categories,
+							categories : seriesMap.categories,
 							title : {
-								text : 'Days After Emergency',
+								text : seriesMap.xaxis,
 								align : 'high'
-							},
-							plotBands : plotBands
+							}
+						// ,plotBands : plotBands
 						},
 						yAxis : {
 							title : {
-								text : 'LAI and Actual Transpiration (mm)'
+								text : seriesMap.yaxis
 							},
 							labels : {
-								overflow : 'justify'
+								overflow : 'justify',
+								format : '{value:.1f}'
+							}
+						},
+						plotOptions : {
+							column : {
+								stacking : 'normal',
+								dataLabels : {
+									enabled : false,
+									color : (Highcharts.theme && Highcharts.theme.dataLabelsColor)
+											|| 'white'
+								}
+							}
+						},
+						legend : {
+							// layout : 'horizontal',
+							// align : 'left',
+							x : legendX,
+							// verticalAlign : 'bottom',
+							y : legendY,
+							floating : true,
+							// backgroundColor : '#FFFFFF',
+							// itemWidth : itemWidth,
+							// itemStyle : {
+							// color : '#000',
+							// fontFamily : 'MuseoS500',
+							// // fontWeight : 'bold',
+							// fontSize : fontSize
+							// // width : itemWidth
+							// },
+							title : {
+								text : seriesMap.legendTitle
+							}
+						// floating : true,
+						// draggable : true
+						// zIndex : 400
+						},
+						series : seriesMap.series,
+						exporting : {
+							buttons : {
+								contextButton : {
+									// symbol: 'circle',
+									symbol : 'url(img/download_32.png)',
+								// symbolStrokeWidth : 1,
+								// symbolFill : '#bada55',
+								// symbolStroke : '#330033',
+								// symbolX : 6,
+								// symbolY : 6
+								}
+							}
+						}
+					});
+}
+
+function createTempRainPlot(categories, series, smallPlot) {
+	$('#plot_temprain').show();
+	var renderTo = 'plot_temprain';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY, spacingBottom, itemWidth;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'plot_temprain';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 20;
+		legendY = 25;
+		spacingBottom = 35;
+		// itemWidth = 40;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '24px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+		// itemWidth = 100;
+	}
+
+	$('#' + renderTo).highcharts(
+			{
+				credits : {
+					// This hides highcharts.com from the legend
+					// enabled : false
+					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+					href : 'http://www.ccafs-tpe.org',
+					// href: null
+					// style : {
+					// width : 300
+					// },
+					position : {
+						align : 'right'
+					// x : 10
+					},
+					style : {
+						color : '#4e2700',
+						fontWeight : 'bold',
+						fontSize : fontSize
+					}
+				},
+				chart : {
+					zoomType : 'xy',
+					style : {
+						fontFamily : 'serif',
+						fontSize : fontSize
+					},
+					plotBorderWidth : 1,
+					// spacingTop:2,
+					// spacingRight:5,
+					spacingBottom : spacingBottom,
+					// spacingLeft:2,
+					borderWidth : 1,
+					borderRadius : 5,
+					borderColor : '#999',
+					// margin: [15,6,15,15],
+					/*
+					 * , marginBottom : 60, marginTop : 25, marginLeft : 60,
+					 * marginRight : 10
+					 */
+					events : {
+						load : function() {
+							if (smallPlot) {
+								this.renderer.image('img/zoom-in.png', 10, 2,
+										20, 20).on(
+										'click',
+										function() {
+											createTempRainPlot(
+													categoriesTempRain,
+													seriesTempRain, false);
+											$('#dialog-plot').dialog('open');
+										}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 300,
+									id : 'zoomImage'
+								}).add();
+
+								// $('.highcharts-legend-item rect').attr('r',
+								// '0');
+								$('.highcharts-legend-item rect').attr(
+										'height', '8').attr('width', '8');
+
+							} else {
+								this.renderer.image('img/ccafs_logo.png', 70,
+										2, 100, 50).on('click', function() {
+									// Add CCAFS Link
+									location.href = 'http://www.ccafs-tpe.org'
+								}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 100
+								}).add();
+							}
+
+							/*
+							 * if (smallPlot) { // add report div var ch = this,
+							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
+							 * id="flash"><div id="report">Click to enlarge</div></div>',
+							 * x, y + 10, true).css({ // width: circleradius*2,
+							 * color : '#009900', fontSize : '30px', textAlign :
+							 * 'center' }).attr({ zIndex : 101 }).add(); }
+							 */
+						},
+						click : function() {
+							if (smallPlot) {
+								createTempRainPlot(categoriesTempRain,
+										seriesTempRain, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+						}
+					}
+				},
+				title : {
+					text : 'Average Monthly Temperature and Rainfall',
+					style : {
+						color : '#4e2700',
+						// fontWeight : 'bold',
+						fontSize : titleFontSize
+					}
+				},
+				subtitle : {
+					text : 'HFE (High Favourable Environments)',
+					style : {
+						color : '#4e2700'
+					// fontWeight : 'bold',
+					// fontSize : '10px',
+					}
+				},
+				xAxis : {
+					categories : categories,
+					labels : {
+						rotation : -45,
+						style : {
+							fontSize : fontSize,
+							fontFamily : 'Verdana, sans-serif'
+						}
+					}
+
+				},
+				yAxis : [ { // Primary yAxis
+					labels : {
+						// format : '{value}°C',
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					title : {
+						text : 'Temperature (°C)',
+						style : {
+							color : '#4572A7'
+						}
+					}
+				}, { // Secondary yAxis
+					title : {
+						text : 'Rainfall (mm)',
+						rotation : -90,
+						x : 10,
+						style : {
+							color : '#4572A7'
+						}
+					},
+					labels : {
+						// format : '{value} mm',
+						// rotation: -45,
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					opposite : true
+				} ],
+				tooltip : {
+					shared : true
+				},
+				legend : {
+					layout : 'horizontal',
+					align : 'left',
+					x : legendX,
+					verticalAlign : 'bottom',
+					y : legendY,
+					floating : true,
+					backgroundColor : '#FFFFFF',
+					// itemWidth : itemWidth,
+					itemStyle : {
+						color : '#000',
+						fontFamily : 'MuseoS500',
+						// fontWeight : 'bold',
+						fontSize : fontSize
+					// width : itemWidth
+					},
+					// title : {
+					// text : ':: Drag'
+					// },
+					floating : true,
+					draggable : true
+				// zIndex : 400
+				},
+				series : series,
+				exporting : {
+					buttons : {
+						contextButton : {
+							// symbol: 'circle',
+							symbol : 'url(img/download_32.png)',
+						// symbolStrokeWidth : 1,
+						// symbolFill : '#bada55',
+						// symbolStroke : '#330033',
+						// symbolX : 6,
+						// symbolY : 6
+						}
+					}
+				}
+			});
+}
+
+function viewPlot() {
+
+	$('#dialog-plot').dialog({
+		autoOpen : false,
+		modal : true,
+		title : tpeDialogTitle,
+		// bgiframe : true,
+
+		// width : $(window).width(),
+		// height : $(window).height(),
+
+		height : 800,
+		width : 850,
+
+		// fullScreen: true,
+		// fullScreenForce: true,
+
+		draggable : true,
+		resizable : true,
+		// open : function() {
+		// $(".ui-dialog-titlebar").hide();
+		// },
+
+		"buttons" : [ {
+			id : "bttnClose",
+			text : "Close",
+			click : function() {
+				$('#dialog-plot').dialog('close');
+			}
+		} ]
+	});
+
+}
+
+function plotPCEW(seriesMap, environment, smallPlot) {
+	$('#plot_pcew').show();
+	var renderTo = 'plot_pcew';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'plot_pcew';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 20;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+
+	$('#' + renderTo).highcharts(
+			{
+				credits : {
+					// This hides highcharts.com from the legend
+					// enabled : false
+					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+					href : 'http://www.ccafs-tpe.org',
+					// href: null
+					// style : {
+					// width : 300
+					// },
+					position : {
+						align : 'left',
+						x : 10
+					}
+				},
+				chart : {
+					/*
+					 * style : { fontFamily : 'serif', fontSize : '8px' },
+					 * marginBottom : 60, marginTop : 25, marginLeft : 45,
+					 * marginRight : 10
+					 */
+					style : {
+						fontFamily : 'serif',
+						fontSize : fontSize
+					},
+					plotBorderWidth : 1,
+					// spacingTop:2,
+					// spacingRight:5,
+					spacingBottom : spacingBottom,
+					// spacingLeft:2,
+					borderWidth : 1,
+					borderRadius : 5,
+					borderColor : '#999',
+					// margin: [15,6,15,15],
+					marginBottom : marginBottom,
+					marginTop : marginTop,
+					marginLeft : marginLeft,
+					marginRight : marginRight,
+
+					events : {
+						load : function() {
+							if (smallPlot) {
+
+								this.renderer.image('img/zoom-in.png', 10, 2,
+										20, 20).on('click', function() {
+									plotPCEW(seriesMap, environment, false);
+									$('#dialog-plot').dialog('open');
+								}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 300,
+									id : 'zoomImage'
+								}).add();
+							} else {
+								this.renderer.image('img/ccafs_logo.png', 70,
+										2, 100, 50).on('click', function() {
+									// Add CCAFS Link
+									location.href = 'http://www.ccafs-tpe.org'
+								}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 100
+								}).add();
+							}
+
+							/*
+							 * if (smallPlot) { // add report div var ch = this,
+							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
+							 * id="flash"><div id="report">Click to enlarge</div></div>',
+							 * x, y + 10, true).css({ // width: circleradius*2,
+							 * color : '#009900', fontSize : '30px', textAlign :
+							 * 'center' }).attr({ zIndex : 101 }).add(); }
+							 */
+						},
+
+						click : function() {
+							// If the small graphic was clicked on
+							if (smallPlot) {
+								plotPCEW(seriesMap, environment, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+
+						}
+					}
+				},
+				title : {
+					text : seriesMap.type,
+					style : {
+						color : '#4e2700',
+						// fontWeight : 'bold',
+						fontSize : '10px'
+					}
+				},
+				subtitle : {
+					text : environment,
+					style : {
+						color : '#4e2700'
+					// fontWeight : 'bold',
+					// fontSize : '10px',
+					}
+				},
+				xAxis : {
+					categories : seriesMap.categories,
+					title : {
+						text : seriesMap.xaxis,
+						align : 'high'
+					}
+				// ,plotBands : plotBands
+				},
+				yAxis : {
+					title : {
+						text : seriesMap.yaxis
+					},
+					labels : {
+						overflow : 'justify',
+						format : '{value:.1f}'
+					}
+				},
+				legend : {
+					// layout : 'horizontal',
+					// align : 'left',
+					x : legendX,
+					// verticalAlign : 'bottom',
+					y : legendY,
+					floating : true,
+					// backgroundColor : '#FFFFFF',
+					// itemWidth : itemWidth,
+					// itemStyle : {
+					// color : '#000',
+					// fontFamily : 'MuseoS500',
+					// // fontWeight : 'bold',
+					// fontSize : fontSize
+					// // width : itemWidth
+					// },
+					title : {
+						text : seriesMap.legendTitle
+					}
+				// floating : true,
+				// draggable : true
+				// zIndex : 400
+				},
+				series : seriesMap.series,
+				exporting : {
+					buttons : {
+						contextButton : {
+							// symbol: 'circle',
+							symbol : 'url(img/download_32.png)',
+						// symbolStrokeWidth : 1,
+						// symbolFill : '#bada55',
+						// symbolStroke : '#330033',
+						// symbolX : 6,
+						// symbolY : 6
+						}
+					}
+				}
+			});
+}
+
+function plotRAIN(seriesMap, environment, smallPlot) {
+	$('#plot_temprain').show();
+	var renderTo = 'plot_temprain';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'plot_temprain';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 20;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+	$('#' + renderTo)
+			.highcharts(
+					{
+						credits : {
+							// This hides highcharts.com from the legend
+							// enabled : false
+							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+							href : 'http://www.ccafs-tpe.org',
+							// href: null
+							// style : {
+							// width : 300
+							// },
+							position : {
+								align : 'left',
+								x : 10
+							}
+						},
+						chart : {
+							/*
+							 * style : { fontFamily : 'serif', fontSize : '8px' },
+							 * marginBottom : 50, marginTop : 25, marginLeft :
+							 * 50, marginRight : 10 // width: null, // height:
+							 * null
+							 */
+							style : {
+								fontFamily : 'serif',
+								fontSize : fontSize
+							},
+							plotBorderWidth : 1,
+							// spacingTop:2,
+							// spacingRight:5,
+							spacingBottom : spacingBottom,
+							// spacingLeft:2,
+							borderWidth : 1,
+							borderRadius : 5,
+							borderColor : '#999',
+							// margin: [15,6,15,15],
+							marginBottom : marginBottom,
+							marginTop : marginTop,
+							marginLeft : marginLeft,
+							marginRight : marginRight,
+
+							events : {
+								load : function() {
+									if (smallPlot) {
+
+										this.renderer
+												.image('img/zoom-in.png', 10,
+														2, 20, 20)
+												.on(
+														'click',
+														function() {
+															plotRAIN(
+																	seriesMap,
+																	environment,
+																	false);
+															$('#dialog-plot')
+																	.dialog(
+																			'open');
+														}).css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 300,
+													id : 'zoomImage'
+												}).add();
+									} else {
+										this.renderer
+												.image('img/ccafs_logo.png',
+														70, 2, 100, 50)
+												.on(
+														'click',
+														function() {
+															// Add CCAFS Link
+															location.href = 'http://www.ccafs-tpe.org'
+														}).css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 100
+												}).add();
+									}
+
+									/*
+									 * if (smallPlot) { // add report div var ch =
+									 * this, x = 20, y = 57; ch.flashText =
+									 * ch.renderer .text( '<div id="flash"><div
+									 * id="report">Click to enlarge</div></div>',
+									 * x, y + 10, true).css({ // width:
+									 * circleradius*2, color : '#009900',
+									 * fontSize : '30px', textAlign : 'center'
+									 * }).attr({ zIndex : 101 }).add(); }
+									 */
+								},
+
+								click : function() {
+									// If the small graphic was clicked on
+									if (smallPlot) {
+										plotRAIN(seriesMap, environment, false);
+										// $('#report').html('click on title');
+										$('#dialog-plot').dialog('open');
+									}
+
+								}
+							}
+						},
+						title : {
+							text : seriesMap.type,
+							style : {
+								color : '#4e2700',
+								// fontWeight : 'bold'
+								fontSize : '10px'
+							}
+						},
+						subtitle : {
+							text : environment,
+							style : {
+								color : '#4e2700'
+							// fontWeight : 'bold',
+							// fontSize : '10px',
+							}
+						},
+						xAxis : {
+							categories : seriesMap.categories,
+							title : {
+								text : seriesMap.xaxis,
+								align : 'high'
+							},
+							gridLineWidth : 1
+						// ,plotBands : plotBands
+						},
+						yAxis : {
+							title : {
+								text : seriesMap.yaxis + ' (mm)'
+							},
+							labels : {
+								overflow : 'justify',
+								format : '{value:.1f}'
 							}
 						},
 						plotOptions : {
@@ -837,159 +2172,43 @@ function createLAIPlot(categories, series, plotBands) {
 								}
 							}
 						},
-						series : series
+						legend : {
+							// layout : 'horizontal',
+							// align : 'left',
+							x : legendX,
+							// verticalAlign : 'bottom',
+							y : legendY,
+							floating : true,
+							// backgroundColor : '#FFFFFF',
+							// itemWidth : itemWidth,
+							// itemStyle : {
+							// color : '#000',
+							// fontFamily : 'MuseoS500',
+							// // fontWeight : 'bold',
+							// fontSize : fontSize
+							// // width : itemWidth
+							// },
+							title : {
+								text : seriesMap.legendTitle
+							}
+						// floating : true,
+						// draggable : true
+						// zIndex : 400
+						},
+						series : seriesMap.series,
+
+						exporting : {
+							buttons : {
+								contextButton : {
+									// symbol: 'circle',
+									symbol : 'url(img/download_32.png)',
+								// symbolStrokeWidth : 1,
+								// symbolFill : '#bada55',
+								// symbolStroke : '#330033',
+								// symbolX : 6,
+								// symbolY : 6
+								}
+							}
+						}
 					});
-}
-
-function createPCEWPlot(categories, series, plotBands) {
-	$('#plot_pcew').highcharts({
-		credits : {
-			// This hides highcharts.com from the legend
-			// enabled : false
-			text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
-			href : 'http://www.ccafs-tpe.org',
-			// href: null
-			// style : {
-			// width : 300
-			// },
-			position : {
-				align : 'left',
-				x : 10
-			}
-		},
-		chart : {
-			style : {
-				fontFamily : 'serif',
-				fontSize : '8px'
-			},
-			marginBottom : 60,
-			marginTop : 25,
-			marginLeft : 45,
-			marginRight : 10
-		},
-		title : {
-			text : 'Env Stress PCEW',
-			style : {
-				color : '#4e2700',
-				// fontWeight : 'bold',
-				fontSize : '10px'
-			}
-		},
-		subtitle : {
-			text : 'HFE (High Favourable Environments)',
-			style : {
-				color : '#4e2700'
-			// fontWeight : 'bold',
-			// fontSize : '10px',
-			}
-		},
-		xAxis : {
-			categories : categories,
-			title : {
-				text : 'Days After Emergency',
-				align : 'high'
-			},
-			plotBands : plotBands
-		},
-		yAxis : {
-			title : {
-				text : 'Stress Index (ETa/ETp)'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		series : series
-	});
-}
-
-function createTempRainPlot(categories, series) {
-	$('#plot_temprain').highcharts({
-		credits : {
-			// This hides highcharts.com from the legend
-			// enabled : false
-			text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
-			href : 'http://www.ccafs-tpe.org',
-			// href: null
-			// style : {
-			// width : 300
-			// },
-			position : {
-				align : 'left',
-				x : 10
-			}
-		},
-		chart : {
-			zoomType : 'xy',
-			style : {
-				fontFamily : 'serif',
-				fontSize : '8px'
-			}
-	/*	,
-			marginBottom : 60,
-			marginTop : 25,
-			marginLeft : 60,
-			marginRight : 10*/
-		},
-		title : {
-			text : 'Average Monthly Temperature and Rainfall',
-			style : {
-				color : '#4e2700',
-				// fontWeight : 'bold',
-				fontSize : '10px'
-			}
-		},
-		subtitle : {
-			text : 'HFE (High Favourable Environments)',
-			style : {
-				color : '#4e2700'
-			// fontWeight : 'bold',
-			// fontSize : '10px',
-			}
-		},
-		xAxis : {
-			categories : categories
-		},
-		yAxis : [ { // Primary yAxis
-			labels : {
-				format : '{value}°C',
-				style : {
-					color : '#89A54E'
-				}
-			},
-			title : {
-				text : 'Temperature',
-				style : {
-					color : '#89A54E'
-				}
-			}
-		}, { // Secondary yAxis
-			title : {
-				text : 'Rainfall',
-				style : {
-					color : '#4572A7'
-				}
-			},
-			labels : {
-				format : '{value} mm',
-				style : {
-					color : '#4572A7'
-				}
-			},
-			opposite : true
-		} ],
-		tooltip : {
-			shared : true
-		},
-		legend : {
-			layout : 'horizontal',
-			align : 'left',
-			// x : 120,
-			verticalAlign : 'bottom',
-			// y : 5,
-			floating : true,
-			backgroundColor : '#FFFFFF'
-		},
-		series : series
-	});
 }

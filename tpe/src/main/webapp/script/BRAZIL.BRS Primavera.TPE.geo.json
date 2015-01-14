@@ -2,7 +2,7 @@
   "type": "FeatureCollection",
   "features": [
    { "type": "Feature",
-  "id":"ENV_1","properties":{"name":"LFE","colour":"#990000","featureType":"TPE","crop":"Upland Rice","cultivar":"Fed2000","description":"Low Favourable Environment"},
+  "id":"ENV_1","properties":{"name":"LFE","colour":"#990000","featureType":"TPE","crop":"Upland Rice","cultivar":"BRS Primavera","description":"Low Favourable Environment"},
          "geometry": {
            "type": "MultiPolygon",
            "coordinates": [
@@ -1574,7 +1574,7 @@
 		   }
   },
   { "type": "Feature",
-  "id":"ENV_2","properties":{"name":"HFE","colour":"#009900","featureType":"TPE","crop":"Upland Rice","cultivar":"Fed2000","description":"High Favourable Environment"},
+  "id":"ENV_2","properties":{"name":"HFE","colour":"#009900","featureType":"TPE","crop":"Upland Rice","cultivar":"BRS Primavera","description":"High Favourable Environment"},
          "geometry": {
            "type": "MultiPolygon",
            "coordinates": [
@@ -2631,7 +2631,7 @@
   ]
   }},
   { "type": "Feature",
-  "id":"ENV_3","properties":{"name":"FE","colour":"#000099","featureType":"TPE","crop":"Upland Rice","cultivar":"Fed2000","description":"Favourable Environment"},
+  "id":"ENV_3","properties":{"name":"FE","colour":"#000099","featureType":"TPE","crop":"Upland Rice","cultivar":"BRS Primavera","description":"Favourable Environment"},
          "geometry": {
            "type": "MultiPolygon",
            "coordinates": [

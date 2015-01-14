@@ -563,7 +563,7 @@ div#tpe_map_canvas {
 	box-shadow: 0 1px 3px #487429;
 }
 
-div#env_container,div#plot_lai,div#plot_pcew,div#plot_temprain {
+div#env_container, div#plot_lai, div#plot_pcew, div#plot_temprain {
 	height: 100%;
 	width: 100%;
 	/* position:absolute; */
@@ -934,11 +934,19 @@ div#documentation {
 	line-height: 1.2em;
 }
 
-div#loading{
+div#loading {
 	margin: auto;
 	position: absolute;
 	top: 30%;
 	left: 45%;
 }
 
-/*=====================SLides ==========================*/
+div#dialog-chart {
+	  width: 80%;
+	height: 80%;
+}
+/*   div#dialog-plot{
+	 width: 180%;
+	height: 100%;
+}  */
+ 
