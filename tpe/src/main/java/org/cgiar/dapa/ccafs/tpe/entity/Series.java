@@ -38,11 +38,10 @@ public class Series extends BaseEntity {
 	 * The name of the category
 	 */
 	private String name;
-
 	/**
-	 * The series type
+	 * The description of the series
 	 */
-	private Type type;
+	private String description;
 
 	@Column(name = "name")
 	public String getName() {
@@ -53,14 +52,13 @@ public class Series extends BaseEntity {
 		this.name = name;
 	}
 
-	@ManyToOne(targetEntity = Type.class)
-	@JoinColumn(name = "type_id", referencedColumnName = "type_id")
-	public Type getType() {
-		return type;
+	@Column(name = "description")
+	public String getDescription() {
+		return description;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

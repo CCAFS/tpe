@@ -1,7 +1,7 @@
 //$(document)
 //	.ready(
 
-var dataJSON, categoriesJSON, plotBands, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics';
+var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics';
 var hfeSeries, lfeSeries, feSeries;
 
 /**
@@ -328,7 +328,9 @@ function initializeMap(data) {
 					plotPCEW(seriesMap, e.feature.getProperty('name'), true);
 				} else if (seriesMap.type == 'WAGT') {
 
-				} else if (seriesMap.type == 'RAIN') {
+				} else if (seriesMap.type == 'RAINSUM') {
+					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
+				} else if (seriesMap.type == 'RAINCUM') {
 					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
 				}
 			});
@@ -400,7 +402,7 @@ function initializeMap(data) {
 			var environmentSeries;
 			if (e.feature.getProperty('name') == 'HFE') {
 				environmentSeries = hfeSeries;
-				console.log(hfeSeries);
+				// console.log(hfeSeries);
 			} else if (e.feature.getProperty('name') == 'LFE') {
 				environmentSeries = lfeSeries;
 			} else if (e.feature.getProperty('name') == 'FE') {
@@ -417,7 +419,9 @@ function initializeMap(data) {
 					plotPCEW(seriesMap, e.feature.getProperty('name'), true);
 				} else if (seriesMap.type == 'WAGT') {
 
-				} else if (seriesMap.type == 'RAIN') {
+				} else if (seriesMap.type == 'RAINSUM') {
+					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
+				} else if (seriesMap.type == 'RAINCUM') {
 					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
 				}
 			});
@@ -587,7 +591,7 @@ function geoJsonData(action) {
 			categoriesJSON = dataJson.categories;
 
 			// categoriesList = dataJson.categoriesList;
-			plotBands = dataJson.plotBands;
+			// plotBands = dataJson.plotBands;
 			// seriesLai = dataJson.seriesLai;
 			// seriesPcew = dataJson.seriesPcew;
 			// seriesRainCum = dataJson.seriesRainCum;
@@ -602,7 +606,7 @@ function geoJsonData(action) {
 					// console.log(listOfSeriesMap);
 					if (envKey == 'HFE') {
 						hfeSeries = listOfSeriesMap;
-						console.log(listOfSeriesMap);
+						// console.log(listOfSeriesMap);
 					} else if (envKey == 'LFE') {
 						lfeSeries = listOfSeriesMap;
 					} else if (envKey == 'FE') {
@@ -703,7 +707,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 									} else {
 										this.renderer
 												.image('img/ccafs_logo.png',
-														70, 2, 100, 50)
+														90, 0, 120, 50)
 												.on(
 														'click',
 														function() {
@@ -903,7 +907,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 									} else {
 										this.renderer
 												.image('img/ccafs_logo.png',
-														70, 2, 100, 50)
+														90, 0, 120, 50)
 												.on(
 														'click',
 														function() {
@@ -1113,7 +1117,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 									id : 'zoomImage'
 								}).add();
 					} else {
-						this.renderer.image('img/ccafs_logo.png', 70, 2, 100,
+						this.renderer.image('img/ccafs_logo.png', 90, 0, 120,
 								50).on('click', function() {
 							// Add CCAFS Link
 							location.href = 'http://www.ccafs-tpe.org'
@@ -1284,6 +1288,9 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 }
 
 function plotLAI(seriesMap, environment, smallPlot) {
+
+	// console.log(seriesMap);
+
 	$('#plot_lai').show();
 	var renderTo = 'plot_lai';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -1387,7 +1394,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 									} else {
 										this.renderer
 												.image('img/ccafs_logo.png',
-														70, 2, 100, 50)
+														90, 0, 120, 50)
 												.on(
 														'click',
 														function() {
@@ -1448,8 +1455,11 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							title : {
 								text : seriesMap.xaxis,
 								align : 'high'
-							}
-						// ,plotBands : plotBands
+							},
+							gridLineWidth : 1,
+							plotBands : seriesMap.plotBands,
+							max : 91,
+							tickInterval : 7
 						},
 						yAxis : {
 							title : {
@@ -1608,8 +1618,8 @@ function createTempRainPlot(categories, series, smallPlot) {
 										'height', '8').attr('width', '8');
 
 							} else {
-								this.renderer.image('img/ccafs_logo.png', 70,
-										2, 100, 50).on('click', function() {
+								this.renderer.image('img/ccafs_logo.png', 90,
+										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
 									location.href = 'http://www.ccafs-tpe.org'
 								}).css({
@@ -1784,6 +1794,8 @@ function viewPlot() {
 }
 
 function plotPCEW(seriesMap, environment, smallPlot) {
+	// console.log(seriesMap.series);
+	// console.log(seriesMap.categories);
 	$('#plot_pcew').show();
 	var renderTo = 'plot_pcew';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -1875,8 +1887,8 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 									id : 'zoomImage'
 								}).add();
 							} else {
-								this.renderer.image('img/ccafs_logo.png', 70,
-										2, 100, 50).on('click', function() {
+								this.renderer.image('img/ccafs_logo.png', 90,
+										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
 									location.href = 'http://www.ccafs-tpe.org'
 								}).css({
@@ -1932,8 +1944,11 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					title : {
 						text : seriesMap.xaxis,
 						align : 'high'
-					}
-				// ,plotBands : plotBands
+					},
+					gridLineWidth : 1,
+					plotBands : seriesMap.plotBands,
+					max : 91,
+					tickInterval : 7
 				},
 				yAxis : {
 					title : {
@@ -1980,12 +1995,23 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 						// symbolY : 6
 						}
 					}
+				},
+				tooltip : {
+					formatter : function() {
+						return 'Cluster: <b>' + this.series.name
+								+ '</b><br/>Stress Index: <b>' + this.y
+								+ '</b>' + '<br/><b>Day After Emergency: '
+								+ this.x + '</b>'
+
+					}
 				}
 			});
 }
 
 function plotRAIN(seriesMap, environment, smallPlot) {
 	$('#plot_temprain').show();
+
+	// console.log(seriesMap.plotBands);
 	var renderTo = 'plot_temprain';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
@@ -2088,7 +2114,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 									} else {
 										this.renderer
 												.image('img/ccafs_logo.png',
-														70, 2, 100, 50)
+														90, 0, 120, 50)
 												.on(
 														'click',
 														function() {
@@ -2150,17 +2176,29 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 								text : seriesMap.xaxis,
 								align : 'high'
 							},
-							gridLineWidth : 1
-						// ,plotBands : plotBands
+							gridLineWidth : 1,
+							plotBands : seriesMap.plotBands,
+							// min : seriesMap.categories[0],
+							// min:14,
+							max : 91,
+							tickInterval : 7,
+						// minTickInterval: 14,
+						// minRange: seriesMap.categories[0]
+						// ordinal : true
 						},
 						yAxis : {
 							title : {
-								text : seriesMap.yaxis + ' (mm)'
+								text : seriesMap.yaxis
 							},
+							// gridLineWidth : 1,
 							labels : {
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
+						// min : 0,
+						// min:14,
+						// max : 84,
+						// tickInterval : 14
 						},
 						plotOptions : {
 							column : {
@@ -2208,6 +2246,16 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 								// symbolX : 6,
 								// symbolY : 6
 								}
+							}
+						},
+						tooltip : {
+							formatter : function() {
+								return 'Cluster: <b>' + this.series.name
+										+ '</b><br/>Average Rainfall: <b>'
+										+ this.y + '</b>'
+										+ '<br/><b>Day After Emergency: '
+										+ this.x + '</b>'
+
 							}
 						}
 					});

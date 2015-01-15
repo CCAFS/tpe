@@ -31,6 +31,7 @@ import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHull;
 import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.convexhull.ITPEConvexHull;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
+import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Environment;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
@@ -58,7 +59,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 	private static final String TYPE_LAI = "lai";
 	private static final String TYPE_PCEW = "pcew";
-	private static final String TYPE_RAIN_S = "rain";
+	private static final String TYPE_RAIN_S = "rainsum";
 	private static final String TYPE_DVS = "dvs";
 	private static final String TYPE_TMAX = "tmax";
 	private static final String TYPE_TMIN = "tmin";
@@ -86,6 +87,13 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	private static final String TITLE_X = "xaxis";
 	private static final String PLOT_BANDS = "plotBands";
 	private static final String LEGEND_TITLE = "legendTitle";
+	private static final String BAND_VEGETATIVE = "Vegetative";
+	private static final String BAND_REPRODUCTIVE = "Reproductive";
+	private static final String BAND_FILLING_GRAIN = "Filling Grain";
+	private static final String FROM = "from";
+	private static final String TO = "to";
+	private static final String BAND_TEXT = "text";
+	private static final String LABEL = "label";
 
 	private Logger log = Logger.getLogger(this.getClass());
 
@@ -404,6 +412,11 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		// org.apache.commons.math3.util
 		List<String> years = new LinkedList<String>();
 		years = getTPEYears(country, cultivar);
+
+		Double lowerLimit;
+		Double upperLimit;
+		Double range;
+
 		for (Iterator<Environment> envIterator = environments.iterator(); envIterator
 				.hasNext();) {
 			env = envIterator.next();
@@ -451,6 +464,18 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 				YieldList.add(yield);
 				yield = new LinkedList<Float>();
+
+				// Calculate outliers
+				range = (Double.valueOf(String.valueOf(q3)) - Double
+						.valueOf(String.valueOf(q2)));
+				lowerLimit = Double.valueOf(String.valueOf(q2)) - 1.5 * range;
+				upperLimit = Double.valueOf(String.valueOf(q3)) + 1.5 * range;
+				
+				//TODO Query: select r.year, r.wrr14 from PhenologyGrowth r where r.wrr14 < lower order by r.wrr14
+				//TODO Query: select r.year, r.wrr14 from PhenologyGrowth r where r.wrr14 >upper order by r.wrr14
+				//TODO Add the result to the series data.
+				//TODO Include other params r.region.id,r.cultivar.id,r.environment.id,r.year,r.wrr14
+
 			}
 			data.add(new BoxPlot(YieldList, env.getCode(), env.getColor(), env
 					.getColor()));
@@ -513,11 +538,11 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		List<Map<String, Object>> plotBands = new LinkedList<Map<String, Object>>();
 		List<Environment> environments = getEnvironments();
 		List<Integer> clusters = Utils.getClusters();
-		List<Type> types = getTypes();
-
+		List<Series> seriesTypes = getSeriesTypes();
+		Cultivar cultivar = getCultivar(cultivarId);
 		List<Object> categories = getStressCategories(Utils.getStressSeries(),
 				cultivarId, countryId);
-
+		Series secondSeriesType = null;
 		// Map<String, Object> laiData = new LinkedHashMap<String, Object>();
 		// List<Map<String, Object>> seriesList = new LinkedList<Map<String,
 		// Object>>();
@@ -526,17 +551,18 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		Boolean add = false;
 		for (Environment environment : environments) {
 			series = new LinkedList<Map<String, Object>>();
-			log.info("==============================" + environment.getCode()
-					+ "==============================");
-			for (Type type : types) {
+			// log.info("=======" + environment.getCode() + "=======");
+			for (Series type : seriesTypes) {
 				add = false;
-				log.info("typeName: " + type.getName() + " typeId: "
-						+ type.getId());
+				// log.info("typeName: " + type.getName() + " typeId: "+
+				// type.getId());
 				plotBands = new LinkedList<Map<String, Object>>();
 				seriesMap = new LinkedHashMap<String, Object>();
 				seriesList = new LinkedList<Map<String, Object>>();
 				List<Object[]> queryResult = null;
+				List<Object[]> queryResult2 = null;
 				String queryString = null;
+				String queryString2 = null;
 
 				String index = null;
 				String seriesType = null;
@@ -550,67 +576,94 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					// queryString = new
 					// StringBuffer("select r.dae, r.lai, r.actualTranspiration from ");
 					// log.info("Ïn LAI Type...");
-					queryString = "select r.dae, r.value from ";
+					queryString = "select r.actualTranspiration, r.lai from ";
+					queryString2 = "select r.dae, r.actualTranspiration from ";
 					index = TYPE_LAI;
-					multiAxis = false;
-					seriesType = TYPE_COLUMN;
-					// seriesType2 = TYPE_SPLINE;
+					multiAxis = true;
+					seriesType = TYPE_SPLINE;
+					seriesType2 = TYPE_COLUMN;
 					titleXaxis = "Days After Emergency";
 					titleYaxis = "LAI and Actual Transpiration";
 					titleLegend = "LAI";
+					secondSeriesType = getSeriesByName(TYPE_TRW);
 				} else if (type.getName().toLowerCase().equals(TYPE_PCEW)) {
 					// queryString = new
 					// StringBuffer("select r.dae, r.stressIndex from ");
-					queryString = "select r.dae, r.value from ";
+					queryString = "select r.dae, r.stressIndex from ";
 					index = TYPE_PCEW;
 					multiAxis = false;
 					seriesType = TYPE_SPLINE;
 					// seriesType2 = TYPE_SPLINE;
 					titleXaxis = "Days After Emergency";
-					titleYaxis = "Stress Index";
+					titleYaxis = "Stress Index (ETa/ETp)";
 					titleLegend = "Stress Profile";
 				} else if (type.getName().toLowerCase().equals(TYPE_RAIN_S)) {
 					// queryString = new
 					// StringBuffer("select r.dae, r.averageWeeklyRain from ");
-					queryString = "select r.dae, r.value from ";
+					queryString = "select r.dae, r.averageWeeklyRain from ";
 					index = TYPE_RAIN_S;
 					multiAxis = false;
 					seriesType = TYPE_SPLINE;
 					// seriesType2 = TYPE_SPLINE;
 					titleXaxis = "Days After Emergency";
-					titleYaxis = "Average Weekly Rainfall";
+					titleYaxis = "Average Weekly Rainfall (mm)";
 					titleLegend = "Stress Profile";
 				} else if (type.getName().toLowerCase().equals(TYPE_RAIN_CUM)) {
 					// queryString = new
 					// StringBuffer("select r.dae, r.raincum from ");
-					queryString = "select r.dae, r.value from ";
+					queryString = "select r.dae, r.raincum from ";
 					index = TYPE_RAIN_CUM;
 					multiAxis = false;
 					seriesType = TYPE_COLUMN;
 					// seriesType2 = TYPE_SPLINE;
 					titleXaxis = "Days After Emergency";
-					titleYaxis = "Accumulated Rainfall";
+					titleYaxis = "Accumulated Rainfall (mm)";
 					titleLegend = "";
 				}
 
-				// else if (type.getName().toLowerCase().equals(TYPE_WAGT)) {
-				// // queryString = new
-				// // StringBuffer("select r.dae, r.wagt from ");
-				// queryString = "select r.dae, r.value from ";
-				// index = TYPE_WAGT;
-				// multiAxis = false;
-				// seriesType = TYPE_COLUMN;
-				// // seriesType2 = TYPE_SPLINE;
-				// }
+				else if (type.getName().toLowerCase().equals(TYPE_WAGT)) {
+					// queryString = new
+					// StringBuffer("select r.dae, r.wagt from ");
+					queryString = "select r.dae, r.wagt from ";
+					index = TYPE_WAGT;
+					multiAxis = false;
+					seriesType = TYPE_COLUMN;
+					// seriesType2 = TYPE_SPLINE;
+					titleXaxis = "Days After Emergency";
+					titleYaxis = "Total Dry Matter (Kg/ha)";
+					titleLegend = "Stress Profile";
+				} else if (type.getName().equals(TYPE_TMIN)) {
+					queryString = "select r.dae, r.tminc from ";
+					index = TYPE_TMIN;
+					multiAxis = false;
+					seriesType = TYPE_COLUMN;
+					// seriesType2 = TYPE_SPLINE;
+					titleXaxis = "Days After Emergency";
+					titleYaxis = "TMAX";
+					titleLegend = "Stress Profile";
+				} else if (type.getName().equals(TYPE_TMAX)) {
+					queryString = "select r.dae, r.tmaxc from ";
+					index = TYPE_TMAX;
+					multiAxis = false;
+					seriesType = TYPE_COLUMN;
+					// seriesType2 = TYPE_SPLINE;
+					titleXaxis = "Days After Emergency";
+					titleYaxis = "TMAX";
+					titleLegend = "Stress Profile";
+				} else if (type.getName().equals(TYPE_TRW)) {
+					queryString = "select r.dae, r.actualTranspiration from ";
+					index = TYPE_TRW;
+					multiAxis = false;
+					seriesType = TYPE_COLUMN;
+					// seriesType2 = TYPE_SPLINE;
+					titleXaxis = "Days After Emergency";
+					titleYaxis = "Actual Transpiration";
+					titleLegend = "Stress Profile";
+				}
 
-				// else if (type.getName().equals(TYPE_TMIN)
-				// || type.getName().equals(TYPE_TRC)
-				// || type.getName().equals(TYPE_TRW)
+				// else if (type.getName().equals(TYPE_TRC)
 				// || type.getName().equals(TYPE_DTR)
 				// || type.getName().equals(TYPE_DVS)
-				// || type.getName().equals(TYPE_TMAX)||
-				// type.getName().equals(TYPE_WAGT)
-				//
 				// ) {
 				// // TODO Do nothing
 				// continue;
@@ -630,25 +683,37 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 								cultivarId, countryId, environment.getId(),
 								type.getId());
 
+						if (multiAxis) {
+							queryResult2 = getSeries(queryString2, cluster,
+									cultivarId, countryId, environment.getId(),
+									secondSeriesType.getId());
+							if (queryResult2 != null && !queryResult2.isEmpty()) {
+								for (Object[] result2 : queryResult2) {
+
+									// cats.add((Float) result2[0]);
+									data2.add(result2[1]);
+								}
+								seriesList
+										.add(getSeriesMap(data2, seriesType2,
+												Utils.getClusterColor(cluster),
+												cluster));
+							}
+						}
+
 						if (queryResult != null && !queryResult.isEmpty()) {
 							add = true;
 							cats = new LinkedList<Object>();
 							for (Object[] result : queryResult) {
 
-								cats.add(result[0]);
+								cats.add((Float) result[0]);
 								data.add(result[1]);
-								if (multiAxis)
-									data2.add(result[2]);
+								// if (multiAxis)
+								// data2.add(result[2]);
 							}
 							// log.info("Cats:" + cats);
 							// log.info("Data: " + data);
 							seriesList.add(getSeriesMap(data, seriesType,
 									Utils.getClusterColor(cluster), cluster));
-							if (multiAxis)
-								seriesList
-										.add(getSeriesMap(data2, seriesType2,
-												Utils.getClusterColor(cluster),
-												cluster));
 						}
 					}
 
@@ -666,9 +731,9 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 						seriesMap.put(LEGEND_TITLE, titleLegend);
 
 						// TODO Add plot bands
-						// plotBands = getPlotBands(cultivarId);
-
-						// seriesMap.put(PLOT_BANDS, plotBands);
+						plotBands = getPlotBands(cultivar);
+						log.info(plotBands);
+						seriesMap.put(PLOT_BANDS, plotBands);
 
 						series.add(seriesMap);
 					}
@@ -680,23 +745,74 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		return environmentMap;
 	}
 
-	private List<Map<String, Object>> getPlotBands(Integer cultivarId) {
+	private Series getSeriesByName(String name) {
+		StringBuffer q = new StringBuffer("from "
+				+ Series.class.getSimpleName())
+				.append(" r where r.name =:name");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("name", name);
+		return (Series) query.getSingleResult();
+	}
+
+	private Cultivar getCultivar(Integer cultivarId) {
+		StringBuffer q = new StringBuffer("from "
+				+ Cultivar.class.getSimpleName())
+				.append(" r where r.id =:cultivar");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("cultivar", cultivarId);
+
+		return (Cultivar) query.getSingleResult();
+	}
+
+	private List<Map<String, Object>> getPlotBands(Cultivar cultivar) {
 		// TODO Complete this
 		List<String> colors = new ArrayList<String>(Arrays.asList(
 				"rgba(256, 10, 10, 0.1)", "rgba(5, 256, 5, 0.2)",
 				"rgba(68, 170, 213, 0.1)"));
 
-		// List<Object> titles = new
-		// ArrayList<Object>(Arrays.asList(TEXT_VEGETATIVE, TEXT_REPRODUCTIVE,
-		// TEXT_FILLING_GRAIN));
+		List<String> titles = new ArrayList<String>(Arrays.asList(
+				BAND_VEGETATIVE, BAND_REPRODUCTIVE, BAND_FILLING_GRAIN));
 
 		List<Map<String, Object>> bands = new LinkedList<Map<String, Object>>();
 
-		for (int i = 0; i < 3; i++) {
-			// bands.add(tpeBand(from, to, colors.get(i), titles.get(i)));
-		}
+		// log.info(cultivar.getVegetativeStart());
+		bands.add(tpeBand(cultivar.getVegetativeStart(),
+				cultivar.getVegetativeEnd(), colors.get(0), titles.get(0)));
+
+		bands.add(tpeBand(cultivar.getReproductiveStart(),
+				cultivar.getReproductiveEnd(), colors.get(1), titles.get(1)));
+
+		bands.add(tpeBand(cultivar.getFillingGrainStart(),
+				cultivar.getFillingGrainEnd(), colors.get(2), titles.get(2)));
 
 		return bands;
+	}
+
+	private Map<String, Object> tpeBand(Integer startDay, Integer endDay,
+			String color, String title) {
+		// Map<String, Object> band = new LinkedHashMap<String, Object>();
+		Map<String, Object> bandsMap = new LinkedHashMap<String, Object>();
+		Map<String, Object> labelMap = new LinkedHashMap<String, Object>();
+		Map<String, Object> styleMap = new LinkedHashMap<String, Object>();
+
+		bandsMap.put(FROM, (Integer) startDay);
+		bandsMap.put(TO, (Integer) endDay);
+		bandsMap.put(COLOR, color);
+		labelMap = new LinkedHashMap<String, Object>();
+		labelMap.put(BAND_TEXT, title);
+		styleMap = new LinkedHashMap<String, Object>();
+		styleMap.put(COLOR, "#006600");
+		styleMap.put("fontWeight", "bold");
+		// styleMap.put("fontSize", 16);
+		labelMap.put("style", styleMap);
+		// style: {
+		// color: 'blue',
+		// fontWeight: 'bold'
+		// }
+
+		bandsMap.put(LABEL, labelMap);
+
+		return bandsMap;
 	}
 
 	private Map<String, Object> getSeriesMap(List<Object> data,
@@ -704,11 +820,13 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 		Map<String, Object> seriesMap = new LinkedHashMap<String, Object>();
 		Map<String, Object> markerMap = new LinkedHashMap<String, Object>();
-
+		// Integer intv = 14;
 		seriesMap.put(TYPE, seriesType);
 		seriesMap.put(NAME, cluster);
 		seriesMap.put(COLOR, clusterColor);
 		seriesMap.put(DATA, data);
+		seriesMap.put("pointInterval", 7);
+		seriesMap.put("pointStart", 21);
 		if (seriesType.equals(TYPE_SPLINE)) {
 			markerMap.put(LINE_WIDTH, 2);
 			markerMap.put(LINE_COLOR, clusterColor);
@@ -723,10 +841,10 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 			Integer cultivarId, Integer countryId, Integer environment,
 			Integer typeId) {
 
-		List<String> categories = getSeriesCategories(typeId);
+		// List<String> categories = getSeriesCategories(typeId);
 		// log.info("Cluster: " + cluster + " Series: " + categories);
-		if (categories.isEmpty() || categories == null)
-			return null;
+		// if (categories.isEmpty() || categories == null)
+		// return null;
 		// log.info("country: " + countryId + " cluster: " + cluster +
 		// " cultivar: " + cultivarId + " environment: " + environment);
 		StringBuffer q = new StringBuffer(queryStr);
@@ -735,7 +853,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		q.append(entityClass.getName())
 				.append(" r where r.region.id =:country")
 				.append(" and r.cultivar.id =:cultivar")
-				.append(" and r.series.name in (:series)")
+				.append(" and r.series.id =:series")
 				.append(" and r.environment.id =:environment")
 				.append(" and r.cluster =:cluster")
 				.append(" order by r.dae asc");
@@ -745,7 +863,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 		query.setParameter("country", countryId);
 		query.setParameter("cultivar", cultivarId);
-		query.setParameter("series", categories);
+		query.setParameter("series", typeId);
 		query.setParameter("cluster", cluster);
 		query.setParameter("environment", environment);
 
@@ -753,22 +871,10 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		return results;
 	}
 
-	private List<String> getSeriesCategories(Integer typeId) {
+	private List<Series> getSeriesTypes() {
 
-		StringBuffer q = new StringBuffer("select r.name from "
-				+ Series.class.getSimpleName())
-				.append(" r where r.type.id =:type");
-
-		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("type", typeId);
-
-		return query.getResultList();
-	}
-
-	private List<Type> getTypes() {
-
-		StringBuffer q = new StringBuffer("from " + Type.class.getSimpleName())
-				.append(" r ");
+		StringBuffer q = new StringBuffer("from "
+				+ Series.class.getSimpleName()).append(" r ");
 		Query query = entityManager.createQuery(q.toString());
 
 		return query.getResultList();
