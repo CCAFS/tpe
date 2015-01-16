@@ -47,6 +47,27 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	private static final String PRECIPITATION = "precipitation";
 	private static final String PLOT_DATA = "plotData";
 
+	private static final String TYPE = "type";
+	private static final Object TYPE_COLUMN = "column";
+	private static final String NAME = "name";
+	private static final String COLOR = "color";
+	private static final String DATA = "data";
+	// private static final String DATA = "data";
+	private static final String CATEGORIES = "categories";
+	private static final String SERIES = "series";
+	private static final String MARKER = "marker";
+	private static final Object TYPE_SPLINE = "spline";
+	private static final String LINE_WIDTH = "lineWidth";
+	private static final String LINE_COLOR = "lineColor";
+	private static final String FILL_COLOR = "fillColor";
+	private static final Object COLOR_GREEN = "#009900";
+	private static final String TOOL_TIP = "tooltip";
+	private static final String AXIS_Y = "yAxis";
+	private static final Object VALUE_SUFFIX_MM = " mm";
+	private static final String VALUE_SUFFIX = "valueSuffix";
+	private static final Object VALUE_SUFFIX_C = " Â°C";
+	private static final Object VALUE_SUFFIX_R = " MJ/m2.day";
+
 	public ClimateDao() {
 		super(Climate.class);
 		// TODO Auto-generated constructor stub
@@ -148,6 +169,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			properties.put(FEATURE_NAME, climate.getStation().getName());
 			properties.put(STATION_NUMBER, climate.getStation().getNumber());
 			properties.put(STATION_NAME, climate.getStation().getName());
+			properties.put(STATION_ID, climate.getStation().getId());
 			properties.put(TMIN, climate.getTmin());
 			properties.put(TMAX, climate.getTmax());
 			properties.put(RADIATION, climate.getRadiation());
@@ -218,6 +240,71 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		query.setParameter("region", countryId);
 
 		return query.getResultList();
+	}
+
+	@Override
+	public Map<String, Object> getClimateSeries(Integer country) {
+		Map<String, Object> seriesData = new LinkedHashMap<String, Object>();
+		Map<Integer, Object> stationsSeriesMap = new LinkedHashMap<Integer, Object>();
+		List<Map<String, Object>> seriesMapList = new LinkedList<Map<String, Object>>();
+		Map<String, Object> seriesMap = new LinkedHashMap<String, Object>();
+//		Map<String, Object> seriesMap2 = new LinkedHashMap<String, Object>();
+		Map<String, Object> toolTipMap = new LinkedHashMap<String, Object>();
+
+		// Get the stations
+		List<Station> stations = getStations(country);
+		List<Double> rainfall = new LinkedList<Double>();
+		List<Double> radiation = new LinkedList<Double>();
+		// Add the months catgories[1-12]
+		List<Integer> categories = new LinkedList<Integer>(Arrays.asList(1, 2,
+				3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+		seriesData.put(CATEGORIES, categories);
+
+		for (Station station : stations) {
+			seriesMapList = new LinkedList<Map<String, Object>>();
+			StringBuffer q = new StringBuffer("from " + entityClass.getName())
+					.append(" r where r.station.id =:station").append(
+							" order by r.month asc");
+			Query query = entityManager.createQuery(q.toString());
+			query.setParameter("station", station.getId());
+			// query.setParameter("indicators", indicators);
+			List<Climate> results = query.getResultList();
+			rainfall = new LinkedList<Double>();
+			radiation = new LinkedList<Double>();
+			// Create the series data
+			for (Climate climate : results) {
+				rainfall.add(climate.getPrecipitation());
+				radiation.add(climate.getRadiation());
+			}
+
+			// Add rainfall column series data
+			seriesMap = new LinkedHashMap<String, Object>();
+			toolTipMap = new LinkedHashMap<String, Object>();
+			seriesMap.put(TYPE, TYPE_COLUMN);
+			seriesMap.put(NAME, "Rainfall");
+			seriesMap.put(COLOR, "#4572A7");
+			seriesMap.put(AXIS_Y, 1);
+			seriesMap.put(DATA, rainfall);
+			// Tool Tip
+			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_MM);
+			seriesMap.put(TOOL_TIP, toolTipMap);
+			seriesMapList.add(seriesMap);
+
+			seriesMap = new LinkedHashMap<String, Object>();
+			seriesMap.put(TYPE, TYPE_SPLINE);
+			seriesMap.put(NAME, "Radiation");
+			seriesMap.put(COLOR, "#89A54E");
+			seriesMap.put(DATA, radiation);
+			toolTipMap = new LinkedHashMap<String, Object>();
+			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
+			seriesMap.put(TOOL_TIP, toolTipMap);
+			seriesMapList.add(seriesMap);
+			// Add the station id and its series data
+			stationsSeriesMap.put(station.getId(), seriesMapList);
+		}
+		seriesData.put(SERIES, stationsSeriesMap);
+
+		return seriesData;
 	}
 
 }

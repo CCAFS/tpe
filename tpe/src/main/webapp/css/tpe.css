@@ -550,7 +550,7 @@ div#tpe_map_canvas {
 	cursor: crosshair;
 }
 
-.tpe_plot {
+.tpe_plot, .env_container, .plot_lai, .plot_pcew, .rain_radiation, .plot_temprain, .plot_box, .soil_plot, .plot_rainsum, .plot_raincum, .plot_wagt {
 	background: #f7f5ed;
 	height: 200px;
 	border: 1px solid #487429;
@@ -563,7 +563,7 @@ div#tpe_map_canvas {
 	box-shadow: 0 1px 3px #487429;
 }
 
-div#env_container, div#plot_lai, div#plot_pcew, div#plot_temprain {
+div#env_container, div#plot_lai, div#plot_pcew, div#plot_temprain, div#rain_radiation, div#plot_box, div#soil_plot, div#plot_rainsum, div#plot_raincum, div#plot_wagt {
 	height: 100%;
 	width: 100%;
 	/* position:absolute; */

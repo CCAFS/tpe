@@ -14,6 +14,7 @@
 package org.cgiar.dapa.ccafs.tpe.action;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -94,6 +95,10 @@ public class ClimateGeoJsonAction extends BaseAction {
 	 * The corresponding country states geojson data
 	 */
 	private Object statesGeoJson;
+	/**
+	 * The series data map
+	 */
+	private Map<String, Object> seriesData;
 
 	public String execute() {
 
@@ -103,7 +108,8 @@ public class ClimateGeoJsonAction extends BaseAction {
 			// TODO Initially dont consider selection of climate indicators
 			this.setGeoJson(tpeService.getClimateGeoJSON(
 					this.getSelectedCountry(), null));
-
+			// Get the climate series data from the database
+			seriesData = tpeService.getClimateSeries(getSelectedCountry());
 		}
 
 		this.setRegion(tpeService.getRegionById(getSelectedCountry()));
@@ -186,6 +192,14 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	public void setStatesGeoJson(Object statesGeoJson) {
 		this.statesGeoJson = statesGeoJson;
+	}
+
+	public Map<String, Object> getSeriesData() {
+		return seriesData;
+	}
+
+	public void setSeriesData(Map<String, Object> seriesData) {
+		this.seriesData = seriesData;
 	}
 
 }

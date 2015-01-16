@@ -22,10 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
-import javax.sound.sampled.DataLine;
 
 import org.apache.log4j.Logger;
-import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHull;
 import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
@@ -37,7 +35,6 @@ import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Series;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
-import org.cgiar.dapa.ccafs.tpe.entity.Type;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePolygon;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
@@ -53,7 +50,7 @@ import org.cgiar.dapa.ccafs.tpe.util.Utils;
  * @author NMATOVU
  *
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "unused" })
 public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		implements IPhenologyGrowthDao {
 
@@ -94,6 +91,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	private static final String TO = "to";
 	private static final String BAND_TEXT = "text";
 	private static final String LABEL = "label";
+	private static final String TYPE_SCATTER = "scatter";
 
 	private Logger log = Logger.getLogger(this.getClass());
 
@@ -245,7 +243,6 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	 *            the id of the country
 	 * @return sub region ids
 	 */
-	@SuppressWarnings("unused")
 	private List<Integer> getSubregions(Integer countryId) {
 		StringBuffer q = new StringBuffer("select r.id from "
 				+ Region.class.getSimpleName()).append(
@@ -256,7 +253,6 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		return query.getResultList();
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
 			Integer countryId, Integer swindowId, String year, String scenario) {
@@ -405,23 +401,34 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	}
 
 	@Override
-	public List<BoxPlot> getTPEBox(Integer country, Integer cultivar) {
-		List<BoxPlot> data = new LinkedList<BoxPlot>();
+	public Map<String, Object> getTPEBox(Integer country, Integer cultivar) {
+		Map<String, Object> boxPlotData = new LinkedHashMap<String, Object>();
+		List<Map<String, Object>> seriesList = new LinkedList<Map<String, Object>>();
+		Map<String, Object> series = new LinkedHashMap<String, Object>();
+		// Map<String, Object> marker = new LinkedHashMap<String, Object>();
+
+		// List<BoxPlot> data = new LinkedList<BoxPlot>();
 		List<Environment> environments = getEnvironments();
 		Environment env;
 		// org.apache.commons.math3.util
 		List<String> years = new LinkedList<String>();
 		years = getTPEYears(country, cultivar);
+		// Add the categories
+		boxPlotData.put(CATEGORIES, years);
 
-		Double lowerLimit;
-		Double upperLimit;
-		Double range;
+		// Float lowerLimit;
+		// Float upperLimit;
+		// Float range;
 
 		for (Iterator<Environment> envIterator = environments.iterator(); envIterator
 				.hasNext();) {
 			env = envIterator.next();
 			List<Float> yield = new LinkedList<Float>();
-			List<List<Float>> YieldList = new LinkedList<List<Float>>();
+			List<List<Float>> yieldList = new LinkedList<List<Float>>();
+			series = new LinkedHashMap<String, Object>();
+			// List<Object> yearOutliers = new LinkedList<Object>();
+			// List<List<Object>> outliersList = new LinkedList<List<Object>>();
+
 			for (String year : years) {
 				StringBuffer q = new StringBuffer("select r.wrr14 from "
 						+ entityClass.getName())
@@ -462,27 +469,92 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				// yield.add((Float) q3);
 				// yield.add((Float) q4);
 
-				YieldList.add(yield);
+				yieldList.add(yield);
 				yield = new LinkedList<Float>();
 
 				// Calculate outliers
-				range = (Double.valueOf(String.valueOf(q3)) - Double
-						.valueOf(String.valueOf(q2)));
-				lowerLimit = Double.valueOf(String.valueOf(q2)) - 1.5 * range;
-				upperLimit = Double.valueOf(String.valueOf(q3)) + 1.5 * range;
-				
-				//TODO Query: select r.year, r.wrr14 from PhenologyGrowth r where r.wrr14 < lower order by r.wrr14
-				//TODO Query: select r.year, r.wrr14 from PhenologyGrowth r where r.wrr14 >upper order by r.wrr14
-				//TODO Add the result to the series data.
-				//TODO Include other params r.region.id,r.cultivar.id,r.environment.id,r.year,r.wrr14
+				// range = (q3.floatValue() - q2.floatValue());
+				//
+				// lowerLimit = q2.floatValue() - 1.5f * range;
+				//
+				// upperLimit = q3.floatValue() + 1.5f * range;
 
+				// TODO Query: select r.year, r.wrr14 from PhenologyGrowth r
+				// where r.wrr14 < lower order by r.wrr14
+				// TODO Query: select r.year, r.wrr14 from PhenologyGrowth r
+				// where r.wrr14 >upper order by r.wrr14
+				// TODO Add the result to the series data.
+				// TODO Include other params
+				// r.region.id,r.cultivar.id,r.environment.id,r.year,r.wrr14
+
+				/*
+				 * List<Float> outliers = getOutliers(lowerLimit, upperLimit,
+				 * country, cultivar, year, env.getId()); outliersList = new
+				 * LinkedList<List<Object>>(); for (Float out : outliers) {
+				 * yearOutliers = new LinkedList<Object>();
+				 * yearOutliers.add(year); yearOutliers.add(out);
+				 * outliersList.add(yearOutliers); }
+				 */
 			}
-			data.add(new BoxPlot(YieldList, env.getCode(), env.getColor(), env
-					.getColor()));
+			// Add the environment boxplot data
+			series.put(DATA, yieldList);
+			series.put(NAME, env.getCode());
+			series.put(COLOR, env.getColor());
+			series.put(FILL_COLOR, env.getColor());
+			// Add the series to the series list
+			seriesList.add(series);
+
+			// Add the environment outliers data
+			/*
+			 * series = new LinkedHashMap<String, Object>(); series.put(TYPE,
+			 * TYPE_SCATTER); series.put(NAME, env.getCode() + " Outlier");
+			 * series.put(COLOR, env.getColor()); series.put(DATA,
+			 * outliersList);
+			 * 
+			 * // Add marker marker = new LinkedHashMap<String, Object>();
+			 * marker.put(FILL_COLOR, "#ffffff"); marker.put(LINE_WIDTH, 1);
+			 * marker.put(LINE_COLOR, env.getColor()); // Add marker
+			 * series.put(MARKER, marker); // Add series to the list
+			 * seriesList.add(series);
+			 */
+
+			// data.add(new BoxPlot(yieldList, env.getCode(), env.getColor(),
+			// env.getColor()));
 
 		}
+		// Add the boxplot data series
+		boxPlotData.put(SERIES, seriesList);
+		// return data;
+		return boxPlotData;
+	}
 
-		return data;
+	private List<Float> getOutliers(Float lowerLimit, Float upperLimit,
+			Integer country, Integer cultivar, String year, Integer env) {
+		StringBuffer q = new StringBuffer("select r.wrr14 from "
+				+ entityClass.getName())
+				.append(" r where r.region.id =:country")
+				.append(" or r.region.parent.parent.id =:country")
+				.append(" and r.cultivar.id =:cultivar")
+				.append(" and r.environment.id =:environment")
+				.append(" and r.year =:year").append(" and r.wrr14 <:lower")
+				.append(" or r.wrr14 >:upper").append(" order by r.wrr14 asc");
+
+		Query query = entityManager.createQuery(q.toString());
+
+		query.setParameter("country", country);
+		query.setParameter("cultivar", cultivar);
+		query.setParameter("year", year);
+		query.setParameter("environment", env);
+		query.setParameter("lower", lowerLimit);
+		query.setParameter("upper", upperLimit);
+
+		query.setFirstResult(0);
+		query.setMaxResults(4);
+
+		List<Float> results = query.getResultList();
+
+		return results;
+
 	}
 
 	private List<Environment> getEnvironments() {
@@ -732,7 +804,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 						// TODO Add plot bands
 						plotBands = getPlotBands(cultivar);
-						log.info(plotBands);
+						// log.info(plotBands);
 						seriesMap.put(PLOT_BANDS, plotBands);
 
 						series.add(seriesMap);

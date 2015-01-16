@@ -168,7 +168,7 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 *            the selected crop cultivar id
 	 * @return data
 	 */
-	List<BoxPlot> getTPEBox(Integer country, Integer cultivar);
+	Map<String, Object> getTPEBox(Integer country, Integer cultivar);
 
 	// Map<String, List<Object>> getStressCategories(List<String> stressSeries);
 	/**

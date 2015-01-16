@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -106,13 +107,13 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The list of box plot data
 	 */
-	private List<BoxPlot> dataJson = new LinkedList<BoxPlot>();
+	private Map<String, Object> boxplotData = new LinkedHashMap<String, Object>();
 	private List<String> categories = new LinkedList<String>();
 
 	// private List<Object> categoriesList;
 	private List<Object> categoriesTempRain;
 	// private List<Map<String, Object>> series;
-	private List<Map<String, Object>> plotBands;
+	// private List<Map<String, Object>> plotBands;
 
 	// private List<Map<String, Object>> seriesLai;
 
@@ -129,11 +130,12 @@ public class TPEGeoJsonAction extends BaseAction {
 	// private List<Object> categoriesStress;
 
 	private Map<String, Object> seriesData;
+
 	// private Map<String, Object> pcewData;
-	private Map<String, Object> rainCumData;
+	// private Map<String, Object> rainCumData;
 	// private Map<String, Object> wagtData;
 	// private Map<String, Object> rainSData;
-	private Map<String, Object> rainTempData;
+	// private Map<String, Object> rainTempData;
 
 	public String execute() {
 		// Retrieve the data that will be converted into GeoJson by this action
@@ -173,11 +175,11 @@ public class TPEGeoJsonAction extends BaseAction {
 				// tpeService.getStressCategories(Utils.getStressSeries(),
 				// getCultivar().getId(),getSelectedCountry());
 
-//				log.info("Getting the series data... ");
+				// log.info("Getting the series data... ");
 
 				seriesData = tpeService.getSeriesData(getCultivar().getId(),
 						getSelectedCountry());
-//				log.info(seriesData.size());
+				// log.info(seriesData.size());
 			}
 
 			// Loads the TPE boundary for the selected country and crop
@@ -185,7 +187,7 @@ public class TPEGeoJsonAction extends BaseAction {
 					+ "script/" + getRegion().getName().toUpperCase()
 					+ ".BOUNDARY.json"));
 
-			dataJson = tpeService.getTPEBox(getSelectedCountry(),
+			boxplotData = tpeService.getTPEBox(getSelectedCountry(),
 					getSelectedCultivar());
 
 			// log.info(getSelectedCountry());
@@ -198,7 +200,7 @@ public class TPEGeoJsonAction extends BaseAction {
 			// LAI
 			// categoriesList = ChartUtil.categories();
 			// seriesLai = ChartUtil.seriesLAI();
-			plotBands = ChartUtil.plotBands();
+			// plotBands = ChartUtil.plotBands();
 
 			// PCEW
 			// seriesPcew = ChartUtil.seriesPCEW();
@@ -313,12 +315,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.tpeBoundaryJson = tpeBoundaryJson;
 	}
 
-	public List<BoxPlot> getDataJson() {
-		return dataJson;
+	public Map<String, Object> getBoxplotData() {
+		return boxplotData;
 	}
 
-	public void setDataJson(List<BoxPlot> dataJson) {
-		this.dataJson = dataJson;
+	public void setBoxplotData(Map<String, Object> boxplotData) {
+		this.boxplotData = boxplotData;
 	}
 
 	public List<String> getCategories() {
@@ -337,36 +339,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.seriesTempRain = seriesTempRain;
 	}
 
-	public List<Map<String, Object>> getPlotBands() {
-		return plotBands;
-	}
-
-	public void setPlotBands(List<Map<String, Object>> plotBands) {
-		this.plotBands = plotBands;
-	}
-
 	public List<Object> getCategoriesTempRain() {
 		return categoriesTempRain;
 	}
 
 	public void setCategoriesTempRain(List<Object> categoriesTempRain) {
 		this.categoriesTempRain = categoriesTempRain;
-	}
-
-	public Map<String, Object> getRainCumData() {
-		return rainCumData;
-	}
-
-	public void setRainCumData(Map<String, Object> rainCumData) {
-		this.rainCumData = rainCumData;
-	}
-
-	public Map<String, Object> getRainTempData() {
-		return rainTempData;
-	}
-
-	public void setRainTempData(Map<String, Object> rainTempData) {
-		this.rainTempData = rainTempData;
 	}
 
 	public Map<String, Object> getSeriesData() {

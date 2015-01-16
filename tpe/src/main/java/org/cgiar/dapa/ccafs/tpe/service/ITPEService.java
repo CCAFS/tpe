@@ -528,7 +528,7 @@ public interface ITPEService {
 	 *            the selected crop cultivar id
 	 * @return data
 	 */
-	List<BoxPlot> getTPEBox(Integer country, Integer cultivar);
+	Map<String, Object> getTPEBox(Integer country, Integer cultivar);
 
 	/**
 	 * Retrieves the crop cultivar from the database for the specified id
@@ -564,5 +564,14 @@ public interface ITPEService {
 	 * @return lai series data
 	 */
 	Map<String, Object> getSeriesData(Integer cultivarId, Integer countryId);
+
+	/**
+	 * Retrieves the climate series data from the database
+	 * 
+	 * @param country
+	 *            the selected country id
+	 * @return climate series
+	 */
+	Map<String, Object> getClimateSeries(Integer country);
 
 }

@@ -369,7 +369,7 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public List<BoxPlot> getTPEBox(Integer country, Integer cultivar) {
+	public Map<String, Object> getTPEBox(Integer country, Integer cultivar) {
 
 		return phenologyGrowthDao.getTPEBox(country, cultivar);
 	}
@@ -389,10 +389,17 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public Map<String, Object> getSeriesData(Integer cultivarId, Integer countryId) {
+	public Map<String, Object> getSeriesData(Integer cultivarId,
+			Integer countryId) {
 
 		return phenologyGrowthDao.getSeriesData(cultivarId, countryId)
 
 		;
+	}
+
+	@Override
+	public Map<String, Object> getClimateSeries(Integer country) {
+
+		return climateDao.getClimateSeries(country);
 	}
 }

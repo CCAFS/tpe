@@ -2,7 +2,7 @@
 //	.ready(
 
 var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics';
-var hfeSeries, lfeSeries, feSeries;
+var hfeSeries, lfeSeries, feSeries, boxJSON, climateSeriesJSON;
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -41,6 +41,7 @@ function initializeGoogleMap() {
 	// TPE, SOIL or CLIMATE
 	switch (selectedOutput.toUpperCase()) {
 	case 'TPE':
+//		hideShow('TPE');
 		// Selected TPE. The get the
 		// corresponding selected TPE
 		// params
@@ -50,10 +51,11 @@ function initializeGoogleMap() {
 		// Call the geoJsonData function and pass the params y action
 		geoJsonData(actionJson);
 		// initializeMap();
+		
 		break;
 
 	case 'SOIL':
-
+//		hideShow('SOIL');
 		// The action url for the soil map
 		actionJson = 'soilGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -62,7 +64,7 @@ function initializeGoogleMap() {
 		break;
 
 	case 'CLIMATE':
-
+		//hideShow('CLIMATE');
 		// The action url for the soil map
 		actionJson = 'climateGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -89,7 +91,7 @@ function initializeMap(data) {
 	viewPlot();
 	// dialogBoxPlot(categoriesJSON, dataJSON);
 
-	createSoilPlot();
+	// createSoilPlot();
 
 	// var mapStyle = [ ];
 
@@ -305,7 +307,7 @@ function initializeMap(data) {
 			createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 			// Display the TPE Box plot
-			createTPEBoxPlot(categoriesJSON, dataJSON, true);
+			createTPEBoxPlot(categoriesJSON, boxJSON, true);
 
 			// createLAIPlot(categoriesList, seriesLai, plotBands);
 			// createPCEWPlot(categoriesList, seriesPcew, plotBands);
@@ -335,6 +337,14 @@ function initializeMap(data) {
 				}
 			});
 
+		} else if (e.feature.getProperty('featureType') == 'CLIMATE') {
+			// Display the plot only for the soil point features
+			var plotJSON = e.feature.getProperty('plotData');
+			createClimatePlot(plotJSON, true);
+
+			// Create rainfall and radiation plot
+			rainfallRadiationPlot(climateSeriesJSON, true, e.feature
+					.getProperty('stationId'), e.feature.getProperty('name'));
 		}
 	});
 
@@ -387,12 +397,12 @@ function initializeMap(data) {
 			var probJSON = dataJSON[e.feature.getProperty('code')];
 			createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
-
+//			hideShow('TPE');
 			// console.log(categoriesJSON);
 			// console.log(dataJSON);
 
 			// Display the TPE Box plot
-			createTPEBoxPlot(categoriesJSON, dataJSON, true);
+			createTPEBoxPlot(categoriesJSON, boxJSON, true);
 
 			// createLAIPlot(categoriesList, seriesLai, plotBands);
 			// createPCEWPlot(categoriesList, seriesPcew, plotBands);
@@ -431,8 +441,12 @@ function initializeMap(data) {
 		// TODO Add Climate chart
 		else if (e.feature.getProperty('featureType') == 'CLIMATE') {
 			// Display the plot only for the soil point features
-			var plotJSON = e.feature.getProperty('plotData');
-			createClimatePlot(plotJSON, true);
+			// var plotJSON = e.feature.getProperty('plotData');
+			// createClimatePlot(plotJSON, true);
+
+			// Create rainfall and radiation plot
+			rainfallRadiationPlot(climateSeriesJSON, true, e.feature
+					.getProperty('stationId'), e.feature.getProperty('name'));
 		}
 
 	});
@@ -567,10 +581,11 @@ function featureInfo(event) {
  */
 function geoJsonData(action) {
 	// Hide the charts
-	$('#env_container').hide();
-	$('#plot_lai').hide();
-	$('#plot_temprain').hide();
-	$('#plot_pcew').hide();
+	// $('#env_container').hide();
+//	 $('#plot_lai').hide();
+	// $('#plot_temprain').hide();
+	// $('#plot_pcew').hide();
+	// $('#rain_radiation').hide();
 
 	// console.log(parameters);
 	$.ajax({
@@ -587,9 +602,12 @@ function geoJsonData(action) {
 			// probabilitiesJSON = dataJson.data;
 			dataJSON = dataJson.dataJson;
 
+			boxJSON = dataJson.boxplotData;
+
 			// console.log(dataJson.probabilities);
 			categoriesJSON = dataJson.categories;
 
+			climateSeriesJSON = dataJson.seriesData;
 			// categoriesList = dataJson.categoriesList;
 			// plotBands = dataJson.plotBands;
 			// seriesLai = dataJson.seriesLai;
@@ -623,8 +641,8 @@ function geoJsonData(action) {
 // Create the climate plot chart
 function createClimatePlot(seriesJSON, smallPlot) {
 
-	$('#env_container').show();
-	var renderTo = 'env_container';// Default div
+	// $('#rain_radiation').show();
+	var renderTo = 'rain_radiation';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
@@ -819,8 +837,8 @@ function createClimatePlot(seriesJSON, smallPlot) {
 
 // Create the SOIL chart plot
 function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
-	$('#env_container').show();
-	var renderTo = 'env_container';// Default div
+	// $('#soil_plot').show();
+	var renderTo = 'soil_plot';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
@@ -1042,8 +1060,8 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 
 // Create Box Plot
 function createTPEBoxPlot(categories, series, smallPlot) {
-	$('#env_container').show();
-	var renderTo = 'env_container';// Default div
+	// $('#plot_box').show();
+	var renderTo = 'plot_box';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
@@ -1194,7 +1212,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		 * src="img/ccafs_logo.png" style="height:50px; width:50px;"><img>'; } } },
 		 */
 		{
-			categories : categories,
+			categories : series.categories,
 			// offset : 0,
 			// gridLineWidth : 1,
 			// width : 200,
@@ -1269,7 +1287,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 			}
 		},
 
-		series : series,
+		series : series.series,
 		exporting : {
 			buttons : {
 				contextButton : {
@@ -1291,7 +1309,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 
 	// console.log(seriesMap);
 
-	$('#plot_lai').show();
+	// $('#plot_lai').show();
 	var renderTo = 'plot_lai';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
@@ -1521,7 +1539,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 }
 
 function createTempRainPlot(categories, series, smallPlot) {
-	$('#plot_temprain').show();
+	// $('#plot_temprain').show();
 	var renderTo = 'plot_temprain';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
@@ -1796,7 +1814,7 @@ function viewPlot() {
 function plotPCEW(seriesMap, environment, smallPlot) {
 	// console.log(seriesMap.series);
 	// console.log(seriesMap.categories);
-	$('#plot_pcew').show();
+	// $('#plot_pcew').show();
 	var renderTo = 'plot_pcew';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
@@ -2009,10 +2027,10 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 }
 
 function plotRAIN(seriesMap, environment, smallPlot) {
-	$('#plot_temprain').show();
+	// $('#plot_rainsum').show();
 
 	// console.log(seriesMap.plotBands);
-	var renderTo = 'plot_temprain';// Default div
+	var renderTo = 'plot_rainsum';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
@@ -2260,3 +2278,285 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 						}
 					});
 }
+
+function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
+	var categories, series;
+	if (seriesMap != null) {
+		categories = seriesMap['categories'];
+		series = seriesMap['series'];
+	}
+
+	// console.log(series[station]);
+
+	// $('#rain_radiation').show();
+	var renderTo = 'rain_radiation';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY, spacingBottom, itemWidth;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'rain_radiation';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 20;
+		legendY = 25;
+		spacingBottom = 35;
+		// itemWidth = 40;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '24px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+		// itemWidth = 100;
+	}
+
+	$('#' + renderTo).highcharts(
+			{
+				credits : {
+					// This hides highcharts.com from the legend
+					// enabled : false
+					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+					href : 'http://www.ccafs-tpe.org',
+					// href: null
+					// style : {
+					// width : 300
+					// },
+					position : {
+						align : 'right'
+					// x : 10
+					},
+					style : {
+						color : '#4e2700',
+						fontWeight : 'bold',
+						fontSize : fontSize
+					}
+				},
+				chart : {
+					zoomType : 'xy',
+					style : {
+						fontFamily : 'serif',
+						fontSize : fontSize
+					},
+					plotBorderWidth : 1,
+					// spacingTop:2,
+					// spacingRight:5,
+					spacingBottom : spacingBottom,
+					// spacingLeft:2,
+					borderWidth : 1,
+					borderRadius : 5,
+					borderColor : '#999',
+					// margin: [15,6,15,15],
+					/*
+					 * , marginBottom : 60, marginTop : 25, marginLeft : 60,
+					 * marginRight : 10
+					 */
+					events : {
+						load : function() {
+							if (smallPlot) {
+								this.renderer.image('img/zoom-in.png', 10, 2,
+										20, 20)
+										.on(
+												'click',
+												function() {
+													rainfallRadiationPlot(
+															seriesMap, false,
+															station,
+															stationName);
+													$('#dialog-plot').dialog(
+															'open');
+												}).css({
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 300,
+											id : 'zoomImage'
+										}).add();
+
+								// $('.highcharts-legend-item
+								// rect').attr('r',
+								// '0');
+								$('.highcharts-legend-item rect').attr(
+										'height', '8').attr('width', '8');
+
+							} else {
+								this.renderer.image('img/ccafs_logo.png', 90,
+										0, 120, 50).on('click', function() {
+									// Add CCAFS Link
+									location.href = 'http://www.ccafs-tpe.org'
+								}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 100
+								}).add();
+							}
+						},
+						click : function() {
+							if (smallPlot) {
+								rainfallRadiationPlot(seriesMap, false,
+										station, stationName);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+						}
+					}
+				},
+				title : {
+					text : 'Average Monthly Rainfall and Radiation',
+					style : {
+						color : '#4e2700',
+						// fontWeight : 'bold',
+						fontSize : titleFontSize
+					}
+				},
+				subtitle : {
+					text : stationName + ' Station',
+					style : {
+						color : '#4e2700'
+					// fontWeight : 'bold',
+					// fontSize : '10px',
+					}
+				},
+				xAxis : {
+					categories : categories,
+					labels : {
+						rotation : -45,
+						style : {
+							fontSize : fontSize,
+							fontFamily : 'Verdana, sans-serif'
+						}
+					},
+					title : {
+						text : 'Months'
+					}
+
+				},
+				yAxis : [ { // Primary yAxis
+					labels : {
+						// format : '{value}°C',
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					title : {
+						text : 'Radation (MJ/m2.day)',
+						style : {
+							color : '#4572A7'
+						}
+					}
+				}, { // Secondary yAxis
+					title : {
+						text : 'Rainfall (mm)',
+						rotation : -90,
+						x : 10,
+						style : {
+							color : '#4572A7'
+						}
+					},
+					labels : {
+						// format : '{value} mm',
+						// rotation: -45,
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					opposite : true
+				} ],
+				tooltip : {
+					shared : true
+				},
+				legend : {
+					layout : 'horizontal',
+					align : 'left',
+					x : legendX,
+					verticalAlign : 'bottom',
+					y : legendY,
+					floating : true,
+					backgroundColor : '#FFFFFF',
+					// itemWidth : itemWidth,
+					itemStyle : {
+						color : '#000',
+						fontFamily : 'MuseoS500',
+						// fontWeight : 'bold',
+						fontSize : fontSize
+					// width : itemWidth
+					},
+					// title : {
+					// text : ':: Drag'
+					// },
+					floating : true,
+					draggable : true
+				// zIndex : 400
+				},
+				series : series[station],
+				exporting : {
+					buttons : {
+						contextButton : {
+							// symbol: 'circle',
+							symbol : 'url(img/download_32.png)',
+						// symbolStrokeWidth : 1,
+						// symbolFill : '#bada55',
+						// symbolStroke : '#330033',
+						// symbolX : 6,
+						// symbolY : 6
+						}
+					}
+				}
+			});
+}
+
+//function hideShow(graphic) {
+//
+//	if (graphic == 'TPE') {
+//		// Hide the charts
+//		$('.plot_box').show();
+//		$('.soil_plot').hide();
+//		$('.plot_lai').show();
+//		$('.plot_temprain').show();
+//		$('.plot_pcew').show();
+//		$('.rain_radiation').hide();
+//		$('.plot_wagt').show();
+//		$('.plot_rainsum').show();
+//		$('.plot_raincum').show();
+//
+//	} else if (graphic == 'SOIL') {
+//		$('.soil_plot').show();
+//		$('.plot_box').hide();
+//		$('.plot_lai').hide();
+//		$('.plot_temprain').hide();
+//		$('.plot_pcew').hide();
+//		$('.rain_radiation').hide();
+//		$('.plot_wagt').hide();
+//		$('.plot_rainsum').hide();
+//		$('.plot_raincum').hide();
+//	} else if (graphic == 'CLIMATE') {
+//		$('.plot_box').hide();
+//		$('.plot_lai').hide();
+//		$('.plot_temprain').hide();
+//		$('.plot_pcew').hide();
+//		$('.rain_radiation').show();
+//		$('.soil_plot').hide();
+//		$('.plot_wagt').hide();
+//		$('.plot_rainsum').hide();
+//		$('.plot_raincum').hide();
+//	}
+//}

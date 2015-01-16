@@ -304,11 +304,11 @@ public class PhenologyGrowth extends BaseResult {
 	/**
 	 * Maximum temperature sum
 	 */
-	private Float TMAXC;
+	private Float tmaxc;
 	/**
 	 * Minimum temperature sum
 	 */
-	private Float TMINC;
+	private Float tminc;
 	/**
 	 * Average temperature (Total avera temperature)
 	 */
@@ -418,6 +418,14 @@ public class PhenologyGrowth extends BaseResult {
 	 * For generating the plot.
 	 */
 	private Double value;
+	/**
+	 * Relative Transpiration Ration
+	 */
+	private Float pcew;
+	/**
+	 * The variable name
+	 */
+	private String variable;
 
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
@@ -964,21 +972,21 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@Column(name = "tmaxc")
-	public Float getTMAXC() {
-		return TMAXC;
+	public Float getTmaxc() {
+		return tmaxc;
 	}
 
-	public void setTMAXC(Float tMAXC) {
-		TMAXC = tMAXC;
+	public void setTmaxc(Float tmaxc) {
+		this.tmaxc = tmaxc;
 	}
 
 	@Column(name = "tminc")
-	public Float getTMINC() {
-		return TMINC;
+	public Float getTminc() {
+		return tminc;
 	}
 
-	public void setTMINC(Float tMINC) {
-		TMINC = tMINC;
+	public void setTminc(Float tminc) {
+		this.tminc = tminc;
 	}
 
 	@Column(name = "taverc")
@@ -1229,6 +1237,24 @@ public class PhenologyGrowth extends BaseResult {
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	@Column(name = "pcew")
+	public Float getPcew() {
+		return pcew;
+	}
+
+	public void setPcew(Float pcew) {
+		this.pcew = pcew;
+	}
+
+	@Column(name = "variable")
+	public String getVariable() {
+		return variable;
+	}
+
+	public void setVariable(String variable) {
+		this.variable = variable;
 	}
 
 }

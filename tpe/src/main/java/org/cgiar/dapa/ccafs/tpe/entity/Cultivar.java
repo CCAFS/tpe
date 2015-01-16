@@ -48,27 +48,27 @@ public class Cultivar extends BaseEntity {
 	/**
 	 * The start day of the vegetative plot band
 	 */
-	private Integer vegetativeStartDay;
+	private Integer vegetativeStart;
 	/**
 	 * The end day of the vegetative plot band
 	 */
-	private Integer vegetativeEndDay;
+	private Integer vegetativeEnd;
 	/**
 	 * The start day of the reproductive plot band
 	 */
-	private Integer reproductiveStartDay;
+	private Integer reproductiveStart;
 	/**
 	 * The end day of the reproductive plot band
 	 */
-	private Integer reproductiveEndDay;
+	private Integer reproductiveEnd;
 	/**
 	 * The start day of the filling grain plot band
 	 */
-	private Integer fillingGrainStartDay;
+	private Integer fillingGrainStart;
 	/**
 	 * The end day of the filling grain plot band
 	 */
-	private Integer fillingGrainEndDay;
+	private Integer fillingGrainEnd;
 
 	@Column(name = "cultivar_name")
 	public String getName() {
@@ -98,58 +98,58 @@ public class Cultivar extends BaseEntity {
 
 	}
 
-	@Column(name = "vegetative_start_day")
-	public Integer getVegetativeStartDay() {
-		return vegetativeStartDay;
+	@Column(name = "vegetative_start")
+	public Integer getVegetativeStart() {
+		return vegetativeStart;
 	}
 
-	public void setVegetativeStartDay(Integer vegetativeStartDay) {
-		this.vegetativeStartDay = vegetativeStartDay;
+	public void setVegetativeStart(Integer vegetativeStart) {
+		this.vegetativeStart = vegetativeStart;
 	}
 
-	@Column(name = "vegetative_end_day")
-	public Integer getVegetativeEndDay() {
-		return vegetativeEndDay;
+	@Column(name = "vegetative_end")
+	public Integer getVegetativeEnd() {
+		return vegetativeEnd;
 	}
 
-	public void setVegetativeEndDay(Integer vegetativeEndDay) {
-		this.vegetativeEndDay = vegetativeEndDay;
+	public void setVegetativeEnd(Integer vegetativeEnd) {
+		this.vegetativeEnd = vegetativeEnd;
 	}
 
-	@Column(name = "reproductive_start_day")
-	public Integer getReproductiveStartDay() {
-		return reproductiveStartDay;
+	@Column(name = "reproductive_start")
+	public Integer getReproductiveStart() {
+		return reproductiveStart;
 	}
 
-	public void setReproductiveStartDay(Integer reproductiveStartDay) {
-		this.reproductiveStartDay = reproductiveStartDay;
+	public void setReproductiveStart(Integer reproductiveStart) {
+		this.reproductiveStart = reproductiveStart;
 	}
 
-	@Column(name = "reproductive_end_day")
-	public Integer getReproductiveEndDay() {
-		return reproductiveEndDay;
+	@Column(name = "reproductive_end")
+	public Integer getReproductiveEnd() {
+		return reproductiveEnd;
 	}
 
-	public void setReproductiveEndDay(Integer reproductiveEndDay) {
-		this.reproductiveEndDay = reproductiveEndDay;
+	public void setReproductiveEnd(Integer reproductiveEnd) {
+		this.reproductiveEnd = reproductiveEnd;
 	}
 
-	@Column(name = "fillinggrain_start_day")
-	public Integer getFillingGrainStartDay() {
-		return fillingGrainStartDay;
+	@Column(name = "fillinggrain_start")
+	public Integer getFillingGrainStart() {
+		return fillingGrainStart;
 	}
 
-	public void setFillingGrainStartDay(Integer fillingGrainStartDay) {
-		this.fillingGrainStartDay = fillingGrainStartDay;
+	public void setFillingGrainStart(Integer fillingGrainStart) {
+		this.fillingGrainStart = fillingGrainStart;
 	}
 
-	@Column(name = "fillinggrain_end_day")
-	public Integer getFillingGrainEndDay() {
-		return fillingGrainEndDay;
+	@Column(name = "fillinggrain_end")
+	public Integer getFillingGrainEnd() {
+		return fillingGrainEnd;
 	}
 
-	public void setFillingGrainEndDay(Integer fillingGrainEndDay) {
-		this.fillingGrainEndDay = fillingGrainEndDay;
+	public void setFillingGrainEnd(Integer fillingGrainEnd) {
+		this.fillingGrainEnd = fillingGrainEnd;
 	}
 
 }

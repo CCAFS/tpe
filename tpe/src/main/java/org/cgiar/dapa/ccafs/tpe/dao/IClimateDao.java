@@ -123,4 +123,13 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 * @return years
 	 */
 	List<String> getClimateYears(Integer countryId);
+
+	/**
+	 * Retrieves the climate series data from the database
+	 * 
+	 * @param country
+	 *            the selected country id
+	 * @return climate series
+	 */
+	Map<String, Object> getClimateSeries(Integer country);
 }

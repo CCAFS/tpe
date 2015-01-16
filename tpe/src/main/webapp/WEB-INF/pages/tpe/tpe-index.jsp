@@ -20,7 +20,7 @@
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <%-- <script type="text/javascript" src="${ctx}/script/init-map.js"></script> --%>
 <script type='text/javascript'>
- 
+	
 </script>
 </head>
 
@@ -54,22 +54,39 @@
 			<div id="tpe_analytics">
 				<h4 class="expanded">TPE Analytics</h4>
 				<div id="analytics">
-					<div class="tpe_plot">
-						<div id="env_container"></div>
+					<div class="rain_radiation">
+						<div id="rain_radiation"></div>
 					</div>
-					<div class="tpe_plot">
+					<div class="plot_lai">
 						<div id="plot_lai"></div>
 					</div>
-					<div class="tpe_plot">
+					<div class="plot_pcew">
 						<div id="plot_pcew"></div>
 					</div>
-					<div class="tpe_plot">
+					<div class="plot_temprain">
 						<div id="plot_temprain"></div>
+					</div>
+					<div class="plot_raincum">
+						<div id="plot_raincum"></div>
+					</div>
+					<div class="plot_rainsum">
+						<div id="plot_rainsum"></div>
+					</div>
+					<div class="plot_wagt">
+						<div id="plot_wagt"></div>
+					</div>
+					<div class="plot_box">
+						<div id="plot_box"></div>
+					</div>
+					<div class="soil_plot">
+						<div id="soil_plot"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="dialog-plot"><div id="dialog-chart"></div></div>
+		<div id="dialog-plot">
+			<div id="dialog-chart"></div>
+		</div>
 	</s:form>
 </body>
 </html>
