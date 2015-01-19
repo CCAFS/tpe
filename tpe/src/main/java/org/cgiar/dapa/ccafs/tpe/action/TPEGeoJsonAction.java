@@ -20,8 +20,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
-import org.cgiar.dapa.ccafs.tpe.util.ChartUtil;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -37,6 +35,7 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 2409450891248252753L;
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -51,7 +50,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The id of the selected scenario
 	 */
-	private String selectedScenario;
+	// private String selectedScenario;
 	/**
 	 * The id of the selected crop
 	 */
@@ -111,7 +110,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	private List<String> categories = new LinkedList<String>();
 
 	// private List<Object> categoriesList;
-	private List<Object> categoriesTempRain;
+	// private List<Object> categoriesTempRain;
 	// private List<Map<String, Object>> series;
 	// private List<Map<String, Object>> plotBands;
 
@@ -121,7 +120,7 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	// private List<Map<String, Object>> seriesRainCum;
 
-	private List<Map<String, Object>> seriesTempRain;
+	// private List<Map<String, Object>> seriesTempRain;
 	/**
 	 * The Highcharts categories for the LAI, PCEW, RAIN_CUM, RAIN_S,WAGT plots
 	 */
@@ -209,8 +208,8 @@ public class TPEGeoJsonAction extends BaseAction {
 			// seriesRainCum = ChartUtil.seriesRainCum();
 
 			// TEMP RAIN
-			setCategoriesTempRain(ChartUtil.categoriesTempRain());
-			seriesTempRain = ChartUtil.seriesTempRain();
+			// setCategoriesTempRain(ChartUtil.categoriesTempRain());
+			// seriesTempRain = ChartUtil.seriesTempRain();
 
 		}
 
@@ -225,14 +224,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setSelectedCultivar(Integer selectedCultivar) {
 		this.selectedCultivar = selectedCultivar;
-	}
-
-	public String getSelectedScenario() {
-		return selectedScenario;
-	}
-
-	public void setSelectedScenario(String selectedScenario) {
-		this.selectedScenario = selectedScenario;
 	}
 
 	public Integer getSelectedCrop() {
@@ -329,22 +320,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setCategories(List<String> categories) {
 		this.categories = categories;
-	}
-
-	public List<Map<String, Object>> getSeriesTempRain() {
-		return seriesTempRain;
-	}
-
-	public void setSeriesTempRain(List<Map<String, Object>> seriesTempRain) {
-		this.seriesTempRain = seriesTempRain;
-	}
-
-	public List<Object> getCategoriesTempRain() {
-		return categoriesTempRain;
-	}
-
-	public void setCategoriesTempRain(List<Object> categoriesTempRain) {
-		this.categoriesTempRain = categoriesTempRain;
 	}
 
 	public Map<String, Object> getSeriesData() {

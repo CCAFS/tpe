@@ -92,6 +92,12 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	private static final String BAND_TEXT = "text";
 	private static final String LABEL = "label";
 	private static final String TYPE_SCATTER = "scatter";
+	private static final String ENVIRONMENT_HFE = "HFE";
+	private static final String ENVIRONMENT_LFE = "LFE";
+	private static final String ENVIRONMENT_FE = "EF";
+	private static final String DASH_STYLE_LONG_DASH_DOT = "LongDashDot";
+	private static final String DASH_STYLE_DASH = "Dash";
+	private static final String DASH_STYLE = "dashStyle";
 
 	private Logger log = Logger.getLogger(this.getClass());
 
@@ -803,7 +809,8 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 						seriesMap.put(LEGEND_TITLE, titleLegend);
 
 						// TODO Add plot bands
-						plotBands = getPlotBands(cultivar);
+						plotBands = getPlotBands(cultivar,
+								environment.getCode());
 						// log.info(plotBands);
 						seriesMap.put(PLOT_BANDS, plotBands);
 
@@ -836,7 +843,8 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		return (Cultivar) query.getSingleResult();
 	}
 
-	private List<Map<String, Object>> getPlotBands(Cultivar cultivar) {
+	private List<Map<String, Object>> getPlotBands(Cultivar cultivar,
+			String environment) {
 		// TODO Complete this
 		List<String> colors = new ArrayList<String>(Arrays.asList(
 				"rgba(256, 10, 10, 0.1)", "rgba(5, 256, 5, 0.2)",
@@ -847,15 +855,27 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 		List<Map<String, Object>> bands = new LinkedList<Map<String, Object>>();
 
+		Integer reproductiveEnd = null, fillingStart = null;
 		// log.info(cultivar.getVegetativeStart());
 		bands.add(tpeBand(cultivar.getVegetativeStart(),
 				cultivar.getVegetativeEnd(), colors.get(0), titles.get(0)));
 
-		bands.add(tpeBand(cultivar.getReproductiveStart(),
-				cultivar.getReproductiveEnd(), colors.get(1), titles.get(1)));
+		if (environment.equals(ENVIRONMENT_HFE)) {
+			reproductiveEnd = cultivar.getReproductiveHFEEnd();
+			fillingStart = cultivar.getFillinggrainHFEStart();
+		} else if (environment.equals(ENVIRONMENT_LFE)) {
+			reproductiveEnd = cultivar.getReproductiveLFEEnd();
+			fillingStart = cultivar.getFillinggrainLFEStart();
+		} else if (environment.equals(ENVIRONMENT_FE)) {
+			reproductiveEnd = cultivar.getReproductiveFEEnd();
+			fillingStart = cultivar.getFillinggrainFEStart();
+		}
 
-		bands.add(tpeBand(cultivar.getFillingGrainStart(),
-				cultivar.getFillingGrainEnd(), colors.get(2), titles.get(2)));
+		bands.add(tpeBand(cultivar.getReproductiveStart(), reproductiveEnd,
+				colors.get(1), titles.get(1)));
+
+		bands.add(tpeBand(fillingStart, cultivar.getFillingGrainEnd(),
+				colors.get(2), titles.get(2)));
 
 		return bands;
 	}
@@ -889,7 +909,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 	private Map<String, Object> getSeriesMap(List<Object> data,
 			String seriesType, String clusterColor, Integer cluster) {
-
+		String lineStyle = null;
 		Map<String, Object> seriesMap = new LinkedHashMap<String, Object>();
 		Map<String, Object> markerMap = new LinkedHashMap<String, Object>();
 		// Integer intv = 14;
@@ -899,7 +919,21 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		seriesMap.put(DATA, data);
 		seriesMap.put("pointInterval", 7);
 		seriesMap.put("pointStart", 21);
+
 		if (seriesType.equals(TYPE_SPLINE)) {
+			switch (cluster) {
+			// HFE
+			case 2:
+				lineStyle = DASH_STYLE_DASH;
+				break;
+			case 3:
+				// FE
+				lineStyle = DASH_STYLE_LONG_DASH_DOT;
+				break;
+			default:
+				break;
+			}
+			seriesMap.put(DASH_STYLE, lineStyle);
 			markerMap.put(LINE_WIDTH, 2);
 			markerMap.put(LINE_COLOR, clusterColor);
 			markerMap.put(FILL_COLOR, clusterColor);

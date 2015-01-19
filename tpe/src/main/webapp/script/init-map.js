@@ -41,7 +41,7 @@ function initializeGoogleMap() {
 	// TPE, SOIL or CLIMATE
 	switch (selectedOutput.toUpperCase()) {
 	case 'TPE':
-//		hideShow('TPE');
+		hideShow('TPE');
 		// Selected TPE. The get the
 		// corresponding selected TPE
 		// params
@@ -51,11 +51,11 @@ function initializeGoogleMap() {
 		// Call the geoJsonData function and pass the params y action
 		geoJsonData(actionJson);
 		// initializeMap();
-		
+
 		break;
 
 	case 'SOIL':
-//		hideShow('SOIL');
+		hideShow('SOIL');
 		// The action url for the soil map
 		actionJson = 'soilGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -64,7 +64,7 @@ function initializeGoogleMap() {
 		break;
 
 	case 'CLIMATE':
-		//hideShow('CLIMATE');
+		hideShow('CLIMATE');
 		// The action url for the soil map
 		actionJson = 'climateGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
@@ -304,7 +304,7 @@ function initializeMap(data) {
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			// Display the plot only for the soil feature
 			var probJSON = dataJSON[e.feature.getProperty('code')];
-			createSoilPlot(categoriesJSON, probJSON, true);
+			// createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 			// Display the TPE Box plot
 			createTPEBoxPlot(categoriesJSON, boxJSON, true);
@@ -321,26 +321,32 @@ function initializeMap(data) {
 				environmentSeries = feSeries;
 			}
 			// Iterate the list of series map
-			$.each(environmentSeries, function(indx, seriesMap) {
+			$.each(environmentSeries,
+					function(indx, seriesMap) {
 
-				if (seriesMap.type == 'LAI') {
-					// Create LAI Plot
-					plotLAI(seriesMap, e.feature.getProperty('name'), true);
-				} else if (seriesMap.type == 'PCEW') {
-					plotPCEW(seriesMap, e.feature.getProperty('name'), true);
-				} else if (seriesMap.type == 'WAGT') {
-
-				} else if (seriesMap.type == 'RAINSUM') {
-					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
-				} else if (seriesMap.type == 'RAINCUM') {
-					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
-				}
-			});
+						if (seriesMap.type == 'LAI') {
+							// Create LAI Plot
+							plotLAI(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'PCEW') {
+							plotPCEW(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'WAGT') {
+							plotWAGT(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'RAINSUM') {
+							plotRAIN(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'RAINCUM') {
+							plotRAINCUM(seriesMap, e.feature
+									.getProperty('name'), true);
+						}
+					});
 
 		} else if (e.feature.getProperty('featureType') == 'CLIMATE') {
 			// Display the plot only for the soil point features
-			var plotJSON = e.feature.getProperty('plotData');
-			createClimatePlot(plotJSON, true);
+			// var plotJSON = e.feature.getProperty('plotData');
+			// createClimatePlot(plotJSON, true);
 
 			// Create rainfall and radiation plot
 			rainfallRadiationPlot(climateSeriesJSON, true, e.feature
@@ -397,7 +403,7 @@ function initializeMap(data) {
 			var probJSON = dataJSON[e.feature.getProperty('code')];
 			createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
-//			hideShow('TPE');
+			// hideShow('TPE');
 			// console.log(categoriesJSON);
 			// console.log(dataJSON);
 
@@ -420,21 +426,27 @@ function initializeMap(data) {
 				// console.log(feSeries);
 			}
 			// Iterate the list of series map
-			$.each(environmentSeries, function(indx, seriesMap) {
+			$.each(environmentSeries,
+					function(indx, seriesMap) {
 
-				if (seriesMap.type == 'LAI') {
-					// Create LAI Plot
-					plotLAI(seriesMap, e.feature.getProperty('name'), true);
-				} else if (seriesMap.type == 'PCEW') {
-					plotPCEW(seriesMap, e.feature.getProperty('name'), true);
-				} else if (seriesMap.type == 'WAGT') {
-
-				} else if (seriesMap.type == 'RAINSUM') {
-					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
-				} else if (seriesMap.type == 'RAINCUM') {
-					plotRAIN(seriesMap, e.feature.getProperty('name'), true);
-				}
-			});
+						if (seriesMap.type == 'LAI') {
+							// Create LAI Plot
+							plotLAI(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'PCEW') {
+							plotPCEW(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'WAGT') {
+							plotWAGT(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'RAINSUM') {
+							plotRAIN(seriesMap, e.feature.getProperty('name'),
+									true);
+						} else if (seriesMap.type == 'RAINCUM') {
+							plotRAINCUM(seriesMap, e.feature
+									.getProperty('name'), true);
+						}
+					});
 
 		}
 
@@ -582,7 +594,7 @@ function featureInfo(event) {
 function geoJsonData(action) {
 	// Hide the charts
 	// $('#env_container').hide();
-//	 $('#plot_lai').hide();
+	// $('#plot_lai').hide();
 	// $('#plot_temprain').hide();
 	// $('#plot_pcew').hide();
 	// $('#rain_radiation').hide();
@@ -613,8 +625,8 @@ function geoJsonData(action) {
 			// seriesLai = dataJson.seriesLai;
 			// seriesPcew = dataJson.seriesPcew;
 			// seriesRainCum = dataJson.seriesRainCum;
-			seriesTempRain = dataJson.seriesTempRain;
-			categoriesTempRain = dataJson.categoriesTempRain;
+			// seriesTempRain = dataJson.seriesTempRain;
+			// categoriesTempRain = dataJson.categoriesTempRain;
 			var seriesDataMap = dataJson.seriesData;
 			// var hfeSeries, lfeSeries, feSeries;
 			// console.log(seriesDataMap);
@@ -847,7 +859,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
-		renderTo = 'env_container';
+		renderTo = 'soil_plot';
 		// Chart font size
 		fontSize = '8px';
 		titleFontSize = '10px';
@@ -1070,7 +1082,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
-		renderTo = 'env_container';
+		renderTo = 'plot_box';
 		// Chart font size
 		fontSize = '8px';
 		titleFontSize = '10px';
@@ -2039,7 +2051,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
-		renderTo = 'plot_temprain';
+		renderTo = 'plot_rainsum';
 		// Chart font size
 		fontSize = '8px';
 		titleFontSize = '10px';
@@ -2524,39 +2536,519 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 			});
 }
 
-//function hideShow(graphic) {
-//
-//	if (graphic == 'TPE') {
-//		// Hide the charts
-//		$('.plot_box').show();
-//		$('.soil_plot').hide();
-//		$('.plot_lai').show();
-//		$('.plot_temprain').show();
-//		$('.plot_pcew').show();
-//		$('.rain_radiation').hide();
-//		$('.plot_wagt').show();
-//		$('.plot_rainsum').show();
-//		$('.plot_raincum').show();
-//
-//	} else if (graphic == 'SOIL') {
-//		$('.soil_plot').show();
-//		$('.plot_box').hide();
-//		$('.plot_lai').hide();
-//		$('.plot_temprain').hide();
-//		$('.plot_pcew').hide();
-//		$('.rain_radiation').hide();
-//		$('.plot_wagt').hide();
-//		$('.plot_rainsum').hide();
-//		$('.plot_raincum').hide();
-//	} else if (graphic == 'CLIMATE') {
-//		$('.plot_box').hide();
-//		$('.plot_lai').hide();
-//		$('.plot_temprain').hide();
-//		$('.plot_pcew').hide();
-//		$('.rain_radiation').show();
-//		$('.soil_plot').hide();
-//		$('.plot_wagt').hide();
-//		$('.plot_rainsum').hide();
-//		$('.plot_raincum').hide();
-//	}
-//}
+function plotRAINCUM(seriesMap, environment, smallPlot) {
+	// $('#plot_rainsum').show();
+
+	// console.log(seriesMap.plotBands);
+	var renderTo = 'plot_raincum';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'plot_raincum';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 20;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+	$('#' + renderTo)
+			.highcharts(
+					{
+						credits : {
+							// This hides highcharts.com from the legend
+							// enabled : false
+							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+							href : 'http://www.ccafs-tpe.org',
+							// href: null
+							// style : {
+							// width : 300
+							// },
+							position : {
+								align : 'left',
+								x : 10
+							}
+						},
+						chart : {
+							/*
+							 * style : { fontFamily : 'serif', fontSize : '8px' },
+							 * marginBottom : 50, marginTop : 25, marginLeft :
+							 * 50, marginRight : 10 // width: null, // height:
+							 * null
+							 */
+							style : {
+								fontFamily : 'serif',
+								fontSize : fontSize
+							},
+							plotBorderWidth : 1,
+							// spacingTop:2,
+							// spacingRight:5,
+							spacingBottom : spacingBottom,
+							// spacingLeft:2,
+							borderWidth : 1,
+							borderRadius : 5,
+							borderColor : '#999',
+							// margin: [15,6,15,15],
+							marginBottom : marginBottom,
+							marginTop : marginTop,
+							marginLeft : marginLeft,
+							marginRight : marginRight,
+
+							events : {
+								load : function() {
+									if (smallPlot) {
+
+										this.renderer
+												.image('img/zoom-in.png', 10,
+														2, 20, 20)
+												.on(
+														'click',
+														function() {
+															plotRAINCUM(
+																	seriesMap,
+																	environment,
+																	false);
+															$('#dialog-plot')
+																	.dialog(
+																			'open');
+														}).css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 300,
+													id : 'zoomImage'
+												}).add();
+									} else {
+										this.renderer
+												.image('img/ccafs_logo.png',
+														90, 0, 120, 50)
+												.on(
+														'click',
+														function() {
+															// Add CCAFS Link
+															location.href = 'http://www.ccafs-tpe.org'
+														}).css({
+													cursor : 'Pointer'
+												}).css({
+													position : 'relative',
+													"margin-left" : "-90px"
+												// opacity : 0.75
+												}).attr({
+													zIndex : 100
+												}).add();
+									}
+
+									/*
+									 * if (smallPlot) { // add report div var ch =
+									 * this, x = 20, y = 57; ch.flashText =
+									 * ch.renderer .text( '<div id="flash"><div
+									 * id="report">Click to enlarge</div></div>',
+									 * x, y + 10, true).css({ // width:
+									 * circleradius*2, color : '#009900',
+									 * fontSize : '30px', textAlign : 'center'
+									 * }).attr({ zIndex : 101 }).add(); }
+									 */
+								},
+
+								click : function() {
+									// If the small graphic was clicked on
+									if (smallPlot) {
+										plotRAINCUM(seriesMap, environment,
+												false);
+										// $('#report').html('click on title');
+										$('#dialog-plot').dialog('open');
+									}
+
+								}
+							}
+						},
+						title : {
+							text : seriesMap.type,
+							style : {
+								color : '#4e2700',
+								// fontWeight : 'bold'
+								fontSize : '10px'
+							}
+						},
+						subtitle : {
+							text : environment,
+							style : {
+								color : '#4e2700'
+							// fontWeight : 'bold',
+							// fontSize : '10px',
+							}
+						},
+						xAxis : {
+							categories : seriesMap.categories,
+							title : {
+								text : seriesMap.xaxis,
+								align : 'high'
+							},
+							gridLineWidth : 1,
+							plotBands : seriesMap.plotBands,
+							// min : seriesMap.categories[0],
+							// min:14,
+							max : 91,
+							tickInterval : 7,
+						// minTickInterval: 14,
+						// minRange: seriesMap.categories[0]
+						// ordinal : true
+						},
+						yAxis : {
+							title : {
+								text : seriesMap.yaxis
+							},
+							// gridLineWidth : 1,
+							labels : {
+								overflow : 'justify',
+								format : '{value:.1f}'
+							}
+						// min : 0,
+						// min:14,
+						// max : 84,
+						// tickInterval : 14
+						},
+						plotOptions : {
+							column : {
+								stacking : 'normal',
+								dataLabels : {
+									enabled : false,
+									color : (Highcharts.theme && Highcharts.theme.dataLabelsColor)
+											|| 'white'
+								}
+							}
+						},
+						legend : {
+							// layout : 'horizontal',
+							// align : 'left',
+							x : legendX,
+							// verticalAlign : 'bottom',
+							y : legendY,
+							floating : true,
+							// backgroundColor : '#FFFFFF',
+							// itemWidth : itemWidth,
+							// itemStyle : {
+							// color : '#000',
+							// fontFamily : 'MuseoS500',
+							// // fontWeight : 'bold',
+							// fontSize : fontSize
+							// // width : itemWidth
+							// },
+							title : {
+								text : seriesMap.legendTitle
+							}
+						// floating : true,
+						// draggable : true
+						// zIndex : 400
+						},
+						series : seriesMap.series,
+
+						exporting : {
+							buttons : {
+								contextButton : {
+									// symbol: 'circle',
+									symbol : 'url(img/download_32.png)',
+								// symbolStrokeWidth : 1,
+								// symbolFill : '#bada55',
+								// symbolStroke : '#330033',
+								// symbolX : 6,
+								// symbolY : 6
+								}
+							}
+						},
+						tooltip : {
+							formatter : function() {
+								return 'Cluster: <b>' + this.series.name
+										+ '</b><br/>Average Rainfall: <b>'
+										+ this.y + '</b>'
+										+ '<br/><b>Day After Emergency: '
+										+ this.x + '</b>'
+
+							}
+						}
+					});
+}
+
+function plotWAGT(seriesMap, environment, smallPlot) {
+	// console.log(seriesMap.series);
+	// console.log(seriesMap.categories);
+	// $('#plot_pcew').show();
+	var renderTo = 'plot_wagt';// Default div
+	var dialogDiv = 'dialog-chart';
+	var fontSize = '8px';
+	var titleFontSize = '10px;'
+	var legendX, legendY;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	// Set the div where to render the plot
+	if (smallPlot) {
+		// Dialog div
+		renderTo = 'plot_wagt';
+		// Chart font size
+		fontSize = '8px';
+		titleFontSize = '10px';
+		legendX = 0;
+		legendY = 20;
+		marginBottom: 35;
+		marginTop: 10;
+		marginLeft: 60;
+		marginRight: 10;
+		spacingBottom = 35;
+	} else {
+		// Jsp page div
+		renderTo = dialogDiv;
+		// Chart font size for the dialog chart
+		fontSize = '14px';
+		titleFontSize = '30px';
+		legendX = 120;
+		legendY = 20;
+		spacingBottom = 50;
+	}
+
+	var chart = new Highcharts.Chart({
+
+		// $('#' + renderTo).highcharts(
+		// {
+		credits : {
+			// This hides highcharts.com from the legend
+			// enabled : false
+			text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+			href : 'http://www.ccafs-tpe.org',
+			// href: null
+			// style : {
+			// width : 300
+			// },
+			position : {
+				align : 'left',
+				x : 10
+			}
+		},
+		chart : {
+			/*
+			 * style : { fontFamily : 'serif', fontSize : '8px' }, marginBottom :
+			 * 60, marginTop : 25, marginLeft : 45, marginRight : 10
+			 */
+			renderTo : renderTo,
+			style : {
+				fontFamily : 'serif',
+				fontSize : fontSize
+			},
+			plotBorderWidth : 1,
+			// spacingTop:2,
+			// spacingRight:5,
+			spacingBottom : spacingBottom,
+			// spacingLeft:2,
+			borderWidth : 1,
+			borderRadius : 5,
+			borderColor : '#999',
+			// margin: [15,6,15,15],
+			marginBottom : marginBottom,
+			marginTop : marginTop,
+			marginLeft : marginLeft,
+			marginRight : marginRight,
+			reflow : true,
+			events : {
+				load : function() {
+					chart = this;
+					if (smallPlot) {
+
+						this.renderer.image('img/zoom-in.png', 10, 2, 20, 20)
+								.on('click', function() {
+									plotWAGT(seriesMap, environment, false);
+									$('#dialog-plot').dialog('open');
+								}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 300,
+									id : 'zoomImage'
+								}).add();
+					} else {
+						this.renderer.image('img/ccafs_logo.png', 90, 0, 120,
+								50).on('click', function() {
+							// Add CCAFS Link
+							location.href = 'http://www.ccafs-tpe.org'
+						}).css({
+							cursor : 'Pointer'
+						}).css({
+							position : 'relative',
+							"margin-left" : "-90px"
+						// opacity : 0.75
+						}).attr({
+							zIndex : 100
+						}).add();
+					}
+
+					/*
+					 * if (smallPlot) { // add report div var ch = this, x = 20,
+					 * y = 57; ch.flashText = ch.renderer .text( '<div
+					 * id="flash"><div id="report">Click to enlarge</div></div>',
+					 * x, y + 10, true).css({ // width: circleradius*2, color :
+					 * '#009900', fontSize : '30px', textAlign : 'center'
+					 * }).attr({ zIndex : 101 }).add(); }
+					 */
+				},
+
+				click : function() {
+					// If the small graphic was clicked on
+					if (smallPlot) {
+						plotWAGT(seriesMap, environment, false);
+						// $('#report').html('click on title');
+						$('#dialog-plot').dialog('open');
+					}
+
+				}
+			}
+		},
+		title : {
+			text : seriesMap.type,
+			style : {
+				color : '#4e2700',
+				// fontWeight : 'bold',
+				fontSize : '10px'
+			}
+		},
+		subtitle : {
+			text : environment,
+			style : {
+				color : '#4e2700'
+			// fontWeight : 'bold',
+			// fontSize : '10px',
+			}
+		},
+		xAxis : {
+			categories : seriesMap.categories,
+			title : {
+				text : seriesMap.xaxis,
+				align : 'high'
+			},
+			gridLineWidth : 1,
+			plotBands : seriesMap.plotBands,
+			max : 91,
+			tickInterval : 7
+		},
+		yAxis : {
+			title : {
+				text : seriesMap.yaxis
+			},
+			labels : {
+				overflow : 'justify',
+				format : '{value:.1f}'
+			}
+		},
+		legend : {
+			// layout : 'horizontal',
+			// align : 'left',
+			x : legendX,
+			// verticalAlign : 'bottom',
+			y : legendY,
+			floating : true,
+			// backgroundColor : '#FFFFFF',
+			// itemWidth : itemWidth,
+			// itemStyle : {
+			// color : '#000',
+			// fontFamily : 'MuseoS500',
+			// // fontWeight : 'bold',
+			// fontSize : fontSize
+			// // width : itemWidth
+			// },
+			title : {
+				text : seriesMap.legendTitle
+			}
+		// floating : true,
+		// draggable : true
+		// zIndex : 400
+		},
+		series : seriesMap.series,
+		exporting : {
+			buttons : {
+				contextButton : {
+					// symbol: 'circle',
+					symbol : 'url(img/download_32.png)',
+				// symbolStrokeWidth : 1,
+				// symbolFill : '#bada55',
+				// symbolStroke : '#330033',
+				// symbolX : 6,
+				// symbolY : 6
+				}
+			}
+		},
+		tooltip : {
+			formatter : function() {
+				return 'Cluster: <b>' + this.series.name
+						+ '</b><br/>Stress Index: <b>' + this.y + '</b>'
+						+ '<br/><b>Day After Emergency: ' + this.x + '</b>'
+
+			}
+		}
+	});
+
+//	$('#' + renderTo).parent().prev('h3').click(function() {
+//		// chart.redraw();
+//		chart.setSize($(document).width(), $(document).height() / 2, false);
+//		console.log('Redrawing the plot...');
+//	});
+
+}
+
+function hideShow(graphic) {
+
+	if (graphic == 'TPE') {
+		// Hide the charts
+		$('.plot_box').show();
+		$('.soil_plot').hide();
+		// $('.plot_lai').show();
+		// $('.plot_temprain').show();
+		$('.plot_pcew').show();
+		$('.rain_radiation').hide();
+		// $('.plot_wagt').show();
+		// $('.plot_rainsum').show();
+		// $('.plot_raincum').show();
+		$('#analytics h3').show();
+	} else if (graphic == 'SOIL') {
+		$('#analytics h3').hide();
+		$('.soil_plot').show();
+		$('.plot_box').hide();
+		$('.plot_lai').hide();
+		// $('.plot_temprain').hide();
+		$('.plot_pcew').hide();
+		$('.rain_radiation').hide();
+		$('.plot_wagt').hide();
+		$('.plot_rainsum').hide();
+		$('.plot_raincum').hide();
+	} else if (graphic == 'CLIMATE') {
+		$('#analytics h3').hide();
+		$('.plot_box').hide();
+		$('.plot_lai').hide();
+		// $('.plot_temprain').hide();
+		$('.plot_pcew').hide();
+		$('.rain_radiation').show();
+		$('.soil_plot').hide();
+		$('.plot_wagt').hide();
+		$('.plot_rainsum').hide();
+		$('.plot_raincum').hide();
+	}
+}

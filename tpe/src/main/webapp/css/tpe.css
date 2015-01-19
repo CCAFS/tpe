@@ -550,7 +550,9 @@ div#tpe_map_canvas {
 	cursor: crosshair;
 }
 
-.tpe_plot, .env_container, .plot_lai, .plot_pcew, .rain_radiation, .plot_temprain, .plot_box, .soil_plot, .plot_rainsum, .plot_raincum, .plot_wagt {
+.tpe_plot, .env_container, .plot_lai, .plot_pcew, .rain_radiation,
+	.plot_temprain, .plot_box, .soil_plot, .plot_rainsum, .plot_raincum,
+	.plot_wagt {
 	background: #f7f5ed;
 	height: 200px;
 	border: 1px solid #487429;
@@ -563,7 +565,9 @@ div#tpe_map_canvas {
 	box-shadow: 0 1px 3px #487429;
 }
 
-div#env_container, div#plot_lai, div#plot_pcew, div#plot_temprain, div#rain_radiation, div#plot_box, div#soil_plot, div#plot_rainsum, div#plot_raincum, div#plot_wagt {
+div#env_container, div#plot_lai, div#plot_pcew, div#plot_temprain, div#rain_radiation,
+	div#plot_box, div#soil_plot, div#plot_rainsum, div#plot_raincum, div#plot_wagt
+	{
 	height: 100%;
 	width: 100%;
 	/* position:absolute; */
@@ -605,7 +609,7 @@ div#select_variables {
 	padding-top: 0;
 }
 
-#select_variables h4, #tpe_analytics h4 {
+#select_variables h4, #tpe_analytics h4, #analytics h3 {
 	margin: 0;
 	text-align: center;
 	padding: 4px;
@@ -618,6 +622,14 @@ div#select_variables {
 	cursor: pointer;
 	/*border-bottom: 1px solid #009900;*/
 	background-position:
+}
+
+#select_variables h4:HOVER, #tpe_analytics h4:HOVER, #analytics h3:HOVER
+	{
+	background-color: #c3d69b;
+	color: #4e2700;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .rollover {
@@ -642,6 +654,15 @@ div#contact_main {
 	margin: 10px auto;
 	height: 100%;
 	height: auto;
+}
+
+#contact_main #institution, #contact_main p {
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 1.2em;
+	line-height: 1.5em;
+	float: left;
+	color: #000000;
+	padding: 5px;
 }
 
 div#contact_team {
@@ -689,10 +710,16 @@ div#team {
 	width: 680px;
 	height: auto;
 	text-align: left;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1em;
 	line-height: 1em;
 	float: left;
+	color: #000000;
+	font-weight: normal;
+}
+
+#team .name {
+	font-weight: bold;
 }
 
 .team_member {
@@ -732,6 +759,13 @@ div#team {
 	-o-box-shadow: 0 1px 3px #666;
 	box-shadow: 0 1px 3px #666;
 	float: left;
+}
+
+.member_photo img {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 #contact_team h4, #contact_form h4 {
@@ -804,6 +838,15 @@ div#documentation {
 	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
 }
 
+.tpe_sec p {
+	text-align: left;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 1.2em;
+	line-height: 1.5em;
+	color: #000000;
+	font-weight: normal;
+}
+
 .pane_left {
 	width: 680px;
 	-webkit-border-radius: 5px;
@@ -834,6 +877,7 @@ div#documentation {
 	float: left;
 	cursor: pointer;
 	margin-bottom: 5px;
+	overflow: hidden;
 }
 
 .tpe_sec:HOVER {
@@ -942,11 +986,10 @@ div#loading {
 }
 
 div#dialog-chart {
-	  width: 80%;
+	width: 80%;
 	height: 80%;
 }
 /*   div#dialog-plot{
 	 width: 180%;
 	height: 100%;
 }  */
- 

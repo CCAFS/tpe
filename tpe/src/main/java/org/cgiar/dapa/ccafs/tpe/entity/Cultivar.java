@@ -53,22 +53,49 @@ public class Cultivar extends BaseEntity {
 	 * The end day of the vegetative plot band
 	 */
 	private Integer vegetativeEnd;
+
 	/**
-	 * The start day of the reproductive plot band
+	 * The start day of the filling grain HFE plot band
 	 */
-	private Integer reproductiveStart;
+	private Integer fillinggrainHFEStart;
+
 	/**
-	 * The end day of the reproductive plot band
+	 * The start day of the filling grain LFE plot band
 	 */
-	private Integer reproductiveEnd;
+	private Integer fillinggrainLFEStart;
+
+	/**
+	 * The start day of the filling grain FE plot band
+	 */
+	private Integer fillinggrainFEStart;
+
+	/**
+	 * The end day of the reproductive HFE plot band
+	 */
+	private Integer reproductiveHFEEnd;
+
+	/**
+	 * The end day of the reproductive LFE plot band
+	 */
+	private Integer reproductiveLFEEnd;
+
+	/**
+	 * The end day of the reproductive FE plot band
+	 */
+	private Integer reproductiveFEEnd;
 	/**
 	 * The start day of the filling grain plot band
 	 */
-	private Integer fillingGrainStart;
+	// private Integer fillingGrainStart;
 	/**
-	 * The end day of the filling grain plot band
+	 * The end day of the filling grain is the same for all (HFE, LFE and FE)
+	 * plot band
 	 */
 	private Integer fillingGrainEnd;
+	/**
+	 * The reproductive start date is the same for all the HFE, LFE and FE
+	 */
+	private Integer reproductiveStart;
 
 	@Column(name = "cultivar_name")
 	public String getName() {
@@ -116,32 +143,10 @@ public class Cultivar extends BaseEntity {
 		this.vegetativeEnd = vegetativeEnd;
 	}
 
-	@Column(name = "reproductive_start")
-	public Integer getReproductiveStart() {
-		return reproductiveStart;
-	}
+	// @Column(name = "reproductive_start")
+	// @Column(name = "reproductive_end")
 
-	public void setReproductiveStart(Integer reproductiveStart) {
-		this.reproductiveStart = reproductiveStart;
-	}
-
-	@Column(name = "reproductive_end")
-	public Integer getReproductiveEnd() {
-		return reproductiveEnd;
-	}
-
-	public void setReproductiveEnd(Integer reproductiveEnd) {
-		this.reproductiveEnd = reproductiveEnd;
-	}
-
-	@Column(name = "fillinggrain_start")
-	public Integer getFillingGrainStart() {
-		return fillingGrainStart;
-	}
-
-	public void setFillingGrainStart(Integer fillingGrainStart) {
-		this.fillingGrainStart = fillingGrainStart;
-	}
+	// @Column(name = "fillinggrain_start")
 
 	@Column(name = "fillinggrain_end")
 	public Integer getFillingGrainEnd() {
@@ -150,6 +155,69 @@ public class Cultivar extends BaseEntity {
 
 	public void setFillingGrainEnd(Integer fillingGrainEnd) {
 		this.fillingGrainEnd = fillingGrainEnd;
+	}
+
+	@Column(name = "reproductive_hfe_end")
+	public Integer getReproductiveHFEEnd() {
+		return reproductiveHFEEnd;
+	}
+
+	public void setReproductiveHFEEnd(Integer reproductiveHFEEnd) {
+		this.reproductiveHFEEnd = reproductiveHFEEnd;
+	}
+
+	@Column(name = "reproductive_lfe_end")
+	public Integer getReproductiveLFEEnd() {
+		return reproductiveLFEEnd;
+	}
+
+	public void setReproductiveLFEEnd(Integer reproductiveLFEEnd) {
+		this.reproductiveLFEEnd = reproductiveLFEEnd;
+	}
+
+	@Column(name = "reproductive_fe_end")
+	public Integer getReproductiveFEEnd() {
+		return reproductiveFEEnd;
+	}
+
+	public void setReproductiveFEEnd(Integer reproductiveFEEnd) {
+		this.reproductiveFEEnd = reproductiveFEEnd;
+	}
+
+	@Column(name = "fillinggrain_hfe_start")
+	public Integer getFillinggrainHFEStart() {
+		return fillinggrainHFEStart;
+	}
+
+	public void setFillinggrainHFEStart(Integer fillinggrainHFEStart) {
+		this.fillinggrainHFEStart = fillinggrainHFEStart;
+	}
+
+	@Column(name = "fillinggrain_lfe_start")
+	public Integer getFillinggrainLFEStart() {
+		return fillinggrainLFEStart;
+	}
+
+	public void setFillinggrainLFEStart(Integer fillinggrainLFEStart) {
+		this.fillinggrainLFEStart = fillinggrainLFEStart;
+	}
+
+	@Column(name = "fillinggrain_fe_start")
+	public Integer getFillinggrainFEStart() {
+		return fillinggrainFEStart;
+	}
+
+	public void setFillinggrainFEStart(Integer fillinggrainFEStart) {
+		this.fillinggrainFEStart = fillinggrainFEStart;
+	}
+
+	@Column(name = "reproductive_start")
+	public Integer getReproductiveStart() {
+		return reproductiveStart;
+	}
+
+	public void setReproductiveStart(Integer reproductiveStart) {
+		this.reproductiveStart = reproductiveStart;
 	}
 
 }

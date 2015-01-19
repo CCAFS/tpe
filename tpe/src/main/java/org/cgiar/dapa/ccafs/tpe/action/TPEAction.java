@@ -75,12 +75,13 @@ public class TPEAction extends BaseAction {
 	private List<Cultivar> cultivars;
 	private Integer selectedCultivar;
 	private Integer preselectedCultivar;
+
 	// private List<WindowSowing> swindows;
 	// private Integer preselectedWindow;
 	// private Integer selectedWindow;
-	private List<String> scenarios;
-	private String selectedScenario;
-	private Integer preselectedScenario;
+	// private List<String> scenarios;
+	// private String selectedScenario;
+	// private Integer preselectedScenario;
 
 	/**
 	 * This method will load the output variables.
@@ -132,10 +133,10 @@ public class TPEAction extends BaseAction {
 			// Retrieve all the crops from the database
 			crops = tpeService.getAllCrops();
 			// Generate the scenarios from the utils class
-			scenarios = Utils.getScenarios();
-			if (!scenarios.isEmpty() && scenarios != null)
-				// Select the first item in the list: zero based index
-				preselectedScenario = 0;
+			// scenarios = Utils.getScenarios();
+			// if (!scenarios.isEmpty() && scenarios != null)
+			// // Select the first item in the list: zero based index
+			// preselectedScenario = 0;
 
 			if (!crops.isEmpty() && crops != null) {
 				// Preselect the crop
@@ -404,30 +405,6 @@ public class TPEAction extends BaseAction {
 
 	public void setPreselectedCultivar(Integer preselectedCultivar) {
 		this.preselectedCultivar = preselectedCultivar;
-	}
-
-	public List<String> getScenarios() {
-		return scenarios;
-	}
-
-	public void setScenarios(List<String> scenarios) {
-		this.scenarios = scenarios;
-	}
-
-	public String getSelectedScenario() {
-		return selectedScenario;
-	}
-
-	public void setSelectedScenario(String selectedScenario) {
-		this.selectedScenario = selectedScenario;
-	}
-
-	public Integer getPreselectedScenario() {
-		return preselectedScenario;
-	}
-
-	public void setPreselectedScenario(Integer preselectedScenario) {
-		this.preselectedScenario = preselectedScenario;
 	}
 
 }
