@@ -87,6 +87,9 @@
 		<action name="contribute" class="indexAction" method="contribute">
 			<result name="success">/WEB-INF/pages/tpe/contribute.jsp</result>
 		</action>
+		<action name="workshops" class="indexAction" method="workshops">
+			<result name="success">/WEB-INF/pages/tpe/workshops.jsp</result>
+		</action>
 		<action name="toolIndex" class="tpeAction">
 			<result name="success">/WEB-INF/pages/tpe/tpe-index.jsp</result>
 		</action>
@@ -143,7 +146,7 @@
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">tpeGeoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,boxplotData.*,categories.*,categoriesTempRain.*,seriesTempRain.*,seriesData.*</param>
+				<param name="includeProperties">tpeGeoJson.*,countryGeoJson.*,zoom,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,boxplotData.*,categories.*,seriesData.*</param>
 			</result>
 		</action>
 		<action name="climateGeoJson" class="climateGeoJsonAction">

@@ -1,6 +1,16 @@
 $(document)
 		.ready(
 				function() {
+					// For the graphics dialog window
+					$(window).resize(function() {
+						$('.ui-dialog').css({
+							'width' : $(window).width(),
+							'height' : $(window).height(),
+							'left' : '0px',
+							'top' : '0px'
+						});
+					}).resize();
+
 					jQuery.ajaxSetup({
 						beforeSend : function() {
 							jQuery("#loading").show();
@@ -139,6 +149,19 @@ $(document)
 									function() {
 										$(this).toggleClass('expanded')
 												.toggleClass('collapsed');
+										// If expanded add class
+										// .current_grafico
+										// else remove it
+										if ($(this).hasClass('expanded')) {
+											if ($(this).hasClass(
+													'current_grafico')) {
+
+											} else
+												$(this).addClass(
+														'current_grafico');
+										} else
+											$(this).removeClass(
+													'current_grafico');
 
 										$(this).siblings('h3').each(
 												function() {
@@ -155,7 +178,10 @@ $(document)
 														$(this).addClass(
 																'collapsed');
 													}
-
+													// Remove the current_grafoc
+													// class if it exists
+													$(this).removeClass(
+															'current_grafico');
 												});
 
 										// console.log($(this));
@@ -273,10 +299,9 @@ $(document)
 							// Automatically reload the Google Map when the
 							// selected scenario
 							// change
-//							$("select#select_scenario").change(function() {
-//								initializeGoogleMap();
-//							});
-
+							// $("select#select_scenario").change(function() {
+							// initializeGoogleMap();
+							// });
 							// Automatically reload the Google Map when the
 							// selected sowing
 							// window

@@ -94,10 +94,12 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	private static final String TYPE_SCATTER = "scatter";
 	private static final String ENVIRONMENT_HFE = "HFE";
 	private static final String ENVIRONMENT_LFE = "LFE";
-	private static final String ENVIRONMENT_FE = "EF";
+	private static final String ENVIRONMENT_FE = "FE";
 	private static final String DASH_STYLE_LONG_DASH_DOT = "LongDashDot";
 	private static final String DASH_STYLE_DASH = "Dash";
 	private static final String DASH_STYLE = "dashStyle";
+	private static final String Z_INDEX = "zIndex";
+	private static final String TITLE_SUB = "subTitle";
 
 	private Logger log = Logger.getLogger(this.getClass());
 
@@ -654,7 +656,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					// queryString = new
 					// StringBuffer("select r.dae, r.lai, r.actualTranspiration from ");
 					// log.info("Ïn LAI Type...");
-					queryString = "select r.actualTranspiration, r.lai from ";
+					queryString = "select r.dae, r.lai from ";
 					queryString2 = "select r.dae, r.actualTranspiration from ";
 					index = TYPE_LAI;
 					multiAxis = true;
@@ -696,7 +698,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					// seriesType2 = TYPE_SPLINE;
 					titleXaxis = "Days After Emergency";
 					titleYaxis = "Accumulated Rainfall (mm)";
-					titleLegend = "";
+					titleLegend = "Stress Profile";
 				}
 
 				else if (type.getName().toLowerCase().equals(TYPE_WAGT)) {
@@ -801,7 +803,10 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 						seriesMap.put(SERIES, seriesList);
 						seriesMap.put(TYPE, type.getName().toUpperCase());
 						seriesMap.put(ENVIRONMENT, environment.getCode());
-						seriesMap.put(TITLE, type.getName());
+						seriesMap.put(TITLE, type.getDescription()
+								.toUpperCase());
+						seriesMap.put(TITLE_SUB, environment.getDescription()
+								+ " (" + environment.getCode() + ")");
 						seriesMap.put(TITLE_Y, titleYaxis);
 						// seriesMap.put(TITLE_Y2, type.getName());
 						// TODO Modify this
@@ -939,6 +944,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 			markerMap.put(FILL_COLOR, clusterColor);
 			markerMap.put(ENABLED, false);
 			seriesMap.put(MARKER, markerMap);
+			seriesMap.put(Z_INDEX, 2);
 		}
 		return seriesMap;
 	}

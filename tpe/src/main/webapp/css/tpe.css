@@ -5,7 +5,9 @@ html, body {
 	margin: 0;
 	height: 100%;
 	width: 100%;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	/* 	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif; */
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial",
+		sans-serif;
 }
 
 /*========================= HEADER ============================*/
@@ -136,6 +138,8 @@ ul#menu li a.active, ul#menu li a:hover {
 	height: auto !important;
 	height: 100%;
 	margin: 0 auto -160px auto;
+	color: #000;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 }
 
 .content {
@@ -267,10 +271,13 @@ div#tpe_section {
 	overflow: hidden;
 	height: 150px;
 	color: #000000;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1.2em;
-	line-height: 1.55em;
+	/* 	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif; */
+	font-family: "Trebuchet MS", "Helvetica Neue", "Helvetica", "Arial",
+		sans-serif;
+	font-size: 1.4em;
+	line-height: 1.4em;
 	width: 100%;
+	font-weight: normal;
 }
 
 .box_col img {
@@ -452,13 +459,12 @@ div#tpe_analytics {
 	z-index: 20;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	/*width: 250px;*/
-	width: 20%;
+	width: 253px;
+	/* width: 20%; */
 	height: auto;
 	padding: 2px;
 	background: #77933c;
 	/*float: right;*/
-	height: auto;
 	/*position: absolute;
 	top: 118px;
 	right: 10px;*/
@@ -479,6 +485,7 @@ div#tpe_analytics {
 	font-family: Arial, sans-serif;
 	/*Hide the legend on page load, only display or visible when Google Map is initialized */
 	/* display: none; */
+	z-index: 1000;
 }
 
 .legend_text {
@@ -657,12 +664,19 @@ div#contact_main {
 }
 
 #contact_main #institution, #contact_main p {
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1.2em;
-	line-height: 1.5em;
+	font-family: 'Trebuchet MS', sans-serif, Helvetica;
+	font-size: 16px;
+	line-height: 1.6em;
 	float: left;
 	color: #000000;
 	padding: 5px;
+	font-weight: normal;
+	margin-bottom: 20px;
+}
+
+.contact-info h1 {
+	font-size: 1.8em !important;
+	line-height: 1.5em !important;
 }
 
 div#contact_team {
@@ -693,7 +707,7 @@ div#contact_form {
 	padding: 5px;
 	background: #c3d69b;
 	text-align: left;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.2em;
 	line-height: 1.2em;
 }
@@ -711,8 +725,8 @@ div#team {
 	height: auto;
 	text-align: left;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1em;
-	line-height: 1em;
+	font-size: 14px;
+	line-height: 1.2em;
 	float: left;
 	color: #000000;
 	font-weight: normal;
@@ -724,7 +738,7 @@ div#team {
 
 .team_member {
 	padding: 5px;
-	width: 280px;
+	width: 330px;
 	/*	border: 1px solid #487429;*/
 	height: 100px;
 	margin: 10px auto;
@@ -772,13 +786,24 @@ div#team {
 	text-align: center;
 }
 
-div#contact_table {
+table#contact_table {
 	width: 270px;
 	border: none;
 	padding: 0;
 }
 
-div#contact_pane {
+table#contact_table tr td {
+	text-align: left;
+	color: #4e2700;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	/* 	font-size: 1.2em;
+	line-height: 1.2em; */
+	font-size: 16px;
+	/* line-height: 1.5em; */
+	width: 100%;
+}
+
+div#contact_pane, div#contact_address {
 	width: 270px;
 	padding: 5px;
 	-webkit-border-radius: 5px;
@@ -787,9 +812,21 @@ div#contact_pane {
 	-o-box-shadow: 0 1px 3px #666;
 	box-shadow: 0 1px 3px #666;
 	-webkit-border-radius: 5px;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.2em;
 	line-height: 1.2em;
+	margin-bottom: 15px;
+}
+
+#contact_address ul {
+	margin-top: 10px;
+}
+
+#contact_address ul li {
+	text-decoration: none;
+	text-align: left;
+	list-style-type: none;
+	line-height: 1.5em;
 }
 
 textarea {
@@ -832,10 +869,66 @@ hr {
 }
 
 /*============================documentation=================*/
-div#documentation {
+div#documentation, div#contribute, div#workshops {
 	width: 1000px;
 	margin: 10px auto;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+#contact_main h1, #join_form h1, #contribute h1, #workshops h1 {
+	font-size: 1.8em;
+	line-height: 1.8em;
+	color: #4e2700;
+	text-align: left;
+}
+
+#contribute .sec_cont p, .sec_details p, #workshops p {
+	color: #000000;
+	font-size: 16px;
+	line-height: 1.5em;
+	text-align: left;
+	margin-bottom: 15px;
+}
+
+.workshop {
+	height: 200px;
+	border-bottom: 1px solid #4e2700;
+	margin: 5px auto;
+}
+
+.workshop:HOVER {
+	background: #c3d69b;
+	cursor: pointer;
+}
+
+.workshop-text, .workshop-img {
+	float: left;
+	overflow: hidden;
+	/* clear: left; */
+}
+
+.workshop-img {
+	width: 180px;
+	height: 180px;
+	margin-right: 10px;
+	/* clear: left; */
+}
+
+.workshop-img img {
+	width: 180px;
+	height: 180px;
+	max-width: 180px;
+	max-height: 180px;
+}
+
+#documentation h1 {
+	font-size: 1.8em;
+	line-height: 1.8em;
+	color: #4e2700;
+	font-weight: bold;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .tpe_sec p {
@@ -845,6 +938,9 @@ div#documentation {
 	line-height: 1.5em;
 	color: #000000;
 	font-weight: normal;
+	overflow: hidden;
+	height: 115px;
+	width: 440px;
 }
 
 .pane_left {
@@ -871,13 +967,12 @@ div#documentation {
 	height: 179px;
 	margin: auto;
 	text-align: left;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.2em;
 	line-height: 1.2em;
 	float: left;
 	cursor: pointer;
 	margin-bottom: 5px;
-	overflow: hidden;
 }
 
 .tpe_sec:HOVER {
@@ -895,7 +990,7 @@ div#documentation {
 	height: 179px;
 	margin: auto;
 	text-align: left;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.2em;
 	line-height: 1.2em;
 	float: left;
@@ -910,6 +1005,23 @@ div#documentation {
 .tpe_sec h4, .sec_details h4 {
 	font-size: 1.5em;
 	line-height: 1.5em;
+	color: #4e2700;
+	font-weight: normal;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.tpe_sec h4 a, .navigation h4 a:LINK, .navigation h4 a:VISITED,
+	.navigation h4 a:ACTIVE {
+	font-size: 1.5em;
+	line-height: 1.5em;
+	color: #4e2700;
+	font-weight: normal;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+.tpe_sec h4 a:HOVER, .navigation h4 a:HOVER {
+	font-weight: bold;
+	text-decoration: underline;
 }
 
 .pane_left .tpe_sec_img {
@@ -960,10 +1072,11 @@ div#documentation {
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.5em;
 	line-height: 1.5em;
+	background: #c3d69b;
 }
 
 .navigation a {
-	color: #77933c;
+	/* color: #77933c; */
 	text-decoration: none;
 	font-weight: normal;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
@@ -973,9 +1086,9 @@ div#documentation {
 
 .sec_details {
 	text-align: left;
-	font-family: 'Oswald', 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1.2em;
-	line-height: 1.2em;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 1.4em;
+	line-height: 1.5em;
 }
 
 div#loading {
@@ -989,7 +1102,109 @@ div#dialog-chart {
 	width: 80%;
 	height: 80%;
 }
-/*   div#dialog-plot{
-	 width: 180%;
-	height: 100%;
-}  */
+
+.guide_list {
+	margin-left: 30px;
+}
+
+.item_bold {
+	font-weight: bold;
+}
+
+div#plot_slide {
+	display: none;
+}
+
+#plot_slide h2 {
+	font-size: 2em;
+	line-height: 1.8em;
+}
+
+#plot_slide h3 {
+	border: 1px solid #4e2700;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin-top: 2px;
+}
+
+.current_grafico {
+	background: #c3d69b;
+	color: #4e2700 !important;
+}
+
+.guide-big {
+	margin-top: 20px;
+}
+
+.guide-big img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.guide-small {
+	margin-top: 20px;
+}
+
+.guide-small img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+div#join_form {
+	/* background: #C8C8C8; */
+	text-align: left;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 1.5em;
+	color: #000000;
+	font-weight: normal;
+	/* width: 100%; */
+}
+
+.join-text, .contact-text {
+	width: 100%;
+	line-height: 1.6em;
+	font-size: 16px;
+}
+
+.join-text-label, .contact-text-label {
+	line-height: 1.6em;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.join-text-area, .contact-text-area {
+	width: 100%;
+	line-height: 1.6em;
+	font-size: 16px;
+	height: 200px;
+}
+
+table#join_table {
+	width: 450px;
+	border: none;
+	margin: auto;
+	/* padding: 0; */
+}
+
+#join_table tr td {
+	text-align: left;
+	color: #000000;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 1.5em;
+	width: 100%;
+}
+
+.flickr-stream {
+	
+}
+
+.pane_right_sec .tpe_sec_img img {
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin: 3px;
+	text-decoration: none;
+	border: 0;
+}

@@ -92,7 +92,7 @@ public class TPEAction extends BaseAction {
 		if (!outputs.isEmpty() && outputs != null)
 			// Make sure the outputs list is not empty or null, before setting
 			// the default preselect value
-			preselectedOutput = outputs.get(1).getId();
+			preselectedOutput = outputs.get(2).getId();
 		else
 			// If empty or null, then initialize the outputs with the empty
 			// arraylist

@@ -51,6 +51,11 @@ public class IndexAction extends BaseAction {
 		return ActionSupport.SUCCESS;
 	}
 
+	public String workshops() {
+
+		return ActionSupport.SUCCESS;
+	}
+
 	/**
 	 * This method sends the contact us message to the support team
 	 */

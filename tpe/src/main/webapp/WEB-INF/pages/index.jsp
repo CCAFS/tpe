@@ -116,8 +116,8 @@
 							Tool</h4> </a> <a href="<s:url namespace="/" action="toolIndex" />"><img
 						src="img/tpe_map.jpg" alt="image" /> </a>
 					<p>At times crop breeding can feel like steering a rudderless
-						ship. There’s no such thing as a compass for climate change, for
-						starters, and it’s hard to say whether crop varieties currently in
+						ship. There's no such thing as a compass for climate change, for
+						starters, and it's hard to say whether crop varieties currently in
 						development will still be adequate for conditions on the ground 10
 						years from now. So what do breeders have to aim at, exactly?</p>
 					<p class="readmore">
@@ -129,7 +129,9 @@
 			</div>
 			<div class="tpe_box">
 				<div class="box_col">
-					<a href=""><h4>Get Involved</h4> </a> <a href=""> <img
+					<a href="<s:url namespace="/" action="contribute" />"><h4>Get
+							Involved</h4> </a> <a href="<s:url namespace="/" action="contribute" />">
+						<img
 						src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
 						alt="image" />
 					</a>
@@ -141,16 +143,27 @@
 						countries and institutions to seek strategies and appropriate
 						response mechanisms against such eventualities.</p>
 					<p class="readmore">
-						<a href="">Read More <b>></b>
+						<a href="<s:url namespace="/" action="contribute" />">Read
+							More <b>></b>
 						</a>
 					</p>
 				</div>
 			</div>
 			<div class="tpe_box">
 				<div class="box_col">
-					<a href="<s:url namespace="/" action="toolIndex" />"><h4>TPE
-							Workshops</h4> </a>
-
+					<a href="<s:url namespace="/" action="workshops" />"><h4>TPE
+							Workshops</h4> </a><a href="<s:url namespace="/" action="workshops" />">
+						<img
+						src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
+						alt="image" />
+					</a>
+					<p>Working on Target Population of Environments (TPE)
+						identification for Rice and Beans in Colombia and Brazil</p>
+					<p class="readmore">
+						<a target="_blank"
+							href="<s:url namespace="/" action="workshops" />">Read More <b>></b>
+						</a>
+					</p>
 				</div>
 			</div>
 

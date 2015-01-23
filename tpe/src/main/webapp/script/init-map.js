@@ -1,8 +1,8 @@
 //$(document)
 //	.ready(
 
-var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics';
-var hfeSeries, lfeSeries, feSeries, boxJSON, climateSeriesJSON;
+var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics', legendTitle;
+var hfeSeries, lfeSeries, feSeries, boxJSON, climateSeriesJSON, clickedFeature, currentOutput, clickedFeatureName, selectedFeature, selectedOutput;
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -25,7 +25,7 @@ function initializeGoogleMap() {
 	// texture
 	// Get the selected output
 	// Get the select#select_output text
-	var selectedOutput;
+	// var selectedOutput;
 	var output = document.getElementById('select_output');
 	selectedOutput = output.options[output.selectedIndex].text;
 
@@ -41,6 +41,8 @@ function initializeGoogleMap() {
 	// TPE, SOIL or CLIMATE
 	switch (selectedOutput.toUpperCase()) {
 	case 'TPE':
+		// Set the legend title for TPE
+		legendTitle = 'Legend: TPE Environments';
 		hideShow('TPE');
 		// Selected TPE. The get the
 		// corresponding selected TPE
@@ -55,6 +57,7 @@ function initializeGoogleMap() {
 		break;
 
 	case 'SOIL':
+		legendTitle = 'Legend: Soil Texture';
 		hideShow('SOIL');
 		// The action url for the soil map
 		actionJson = 'soilGeoJson.geojson';
@@ -64,6 +67,7 @@ function initializeGoogleMap() {
 		break;
 
 	case 'CLIMATE':
+		legendTitle = 'Legend: Climate';
 		hideShow('CLIMATE');
 		// The action url for the soil map
 		actionJson = 'climateGeoJson.geojson';
@@ -211,7 +215,11 @@ function initializeMap(data) {
 
 		return {
 			icon : {
-				url : 'img/' + color + '.png'
+				url : 'img/' + color + '.png',
+				size : new google.maps.Size(10, 10),
+				scaledSize : new google.maps.Size(10, 10)
+			// origin : new google.maps.Point(0, 0),
+			// anchor : new google.maps.Point(0, 0)
 			// url : "img/station_green.png"
 			// url : "${ctx}/img/station_green.png"
 			},
@@ -227,54 +235,118 @@ function initializeMap(data) {
 			fillColor : "#ffffff"
 		};
 	});
-	var colorValues = [ "red", // 1
-	"blue", // 2
-	"green", // 3
-	"brown", // 4
-	"purple", // 5
-	"pink", "black", "orange" ];
+	var colorValues = [ "red", "blue", "green", "brown", "purple", "pink",
+			"orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesClimate = [
+			"blue", "black" ], colors;
 
 	// get the legend container, create a legend, add a legend renderer fn
-	var $legendContainer = $('#legend-container'), $legend = $(
-			'<div id="legend">').appendTo($legendContainer), renderLegend = function(
-			colorValuesArray) {
+	// var $legendContainer = $('#legend-container')
+	var $legendContainer = $('<div id="legend-container"><h3>' + legendTitle
+			+ '</h3></div>'), $legend = $('<div id="legend">').appendTo(
+			$legendContainer), renderLegend = function(colorValuesArray) {
 		$legend.empty();
-		$.each(colorValuesArray, function(index, val) {
-			var texture;
-			if (val == 'red') {
-				texture = 'Sand';
-			} else if (val == 'blue') {
-				texture = 'Loam';
-			} else if (val == 'green') {
-				texture = 'Clay';
-			} else if (val == 'brown') {
-				texture = 'Sand Loam';
-			} else if (val == 'purple') {
-				texture = 'Clay Loam';
-			} else if (val == 'orange') {
-				texture = 'Clay Sand';
-			} else if (val == 'pink') {
-				texture = 'Sand Clay Loam';
-			} else if (val == 'black') {
-				texture = 'Station';
-			}
 
-			var $div = $('<div style="height:25px;">').append(
-					$('<div class="legend-color-box">').css({
-						backgroundColor : val,
-					})).append($('<div class="legend_text">').html(texture));
+		if (selectedOutput.toUpperCase() == 'SOIL') {
+			$.each(colorValuesArray, function(index, val) {
+				var texture;
+				if (val == 'red') {
+					texture = 'Sand';
+				} else if (val == 'blue') {
+					texture = 'Loam';
+				} else if (val == 'green') {
+					texture = 'Clay';
+				} else if (val == 'brown') {
+					texture = 'Sand Loam';
+				} else if (val == 'purple') {
+					texture = 'Clay Loam';
+				} else if (val == 'orange') {
+					texture = 'Clay Sand';
+				} else if (val == 'pink') {
+					texture = 'Sand Clay Loam';
+				}
+				// else if (val == 'black') {
+				// texture = 'Station';
+				// }
 
-			$legend.append($div);
-		});
+				var $div = $('<div style="height:25px;">').append(
+						$('<div class="legend-color-box">').css({
+							backgroundColor : val,
+						}))
+						.append($('<div class="legend_text">').html(texture));
+
+				$legend.append($div);
+			});
+			// renderLegend(colorValues);
+		} else if (selectedOutput.toUpperCase() == 'TPE') {
+			$.each(colorValuesArray, function(index, val) {
+				var env_col;
+				if (val == 'red') {
+					env_col = 'LFE: Low Favourable Environment';
+				} else if (val == 'blue') {
+					env_col = 'FE: Favourable Environment';
+				} else if (val == 'green') {
+					env_col = 'HFE: High Favourable Environment';
+				}
+
+				var $div = $('<div style="height:25px;">').append(
+						$('<div class="legend-color-box">').css({
+							backgroundColor : val,
+						}))
+						.append($('<div class="legend_text">').html(env_col));
+
+				$legend.append($div);
+			});
+			// renderLegend(colorValuesTPE);
+		} else if (selectedOutput.toUpperCase() == 'CLIMATE') {
+			$.each(colorValuesArray, function(index, val) {
+				var climate_feature;
+				if (val == 'black') {
+					climate_feature = 'Station';
+				} else if (val == 'blue') {
+					climate_feature = 'Station Region';
+				}
+
+				var $div = $('<div style="height:25px;">').append(
+						$('<div class="legend-color-box">').css({
+							backgroundColor : val,
+						})).append(
+						$('<div class="legend_text">').html(climate_feature));
+
+				$legend.append($div);
+			});
+		}
 	}
 
+	if (selectedOutput.toUpperCase() == 'SOIL')
+		renderLegend(colorValues);
+	else if (selectedOutput.toUpperCase() == 'TPE')
+		renderLegend(colorValuesTPE);
+	else if (selectedOutput.toUpperCase() == 'CLIMATE')
+		renderLegend(colorValuesClimate);
 	// make a legend for the first time
-	renderLegend(colorValues);
+
+	// renderLegend(colorValues);
+	// Remove the control first if it exists.
+	// map.controls[google.maps.ControlPosition.LEFT_BOTTOM].removeAt(0);
+	// map.controls[google.maps.ControlPosition.LEFT_BOTTOM].clear();
+
+	// var indexOfControl = null,
+	// bottomCenterControls =
+	// map.controls[google.maps.ControlPosition.LEFT_BOTTOM];
+	// bottomCenterControls.forEach( function ( element,
+	// index ) {
+	// if( element.id == 'legend' ) {
+	// indexOfControl = index; console.log(index);
+	// }
+	// } );
+	//	
+	// if( indexOfControl ) {
+	// bottomCenterControls.removeAt( indexOfControl );
+	// }
 
 	// add the legend to the map
 	map.controls[google.maps.ControlPosition.LEFT_BOTTOM]
 			.push($legendContainer[0]);
-
 	var infoWindow = new google.maps.InfoWindow({
 		content : ""
 	});
@@ -302,6 +374,7 @@ function initializeMap(data) {
 
 		// TODO Create the plot
 		if (e.feature.getProperty('featureType') == 'SOIL') {
+			currentOutput = 'SOIL';
 			// Display the plot only for the soil feature
 			var probJSON = dataJSON[e.feature.getProperty('code')];
 			// createSoilPlot(categoriesJSON, probJSON, true);
@@ -313,12 +386,16 @@ function initializeMap(data) {
 			// createPCEWPlot(categoriesList, seriesPcew, plotBands);
 			// createTempRainPlot(categoriesTempRain, seriesTempRain, true);
 			var environmentSeries;
+			currentOutput = 'TPE';
 			if (e.feature.getProperty('name') == 'HFE') {
 				environmentSeries = hfeSeries;
+				clickedFeature = 'HFE';
 			} else if (e.feature.getProperty('name') == 'LFE') {
 				environmentSeries = lfeSeries;
+				clickedFeature = 'LFE';
 			} else if (e.feature.getProperty('name') == 'FE') {
 				environmentSeries = feSeries;
+				clickedFeature = 'FE';
 			}
 			// Iterate the list of series map
 			$.each(environmentSeries,
@@ -344,6 +421,7 @@ function initializeMap(data) {
 					});
 
 		} else if (e.feature.getProperty('featureType') == 'CLIMATE') {
+			currentOutput = 'CLIMATE';
 			// Display the plot only for the soil point features
 			// var plotJSON = e.feature.getProperty('plotData');
 			// createClimatePlot(plotJSON, true);
@@ -351,6 +429,8 @@ function initializeMap(data) {
 			// Create rainfall and radiation plot
 			rainfallRadiationPlot(climateSeriesJSON, true, e.feature
 					.getProperty('stationId'), e.feature.getProperty('name'));
+			clickedFeature = e.feature.getProperty('stationId');
+			clickedFeatureName = e.feature.getProperty('name');
 		}
 	});
 
@@ -367,27 +447,42 @@ function initializeMap(data) {
 		 * (e.feature.getProperty('featureType') == 'CLIMATE')) {
 		 */
 
-		$('#info').show();
-		$('#info h2').text(e.feature.getProperty('name'));
-		// $('#info span').text(e.feature.getProperty('stationName'));
-		$('#info span').html(featureInfo(e));
+		if (e.feature.getProperty('name') == 'TPE_BOUNDARY') {
+
+			// console.log(e.feature.getProperty('name'));
+		} else if (e.feature.getProperty('name') == 'Brazil') {
+
+			// console.log(e.feature.getProperty('name'));
+		} else if (e.feature.getProperty('name') == 'Colombia') {
+
+			// console.log(e.feature.getProperty('name'));
+		} else {
+
+			$('#info').show();
+			$('#info h2').text(e.feature.getProperty('name'));
+			// $('#info span').text(e.feature.getProperty('stationName'));
+			$('#info span').html(featureInfo(e));
+		}
 		/* } */
 		// document.getElementById('info-box').textContent =
 		// event.feature.j.NOMBRE_MPI;
 		// map.data.revertStyle();
 		if (e.feature.getProperty('name') == 'LFE') {
+			// selectedFeature = e;
 			map.data.overrideStyle(e.feature, {
 				strokeColor : '#ff0000',
 				fillOpacity : 0.5,
 				fillColor : '#ff0000'
 			});
 		} else if (e.feature.getProperty('name') == 'HFE') {
+			// selectedFeature = e;
 			map.data.overrideStyle(e.feature, {
 				strokeColor : '#00ff00',
 				fillOpacity : 0.5,
 				fillColor : '#00ff00'
 			});
 		} else if (e.feature.getProperty('name') == 'FE') {
+			// selectedFeature = e;
 			map.data.overrideStyle(e.feature, {
 				strokeColor : '#0041a0',
 				fillOpacity : 0.5,
@@ -481,6 +576,57 @@ function initializeMap(data) {
 			});
 		}
 
+		// Dynamically show the graphics using the last clicked TPE id
+		if (currentOutput == 'TPE') {
+			// selectedFeature.feature.setProperty('selected', true);
+			//			
+			// if ((selectedFeature.feature.getProperty('name') == 'LFE')
+			// || (selectedFeature.feature.getProperty('name') == 'HFE')
+			// || (selectedFeature.feature.getProperty('name') == 'FE')) {
+			// map.data.overrideStyle(selectedFeature.feature, {
+			// strokeColor : selectedFeature.feature.getProperty('colour'),
+			// fillOpacity : 0.5,
+			// fillColor : selectedFeature.feature.getProperty('colour')
+			// });
+			// }
+
+			var lastSeries;
+			if (clickedFeature == 'HFE')
+				lastSeries = hfeSeries;
+			else if (clickedFeature == 'LFE')
+				lastSeries = lfeSeries;
+			else if (clickedFeature == 'FE')
+				lastSeries = feSeries;
+
+			if (e.feature.getProperty('featureType') != 'TPE') {
+				// Iterate the list of series map
+				$.each(lastSeries,
+						function(indx, seriesMap) {
+
+							if (seriesMap.type == 'LAI') {
+								// Create LAI Plot
+								plotLAI(seriesMap, e.feature
+										.getProperty('name'), true);
+							} else if (seriesMap.type == 'PCEW') {
+								plotPCEW(seriesMap, e.feature
+										.getProperty('name'), true);
+							} else if (seriesMap.type == 'WAGT') {
+								plotWAGT(seriesMap, e.feature
+										.getProperty('name'), true);
+							} else if (seriesMap.type == 'RAINSUM') {
+								plotRAIN(seriesMap, e.feature
+										.getProperty('name'), true);
+							} else if (seriesMap.type == 'RAINCUM') {
+								plotRAINCUM(seriesMap, e.feature
+										.getProperty('name'), true);
+							}
+						});
+			}
+		} else if (currentOutput == 'CLIMATE') {
+
+			rainfallRadiationPlot(climateSeriesJSON, true, clickedFeature,
+					clickedFeatureName);
+		}
 	});
 
 }
@@ -580,8 +726,8 @@ function featureInfo(event) {
 
 	else {
 		// If the Country or State region was clicked.
-		$htmlText = '<div>Region: ' + event.feature.getProperty('name')
-				+ '</div>';
+		// $htmlText = '<div>Region: ' + event.feature.getProperty('name') +
+		// '</div>';
 		// TODO Add more details
 	}
 
@@ -658,7 +804,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -674,6 +820,8 @@ function createClimatePlot(seriesJSON, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -683,11 +831,15 @@ function createClimatePlot(seriesJSON, smallPlot) {
 		legendX = 120;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 	$('#' + renderTo)
 			.highcharts(
 					{
 						chart : {
+							width : width,
+							height : height,
 							type : 'column',
 							/*
 							 * style : { fontFamily : 'serif', fontSize : '8px' },
@@ -854,7 +1006,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -870,6 +1022,8 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -879,11 +1033,15 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 		legendX = 120;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 	$('#' + renderTo)
 			.highcharts(
 					{
 						chart : {
+							width : width,
+							height : height,
 							type : 'column',
 							// marginTop : 70,
 							// marginLeft : 65,
@@ -1077,7 +1235,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -1093,6 +1251,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1102,9 +1262,13 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		legendX = 120;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 	var chart = new Highcharts.Chart({
 		chart : {
+			width : width,
+			height : height,
 			type : 'boxplot',
 			renderTo : renderTo,
 			style : {
@@ -1326,8 +1490,9 @@ function plotLAI(seriesMap, environment, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1342,15 +1507,19 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
 		// Chart font size for the dialog chart
 		fontSize = '14px';
 		titleFontSize = '30px';
-		legendX = 120;
+		legendX = 0;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -1370,6 +1539,8 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							}
 						},
 						chart : {
+							width : width,
+							height : height,
 							/*
 							 * style : { fontFamily : 'serif', fontSize : '8px' },
 							 * marginBottom : 50, marginTop : 25, marginLeft :
@@ -1465,19 +1636,19 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							}
 						},
 						title : {
-							text : seriesMap.type,
+							text : seriesMap.title,
 							style : {
 								color : '#4e2700',
 								// fontWeight : 'bold'
-								fontSize : '10px'
+								fontSize : fontSize
 							}
 						},
 						subtitle : {
-							text : environment,
+							text : seriesMap.subTitle,
 							style : {
-								color : '#4e2700'
-							// fontWeight : 'bold',
-							// fontSize : '10px',
+								color : '#4e2700',
+								// fontWeight : 'bold',
+								fontSize : fontSize
 							}
 						},
 						xAxis : {
@@ -1488,7 +1659,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							},
 							gridLineWidth : 1,
 							plotBands : seriesMap.plotBands,
-							max : 91,
+							max : 94,
 							tickInterval : 7
 						},
 						yAxis : {
@@ -1550,245 +1721,6 @@ function plotLAI(seriesMap, environment, smallPlot) {
 					});
 }
 
-function createTempRainPlot(categories, series, smallPlot) {
-	// $('#plot_temprain').show();
-	var renderTo = 'plot_temprain';// Default div
-	var dialogDiv = 'dialog-chart';
-	var fontSize = '8px';
-	var titleFontSize = '10px;'
-	var legendX, legendY, spacingBottom, itemWidth;
-	// Set the div where to render the plot
-	if (smallPlot) {
-		// Dialog div
-		renderTo = 'plot_temprain';
-		// Chart font size
-		fontSize = '8px';
-		titleFontSize = '10px';
-		legendX = 20;
-		legendY = 25;
-		spacingBottom = 35;
-		// itemWidth = 40;
-	} else {
-		// Jsp page div
-		renderTo = dialogDiv;
-		// Chart font size for the dialog chart
-		fontSize = '14px';
-		titleFontSize = '24px';
-		legendX = 120;
-		legendY = 20;
-		spacingBottom = 50;
-		// itemWidth = 100;
-	}
-
-	$('#' + renderTo).highcharts(
-			{
-				credits : {
-					// This hides highcharts.com from the legend
-					// enabled : false
-					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
-					href : 'http://www.ccafs-tpe.org',
-					// href: null
-					// style : {
-					// width : 300
-					// },
-					position : {
-						align : 'right'
-					// x : 10
-					},
-					style : {
-						color : '#4e2700',
-						fontWeight : 'bold',
-						fontSize : fontSize
-					}
-				},
-				chart : {
-					zoomType : 'xy',
-					style : {
-						fontFamily : 'serif',
-						fontSize : fontSize
-					},
-					plotBorderWidth : 1,
-					// spacingTop:2,
-					// spacingRight:5,
-					spacingBottom : spacingBottom,
-					// spacingLeft:2,
-					borderWidth : 1,
-					borderRadius : 5,
-					borderColor : '#999',
-					// margin: [15,6,15,15],
-					/*
-					 * , marginBottom : 60, marginTop : 25, marginLeft : 60,
-					 * marginRight : 10
-					 */
-					events : {
-						load : function() {
-							if (smallPlot) {
-								this.renderer.image('img/zoom-in.png', 10, 2,
-										20, 20).on(
-										'click',
-										function() {
-											createTempRainPlot(
-													categoriesTempRain,
-													seriesTempRain, false);
-											$('#dialog-plot').dialog('open');
-										}).css({
-									cursor : 'Pointer'
-								}).css({
-									position : 'relative',
-									"margin-left" : "-90px"
-								// opacity : 0.75
-								}).attr({
-									zIndex : 300,
-									id : 'zoomImage'
-								}).add();
-
-								// $('.highcharts-legend-item rect').attr('r',
-								// '0');
-								$('.highcharts-legend-item rect').attr(
-										'height', '8').attr('width', '8');
-
-							} else {
-								this.renderer.image('img/ccafs_logo.png', 90,
-										0, 120, 50).on('click', function() {
-									// Add CCAFS Link
-									location.href = 'http://www.ccafs-tpe.org'
-								}).css({
-									cursor : 'Pointer'
-								}).css({
-									position : 'relative',
-									"margin-left" : "-90px"
-								// opacity : 0.75
-								}).attr({
-									zIndex : 100
-								}).add();
-							}
-
-							/*
-							 * if (smallPlot) { // add report div var ch = this,
-							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
-							 * id="flash"><div id="report">Click to enlarge</div></div>',
-							 * x, y + 10, true).css({ // width: circleradius*2,
-							 * color : '#009900', fontSize : '30px', textAlign :
-							 * 'center' }).attr({ zIndex : 101 }).add(); }
-							 */
-						},
-						click : function() {
-							if (smallPlot) {
-								createTempRainPlot(categoriesTempRain,
-										seriesTempRain, false);
-								// $('#report').html('click on title');
-								$('#dialog-plot').dialog('open');
-							}
-						}
-					}
-				},
-				title : {
-					text : 'Average Monthly Temperature and Rainfall',
-					style : {
-						color : '#4e2700',
-						// fontWeight : 'bold',
-						fontSize : titleFontSize
-					}
-				},
-				subtitle : {
-					text : 'HFE (High Favourable Environments)',
-					style : {
-						color : '#4e2700'
-					// fontWeight : 'bold',
-					// fontSize : '10px',
-					}
-				},
-				xAxis : {
-					categories : categories,
-					labels : {
-						rotation : -45,
-						style : {
-							fontSize : fontSize,
-							fontFamily : 'Verdana, sans-serif'
-						}
-					}
-
-				},
-				yAxis : [ { // Primary yAxis
-					labels : {
-						// format : '{value}°C',
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
-					},
-					title : {
-						text : 'Temperature (°C)',
-						style : {
-							color : '#4572A7'
-						}
-					}
-				}, { // Secondary yAxis
-					title : {
-						text : 'Rainfall (mm)',
-						rotation : -90,
-						x : 10,
-						style : {
-							color : '#4572A7'
-						}
-					},
-					labels : {
-						// format : '{value} mm',
-						// rotation: -45,
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
-					},
-					opposite : true
-				} ],
-				tooltip : {
-					shared : true
-				},
-				legend : {
-					layout : 'horizontal',
-					align : 'left',
-					x : legendX,
-					verticalAlign : 'bottom',
-					y : legendY,
-					floating : true,
-					backgroundColor : '#FFFFFF',
-					// itemWidth : itemWidth,
-					itemStyle : {
-						color : '#000',
-						fontFamily : 'MuseoS500',
-						// fontWeight : 'bold',
-						fontSize : fontSize
-					// width : itemWidth
-					},
-					// title : {
-					// text : ':: Drag'
-					// },
-					floating : true,
-					draggable : true
-				// zIndex : 400
-				},
-				series : series,
-				exporting : {
-					buttons : {
-						contextButton : {
-							// symbol: 'circle',
-							symbol : 'url(img/download_32.png)',
-						// symbolStrokeWidth : 1,
-						// symbolFill : '#bada55',
-						// symbolStroke : '#330033',
-						// symbolX : 6,
-						// symbolY : 6
-						}
-					}
-				}
-			});
-}
-
 function viewPlot() {
 
 	$('#dialog-plot').dialog({
@@ -1800,8 +1732,10 @@ function viewPlot() {
 		// width : $(window).width(),
 		// height : $(window).height(),
 
-		height : 800,
-		width : 850,
+		height : 'auto',
+		// height : 800,
+		width : 'auto',
+		// width : 850,
 
 		// fullScreen: true,
 		// fullScreenForce: true,
@@ -1828,10 +1762,11 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 	// console.log(seriesMap.categories);
 	// $('#plot_pcew').show();
 	var renderTo = 'plot_pcew';// Default div
+	// console.log($('#' + renderTo).height());
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -1847,15 +1782,19 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
 		// Chart font size for the dialog chart
 		fontSize = '14px';
 		titleFontSize = '30px';
-		legendX = 120;
+		legendX = 0;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 
 	$('#' + renderTo).highcharts(
@@ -1875,6 +1814,8 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					}
 				},
 				chart : {
+					width : width,
+					height : height,
 					/*
 					 * style : { fontFamily : 'serif', fontSize : '8px' },
 					 * marginBottom : 60, marginTop : 25, marginLeft : 45,
@@ -1954,19 +1895,19 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					}
 				},
 				title : {
-					text : seriesMap.type,
+					text : seriesMap.title,
 					style : {
 						color : '#4e2700',
 						// fontWeight : 'bold',
-						fontSize : '10px'
+						fontSize : fontSize
 					}
 				},
 				subtitle : {
-					text : environment,
+					text : seriesMap.subTitle,
 					style : {
-						color : '#4e2700'
-					// fontWeight : 'bold',
-					// fontSize : '10px',
+						color : '#4e2700',
+						// fontWeight : 'bold',
+						fontSize : fontSize
 					}
 				},
 				xAxis : {
@@ -2046,7 +1987,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -2062,15 +2003,19 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
 		// Chart font size for the dialog chart
 		fontSize = '14px';
 		titleFontSize = '30px';
-		legendX = 120;
+		legendX = 0;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -2090,6 +2035,8 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							}
 						},
 						chart : {
+							width : width,
+							height : height,
 							/*
 							 * style : { fontFamily : 'serif', fontSize : '8px' },
 							 * marginBottom : 50, marginTop : 25, marginLeft :
@@ -2185,19 +2132,19 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							}
 						},
 						title : {
-							text : seriesMap.type,
+							text : seriesMap.title,
 							style : {
 								color : '#4e2700',
 								// fontWeight : 'bold'
-								fontSize : '10px'
+								fontSize : fontSize
 							}
 						},
 						subtitle : {
-							text : environment,
+							text : seriesMap.subTitle,
 							style : {
-								color : '#4e2700'
-							// fontWeight : 'bold',
-							// fontSize : '10px',
+								color : '#4e2700',
+								// fontWeight : 'bold',
+								fontSize : fontSize
 							}
 						},
 						xAxis : {
@@ -2282,7 +2229,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							formatter : function() {
 								return 'Cluster: <b>' + this.series.name
 										+ '</b><br/>Average Rainfall: <b>'
-										+ this.y + '</b>'
+										+ this.y + ' mm</b>'
 										+ '<br/><b>Day After Emergency: '
 										+ this.x + '</b>'
 
@@ -2305,7 +2252,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY, spacingBottom, itemWidth;
+	var legendX, legendY, spacingBottom, itemWidth, width, height;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2317,6 +2264,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		legendY = 25;
 		spacingBottom = 35;
 		// itemWidth = 40;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2327,6 +2276,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		legendY = 20;
 		spacingBottom = 50;
 		// itemWidth = 100;
+		width = null;
+		height = null;
 	}
 
 	$('#' + renderTo).highcharts(
@@ -2351,6 +2302,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					}
 				},
 				chart : {
+					width : width,
+					height : height,
 					zoomType : 'xy',
 					style : {
 						fontFamily : 'serif',
@@ -2544,7 +2497,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -2560,15 +2513,19 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
 		// Chart font size for the dialog chart
 		fontSize = '14px';
 		titleFontSize = '30px';
-		legendX = 120;
+		legendX = 0;
 		legendY = 20;
 		spacingBottom = 50;
+		width = null;
+		height = null;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -2594,6 +2551,8 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							 * 50, marginRight : 10 // width: null, // height:
 							 * null
 							 */
+							width : width,
+							height : height,
 							style : {
 								fontFamily : 'serif',
 								fontSize : fontSize
@@ -2684,19 +2643,19 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							}
 						},
 						title : {
-							text : seriesMap.type,
+							text : seriesMap.title,
 							style : {
 								color : '#4e2700',
 								// fontWeight : 'bold'
-								fontSize : '10px'
+								fontSize : fontSize
 							}
 						},
 						subtitle : {
-							text : environment,
+							text : seriesMap.subTitle,
 							style : {
-								color : '#4e2700'
-							// fontWeight : 'bold',
-							// fontSize : '10px',
+								color : '#4e2700',
+								// fontWeight : 'bold',
+								fontSize : fontSize
 							}
 						},
 						xAxis : {
@@ -2780,8 +2739,8 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						tooltip : {
 							formatter : function() {
 								return 'Cluster: <b>' + this.series.name
-										+ '</b><br/>Average Rainfall: <b>'
-										+ this.y + '</b>'
+										+ '</b><br/>Accumulated Rainfall: <b>'
+										+ this.y + ' mm</b>'
 										+ '<br/><b>Day After Emergency: '
 										+ this.x + '</b>'
 
@@ -2798,7 +2757,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY;
+	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -2814,66 +2773,78 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 		marginLeft: 60;
 		marginRight: 10;
 		spacingBottom = 35;
+		width = 241;
+		height = 200;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
 		// Chart font size for the dialog chart
 		fontSize = '14px';
 		titleFontSize = '30px';
-		legendX = 120;
+		legendX = 10;
 		legendY = 20;
 		spacingBottom = 50;
+		marginBottom: 80;
+		width = null;
+		height = null;
+		// marginTop: 10;
+		// marginLeft: 60;
+		// marginRight: 10;
 	}
 
-	var chart = new Highcharts.Chart({
+	var chart = new Highcharts.Chart(
+			{
 
-		// $('#' + renderTo).highcharts(
-		// {
-		credits : {
-			// This hides highcharts.com from the legend
-			// enabled : false
-			text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
-			href : 'http://www.ccafs-tpe.org',
-			// href: null
-			// style : {
-			// width : 300
-			// },
-			position : {
-				align : 'left',
-				x : 10
-			}
-		},
-		chart : {
-			/*
-			 * style : { fontFamily : 'serif', fontSize : '8px' }, marginBottom :
-			 * 60, marginTop : 25, marginLeft : 45, marginRight : 10
-			 */
-			renderTo : renderTo,
-			style : {
-				fontFamily : 'serif',
-				fontSize : fontSize
-			},
-			plotBorderWidth : 1,
-			// spacingTop:2,
-			// spacingRight:5,
-			spacingBottom : spacingBottom,
-			// spacingLeft:2,
-			borderWidth : 1,
-			borderRadius : 5,
-			borderColor : '#999',
-			// margin: [15,6,15,15],
-			marginBottom : marginBottom,
-			marginTop : marginTop,
-			marginLeft : marginLeft,
-			marginRight : marginRight,
-			reflow : true,
-			events : {
-				load : function() {
-					chart = this;
-					if (smallPlot) {
+				// $('#' + renderTo).highcharts(
+				// {
+				credits : {
+					// This hides highcharts.com from the legend
+					// enabled : false
+					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+					href : 'http://www.ccafs-tpe.org',
+					// href: null
+					// style : {
+					// width : 300
+					// },
+					position : {
+						align : 'left',
+						x : 10
+					}
+				},
+				chart : {
+					/*
+					 * style : { fontFamily : 'serif', fontSize : '8px' },
+					 * marginBottom : 60, marginTop : 25, marginLeft : 45,
+					 * marginRight : 10
+					 */
+					width : width,
+					height : height,
+					renderTo : renderTo,
+					style : {
+						fontFamily : 'serif',
+						fontSize : fontSize
+					},
+					plotBorderWidth : 1,
+					// spacingTop:2,
+					// spacingRight:5,
+					spacingBottom : spacingBottom,
+					// spacingLeft:2,
+					borderWidth : 1,
+					borderRadius : 5,
+					borderColor : '#999',
+					// margin: [15,6,15,15],
+					marginBottom : marginBottom,
+					marginTop : marginTop,
+					marginLeft : marginLeft,
+					marginRight : marginRight,
+					reflow : true,
+					events : {
+						load : function() {
+							chart = this;
+							if (smallPlot) {
 
-						this.renderer.image('img/zoom-in.png', 10, 2, 20, 20)
-								.on('click', function() {
+								this.renderer.image('img/zoom-in.png', 10, 2,
+										20, 20).on('click', function() {
 									plotWAGT(seriesMap, environment, false);
 									$('#dialog-plot').dialog('open');
 								}).css({
@@ -2886,137 +2857,150 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 									zIndex : 300,
 									id : 'zoomImage'
 								}).add();
-					} else {
-						this.renderer.image('img/ccafs_logo.png', 90, 0, 120,
-								50).on('click', function() {
-							// Add CCAFS Link
-							location.href = 'http://www.ccafs-tpe.org'
-						}).css({
-							cursor : 'Pointer'
-						}).css({
-							position : 'relative',
-							"margin-left" : "-90px"
-						// opacity : 0.75
-						}).attr({
-							zIndex : 100
-						}).add();
-					}
+							} else {
+								this.renderer.image('img/ccafs_logo.png', 90,
+										0, 120, 50).on('click', function() {
+									// Add CCAFS Link
+									location.href = 'http://www.ccafs-tpe.org'
+								}).css({
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 100
+								}).add();
+							}
 
-					/*
-					 * if (smallPlot) { // add report div var ch = this, x = 20,
-					 * y = 57; ch.flashText = ch.renderer .text( '<div
-					 * id="flash"><div id="report">Click to enlarge</div></div>',
-					 * x, y + 10, true).css({ // width: circleradius*2, color :
-					 * '#009900', fontSize : '30px', textAlign : 'center'
-					 * }).attr({ zIndex : 101 }).add(); }
-					 */
+							/*
+							 * if (smallPlot) { // add report div var ch = this,
+							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
+							 * id="flash"><div id="report">Click to enlarge</div></div>',
+							 * x, y + 10, true).css({ // width: circleradius*2,
+							 * color : '#009900', fontSize : '30px', textAlign :
+							 * 'center' }).attr({ zIndex : 101 }).add(); }
+							 */
+						},
+
+						click : function() {
+							// If the small graphic was clicked on
+							if (smallPlot) {
+								plotWAGT(seriesMap, environment, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+
+						}
+					}
 				},
-
-				click : function() {
-					// If the small graphic was clicked on
-					if (smallPlot) {
-						plotWAGT(seriesMap, environment, false);
-						// $('#report').html('click on title');
-						$('#dialog-plot').dialog('open');
+				title : {
+					text : seriesMap.title,
+					style : {
+						color : '#4e2700',
+						// fontWeight : 'bold',
+						fontSize : fontSize
 					}
+				},
+				subtitle : {
+					text : seriesMap.subTitle,
+					style : {
+						color : '#4e2700',
+						// fontWeight : 'bold',
+						fontSize : fontSize
+					}
+				},
+				xAxis : {
+					categories : seriesMap.categories,
+					title : {
+						text : seriesMap.xaxis,
+						align : 'high'
+					},
+					gridLineWidth : 1,
+					plotBands : seriesMap.plotBands,
+					max : 91,
+					tickInterval : 7
+				},
+				yAxis : {
+					title : {
+						text : seriesMap.yaxis
+					},
+					labels : {
+						overflow : 'justify',
+						format : '{value:.1f}'
+					}
+				},
+				legend : {
+					// layout : 'horizontal',
+					// align : 'left',
+					x : legendX,
+					// verticalAlign : 'bottom',
+					y : legendY,
+					floating : true,
+					// backgroundColor : '#FFFFFF',
+					// itemWidth : itemWidth,
+					// itemStyle : {
+					// color : '#000',
+					// fontFamily : 'MuseoS500',
+					// // fontWeight : 'bold',
+					// fontSize : fontSize
+					// // width : itemWidth
+					// },
+					title : {
+						text : seriesMap.legendTitle
+					}
+				// floating : true,
+				// draggable : true
+				// zIndex : 400
+				},
+				series : seriesMap.series,
+				exporting : {
+					buttons : {
+						contextButton : {
+							// symbol: 'circle',
+							symbol : 'url(img/download_32.png)',
+						// symbolStrokeWidth : 1,
+						// symbolFill : '#bada55',
+						// symbolStroke : '#330033',
+						// symbolX : 6,
+						// symbolY : 6
+						}
+					},
+					enableImages : true
+				},
+				tooltip : {
+					formatter : function() {
+						return 'Cluster: <b>' + this.series.name
+								+ '</b><br/>Total Dry Matter: <b>' + this.y
+								+ '</b>' + '<br/><b>Day After Emergency: '
+								+ this.x + '</b>'
 
+					}
+				},
+				plotOptions : {
+					column : {
+						stacking : 'normal',
+						dataLabels : {
+							enabled : false,
+							color : (Highcharts.theme && Highcharts.theme.dataLabelsColor)
+									|| 'white'
+						}
+					}
 				}
-			}
-		},
-		title : {
-			text : seriesMap.type,
-			style : {
-				color : '#4e2700',
-				// fontWeight : 'bold',
-				fontSize : '10px'
-			}
-		},
-		subtitle : {
-			text : environment,
-			style : {
-				color : '#4e2700'
-			// fontWeight : 'bold',
-			// fontSize : '10px',
-			}
-		},
-		xAxis : {
-			categories : seriesMap.categories,
-			title : {
-				text : seriesMap.xaxis,
-				align : 'high'
-			},
-			gridLineWidth : 1,
-			plotBands : seriesMap.plotBands,
-			max : 91,
-			tickInterval : 7
-		},
-		yAxis : {
-			title : {
-				text : seriesMap.yaxis
-			},
-			labels : {
-				overflow : 'justify',
-				format : '{value:.1f}'
-			}
-		},
-		legend : {
-			// layout : 'horizontal',
-			// align : 'left',
-			x : legendX,
-			// verticalAlign : 'bottom',
-			y : legendY,
-			floating : true,
-			// backgroundColor : '#FFFFFF',
-			// itemWidth : itemWidth,
-			// itemStyle : {
-			// color : '#000',
-			// fontFamily : 'MuseoS500',
-			// // fontWeight : 'bold',
-			// fontSize : fontSize
-			// // width : itemWidth
-			// },
-			title : {
-				text : seriesMap.legendTitle
-			}
-		// floating : true,
-		// draggable : true
-		// zIndex : 400
-		},
-		series : seriesMap.series,
-		exporting : {
-			buttons : {
-				contextButton : {
-					// symbol: 'circle',
-					symbol : 'url(img/download_32.png)',
-				// symbolStrokeWidth : 1,
-				// symbolFill : '#bada55',
-				// symbolStroke : '#330033',
-				// symbolX : 6,
-				// symbolY : 6
-				}
-			}
-		},
-		tooltip : {
-			formatter : function() {
-				return 'Cluster: <b>' + this.series.name
-						+ '</b><br/>Stress Index: <b>' + this.y + '</b>'
-						+ '<br/><b>Day After Emergency: ' + this.x + '</b>'
+			});
 
-			}
-		}
-	});
-
-//	$('#' + renderTo).parent().prev('h3').click(function() {
-//		// chart.redraw();
-//		chart.setSize($(document).width(), $(document).height() / 2, false);
-//		console.log('Redrawing the plot...');
-//	});
+	// $('#' + renderTo).parent().prev('h3').click(function() {
+	// // chart.redraw();
+	// chart.setSize($(document).width(), $(document).height() / 2, false);
+	// console.log('Redrawing the plot...');
+	// });
 
 }
 
 function hideShow(graphic) {
 
 	if (graphic == 'TPE') {
+		$('#plot_slide').show();
 		// Hide the charts
 		$('.plot_box').show();
 		$('.soil_plot').hide();
@@ -3029,6 +3013,7 @@ function hideShow(graphic) {
 		// $('.plot_raincum').show();
 		$('#analytics h3').show();
 	} else if (graphic == 'SOIL') {
+		$('#plot_slide').hide();
 		$('#analytics h3').hide();
 		$('.soil_plot').show();
 		$('.plot_box').hide();
@@ -3040,6 +3025,7 @@ function hideShow(graphic) {
 		$('.plot_rainsum').hide();
 		$('.plot_raincum').hide();
 	} else if (graphic == 'CLIMATE') {
+		$('#plot_slide').hide();
 		$('#analytics h3').hide();
 		$('.plot_box').hide();
 		$('.plot_lai').hide();

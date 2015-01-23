@@ -48,39 +48,48 @@
 				<h2></h2>
 				<span id="info_details">Details!</span>
 			</div>
-			<div id="legend-container">
+			<!-- <div id="legend-container">
 				<h3>Legend: Soil Texture</h3>
-			</div>
+			</div> -->
 			<div id="tpe_analytics">
 				<h4 class="expanded">TPE Analytics</h4>
 				<div id="analytics">
-					<div class="rain_radiation">
-						<div id="rain_radiation"></div>
-					</div>
-					<div class="plot_lai">
-						<div id="plot_lai"></div>
+					<!--  TPE Graphics Here-->
+					<div class="plot_box">
+						<div id="plot_box"></div>
 					</div>
 					<div class="plot_pcew">
 						<div id="plot_pcew"></div>
 					</div>
-					<div class="plot_temprain">
-						<div id="plot_temprain"></div>
+					<div id="plot_slide">
+						<h2 class="more">More Graphics</h2>
+						<h3 id="raincum" class="collapsed">Cumulatve Rainfall</h3>
+						<div class="plot_raincum">
+							<div id="plot_raincum"></div>
+						</div>
+						<h3 id="rainsum" class="collapsed">Average Rainfall</h3>
+						<div class="plot_rainsum">
+							<div id="plot_rainsum"></div>
+						</div>
+						<h3 id="wagt" class="collapsed">Total Dry Matter</h3>
+						<div class="plot_wagt">
+							<div id="plot_wagt"></div>
+						</div>
+						<h3 id="lai" class="collapsed">Leaf Area Index</h3>
+						<div class="plot_lai">
+							<div id="plot_lai"></div>
+						</div>
 					</div>
-					<div class="plot_raincum">
-						<div id="plot_raincum"></div>
-					</div>
-					<div class="plot_rainsum">
-						<div id="plot_rainsum"></div>
-					</div>
-					<div class="plot_wagt">
-						<div id="plot_wagt"></div>
-					</div>
-					<div class="plot_box">
-						<div id="plot_box"></div>
-					</div>
+					<!--  SOIL Graphics Here-->
 					<div class="soil_plot">
 						<div id="soil_plot"></div>
 					</div>
+
+					<!--  CLIMATE Graphics Here-->
+					<div class="rain_radiation">
+						<div id="rain_radiation"></div>
+					</div>
+
 				</div>
 			</div>
 		</div>

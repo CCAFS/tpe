@@ -19,11 +19,11 @@
 
 		</div>
 		<div id="follow_us">
-			<a href="www.twitter.com/ccafs_tpe"><img src="img/twitter.png"
-				alt="twitter" /></a>&nbsp<a href="www.facebook.com/ccafs_tpe"><img
+			<a href="https://twitter.com/ccafstpe"><img src="img/twitter.png"
+				alt="twitter" /></a>&nbsp<a href="www.facebook.com/ccafstpe"><img
 				src="img/facebook.png" alt="facebook" /></a>&nbsp<a
-				href="www.youtube.com/ccafs_tpe"><img src="img/youtube.png"
-				alt="in" /></a>&nbsp<a href="www.flickr.com/ccafs_tpe"><img
+				href="www.youtube.com/ccafstpe"><img src="img/youtube.png"
+				alt="in" /></a>&nbsp<a href="www.flickr.com/tpe_platform"><img
 				src="img/flickr.png" alt="in" /></a>&nbsp<a
 				href="www.rssfeed.com/ccafs_tpe"><img src="img/rss.png"
 				alt="email" /></a>
