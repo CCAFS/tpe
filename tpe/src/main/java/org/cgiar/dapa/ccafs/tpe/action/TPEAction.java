@@ -45,9 +45,9 @@ public class TPEAction extends BaseAction {
 	private List<Category> outputs;
 	private Integer selectedOutput;
 	private Integer preselectedOutput;
-	private List<Soil> textures;
-	private List<Integer> selectedTextures;
-	private List<Integer> preselectedTextures;
+//	private List<Soil> textures;
+//	private List<Integer> selectedTextures;
+//	private List<Integer> preselectedTextures;
 	private List<Region> countries;
 	private Integer selectedCountry;
 	private Integer preselectedCountry;
@@ -169,14 +169,14 @@ public class TPEAction extends BaseAction {
 			return TPE;
 		} else if (this.getSelectedOutput().equals(ParamType.SOIL.getId())) {
 
-			textures = tpeService.getSoilTextures();
-			if (!textures.isEmpty() && textures != null)
-				// preselectedTexture = textures.get(0).getId();
-				// preselectedTextures = textures.get(0).getId();
-
-				setPreselectedTextures(Utils.getTextureId(textures));
-			else
-				textures = new ArrayList<Soil>();
+			// textures = tpeService.getSoilTextures();
+			// if (!textures.isEmpty() && textures != null)
+			// // preselectedTexture = textures.get(0).getId();
+			// // preselectedTextures = textures.get(0).getId();
+			//
+			// setPreselectedTextures(Utils.getTextureId(textures));
+			// else
+			// textures = new ArrayList<Soil>();
 			// Get soil properties
 			// properties = tpeService.getSoilProperties();
 			// if (!properties.isEmpty() && properties != null) {
@@ -311,30 +311,7 @@ public class TPEAction extends BaseAction {
 		this.preselectedOutput = preselectedOutput;
 	}
 
-	public List<Soil> getTextures() {
-		return textures;
-	}
-
-	public void setTextures(List<Soil> textures) {
-		this.textures = textures;
-	}
-
-	public List<Integer> getSelectedTextures() {
-		return selectedTextures;
-	}
-
-	public void setSelectedTextures(List<Integer> selectedTextures) {
-		this.selectedTextures = selectedTextures;
-	}
-
-	public List<Integer> getPreselectedTextures() {
-		return preselectedTextures;
-	}
-
-	public void setPreselectedTextures(List<Integer> preselectedTextures) {
-		this.preselectedTextures = preselectedTextures;
-	}
-
+	 
 	public List<Region> getCountries() {
 		return countries;
 	}

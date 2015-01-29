@@ -5,9 +5,9 @@
 </head>
 
 <h3>Soil Texture</h3>
-<s:select name="selectedTextures" listKey="id" listValue="name"
+<%-- <s:select name="selectedTextures" listKey="id" listValue="name"
 	id="select_textures" list="textures" value="preselectedTextures"
-	cssStyle="width:100%;" multiple="true" size="4" required="true" />
+	cssStyle="width:100%;" multiple="true" size="4" required="true" /> --%>
 <%-- <h3>Properties</h3>
 <s:select name="selectedProperties" listKey="id" listValue="name"
 	id="select_properties" list="properties" value="preselectedProperty"

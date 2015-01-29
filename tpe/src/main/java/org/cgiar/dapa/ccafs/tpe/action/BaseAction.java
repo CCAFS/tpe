@@ -17,6 +17,7 @@ package org.cgiar.dapa.ccafs.tpe.action;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 import org.apache.commons.logging.Log;
@@ -50,6 +51,7 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 	protected static final String YEARS = "years";
 	private String path;
 	protected Region region;
+	private Cultivar cultivar;
 	/**
 	 * The TPE Service
 	 */
@@ -124,6 +126,14 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 
 	public void setRegionId(Integer regionId) {
 		this.regionId = regionId;
+	}
+
+	public Cultivar getCultivar() {
+		return cultivar;
+	}
+
+	public void setCultivar(Cultivar cultivar) {
+		this.cultivar = cultivar;
 	}
 
 }

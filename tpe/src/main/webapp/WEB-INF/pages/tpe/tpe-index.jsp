@@ -18,18 +18,40 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/highcharts-more.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="${ctx}/script/tpe-overlay-dialog.js"></script>
 <%-- <script type="text/javascript" src="${ctx}/script/init-map.js"></script> --%>
-<script type='text/javascript'>
-	
+<script>
+	$(document)
+			.ready(
+					function() {
+						$('.paulund_modal')
+								.paulund_modal_box(
+										{
+											title : 'TPE Visualization',
+											description : 'Custom description for TPE Google Map Resutls <br/><img src="img/test.png" /><br/> The brief description to the user what is TPE and how to use it?.',
+											height : '500',
+											width : '500'
+										});
+
+						$('.graphics-info')
+								.paulund_modal_box(
+										{
+											title : 'TPE Analytics',
+											description : 'Custom description for TPE Graphics <br/><img src="img/test.png" /><br/>The brief description the currently clicked TPE graphic plot.',
+											height : '500',
+											width : '500'
+										});
+					});
 </script>
 </head>
 
 <body>
 	<s:form id="tpe_index" name="tpe_index">
+
 		<div id="select_variables">
-			<h4 class="expanded">Select Variables</h4>
+			<h4 class="expanded">Visualization Options</h4>
 			<div id="variables">
-				<h3>Output</h3>
+				<h3>Map Output</h3>
 				<s:select name="selectedOutput" listKey="id" listValue="name"
 					id="select_output" list="outputs" value="preselectedOutput"
 					cssStyle="width:100%;" multiple="false" size="3" required="true" />
@@ -96,6 +118,8 @@
 		<div id="dialog-plot">
 			<div id="dialog-chart"></div>
 		</div>
+		<div class="graphics-info"></div>
 	</s:form>
+	<a href="#" class="paulund_modal">Just for Testing dialog form</a>
 </body>
 </html>

@@ -350,9 +350,9 @@ $(document)
 							 * $("select#select_textures").change(function() {
 							 * initializeGoogleMap(); });
 							 */
-							$("select#select_textures").click(function() {
+							/*$("select#select_textures").click(function() {
 								initializeGoogleMap();
-							});
+							});*/
 
 							// Automatically reload the map when the country
 							// change

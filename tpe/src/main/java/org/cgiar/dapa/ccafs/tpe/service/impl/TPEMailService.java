@@ -20,7 +20,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 public class TPEMailService implements ITPEMailService {
-	@SuppressWarnings("unused")
 	private final Log log = LogFactory.getLog(this.getClass());
 	private MailSender mailSender;
 	private SimpleMailMessage defaultMail;
@@ -40,6 +39,7 @@ public class TPEMailService implements ITPEMailService {
 		message.setSubject(subject);
 		message.setText(body);
 		mailSender.send(message);
+		log.info("Sending mail to support team...");
 
 	}
 

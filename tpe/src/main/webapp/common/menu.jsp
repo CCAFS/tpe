@@ -13,10 +13,10 @@
 			<div id="tpe_menu">
 				<ul id="menu">
 					<li><a href="<c:url value='/' />">Home</a></li>
-					<li><a href="<s:url namespace="/" action="toolIndex" />">TPE Tool</a></li>
+					<li><a href="<s:url namespace="/" action="toolIndex" />">Visualization</a></li>
 					<li><a href="<s:url namespace="/" action="documentation" />">Documentation</a></li>
+					<li><a href="<s:url namespace="/" action="documentation" />">Other Resources</a></li>
 					<li><a href="<s:url namespace="/" action="contactUs" />">Contact Us</a></li>
-					<li><a href="">CCAFS Sites</a></li>
 				</ul>
 			</div>
 		</div>

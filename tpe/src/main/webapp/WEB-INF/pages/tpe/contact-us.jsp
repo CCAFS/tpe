@@ -8,7 +8,23 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <title>Contact Us</title>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#send").click(function(e) {
+			var data = $('#contactForm').serialize();
+			e.preventDefault();
+			$.ajax({
+				url : "contactInfo.action",
+				type : "POST",
+				data : data,
+				success : function() {
+					//alert("Just contacted the tpe support team...");
+				}
+			});
+			return false;
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -17,7 +33,7 @@
 		<div class="pane_left">
 			<!--Contact Area-->
 			<h4 class="navigation">
-				<a href="#">Contact</a>
+				<a href="#">About</a>
 			</h4>
 			<div class="sec_details">
 				<h1>Who we are?</h1>
@@ -47,15 +63,20 @@
 							<img
 								src="http://www.cnpaf.embrapa.br/quemsomos/fotos/alexandreheinemann.jpg" />
 						</div>
-						<div class="name">Alexandre Bryan Heinemann- ...</div>
-						<div class="organization">EMBRAPA Arroz e Feijao-Brazil</div>
-						<div class="email"></div>
+						<div class="name">Alexandre Bryan Heinemann - Ecophysiology
+							Research</div>
+						<div class="organization">Embrapa Arroz e Feijao Empresa
+							Brasileira de Pesquisa Agropecuária (Embrapa)</div>
+						<div class="email">alexandre.heinemann@embrapa.br</div>
 					</div>
 					<div class="team_member">
 						<div class="member_photo">
-							<img src="img/team.png" />
+							<img src="img/bcamilo.png" />
 						</div>
-						<div class="name">Camilo Barrios - Crop modeler</div>
+						<div class="name">Camilo Barrios Perez - Agricultural
+							engineer</div>
+						<div class="email">Research Assistant - CGIAR Research
+							Program on Climate Change, Agriculture and Food Security (CCAFS)</div>
 						<div class="organization">International Center for Tropical
 							Agriculture (CIAT)</div>
 						<div class="email">c.barrios@cgiar.org</div>
@@ -65,8 +86,11 @@
 							<img
 								src="http://ccafs.cgiar.org/sites/default/files/styles/medium/public/people/pictures/AndyJarvis.jpg?itok=LKqX_eD8" />
 						</div>
-						<div class="name">Andy Jarvis - Director of the Decision and
-							Policy Analysis Area</div>
+						<div class="name">Andy Jarvis - Research Area Director
+							Decision and Policy Analysis</div>
+						<div class="email">Flagship Leader for Climate Smart
+							Agriculture CGIAR Research Program on Climate Change, Agriculture
+							and Food Security (CCAFS)</div>
 						<div class="email">International Center for Tropical
 							Agriculture (CIAT)</div>
 						<div class="email">a.jarvis@cgiar.org</div>
@@ -76,18 +100,23 @@
 							<img
 								src="http://ccafs.cgiar.org/sites/default/files/styles/medium/public/people/pictures/osana.png?itok=7sEAZ64p" />
 						</div>
-						<div class="name">Osana Bonilla - Scientific Officer</div>
+						<div class="name">Osana Bonilla-Findji - Science Officer</div>
+						<div class="email">Theme Adaptation to Progressive Climate
+							Change CGIAR Program on Climate Change, Agriculture and Food
+							Security (CCAFS)</div>
 						<div class="email">International Center for Tropical
 							Agriculture (CIAT)</div>
-						<div class="email">O.Bonilla@CGIAR.ORG</div>
+						<div class="email">o.bonilla@cgiar.org</div>
 					</div>
 					<div class="team_member">
 						<div class="member_photo">
 							<img src="img/team.png" />
 						</div>
-						<div class="name">David Arango - co...</div>
-						<div class="email">International Center for Tropical
-							Agriculture (CIAT)</div>
+						<div class="name">David Arango Londono - Statistical analyst</div>
+						<div class="email">CGIAR Research Program on Climate Change,
+							Agriculture and Food Security (CCAFS)</div>
+						<div class="email">Research Assistant - International Center
+							for Tropical Agriculture (CIAT)</div>
 						<div class="email">d.arango@cgiar.org</div>
 					</div>
 					<div class="team_member">
@@ -95,16 +124,21 @@
 							<img
 								src="http://ccafs.cgiar.org/sites/default/files/styles/medium/public/people/pictures/j.ramirez-villegas.jpg?itok=uGYsM25E" />
 						</div>
-						<div class="name">Julian Ramirez-Villegas- lead...</div>
+						<div class="name">Julian Ramirez-Villegas - Postdoctoral
+							Fellow</div>
+						<div class="email">School of Earth and Environment,
+							University of Leeds, UK CGIAR Research Program on Climate Change,
+							Agriculture and Food Security (CCAFS)</div>
 						<div class="email">International Center for Tropical
 							Agriculture (CIAT)</div>
 						<div class="email">j.r.villegas@cgiar.org</div>
 					</div>
 					<div class="team_member">
 						<div class="member_photo">
-							<img src="img/team.png" />
+							<img src="img/Carlitos.jpg" />
 						</div>
-						<div class="name">Carlos Navarro - data support</div>
+						<div class="name">Carlos Eduardo Navarro - Research
+							assistant</div>
 						<div class="email">International Center for Tropical
 							Agriculture (CIAT)</div>
 						<div class="email">c.e.navarro@cgiar.org</div>
@@ -156,9 +190,12 @@
 		</div>
 		<div class="pane_right">
 			<div id="contact_pane">
-				<form action="contactUs" method="post">
+
+				<!--action="contactInfo" method="post"  -->
+				<form name="contactForm" id="contactForm" action="contactInfo"
+					method="post">
 					<div class="contact-info">
-					<h1>Have a question or an exciting new idea?</h1>
+						<h1>Have a question or an exciting new idea?</h1>
 						<!-- We would love to hear from you.	Have a question or an exciting new idea? -->
 					</div>
 					<table id="contact_table">
@@ -194,7 +231,7 @@
 									cssClass="contact-text-label" /></td>
 						</tr>
 						<tr>
-							<td><s:textarea name="message" rows="17"
+							<td><s:textarea name="details" rows="17" id="details"
 									cssClass="join-text-area"
 									placeholder="%{getText('contact.message')}"
 									cssStyle="resize: none;" /></td>
@@ -204,7 +241,7 @@
 						</tr>
 						<tr>
 							<td style="text-align: right;"><s:submit id="send"
-									value="Send" /></td>
+									name="send" value="Send" /></td>
 						</tr>
 					</table>
 				</form>

@@ -237,7 +237,7 @@ function initializeMap(data) {
 	});
 	var colorValues = [ "red", "blue", "green", "brown", "purple", "pink",
 			"orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesClimate = [
-			"blue", "black" ], colors;
+			"green", "black" ], colors;
 
 	// get the legend container, create a legend, add a legend renderer fn
 	// var $legendContainer = $('#legend-container')
@@ -300,9 +300,9 @@ function initializeMap(data) {
 		} else if (selectedOutput.toUpperCase() == 'CLIMATE') {
 			$.each(colorValuesArray, function(index, val) {
 				var climate_feature;
-				if (val == 'black') {
+				if (val == 'green') {
 					climate_feature = 'Station';
-				} else if (val == 'blue') {
+				} else if (val == 'black') {
 					climate_feature = 'Station Region';
 				}
 
@@ -344,9 +344,17 @@ function initializeMap(data) {
 	// bottomCenterControls.removeAt( indexOfControl );
 	// }
 
+	// Add the environment info window at the top of the Google Map result
+
+	var topInfos = document.createElement('div');
+	var innerInfo = '<div><img src="img/info.png" /></div>';
+	topInfos.innerHTML = innerInfo;
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(topInfos);
+
 	// add the legend to the map
-	map.controls[google.maps.ControlPosition.LEFT_BOTTOM]
+	map.controls[google.maps.ControlPosition.LEFT_CENTER]
 			.push($legendContainer[0]);
+
 	var infoWindow = new google.maps.InfoWindow({
 		content : ""
 	});
@@ -1265,219 +1273,336 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		width = null;
 		height = null;
 	}
-	var chart = new Highcharts.Chart({
-		chart : {
-			width : width,
-			height : height,
-			type : 'boxplot',
-			renderTo : renderTo,
-			style : {
-				fontFamily : 'serif',
-				fontSize : fontSize
-			},
-			plotBorderWidth : 1,
-			// spacingTop:2,
-			// spacingRight:5,
-			spacingBottom : spacingBottom,
-			// spacingLeft:2,
-			borderWidth : 1,
-			borderRadius : 5,
-			borderColor : '#999',
-			// margin: [15,6,15,15],
-			marginBottom : marginBottom,
-			marginTop : marginTop,
-			marginLeft : marginLeft,
-			marginRight : marginRight,
+	var chart = new Highcharts.Chart(
+			{
+				chart : {
+					width : width,
+					height : height,
+					type : 'boxplot',
+					renderTo : renderTo,
+					style : {
+						fontFamily : 'serif',
+						fontSize : fontSize
+					},
+					plotBorderWidth : 1,
+					// spacingTop:2,
+					// spacingRight:5,
+					spacingBottom : spacingBottom,
+					// spacingLeft:2,
+					borderWidth : 1,
+					borderRadius : 5,
+					borderColor : '#999',
+					// margin: [15,6,15,15],
+					marginBottom : marginBottom,
+					marginTop : marginTop,
+					marginLeft : marginLeft,
+					marginRight : marginRight,
 
-			events : {
-				load : function() {
-					if (smallPlot) {
+					events : {
+						load : function() {
+							if (smallPlot) {
 
-						this.renderer.image('img/zoom-in.png', 10, 2, 20, 20)
-								.on(
-										'click',
-										function() {
-											createTPEBoxPlot(categories,
-													series, false);
-											$('#dialog-plot').dialog('open');
-										}).css({
+								this.renderer
+										.image('img/info.png', 4, 2, 20, 20)
+										.on(
+												'click',
+												function() {
+													// createTPEBoxPlot(
+													// categories, series,
+													// false);
+													// $('#dialog-plot').dialog(
+													// 'open');
+													$('.graphics-info')
+															.trigger('click');
+													//											
+												})
+										.css({
+											cursor : 'Pointer'
+										})
+										.css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										})
+										.attr({
+											zIndex : 300,
+											id : 'zoomImage'
+										})
+										.add()
+										.on(
+												'mouseover',
+												function() {
+
+													// Call the function that
+													// displays the info
+													// about to view when the
+													// control is clicked
+													graphicsInfo(
+															'Click to view the Boxplot information',
+															'You will view more decription about the plot.');
+
+													// Call back for image mouse
+													// hover
+													// Draw a text relative to
+													// Image X
+													// and Y
+													// text = chart.renderer
+													// .text(
+													// "Click to view graphics
+													// infos",
+													// 40, 50)
+													// .add();
+
+													// var box = text.getBBox();
+
+													// Now draw a box
+													// surrounding the
+													// tool tip text
+													// textBG = chart.renderer
+													// .rect(40, 50, 50,
+													// 50, 5)
+													// .attr(
+													// {
+													// fill : '#FFFFEF',
+													// stroke : 'gray',
+													// 'stroke-width' : 1,
+													// zIndex : 4
+													// }).add();
+												}).on('mouseout', function() {
+											// Hide the info window when
+											// the mouse leaves the
+											// control
+											$('#info').hide();
+
+											// Call back for mouse out
+											// on the
+											// image
+											// Destroy Both markers text
+											// and
+											// textBG on
+											// mouse out
+											// Make text and textBG as
+											// global
+											// functions
+											// for access accross
+											// functions
+											// text.destroy();
+											// textBG.destroy();
+
+										}).add();
+								this.renderer
+										.image('img/zoom-in.png', 30, 2, 20, 20)
+										.on(
+												'click',
+												function() {
+													createTPEBoxPlot(
+															categories, series,
+															false);
+													$('#dialog-plot').dialog(
+															'open');
+												})
+										.css({
+											cursor : 'Pointer'
+										})
+										.css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										})
+										.attr({
+											zIndex : 300,
+											id : 'zoomImage'
+										})
+										.add()
+										.on(
+												'mouseover',
+												function() {
+
+													// Call the function that
+													// displays the info
+													// about to view when the
+													// control is clicked
+													graphicsInfo(
+															'Click to view a zoomed Boxplot',
+															'You will view a more bigger Boxplot when you click.');
+
+												}).on('mouseout', function() {
+											// Hide the info window when
+											// the mouse leaves the
+											// control
+											$('#info').hide();
+
+										}).add();
+
+							} else {
+								this.renderer.image('img/ccafs_logo.png', 90,
+										0, 120, 50).on('click', function() {
+									// Add CCAFS Link
+									location.href = 'http://www.ccafs-tpe.org'
+								}).css({
 									cursor : 'Pointer'
 								}).css({
 									position : 'relative',
 									"margin-left" : "-90px"
 								// opacity : 0.75
 								}).attr({
-									zIndex : 300,
-									id : 'zoomImage'
+									zIndex : 100
 								}).add();
-					} else {
-						this.renderer.image('img/ccafs_logo.png', 90, 0, 120,
-								50).on('click', function() {
-							// Add CCAFS Link
-							location.href = 'http://www.ccafs-tpe.org'
-						}).css({
-							cursor : 'Pointer'
-						}).css({
-							position : 'relative',
-							"margin-left" : "-90px"
-						// opacity : 0.75
-						}).attr({
-							zIndex : 100
-						}).add();
-					}
+							}
 
-					/*
-					 * if (smallPlot) { // add report div var ch = this, x = 20,
-					 * y = 57; ch.flashText = ch.renderer .text( '<div
-					 * id="flash"><div id="report">Click to enlarge</div></div>',
-					 * x, y + 10, true).css({ // width: circleradius*2, color :
-					 * '#009900', fontSize : '30px', textAlign : 'center'
-					 * }).attr({ zIndex : 101 }).add(); }
-					 */
+							/*
+							 * if (smallPlot) { // add report div var ch = this,
+							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
+							 * id="flash"><div id="report">Click to enlarge</div></div>',
+							 * x, y + 10, true).css({ // width: circleradius*2,
+							 * color : '#009900', fontSize : '30px', textAlign :
+							 * 'center' }).attr({ zIndex : 101 }).add(); }
+							 */
+						},
+
+						click : function() {
+							// If the small graphic was clicked on
+							if (smallPlot) {
+								createTPEBoxPlot(categories, series, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+
+						}
+					}
+				},
+				credits : {
+					enabled : true,
+					text : 'Source: CCAFS TPE (www.ccafs.org)',
+					href : 'http://www.ccafs.org',
+					style : {
+						color : '#4e2700',
+						fontWeight : 'bold',
+						fontSize : fontSize
+					}
+				},
+				title : {
+					text : 'TPE Trend Yield - Boxplot',
+					style : {
+						color : '#009900',
+						// fontWeight : 'bold',
+						fontSize : titleFontSize
+					}
+				},
+				legend : {
+					enabled : true,
+					layout : 'horizontal',
+					align : 'left',
+					x : legendX,
+					verticalAlign : 'bottom',
+					y : legendY,
+					floating : true,
+					backgroundColor : '#FFFFFF',
+					itemStyle : {
+						color : '#000',
+						fontFamily : 'MuseoS500',
+						// fontWeight : 'bold',
+						fontSize : fontSize
+					}
 				},
 
-				click : function() {
-					// If the small graphic was clicked on
-					if (smallPlot) {
-						createTPEBoxPlot(categories, series, false);
-						// $('#report').html('click on title');
-						$('#dialog-plot').dialog('open');
+				xAxis : [
+				/*
+				 * { labels : { x : 5, useHTML : true, formatter : function() {
+				 * return '<img src="img/ccafs_logo.png" style="height:50px;
+				 * width:50px;"><img>'; } } },
+				 */
+				{
+					categories : series.categories,
+					// offset : 0,
+					// gridLineWidth : 1,
+					// width : 200,
+					title : {
+						text : 'Harvest Years',
+						style : {
+							color : '#000000',
+							fontSize : fontSize,
+						}
+					},
+					// left : 324
+					events : {
+
+						click : function() {
+							if (smallPlot) {
+								createTPEBoxPlot(categories, series, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+						}
+					},
+					gridLineWidth : 1,
+					labels : {
+						rotation : -45,
+						style : {
+							fontSize : fontSize,
+							fontFamily : 'Verdana, sans-serif'
+						}
 					}
+				} ],
 
-				}
-			}
-		},
-		credits : {
-			enabled : true,
-			text : 'Source: CCAFS TPE (www.ccafs.org)',
-			href : 'http://www.ccafs.org',
-			style : {
-				color : '#4e2700',
-				fontWeight : 'bold',
-				fontSize : fontSize
-			}
-		},
-		title : {
-			text : 'TPE Trend Yield - Boxplot',
-			style : {
-				color : '#009900',
-				// fontWeight : 'bold',
-				fontSize : titleFontSize
-			}
-		},
-		legend : {
-			enabled : true,
-			layout : 'horizontal',
-			align : 'left',
-			x : legendX,
-			verticalAlign : 'bottom',
-			y : legendY,
-			floating : true,
-			backgroundColor : '#FFFFFF',
-			itemStyle : {
-				color : '#000',
-				fontFamily : 'MuseoS500',
-				// fontWeight : 'bold',
-				fontSize : fontSize
-			}
-		},
+				yAxis : {
+					min : 0,
+					title : {
+						text : 'Yield (Kg/ha)',
+						style : {
+							color : '#000000',
+							fontSize : fontSize,
+						}
+					},
+					events : {
 
-		xAxis : [
-		/*
-		 * { labels : { x : 5, useHTML : true, formatter : function() { return '<img
-		 * src="img/ccafs_logo.png" style="height:50px; width:50px;"><img>'; } } },
-		 */
-		{
-			categories : series.categories,
-			// offset : 0,
-			// gridLineWidth : 1,
-			// width : 200,
-			title : {
-				text : 'Harvest Years',
-				style : {
-					color : '#000000',
-					fontSize : fontSize,
-				}
-			},
-			// left : 324
-			events : {
+						click : function() {
+							if (smallPlot) {
+								createTPEBoxPlot(categories, series, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+						}
+					},
+					labels : {
+						formatter : function() {
+							return this.value.toString();
+						},
+						style : {
+							fontSize : fontSize,
+							fontFamily : 'Verdana, sans-serif'
+						}
 
-				click : function() {
-					if (smallPlot) {
-						createTPEBoxPlot(categories, series, false);
-						// $('#report').html('click on title');
-						$('#dialog-plot').dialog('open');
 					}
-				}
-			},
-			gridLineWidth : 1,
-			labels : {
-				rotation : -45,
-				style : {
-					fontSize : fontSize,
-					fontFamily : 'Verdana, sans-serif'
-				}
-			}
-		} ],
-
-		yAxis : {
-			min : 0,
-			title : {
-				text : 'Yield (Kg/ha)',
-				style : {
-					color : '#000000',
-					fontSize : fontSize,
-				}
-			},
-			events : {
-
-				click : function() {
-					if (smallPlot) {
-						createTPEBoxPlot(categories, series, false);
-						// $('#report').html('click on title');
-						$('#dialog-plot').dialog('open');
-					}
-				}
-			},
-			labels : {
-				formatter : function() {
-					return this.value.toString();
 				},
-				style : {
-					fontSize : fontSize,
-					fontFamily : 'Verdana, sans-serif'
-				}
+				labels : {
+					events : {
 
-			}
-		},
-		labels : {
-			events : {
+						click : function() {
+							if (smallPlot) {
+								createTPEBoxPlot(categories, series, false);
+								// $('#report').html('click on title');
+								$('#dialog-plot').dialog('open');
+							}
+						}
+					}
+				},
 
-				click : function() {
-					if (smallPlot) {
-						createTPEBoxPlot(categories, series, false);
-						// $('#report').html('click on title');
-						$('#dialog-plot').dialog('open');
+				series : series.series,
+				exporting : {
+					buttons : {
+						contextButton : {
+							// symbol: 'circle',
+							symbol : 'url(img/download_32.png)',
+						// symbolStrokeWidth : 1,
+						// symbolFill : '#bada55',
+						// symbolStroke : '#330033',
+						// symbolX : 6,
+						// symbolY : 6
+						}
 					}
 				}
-			}
-		},
-
-		series : series.series,
-		exporting : {
-			buttons : {
-				contextButton : {
-					// symbol: 'circle',
-					symbol : 'url(img/download_32.png)',
-				// symbolStrokeWidth : 1,
-				// symbolFill : '#bada55',
-				// symbolStroke : '#330033',
-				// symbolX : 6,
-				// symbolY : 6
-				}
-			}
-		}
-	});
+			});
 
 }
 
@@ -3037,4 +3162,20 @@ function hideShow(graphic) {
 		$('.plot_rainsum').hide();
 		$('.plot_raincum').hide();
 	}
+}
+/**
+ * Displays the graphics info when the graphics controls are hovered over.
+ * 
+ */
+function graphicsInfo(info, desc) {
+	$('#info').show();
+	// The info about what to view when the user clicks the control
+	$('#info h2').text(info);
+	// Add the description of the action
+	$('#info span').html(desc);
+
+	// $htmlText = $htmlText + '<div>Station No:'
+	// + event.feature.getProperty('stationNumber') + '</div>';
+
+	// return $htmlText;
 }

@@ -106,7 +106,7 @@
 	<bean id="regionDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.RegionDao" />
 	<bean id="stationDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.StationDao" />
 	<bean id="categoryDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CategoryDao" />
-	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" /> 
+	<bean id="cultivarDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.CultivarDao" />
 	<bean id="climateDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.ClimateDao" />
 	<bean id="soilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilDao" />
 	<bean id="soilPropertyDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.SoilPropertyDao" />
@@ -122,7 +122,7 @@
 		<property name="regionDao" ref="regionDao" />
 		<property name="stationDao" ref="stationDao" />
 		<property name="categoryDao" ref="categoryDao" />
-		<property name="cultivarDao" ref="cultivarDao" /> 
+		<property name="cultivarDao" ref="cultivarDao" />
 		<property name="climateDao" ref="climateDao" />
 		<property name="soilDao" ref="soilDao" />
 		<property name="soilPropertyDao" ref="soilPropertyDao" />
@@ -163,6 +163,11 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
+	<bean id="contactUsAction" class="org.cgiar.dapa.ccafs.tpe.action.ContactUsAction"
+		scope="request">
+		<property name="mailService" ref="mailService" />
+	</bean>
+
 
 
 </beans>

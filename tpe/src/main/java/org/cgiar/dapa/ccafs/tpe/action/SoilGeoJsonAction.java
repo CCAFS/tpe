@@ -46,7 +46,7 @@ public class SoilGeoJsonAction extends BaseAction {
 	/**
 	 * The selected soil texture ids from the selection pane.
 	 */
-	private List<Integer> selectedTextures;
+	// private List<Integer> selectedTextures;
 	/**
 	 * The country or region latitude coordinate.
 	 */
@@ -113,8 +113,7 @@ public class SoilGeoJsonAction extends BaseAction {
 		// setLng(getRegion().getLongitude());
 		// }
 
-		if (this.getSelectedCountry() != null && getSelectedTextures() != null
-				|| !getSelectedTextures().isEmpty()) {
+		if (this.getSelectedCountry() != null) {
 
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 
@@ -146,14 +145,6 @@ public class SoilGeoJsonAction extends BaseAction {
 		}
 
 		return ActionSupport.SUCCESS;
-	}
-
-	public List<Integer> getSelectedTextures() {
-		return selectedTextures;
-	}
-
-	public void setSelectedTextures(List<Integer> selectedTextures) {
-		this.selectedTextures = selectedTextures;
 	}
 
 	public Double getLat() {

@@ -435,7 +435,7 @@ div#tpe_map {
 	/*float: left;*/
 	/* min-width: 78%; */
 	overflow: hidden;
-	cursor: crosshair;
+/* 	cursor: crosshair; */
 }
 
 .tpe_map {
@@ -740,7 +740,7 @@ div#team {
 	padding: 5px;
 	width: 330px;
 	/*	border: 1px solid #487429;*/
-	height: 100px;
+	height: 150px;
 	margin: 10px auto;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
