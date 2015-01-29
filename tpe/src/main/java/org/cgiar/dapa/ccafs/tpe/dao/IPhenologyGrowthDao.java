@@ -16,7 +16,6 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 
@@ -105,26 +104,6 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 */
 	Map<String, Map<String, Double>> getTPESoil(Integer cultivarId,
 			Integer regionId, Integer swindowId, String year, String scenario);
-
-	/**
-	 * Retrieves the TPE records for the specified variables. The result
-	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
-	 * struts.xml
-	 * 
-	 * @param cultivarId
-	 *            the if of the selected crop cultivar
-	 * @param countryId
-	 *            the id of the selected country
-	 * @param swindowId
-	 *            the id of the selected window sowing
-	 * @param year
-	 *            the selected year
-	 * @param scenario
-	 *            the selected scenario
-	 * @return TPE GeoJSON
-	 */
-	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
-			Integer swindowId, String year, String scenario);
 
 	/**
 	 * Retrieves the chart series for a selected (clicked) sub region from the

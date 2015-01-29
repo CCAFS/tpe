@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
@@ -399,26 +398,6 @@ public interface ITPEService {
 			List<Integer> indicators);
 
 	/**
-	 * Retrieves the TPE records for the specified variables. The result
-	 * Map<String,Object> will be returned as GeoJSON by the actions defined in
-	 * struts.xml
-	 * 
-	 * @param cultivarId
-	 *            the if of the selected crop cultivar
-	 * @param countryId
-	 *            the id of the selected country
-	 * @param swindowId
-	 *            the id of the selected window sowing
-	 * @param year
-	 *            the selected year
-	 * @param scenario
-	 *            the selected scenario
-	 * @return TPE GeoJSON
-	 */
-	Map<String, Object> getTPEGeoJSON(Integer cultivarId, Integer countryId,
-			Integer swindowId, String year, String scenario);
-
-	/**
 	 * Retrieves the chart series for a selected (clicked) sub region from the
 	 * Google Map. The retrieves data will be returned (or converted to JSON) as
 	 * JSON data by the action in the struts.xml.
@@ -498,8 +477,6 @@ public interface ITPEService {
 	 */
 	Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
 			Integer countryId);
-
-	Map<String, Object> getSampleGeoJson();
 
 	/**
 	 * Gets the sowing dates

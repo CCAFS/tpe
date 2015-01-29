@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.cgiar.dapa.ccafs.tpe.chart.BoxPlot;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
@@ -297,14 +296,6 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
-			Integer countryId, Integer swindowId, String year, String scenario) {
-
-		return phenologyGrowthDao.getTPEGeoJSON(cultivarId, countryId,
-				swindowId, year, scenario);
-	}
-
-	@Override
 	public List<Chart> getTPEColumnSeries(Integer subregionId,
 			Integer categoryId, String scenario, Integer cultivarId,
 			String year, Integer swindow) {
@@ -347,12 +338,6 @@ public class TPEService implements ITPEService {
 			Integer countryId) {
 
 		return soilPropertyDao.getSoilGeoJson(propertyIds, countryId);
-	}
-
-	@Override
-	public Map<String, Object> getSampleGeoJson() {
-
-		return stationDao.getSampleGeoJson();
 	}
 
 	@Override

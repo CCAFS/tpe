@@ -25,8 +25,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
-
 /**
  * This class represents the weather station entity in the crop simulation
  * model. Each station in the model belongs to a particular region and has geo
@@ -154,10 +152,4 @@ public class Station extends BaseEntity {
 
 	}
 
-	@Transient
-	public HullPoint getConvexHullCoordinates() {
-
-		return new HullPoint(this.getLatitude(), this.getLongitude());
-
-	}
 }

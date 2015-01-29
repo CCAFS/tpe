@@ -25,9 +25,6 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
-import org.cgiar.dapa.ccafs.tpe.convexhull.ConvexHull;
-import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
-import org.cgiar.dapa.ccafs.tpe.convexhull.ITPEConvexHull;
 import org.cgiar.dapa.ccafs.tpe.dao.IPhenologyGrowthDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Environment;
@@ -261,109 +258,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		return query.getResultList();
 	}
 
-	@Override
-	public Map<String, Object> getTPEGeoJSON(Integer cultivarId,
-			Integer countryId, Integer swindowId, String year, String scenario) {
-		// The convex hull instance
-		ITPEConvexHull convexHull = new ConvexHull();
-		Map<String, Object> polygonGeoJSON = new LinkedHashMap<String, Object>();
-		List<FeaturePolygon> polygonFeatures = new LinkedList<FeaturePolygon>();
-		GeometryPolygon polygonGeometry = new GeometryPolygon();
-		FeatureProperty polygonProperty = new FeatureProperty();
-		// TODO First query for each sub region and create the polygon features
-		// based on the yield.
-		// Get all the municipios for the specified country id.
-		List<Integer> municipios = this.getMunicipios(countryId);
-		// Make sure we don't pass the empty or null sub region list
-		if (!municipios.isEmpty() && municipios != null) {
-			StringBuffer q = new StringBuffer("from " + entityClass.getName());
-			Float min, max;
-
-			for (Integer municipio : municipios) {
-				// TODO Query for ranges (HFE, LFE, FE)
-				// TODO Check if the sub region has atleast 4 points for a
-				// given range (HFE, LFE)
-				// TODO Add index for yield wrr14 in the schema
-				for (Cluster cluster : Cluster.values()) {
-					// TODO Order by yield.
-					q.append(" r where r.station.region.id =:municipio")
-							.append(" and r.cultivar.id =:cultivar")
-							.append(" and r.window.id =:swindow")
-							.append(" and r.scenario =:scenario")
-							.append(" and r.cluster =:cluster")
-							.append(" and r.year =:year")
-							.append(" order by r.id asc");
-
-					Query query = entityManager.createQuery(q.toString());
-					query.setParameter("municipio", municipio);
-					query.setParameter("cultivar", cultivarId);
-					query.setParameter("swindow", swindowId);
-					query.setParameter("year", year);
-					query.setParameter("scenario", scenario);
-					query.setParameter("cluster", cluster.getEnv());
-
-					List<PhenologyGrowth> results = query.getResultList();
-					PhenologyGrowth phenologyGrowth = null;
-					// List<List<Double>> coordinates = new
-					// LinkedList<List<Double>>();
-					List<HullPoint> convexHullCoordinates = new LinkedList<HullPoint>();
-					for (Iterator<PhenologyGrowth> iterator = results
-							.iterator(); iterator.hasNext();) {
-						phenologyGrowth = iterator.next();
-
-						// coordinates.add(phenologyGrowth.getStation()
-						// .getCoordinates());
-						// TODO Remove the coordinates
-						// coordinates.add(phenologyGrowth.getCoordinates());
-
-						convexHullCoordinates.add(phenologyGrowth
-								.getConvexHullCoordinates());
-
-					}
-					// TODO Add the first coordinate once again to close the
-					// GeoJSON polygon. In GeoJSON, the first and last points
-					// have to be the same.
-					// if (!coordinates.isEmpty() && coordinates != null)
-					// coordinates.add(coordinates.get(0));
-
-					if (phenologyGrowth != null)
-						// Get the properties from the last record.
-						polygonProperty = new FeatureProperty(
-								phenologyGrowth.getCultivar().getName(),
-								phenologyGrowth.getYear(),
-								phenologyGrowth.getStation().getName(),
-								ClusterColor.valueOf(cluster.name()).toString(),
-								cluster.name().toString(),
-								phenologyGrowth.getCultivar().getCrop()
-										.getName(),
-								phenologyGrowth.getScenario().name().toString(),
-								phenologyGrowth.getCluster()
-										+ "_"
-										+ phenologyGrowth.getStation()
-												.getRegion().getId());
-					// Add the coordinates to the polygon.
-					// polygonGeometry = new GeometryPolygon(
-					// new ArrayList<List<List<Double>>>(
-					// Arrays.asList(coordinates)));
-
-					polygonGeometry = new GeometryPolygon(
-							convexHull
-									.getRectilinearConvexHullPolygon(convexHullCoordinates),
-							null);
-
-					polygonFeatures.add(new FeaturePolygon(FEATURES_TYPE,
-							polygonGeometry, polygonProperty));
-				}
-			}
-			// Create feature collection
-			polygonGeoJSON.put(GEOJSON_KEY_TYPE,
-					GEOJSON_VALUE_FEATURE_COLLECTION);
-			// Add the feature to the feature collection
-			polygonGeoJSON.put(GEOJSON_KEY_FEATURES, polygonFeatures);
-		}
-
-		return polygonGeoJSON;
-	}
+	 
 
 	@Override
 	public List<Chart> getTPEColumnSeries(Integer subregionId,
@@ -620,8 +515,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		List<Integer> clusters = Utils.getClusters();
 		List<Series> seriesTypes = getSeriesTypes();
 		Cultivar cultivar = getCultivar(cultivarId);
-		List<Object> categories = getStressCategories(Utils.getStressSeries(),
-				cultivarId, countryId);
+//		List<Object> categories = getStressCategories(Utils.getStressSeries(),	cultivarId, countryId);
 		Series secondSeriesType = null;
 		// Map<String, Object> laiData = new LinkedHashMap<String, Object>();
 		// List<Map<String, Object>> seriesList = new LinkedList<Map<String,

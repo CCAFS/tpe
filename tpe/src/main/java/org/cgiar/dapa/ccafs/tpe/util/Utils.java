@@ -20,14 +20,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
@@ -153,62 +151,6 @@ public class Utils implements Constants {
 		return scenarios;
 	}
 
-	public static List<List<List<Double>>> convertFromConvexHull(
-			List<HullPoint> convexHullCoordinates) {
-		List<List<Double>> coordinates = new LinkedList<List<Double>>();
-
-		for (Iterator<HullPoint> iteratorPoint = convexHullCoordinates
-				.iterator(); iteratorPoint.hasNext();) {
-
-			coordinates.add(iteratorPoint.next().getCoordinates());
-
-			System.out.println(coordinates);
-		}
-
-		return new LinkedList<List<List<Double>>>(Arrays.asList(coordinates));
-
-	}
-
-	/**
-	 * Calculates the distance between two coordinates on the Google Map
-	 * 
-	 * @param firstCooordinate
-	 *            the first LatLng coordinate
-	 * @param secondCoordinate
-	 *            the second LatLng coordinate
-	 * @return distance
-	 */
-	public static Double distnceBtnLatLng(HullPoint firstCooordinate,
-			HullPoint secondCoordinate) {
-		// Radius of the Earth in Km (6371)
-		Double radiusEarth = new Double(6371);
-
-		Double dLat = degToRad(secondCoordinate.getLatitude(),
-				firstCooordinate.getLatitude());
-
-		Double dLng = degToRad(secondCoordinate.getLongitude(),
-				firstCooordinate.getLongitude());
-
-		Double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-				+ Math.cos(degToRad(firstCooordinate.getLatitude()))
-				* Math.cos(degToRad(secondCoordinate.getLatitude()))
-				* Math.sin(dLng / 2) * Math.sin(dLng / 2);
-
-		Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-		Double d = radiusEarth * c;
-
-		// if (d > 1)
-		// return new Double(Math.round(d));
-		//
-		// else if (d <= 1)
-		//
-		// return new Double(Math.round(d * 1000));
-
-		return d;
-
-	}
-
 	public static Double degToRad(Double secondCoordinate,
 			Double firstCoordinate) {
 
@@ -236,99 +178,6 @@ public class Utils implements Constants {
 			return 0;
 
 		return tiles.intValue();
-	}
-
-	public static Integer numberOfTiles(HullPoint firstCooordinate,
-			HullPoint secondCoordinate) {
-
-		Double distance = distnceBtnLatLng(firstCooordinate, secondCoordinate);
-		Double tiles = 0.0;
-
-		if (distance != null && distance != 0) {
-			tiles = distance / TILE_SIZE_64;
-
-			if (tiles > 1.0)
-				return tiles.intValue();
-		} else
-			return 0;
-
-		return tiles.intValue();
-	}
-
-	// Map<Lat, Lng>
-	public static Map<Double, Double> pixelStep(HullPoint firstCooordinate,
-			HullPoint secondCoordinate) {
-		// Map<Lat, Lng>
-		Map<Double, Double> pixelSteps = new HashMap<Double, Double>();
-
-		Integer numberOfTiles = numberOfTiles(firstCooordinate,
-				secondCoordinate);
-
-		Double stepLat = (firstCooordinate.getLatitude() - secondCoordinate
-				.getLatitude()) / numberOfTiles;
-
-		Double stepLng = (firstCooordinate.getLongitude() - secondCoordinate
-				.getLongitude()) / numberOfTiles;
-
-		pixelSteps.put(stepLat, stepLng);
-
-		return pixelSteps;
-
-	}
-
-	public static List<HullPoint> getPixelCoordinates(
-			HullPoint firstCooordinate, HullPoint secondCoordinate,
-			boolean lowerHull) {
-		// The Convex Hull Points from the first coordinate to the second
-		// coordinate
-		List<HullPoint> pixelPoints = new LinkedList<HullPoint>();
-		// The points from point A to point B
-		List<HullPoint> pointsAB = new LinkedList<HullPoint>();
-
-		Integer numberOfTiles = numberOfTiles(firstCooordinate,
-				secondCoordinate);
-
-		Double stepLat = (firstCooordinate.getLatitude() - secondCoordinate
-				.getLatitude()) / numberOfTiles;
-
-		Double stepLng = (firstCooordinate.getLongitude() - secondCoordinate
-				.getLongitude()) / numberOfTiles;
-
-		// Get the points on line AB
-		// Initialize the list with the coordinates of the first point A
-		pointsAB.add(firstCooordinate);
-		for (int i = 0; i < numberOfTiles; i++) {
-			pointsAB.add(new HullPoint(
-					firstCooordinate.getLatitude() + stepLat, firstCooordinate
-							.getLongitude() + stepLng));
-		}
-		// Then add the last coordinates from the second point B
-		pointsAB.add(secondCoordinate);
-
-		if (!lowerHull) {
-			// For lower hull, start with (FirstLat,PixelLng)
-			for (int i = 0; i < pointsAB.size(); i++) {
-				pixelPoints.add(pointsAB.get(i));
-				// Add the perpendicular coordinate if is not the last point
-				if (i != pointsAB.size() - 1)
-					pixelPoints.add(new HullPoint(
-							pointsAB.get(i).getLatitude(), pointsAB.get(i + 1)
-									.getLongitude()));
-			}
-		} else {
-			// TODO Consider or check the magnitude of the coordinates
-			// For lower hull, start with (FirstLat)
-			for (int i = 0; i < pointsAB.size(); i++) {
-				pixelPoints.add(pointsAB.get(i));
-				// Add the perpendicular coordinate if is not the last point
-				if (i != pointsAB.size() - 1)
-					pixelPoints.add(new HullPoint(pointsAB.get(i + 1)
-							.getLatitude(), pointsAB.get(i).getLongitude()));
-			}
-		}
-
-		return pixelPoints;
-
 	}
 
 	public static List<Integer> getTextureId(List<Soil> textures) {
@@ -362,5 +211,32 @@ public class Utils implements Constants {
 		}
 
 		return json;
+	}
+
+	public static List<Integer> getClusters() {
+		List<Integer> clusters = new LinkedList<Integer>(Arrays.asList(1, 2, 3));
+		return clusters;
+	}
+
+	public static String getClusterColor(Integer cluster) {
+		// LFE_1("#990000"), HFE_2("#009900"), FE_3("#ADD8E6");
+		String color;
+		switch (cluster) {
+		case 1:
+			color = "#990000";
+			break;
+		case 2:
+			color = "#009900";
+			break;
+		case 3:
+			// color = "#ADD8E6";
+			color = "#000099";
+			break;
+		default:
+			color = "#000000";
+			break;
+		}
+
+		return color;
 	}
 }

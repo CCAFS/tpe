@@ -27,7 +27,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.cgiar.dapa.ccafs.tpe.convexhull.HullPoint;
 import org.cgiar.dapa.ccafs.tpe.util.Scenario;
 
 /**
@@ -1146,13 +1145,6 @@ public class PhenologyGrowth extends BaseResult {
 					this.getLongitude()));
 
 		return this.getStation().getCoordinates();
-	}
-
-	@Transient
-	public HullPoint getConvexHullCoordinates() {
-
-		return new HullPoint(this.getLatitude(), this.getLongitude());
-
 	}
 
 	@ManyToOne(targetEntity = Environment.class)

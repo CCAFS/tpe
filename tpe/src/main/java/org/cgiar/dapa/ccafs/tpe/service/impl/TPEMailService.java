@@ -14,7 +14,7 @@
 package org.cgiar.dapa.ccafs.tpe.service.impl;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.LogFactory; 
 import org.cgiar.dapa.ccafs.tpe.service.ITPEMailService;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;

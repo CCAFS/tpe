@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -135,6 +136,10 @@ public class TPEGeoJsonAction extends BaseAction {
 	// private Map<String, Object> wagtData;
 	// private Map<String, Object> rainSData;
 	// private Map<String, Object> rainTempData;
+	/**
+	 * The crop cultivar
+	 */
+	private Cultivar cultivar;
 
 	public String execute() {
 		// Retrieve the data that will be converted into GeoJson by this action
@@ -328,6 +333,14 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setSeriesData(Map<String, Object> seriesData) {
 		this.seriesData = seriesData;
+	}
+
+	public Cultivar getCultivar() {
+		return cultivar;
+	}
+
+	public void setCultivar(Cultivar cultivar) {
+		this.cultivar = cultivar;
 	}
 
 }
