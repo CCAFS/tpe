@@ -13,6 +13,7 @@ var hfeSeries, lfeSeries, feSeries, boxJSON, climateSeriesJSON, clickedFeature, 
  * selectedSubregions, selectedYears, selectedStations)
  */
 function initializeGoogleMap() {
+
 	// console.log('Initializing the Google Map....');
 	// Get the parameters
 	// var selectedCountry, selectedOutput, selectedScenario, selectedTexture,
@@ -799,6 +800,7 @@ function geoJsonData(action) {
 				});
 
 			initializeMap(dataJson);
+			// $('.graphics-info').trigger('click');
 		}
 	});
 
@@ -864,7 +866,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 							spacingBottom : spacingBottom,
 							// spacingLeft:2,
 							borderWidth : 1,
-							borderRadius : 5,
+							// borderRadius : 5,
 							borderColor : '#999',
 							// margin: [15,6,15,15],
 							marginBottom : marginBottom,
@@ -1069,7 +1071,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 							spacingBottom : spacingBottom,
 							// spacingLeft:2,
 							borderWidth : 1,
-							borderRadius : 5,
+							// borderRadius : 5,
 							borderColor : '#999',
 							// margin: [15,6,15,15],
 							marginBottom : marginBottom,
@@ -1238,6 +1240,10 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 
 // Create Box Plot
 function createTPEBoxPlot(categories, series, smallPlot) {
+	// console.log('These are categories');
+	// console.log(categories);
+	// console.log('These are series');
+	// console.log(series);
 	// $('#plot_box').show();
 	var renderTo = 'plot_box';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -1290,7 +1296,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					spacingBottom : spacingBottom,
 					// spacingLeft:2,
 					borderWidth : 1,
-					borderRadius : 5,
+					// borderRadius : 5,
 					borderColor : '#999',
 					// margin: [15,6,15,15],
 					marginBottom : marginBottom,
@@ -1403,6 +1409,9 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 												})
 										.css({
 											cursor : 'Pointer'
+										})
+										.attr({
+											class : 'zoom'
 										})
 										.css({
 											position : 'relative',
@@ -1682,7 +1691,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							spacingBottom : spacingBottom,
 							// spacingLeft:2,
 							borderWidth : 1,
-							borderRadius : 5,
+							// borderRadius : 5,
 							borderColor : '#999',
 							// margin: [15,6,15,15],
 							marginBottom : marginBottom,
@@ -1956,7 +1965,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					spacingBottom : spacingBottom,
 					// spacingLeft:2,
 					borderWidth : 1,
-					borderRadius : 5,
+					// borderRadius : 5,
 					borderColor : '#999',
 					// margin: [15,6,15,15],
 					marginBottom : marginBottom,
@@ -1982,6 +1991,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 									zIndex : 300,
 									id : 'zoomImage'
 								}).add();
+
 							} else {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
@@ -2178,7 +2188,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							spacingBottom : spacingBottom,
 							// spacingLeft:2,
 							borderWidth : 1,
-							borderRadius : 5,
+							// borderRadius : 5,
 							borderColor : '#999',
 							// margin: [15,6,15,15],
 							marginBottom : marginBottom,
@@ -2440,7 +2450,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					spacingBottom : spacingBottom,
 					// spacingLeft:2,
 					borderWidth : 1,
-					borderRadius : 5,
+					// borderRadius : 5,
 					borderColor : '#999',
 					// margin: [15,6,15,15],
 					/*
@@ -2688,7 +2698,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							spacingBottom : spacingBottom,
 							// spacingLeft:2,
 							borderWidth : 1,
-							borderRadius : 5,
+							// borderRadius : 5,
 							borderColor : '#999',
 							// margin: [15,6,15,15],
 							marginBottom : marginBottom,
@@ -2955,7 +2965,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 					spacingBottom : spacingBottom,
 					// spacingLeft:2,
 					borderWidth : 1,
-					borderRadius : 5,
+					// borderRadius : 5,
 					borderColor : '#999',
 					// margin: [15,6,15,15],
 					marginBottom : marginBottom,

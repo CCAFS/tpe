@@ -39,87 +39,78 @@
 					<tr>
 						<td><s:label key="contact.name" cssClass="join-text-label" /></td>
 					<tr>
-						<td><s:textfield id="name" name="name" cssClass="join-text"
-								placeholder="%{getText('contact.name')}"></s:textfield></td>
+						<td><input id="name" name="name" class="join-text"
+							type="text" placeholder="Your Name"></input></td>
 					<tr>
 						<td><s:label key="contact.organization"
 								cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="organization" name="organization"
-								cssClass="join-text"
-								placeholder="%{getText('contact.organization')}"></s:textfield>
-						</td>
+						<td><input id="organization" name="organization"
+							class="join-text" type="text" placeholder="Organization Name"></input></td>
 					</tr>
 					<tr>
 						<td><s:label key="contact.email" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="email" name="email" cssClass="join-text"
-								placeholder="%{getText('contact.email')}">
-							</s:textfield></td>
+						<td><input id="email" name="email" class="join-text"
+							type="text" placeholder="Your Email Address"></input></td>
 					</tr>
 
-					<tr>
+				<%-- 	<tr>
 						<td><s:label key="join.crop" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="crop" name="crop" cssClass="join-text"
-								placeholder="%{getText('join.crop')}">
-							</s:textfield></td>
-					</tr>
+						<td><input id="crop" name="crop" class="join-text"
+							type="text" placeholder="Crop Name"></input></td>
+					</tr> --%>
 
-					<tr>
+					<%-- 	<tr>
 						<td><s:label key="join.cultivar" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="cultivar" name="cultivar"
-								cssClass="join-text" placeholder="%{getText('join.cultivar')}">
-							</s:textfield></td>
-					</tr>
+						<td><input id="cultivar" name="cultivar" class="join-text"
+							type="text" placeholder="Cultivar"></input></td>
+					</tr> --%>
 
-					<tr>
+					<%-- <tr>
 						<td><s:label key="join.motivation" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="motivation" name="motivation"
-								cssClass="join-text" placeholder="%{getText('join.motivation')}">
-							</s:textfield></td>
-					</tr>
+						<td><input id="motivation" name="motivation" type="text"
+							class="join-text" placeholder="Motivation"></input></td>
+					</tr> --%>
 
-					<tr>
+					<%-- 	<tr>
 						<td><s:label key="join.area" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="area" name="area" cssClass="join-text"
-								placeholder="%{getText('join.area')}">
-							</s:textfield></td>
-					</tr>
+						<td><input id="area" name="area" class="join-text"
+							type="text" placeholder="Are of interest"></input></td>
+					</tr> --%>
 
-					<tr>
+					<%-- 	<tr>
 						<td><s:label key="join.region" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textfield id="reagion" name="region"
-								cssClass="join-text" placeholder="%{getText('join.region')}">
-							</s:textfield></td>
-					</tr>
+						<td><input id="reagion" name="region" class="join-text"
+							type="text" placeholder="Region"></input></td>
+					</tr> --%>
 
 					<tr>
 						<td><s:label key="join.message" cssClass="join-text-label" /></td>
 					</tr>
 					<tr>
-						<td><s:textarea name="message" rows="17"
-								cssClass="join-text-area"
-								placeholder="%{getText('join.message')}"
-								cssStyle="resize: none;" /></td>
+						<td><textarea name="message" rows="17" class="join-text-area"
+								placeholder="Your details" style="resize: none;"></textarea></td>
 					</tr>
 					<tr>
 						<td>
 					</tr>
 					<tr>
-						<td style="text-align: right;"><s:submit id="send"
-								value="Get Involved" /></td>
+						<td style="text-align: right;">
+							<button class="button-send" id="send">Send</button>
+						</td>
 					</tr>
 				</table>
 			</form>

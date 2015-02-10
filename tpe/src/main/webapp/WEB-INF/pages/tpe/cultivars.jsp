@@ -2,4 +2,4 @@
 
 <s:select name="selectedCultivar" listKey="id" listValue="name"
 	id="select_cultivar" list="cultivars" value="preselectedCultivar"
-	cssStyle="width:100%;" multiple="false" size="2" required="true" />
+	cssClass="map-options-select" multiple="false" required="true" />

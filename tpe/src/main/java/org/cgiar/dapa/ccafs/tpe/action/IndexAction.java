@@ -41,6 +41,11 @@ public class IndexAction extends BaseAction {
 		return ActionSupport.SUCCESS;
 	}
 
+	public String resources() {
+
+		return ActionSupport.SUCCESS;
+	}
+
 	public String contactUs() {
 
 		return ActionSupport.SUCCESS;

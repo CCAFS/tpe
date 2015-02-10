@@ -81,12 +81,15 @@
 		<action name="documentation" class="indexAction" method="documentation">
 			<result name="success">/WEB-INF/pages/tpe/documentation.jsp</result>
 		</action>
+		<action name="resources" class="indexAction" method="resources">
+			<result name="success">/WEB-INF/pages/tpe/resources.jsp</result>
+		</action>
 		<action name="contactUs" class="indexAction" method="contactUs">
 			<result name="success">/WEB-INF/pages/tpe/contact-us.jsp</result>
 		</action>
 		<action name="contactInfo" class="contactUsAction" method="sendInfo">
-			<!-- <result name="input" type="redirectAction">contactUs</result>
-			<result name="error" type="redirectAction">contactUs</result> -->
+			<!-- <result name="input" type="redirectAction">contactUs</result> <result 
+				name="error" type="redirectAction">contactUs</result> -->
 		</action>
 		<action name="contribute" class="indexAction" method="contribute">
 			<result name="success">/WEB-INF/pages/tpe/contribute.jsp</result>
@@ -118,6 +121,12 @@
 
 		<action name="scientific" class="indexAction" method="scientific">
 			<result name="success">/WEB-INF/pages/tpe/doc-scientific.jsp</result>
+		</action>
+		<action name="brazilian" class="indexAction" method="scientific">
+			<result name="success">/WEB-INF/pages/tpe/brazilian.jsp</result>
+		</action>
+		<action name="colombian" class="indexAction" method="scientific">
+			<result name="success">/WEB-INF/pages/tpe/colombian.jsp</result>
 		</action>
 
 		<action name="tutorials" class="indexAction" method="tutorials">

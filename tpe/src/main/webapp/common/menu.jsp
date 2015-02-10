@@ -14,7 +14,7 @@
 					<li><a href="<c:url value='/' />">Home</a></li>
 					<li><a href="<s:url namespace="/" action="toolIndex" />">Visualization</a></li>
 					<li><a href="<s:url namespace="/" action="documentation" />">Documentation</a></li>
-					<li><a href="<s:url namespace="/" action="documentation" />">Other Resources</a></li>
+					<li><a href="<s:url namespace="/" action="resources" />">Other Resources</a></li>
 					<li><a href="<s:url namespace="/" action="contactUs" />">Contact Us</a></li>
 				</ul>
 			</div>

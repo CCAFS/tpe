@@ -42,11 +42,13 @@
 
 							<div id="slide_text">
 								<div class="slide-infos">
-									<h1 class="info_title"><a class="slide-link" href="#" target="_blank"></a></h1>
+									<h1 class="info_title">
+										<a class="slide-link" href="#" target="_blank"></a>
+									</h1>
 									<p id="slide-info" class="text">
 										<strong><span></span></strong>
 									</p>
-<!-- 									<p id="slide-readmore" class="text"><a href="#">Read More<b>></b></a></p> -->
+									<!-- 									<p id="slide-readmore" class="text"><a href="#">Read More<b>></b></a></p> -->
 								</div>
 							</div>
 						</div>
@@ -122,64 +124,65 @@
 	<!--TPE Workshops-->
 	<div id="tpe_section">
 		<div class="box">
-		<div id="hold">
-			<div id="box_one" class="tpe_box">
-				<div class="box_col">
-					<a href="<s:url namespace="/" action="toolIndex" />"><h4>TPE
-							Tool</h4> </a> <a href="<s:url namespace="/" action="toolIndex" />"><img
-						src="img/tpe_map.jpg" alt="image" /> </a>
-					<p>At times crop breeding can feel like steering a rudderless
-						ship. There's no such thing as a compass for climate change, for
-						starters, and it's hard to say whether crop varieties currently in
-						development will still be adequate for conditions on the ground 10
-						years from now. So what do breeders have to aim at, exactly?</p>
-					<p class="readmore">
-						<a href="<s:url namespace="/" action="toolIndex" />">Read More
-							<b>></b>
+			<div id="hold">
+				<div id="box_one" class="tpe_box">
+					<div class="box_col">
+						<a href="<s:url namespace="/" action="toolIndex" />"><h4>TPE
+								Tool</h4> </a> <a href="<s:url namespace="/" action="toolIndex" />"><img
+							src="img/tpe_map.jpg" alt="image" /> </a>
+						<p>At times crop breeding can feel like steering a rudderless
+							ship. There's no such thing as a compass for climate change, for
+							starters, and it's hard to say whether crop varieties currently
+							in development will still be adequate for conditions on the
+							ground 10 years from now. So what do breeders have to aim at,
+							exactly?</p>
+						<p class="readmore">
+							<a href="<s:url namespace="/" action="toolIndex" />">Read
+								More <b>></b>
+							</a>
+						</p>
+					</div>
+				</div>
+				<div id="box_two" class="tpe_box">
+					<div class="box_col">
+						<a href="<s:url namespace="/" action="contribute" />"><h4>Get
+								Involved</h4> </a> <a href="<s:url namespace="/" action="contribute" />">
+							<img
+							src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
+							alt="image" />
 						</a>
-					</p>
+						<p>The development of the agricultural sector in recent years
+							has been marked by great challenges due to new conditions and
+							permanent changes in the global climate regime, challenges which
+							present an imminent risk to food security for the most
+							vulnerable. It is crucial to cooperate and work together across
+							multiple countries and institutions to seek strategies and
+							appropriate response mechanisms against such eventualities.</p>
+						<p class="readmore">
+							<a href="<s:url namespace="/" action="contribute" />">Read
+								More <b>></b>
+							</a>
+						</p>
+					</div>
+				</div>
+				<div id="box_three" class="tpe_box">
+					<div class="box_col">
+						<a href="<s:url namespace="/" action="workshops" />"><h4>Latest
+								News</h4> </a><a href="<s:url namespace="/" action="workshops" />"> <img
+							src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
+							alt="image" />
+						</a>
+						<p>Working on Target Population of Environments (TPE)
+							identification for Rice and Beans in Colombia and Brazil</p>
+						<p class="readmore">
+							<a target="_blank"
+								href="<s:url namespace="/" action="workshops" />">Read More
+								<b>></b>
+							</a>
+						</p>
+					</div>
 				</div>
 			</div>
-			<div id="box_two" class="tpe_box">
-				<div class="box_col">
-					<a href="<s:url namespace="/" action="contribute" />"><h4>Get
-							Involved</h4> </a> <a href="<s:url namespace="/" action="contribute" />">
-						<img
-						src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
-						alt="image" />
-					</a>
-					<p>The development of the agricultural sector in recent years
-						has been marked by great challenges due to new conditions and
-						permanent changes in the global climate regime, challenges which
-						present an imminent risk to food security for the most vulnerable.
-						It is crucial to cooperate and work together across multiple
-						countries and institutions to seek strategies and appropriate
-						response mechanisms against such eventualities.</p>
-					<p class="readmore">
-						<a href="<s:url namespace="/" action="contribute" />">Read
-							More <b>></b>
-						</a>
-					</p>
-				</div>
-			</div>
-			<div id="box_three" class="tpe_box">
-				<div class="box_col">
-					<a href="<s:url namespace="/" action="workshops" />"><h4>TPE
-							Workshops</h4> </a><a href="<s:url namespace="/" action="workshops" />">
-						<img
-						src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
-						alt="image" />
-					</a>
-					<p>Working on Target Population of Environments (TPE)
-						identification for Rice and Beans in Colombia and Brazil</p>
-					<p class="readmore">
-						<a target="_blank"
-							href="<s:url namespace="/" action="workshops" />">Read More <b>></b>
-						</a>
-					</p>
-				</div>
-			</div>
-           </div>
 		</div>
 	</div>
 </body>

@@ -70,24 +70,31 @@
 				<div class="tpe_sec">
 					<div class="tpe_sec_img">
 						<div class="img_box">
-							<a href="tutorials.jspx"><img src="img/tpe_map.jpg"
+							<a href="brazilian.jspx"><img src="img/tpe_map.jpg"
 								alt="image" /> </a>
 						</div>
 					</div>
 					<div class="doc-min">
 						<h4>
-							<a href="tutorials.jspx">Tutorials</a>
+							<a href="brazilian.jspx">Brazilian Case Study</a>
 						</h4>
-						<p>Target Population of Environments (TPE) Platform is an
-							online tool for the identification of target population
-							environments (TPEs). This tutorial provides an overview of how
-							TPE platform works and will teach you how to use the platform.
-							The figure below shows how TPE platform's most important
-							components. The rest of this chapter describes the tool and
-							sections in this figure.</p>
+						<p>Brazilian Case Study</p>
 					</div>
 				</div>
-
+				<div class="tpe_sec">
+					<div class="tpe_sec_img">
+						<div class="img_box">
+							<a href="colombian.jspx"><img src="img/tpe_map.jpg"
+								alt="image" /> </a>
+						</div>
+					</div>
+					<div class="doc-min">
+						<h4>
+							<a href="colombian.jspx">Colombian Case Study</a>
+						</h4>
+						<p>Colombian Case Study</p>
+					</div>
+				</div>
 			</div>
 			<div class="pane_right">
 				<jsp:include page="right_pane.jsp" />

@@ -1,6 +1,83 @@
 $(document)
 		.ready(
 				function() {
+
+					// Make the Map Options dreaggable
+					$("#select_variables").draggable();
+					//////////////////
+					var tourSubmitFunc = function(e,v,m,f){
+						if(v === -1){
+							$.prompt.prevState();
+							return false;
+						}
+						else if(v === 1){
+							$.prompt.nextState();
+							return false;
+						}
+			},
+			tourStates = [
+				{
+					title: 'Welcome to TPE Visualization Platform',
+					html: 'Please take a quick tour of the platform\nYou have to first select the map options here.',
+					buttons: { Next: 1 },
+					focus: 0,
+					position: { container: '#select_variables', x: 100, y: 60, width: 200, arrow: 'tc' },
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Google Map Results',
+					html: 'The here you view the target population environments\nYou can zoom in or click.',
+					buttons: { Prev: -1, Next: 1 },
+					focus: 1,
+					position: { container: '#tpe_map', x: 170, y: 0, width: 300, arrow: 'lt' },
+					submit: tourSubmitFunc
+				}  ,
+				{
+					title: 'Viewing the TPE Graphics',
+					html: 'Here you will view the Graphics of the Map results.',
+					buttons: { Prev: -1, Next: 1 },
+					focus: 1,
+					position: { container: '#tpe_analytics', x: -300, y: 120, width: 275, arrow: 'lt' },
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Viewing more Graphics',
+					html: 'Here you view more Graphics. Please just click on any.',
+					buttons: { Prev: -1, Next: 1 },
+					focus: 1,
+					position: { container: '#plot_slide', x: -300, y: 120, width: 275, arrow: 'lt' },
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Viewing the Zoomed or Detailed Graphics',
+					html: 'CLick on the zoom icon or button to view a zoom graphic.',
+					buttons: { Done: 2 },
+					focus: 0,
+					position: { container: '.zoom', x: -370, y: 120, width: 275, arrow: 'lt' },
+					submit: tourSubmitFunc
+				}
+			];
+			
+			$.prompt(tourStates);
+					// run the TPE Welcome tour
+					$('#tpe_main')
+							.each(
+									function(i, el) {
+										var $ex = $(this), $run = $ex
+												.find('.run'), code = $ex.find(
+												'.code').text();
+										$run.click(function(e) {
+											e.preventDefault();
+											(new Function(code))();
+										});
+									});
+
+					// TPE Welcome tour
+					$('#TourLink').click(function(e) {
+						e.preventDefault();
+						$('#tour-tpe').click();
+					});
+
 					// For the graphics dialog window
 					$(window).resize(function() {
 						$('.ui-dialog').css({
@@ -14,6 +91,7 @@ $(document)
 					jQuery.ajaxSetup({
 						beforeSend : function() {
 							jQuery("#loading").show();
+
 						},
 						complete : function() {
 							jQuery("#loading").hide();
@@ -56,11 +134,15 @@ $(document)
 						selectedOutput : outputValue
 
 					}, function() {
+						// Add the info dialog that shows the welcome infos and
+						// briefly explains the platform to the user
+
 						// Initialize or preload the variables
 						loadVariables(outputText);
 						// Initialize or load the Google Map when all the
 						// variables are loaded
-						initializeGoogleMap();
+						// ///////////////////////////////////////////////////////////////initializeGoogleMap();
+
 					});
 
 					// Automatically reload the corresponding output params div
@@ -128,6 +210,18 @@ $(document)
 										'collapsed');
 								$('#tpe_map').toggleClass('tpe_map_min')
 										.toggleClass('tpe_map_max');
+							});
+
+					// Slide toggle the legend h3 header.
+					// This will collapse or expand the legend contents.
+					$('#legend-container h3').click(
+							function() {
+								$(this).toggleClass('expanded').toggleClass(
+										'collapsed');
+								$('.legend').stop().slideToggle('slow',
+										function() {
+
+										});
 							});
 
 					// Collapse these graphics on load
@@ -238,7 +332,7 @@ $(document)
 
 								// Load the Google Map, the selected crop
 								// cultivar changes
-								initializeGoogleMap();
+								// //////////////////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
 							// Automatically reload the crop cultivars when the
@@ -257,7 +351,7 @@ $(document)
 
 									// Load the Google Map, the selected crop
 									// changes
-									initializeGoogleMap();
+									// ///////////////////////////////////////////////////////////////////initializeGoogleMap();
 								});
 
 							});
@@ -311,7 +405,7 @@ $(document)
 							 * initializeGoogleMap(); });
 							 */
 							$("select#select_country").change(function() {
-								initializeGoogleMap();
+								// ///////////////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
 							break;
@@ -350,14 +444,15 @@ $(document)
 							 * $("select#select_textures").change(function() {
 							 * initializeGoogleMap(); });
 							 */
-							/*$("select#select_textures").click(function() {
-								initializeGoogleMap();
-							});*/
+							/*
+							 * $("select#select_textures").click(function() {
+							 * initializeGoogleMap(); });
+							 */
 
 							// Automatically reload the map when the country
 							// change
 							$("select#select_country").change(function() {
-								initializeGoogleMap();
+								// //////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
 							break;
@@ -365,7 +460,7 @@ $(document)
 						case 'CLIMATE':
 
 							$("select#select_country").change(function() {
-								initializeGoogleMap();
+								// //////////////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
 							// console.log('TPE SELECTED: ' +
@@ -523,5 +618,4 @@ $(document)
 						});
 
 					}
-
 				});
