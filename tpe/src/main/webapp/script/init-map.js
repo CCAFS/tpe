@@ -148,6 +148,8 @@ function initializeMap(data) {
 	map.data.addGeoJson(data.geoJson, {
 		idPropertyName : "id"
 	});
+	
+	
 	// console.log(data.geoJson);
 	// Add the selected country polygon feature to the map.
 	map.data.addGeoJson(data.countryGeoJson, {
@@ -169,6 +171,7 @@ function initializeMap(data) {
 		idPropertyName : "id"
 	});
 
+	
 	/*
 	 * $.getJSON(markersAction, function(data) { console.log(data.soilGeoJson)
 	 * console.log(data.countryGeoJson) map.data.addGeoJson(data.soilGeoJson, {
@@ -753,7 +756,7 @@ function geoJsonData(action) {
 		url : action,
 		data : $('#tpe_index').serialize(),
 		dataType : "json",
-		success : function(dataJson) { 
+		success : function(dataJson) {
 			dataJSON = dataJson.dataJson;
 			boxJSON = dataJson.boxplotData;
 			// console.log(dataJson.probabilities);
@@ -790,7 +793,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -807,10 +810,10 @@ function createClimatePlot(seriesJSON, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
-		credits=false;
-		legend=false;
-		labelsEnabled=false;
-		exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -822,10 +825,10 @@ function createClimatePlot(seriesJSON, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		exporting = true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -880,25 +883,24 @@ function createClimatePlot(seriesJSON, smallPlot) {
 											id : 'zoomImage'
 										}).add();
 									} else {
-										this.renderer
-												.image('img/ccafs_logo.png',
-														90, 0, 120, 50)
-												.on(
-														'click',
-														function() {
-															// Add CCAFS Link
-//															location.href = 'http://www.ccafs-tpe.org'
-														})
+										this.renderer.image(
+												'img/ccafs_logo.png', 90, 0,
+												120, 50).on('click',
+												function() {
+													// Add CCAFS Link
+													// location.href =
+													// 'http://www.ccafs-tpe.org'
+												})
 
-												.css({
-													cursor : 'Pointer'
-												}).css({
-													position : 'relative',
-													"margin-left" : "-90px"
-												// opacity : 0.75
-												}).attr({
-													zIndex : 100
-												}).add();
+										.css({
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 100
+										}).add();
 									}
 								},
 
@@ -937,7 +939,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 						xAxis : {
 							type : 'category',
 							labels : {
-								enabled: labelsEnabled,
+								enabled : labelsEnabled,
 								rotation : -45,
 								style : {
 									fontSize : fontSize,
@@ -949,6 +951,9 @@ function createClimatePlot(seriesJSON, smallPlot) {
 							min : 0,
 							title : {
 								text : '% of R2'
+							},
+							labels : {
+								enabled : labelsEnabled
 							}
 						},
 						/*
@@ -978,7 +983,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 						},
 						series : seriesJSON,
 						exporting : {
-							 enabled: exporting,
+							enabled : exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -1002,7 +1007,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1019,10 +1024,10 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
-		credits=false;
-		legend=false;
-		labelsEnabled=false;
-		exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1034,10 +1039,10 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		exporting = true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -1096,25 +1101,24 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 											id : 'zoomImage'
 										}).add();
 									} else {
-										this.renderer
-												.image('img/ccafs_logo.png',
-														90, 0, 120, 50)
-												.on(
-														'click',
-														function() {
-															// Add CCAFS Link
-//															location.href = 'http://www.ccafs-tpe.org'
-														})
+										this.renderer.image(
+												'img/ccafs_logo.png', 90, 0,
+												120, 50).on('click',
+												function() {
+													// Add CCAFS Link
+													// location.href =
+													// 'http://www.ccafs-tpe.org'
+												})
 
-												.css({
-													cursor : 'Pointer'
-												}).css({
-													position : 'relative',
-													"margin-left" : "-90px"
-												// opacity : 0.75
-												}).attr({
-													zIndex : 100
-												}).add();
+										.css({
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 100
+										}).add();
 									}
 								},
 
@@ -1154,7 +1158,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 						xAxis : {
 							categories : categoriesJSON,
 							labels : {
-								enabled: labelsEnabled,
+								enabled : labelsEnabled,
 								rotation : -45,
 								style : {
 									fontSize : fontSize,
@@ -1174,6 +1178,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 								enabled : false
 							},
 							labels : {
+								enabled : labelsEnabled,
 								format : '{value}%'
 							},
 							floor : 0,
@@ -1216,7 +1221,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 						},
 						series : seriesJSON,
 						exporting : {
-							 enabled: exporting,
+							enabled : exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -1245,7 +1250,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1262,12 +1267,12 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
-		credits=false;
-		legend=false;
-		labelsEnabled=false;
-		yAxisTitle=null;
-		xAxisTitle=null;
-		exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		yAxisTitle = null;
+		xAxisTitle = null;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1277,14 +1282,14 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		legendX = 120;
 		legendY = 20;
 		spacingBottom = 50;
-//		width = 600;
-//		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		yAxisTitle='Yield (Kg/ha)';
-		xAxisTitle='Harvest Years';
-		exporting=true;
+		// width = 600;
+		// height = null;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		yAxisTitle = 'Yield (Kg/ha)';
+		xAxisTitle = 'Harvest Years';
+		exporting = true;
 	}
 	var chart = new Highcharts.Chart(
 			{
@@ -1365,7 +1370,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-//									location.href = 'http://www.ccafs-tpe.org'
+									// location.href =
+									// 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -1423,8 +1429,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 						fontSize : fontSize
 					}
 				},
-				xAxis : [
-				{
+				xAxis : [ {
 					categories : series.categories,
 					// offset : 0,
 					// gridLineWidth : 1,
@@ -1449,7 +1454,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					},
 					gridLineWidth : 1,
 					labels : {
-						enabled: labelsEnabled,
+						enabled : labelsEnabled,
 						rotation : -45,
 						style : {
 							fontSize : fontSize,
@@ -1478,7 +1483,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 						}
 					},
 					labels : {
-						enabled: labelsEnabled,
+						enabled : labelsEnabled,
 						formatter : function() {
 							return this.value.toString();
 						},
@@ -1504,7 +1509,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 
 				series : series.series,
 				exporting : {
-					 enabled: exporting,
+					enabled : exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',
@@ -1531,7 +1536,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -1550,10 +1555,10 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		width = 241;
 		height = 200;
 
-		credits=false;
-			legend=false;
-			labelsEnabled=false;
-			exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1565,10 +1570,10 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		exporting = true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -1643,24 +1648,23 @@ function plotLAI(seriesMap, environment, smallPlot) {
 													id : 'zoomImage'
 												}).add();
 									} else {
-										this.renderer
-												.image('img/ccafs_logo.png',
-														90, 0, 120, 50)
-												.on(
-														'click',
-														function() {
-															// Add CCAFS Link
-//															location.href = 'http://www.ccafs-tpe.org'
-														}).css({
-													cursor : 'Pointer'
+										this.renderer.image(
+												'img/ccafs_logo.png', 90, 0,
+												120, 50).on('click',
+												function() {
+													// Add CCAFS Link
+													// location.href =
+													// 'http://www.ccafs-tpe.org'
 												}).css({
-													position : 'relative',
-													"margin-left" : "-90px"
-												// opacity : 0.75
-												}).attr({
-													zIndex : 100
-												}).add();
-									} 
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 100
+										}).add();
+									}
 								},
 
 								click : function() {
@@ -1699,14 +1703,17 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							gridLineWidth : 1,
 							plotBands : seriesMap.plotBands,
 							max : 94,
-							tickInterval : 7
+							tickInterval : 7,
+							labels : {
+								enabled : labelsEnabled
+							}
 						},
 						yAxis : {
 							title : {
 								text : seriesMap.yaxis
 							},
 							labels : {
-								enabled: labelsEnabled,
+								enabled : labelsEnabled,
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
@@ -1728,7 +1735,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							x : legendX,
 							// verticalAlign : 'bottom',
 							y : legendY,
-							floating : true, 
+							floating : true,
 							title : {
 								text : seriesMap.legendTitle
 							}
@@ -1738,7 +1745,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 						},
 						series : seriesMap.series,
 						exporting : {
-							enabled: exporting,
+							enabled : exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -1795,7 +1802,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1813,10 +1820,10 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 		width = 241;
 		height = 200;
 
-		credits=false;
-			legend=false;
-			labelsEnabled=false; 
-			exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1828,10 +1835,10 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true; 
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		exporting = true;
 	}
 
 	$('#' + renderTo).highcharts(
@@ -1901,7 +1908,8 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-//									location.href = 'http://www.ccafs-tpe.org'
+									// location.href =
+									// 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -1957,7 +1965,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 						text : seriesMap.yaxis
 					},
 					labels : {
-						enabled: labelsEnabled,
+						enabled : labelsEnabled,
 						overflow : 'justify',
 						format : '{value:.1f}'
 					}
@@ -1970,7 +1978,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					// verticalAlign : 'bottom',
 					y : legendY,
 					floating : true,
-					 
+
 					title : {
 						text : seriesMap.legendTitle
 					}
@@ -1980,16 +1988,11 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 				},
 				series : seriesMap.series,
 				exporting : {
-					 enabled: exporting,
+					enabled : exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',
-							symbol : 'url(img/download_32.png)',
-						// symbolStrokeWidth : 1,
-						// symbolFill : '#bada55',
-						// symbolStroke : '#330033',
-						// symbolX : 6,
-						// symbolY : 6
+							symbol : 'url(img/download_32.png)'
 						}
 					}
 				},
@@ -2014,7 +2017,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2031,10 +2034,10 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
-		credits=false;
-		legend=false;
-		labelsEnabled=false;
-		exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2046,10 +2049,10 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		exporting = true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -2124,35 +2127,23 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 													id : 'zoomImage'
 												}).add();
 									} else {
-										this.renderer
-												.image('img/ccafs_logo.png',
-														90, 0, 120, 50)
-												.on(
-														'click',
-														function() {
-															// Add CCAFS Link
-//															location.href = 'http://www.ccafs-tpe.org'
-														}).css({
-													cursor : 'Pointer'
+										this.renderer.image(
+												'img/ccafs_logo.png', 90, 0,
+												120, 50).on('click',
+												function() {
+													// Add CCAFS Link
+													// location.href =
+													// 'http://www.ccafs-tpe.org'
 												}).css({
-													position : 'relative',
-													"margin-left" : "-90px"
-												// opacity : 0.75
-												}).attr({
-													zIndex : 100
-												}).add();
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 100
+										}).add();
 									}
-
-									/*
-									 * if (smallPlot) { // add report div var ch =
-									 * this, x = 20, y = 57; ch.flashText =
-									 * ch.renderer .text( '<div id="flash"><div
-									 * id="report">Click to enlarge</div></div>',
-									 * x, y + 10, true).css({ // width:
-									 * circleradius*2, color : '#009900',
-									 * fontSize : '30px', textAlign : 'center'
-									 * }).attr({ zIndex : 101 }).add(); }
-									 */
 								},
 
 								click : function() {
@@ -2194,6 +2185,9 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							// min:14,
 							max : 91,
 							tickInterval : 7,
+							labels : {
+								enabled : labelsEnabled
+							}
 						// minTickInterval: 14,
 						// minRange: seriesMap.categories[0]
 						// ordinal : true
@@ -2204,7 +2198,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							},
 							// gridLineWidth : 1,
 							labels : {
-								enabled: labelsEnabled,
+								enabled : labelsEnabled,
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
@@ -2231,15 +2225,6 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							// verticalAlign : 'bottom',
 							y : legendY,
 							floating : true,
-							// backgroundColor : '#FFFFFF',
-							// itemWidth : itemWidth,
-							// itemStyle : {
-							// color : '#000',
-							// fontFamily : 'MuseoS500',
-							// // fontWeight : 'bold',
-							// fontSize : fontSize
-							// // width : itemWidth
-							// },
 							title : {
 								text : seriesMap.legendTitle
 							}
@@ -2250,16 +2235,11 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 						series : seriesMap.series,
 
 						exporting : {
-							 enabled: exporting,
+							enabled : exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
-									symbol : 'url(img/download_32.png)',
-								// symbolStrokeWidth : 1,
-								// symbolFill : '#bada55',
-								// symbolStroke : '#330033',
-								// symbolX : 6,
-								// symbolY : 6
+									symbol : 'url(img/download_32.png)'
 								}
 							}
 						},
@@ -2290,7 +2270,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY, spacingBottom, itemWidth, width, height,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var legendX, legendY, spacingBottom, itemWidth, width, height, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2305,12 +2285,12 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		width = 241;
 		height = 200;
 
-		credits=false;
-			legend=false;
-			labelsEnabled=false;
-			yAxisTitle=null;
-			xAxisTitle=null;
-			exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		yAxisTitle = 'Yield (Kg/ha)';
+		xAxisTitle = 'Months';
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2323,12 +2303,12 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		// itemWidth = 100;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		yAxisTitle='Yield (Kg/ha)';
-		xAxisTitle='Months';
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		yAxisTitle = 'Yield (Kg/ha)';
+		xAxisTitle = 'Months';
+		exporting = true;
 	}
 
 	$('#' + renderTo).highcharts(
@@ -2409,7 +2389,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-//									location.href = 'http://www.ccafs-tpe.org'
+									// location.href =
+									// 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -2450,7 +2431,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 				xAxis : {
 					categories : categories,
 					labels : {
-						enabled: labelsEnabled,
+						enabled : labelsEnabled,
 						rotation : -45,
 						style : {
 							fontSize : fontSize,
@@ -2464,7 +2445,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 				},
 				yAxis : [ { // Primary yAxis
 					labels : {
-						enabled: labelsEnabled,
+						enabled : labelsEnabled,
 						// format : '{value}°C',
 						style : {
 							color : '#4572A7',
@@ -2489,6 +2470,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						}
 					},
 					labels : {
+						enabled : labelsEnabled,
 						// format : '{value} mm',
 						// rotation: -45,
 						style : {
@@ -2529,7 +2511,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 				},
 				series : series[station],
 				exporting : {
-					 enabled: exporting,
+					enabled : exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',
@@ -2554,7 +2536,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2571,12 +2553,12 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
-		credits=false;
-		legend=false;
-		labelsEnabled=false;
-		yAxisTitle=null;
-		xAxisTitle=null;
-		exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		yAxisTitle = seriesMap.yaxis;
+		xAxisTitle = seriesMap.xaxis;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2588,12 +2570,12 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		yAxisTitle=seriesMap.yaxis;
-		xAxisTitle=seriesMap.xaxis;
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		yAxisTitle = seriesMap.yaxis;
+		xAxisTitle = seriesMap.xaxis;
+		exporting = true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -2668,35 +2650,23 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 													id : 'zoomImage'
 												}).add();
 									} else {
-										this.renderer
-												.image('img/ccafs_logo.png',
-														90, 0, 120, 50)
-												.on(
-														'click',
-														function() {
-															// Add CCAFS Link
-//															location.href = 'http://www.ccafs-tpe.org'
-														}).css({
-													cursor : 'Pointer'
+										this.renderer.image(
+												'img/ccafs_logo.png', 90, 0,
+												120, 50).on('click',
+												function() {
+													// Add CCAFS Link
+													// location.href =
+													// 'http://www.ccafs-tpe.org'
 												}).css({
-													position : 'relative',
-													"margin-left" : "-90px"
-												// opacity : 0.75
-												}).attr({
-													zIndex : 100
-												}).add();
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 100
+										}).add();
 									}
-
-									/*
-									 * if (smallPlot) { // add report div var ch =
-									 * this, x = 20, y = 57; ch.flashText =
-									 * ch.renderer .text( '<div id="flash"><div
-									 * id="report">Click to enlarge</div></div>',
-									 * x, y + 10, true).css({ // width:
-									 * circleradius*2, color : '#009900',
-									 * fontSize : '30px', textAlign : 'center'
-									 * }).attr({ zIndex : 101 }).add(); }
-									 */
 								},
 
 								click : function() {
@@ -2739,9 +2709,9 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							// min:14,
 							max : 91,
 							tickInterval : 7,
-						// minTickInterval: 14,
-						// minRange: seriesMap.categories[0]
-						// ordinal : true
+							labels : {
+								enabled : labelsEnabled
+							}
 						},
 						yAxis : {
 							title : {
@@ -2749,7 +2719,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							},
 							// gridLineWidth : 1,
 							labels : {
-								enabled: labelsEnabled,
+								enabled : labelsEnabled,
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
@@ -2776,15 +2746,6 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							// verticalAlign : 'bottom',
 							y : legendY,
 							floating : true,
-							// backgroundColor : '#FFFFFF',
-							// itemWidth : itemWidth,
-							// itemStyle : {
-							// color : '#000',
-							// fontFamily : 'MuseoS500',
-							// // fontWeight : 'bold',
-							// fontSize : fontSize
-							// // width : itemWidth
-							// },
 							title : {
 								text : seriesMap.legendTitle
 							}
@@ -2795,7 +2756,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						series : seriesMap.series,
 
 						exporting : {
-							 enabled: exporting,
+							enabled : exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -2830,7 +2791,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2847,12 +2808,12 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
-		credits=false;
-		legend=false;
-		labelsEnabled=false;
-		yAxisTitle=null;
-		xAxisTitle=null;
-		exporting=false;
+		credits = false;
+		legend = false;
+		labelsEnabled = false;
+		yAxisTitle = seriesMap.yaxis;
+		xAxisTitle = seriesMap.xaxis;
+		exporting = false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2868,12 +2829,12 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 		// marginTop: 10;
 		// marginLeft: 60;
 		// marginRight: 10;
-		credits=true;
-		legend=true;
-		labelsEnabled=true;
-		yAxisTitle=seriesMap.yaxis;
-		xAxisTitle=seriesMap.xaxis;
-		exporting=true;
+		credits = true;
+		legend = true;
+		labelsEnabled = true;
+		yAxisTitle = seriesMap.yaxis;
+		xAxisTitle = seriesMap.xaxis;
+		exporting = true;
 	}
 
 	var chart = new Highcharts.Chart(
@@ -2946,7 +2907,8 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-//									location.href = 'http://www.ccafs-tpe.org'
+									// location.href =
+									// 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -2989,22 +2951,25 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				xAxis : {
 					categories : seriesMap.categories,
 					title : {
-//						text : seriesMap.xaxis,
+						// text : seriesMap.xaxis,
 						text : xAxisTitle,
 						align : 'high'
 					},
 					gridLineWidth : 1,
 					plotBands : seriesMap.plotBands,
 					max : 91,
-					tickInterval : 7
+					tickInterval : 7,
+					labels : {
+						enabled : labelsEnabled
+					}
 				},
 				yAxis : {
 					title : {
-//						text : seriesMap.yaxis
+						// text : seriesMap.yaxis
 						text : yAxisTitle
 					},
 					labels : {
-						enabled: labelsEnabled,
+						enabled : labelsEnabled,
 						overflow : 'justify',
 						format : '{value:.1f}'
 					}
@@ -3035,7 +3000,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				},
 				series : seriesMap.series,
 				exporting : {
-					 enabled: exporting,
+					enabled : exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',

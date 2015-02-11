@@ -10,7 +10,8 @@ html, body {
 	/* Open Sans - Default CCAFS font family */
 	font-size: 100%;
 	-ms-text-size-adjust: 100%;
-	-webkit-text-size-adjust: 100%
+	-webkit-text-size-adjust: 100%;
+	min-width: 1016px;
 }
 
 button, input, select, textarea {
@@ -35,7 +36,6 @@ div#main_header {
 	-webkit-box-shadow: 5px 5px 5px #3c3c3c;
 	-o-box-shadow: 5px 5px 5px #3c3c3c;
 	box-shadow: 5px 5px 5px #3c3c3c;
-	min-width: 1000px;
 	z-index: 1000;
 }
 
@@ -46,14 +46,17 @@ div#header_content {
 	height: 76px;
 	min-width: 1000px;
 }
-
+div#center-head{
+	margin: auto;
+	width: 956px;
+}
 div#menu_main {
-	width: 800px;
+	width: 580px;
 	height: 76px;
 	text-align: center;
 	float: left;
 	margin-left: 15px;
-	position: relative;
+	position: relative; 
 }
 
 ul#menu {
@@ -75,34 +78,34 @@ ul#menu li a {
 	vertical-align: middle;
 	text-decoration: none;
 	font-family: "Open Sans", "Helvetica", "Arial", sans-serif;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	padding: 0 10px;
 	line-height: 1.5em;
 	color: #fff;
+	font-weight: lighter;
 }
 
 ul#menu li a.active, ul#menu li a:hover {
 	color: #fff;
 	background: #c3d69b;
 }
-
-/* #tpe_logo img {
-	max-width: 100%;
-	max-height: 100%;
-} */
+ 
 div#head_logo {
 	float: left;
-	height: 72px;
+	height: 62px;
 	margin-top: 2px;
-	margin-left: 50px;
 	text-align: right;
-	width: 200px;
+	width: 351px;
+	padding:5px;
 	background: url(../img/tpe_header.png) no-repeat center center;
 	/* background-size: 100%; */
-	background-size: 200px 70px;
+	background-size: 351px 70px;
 	/* background-size:cover; */
 	/* background-size: contain; */
-	background-color: #fff; /* Set the background color to white */
+	background-color: #fff; 
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 }
 
 /*================================ CONTENT ==============================*/
@@ -113,7 +116,7 @@ div#head_logo {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
-	margin: 0 auto -160px auto;
+	margin: 0 auto -180px auto;
 	color: #000;
 }
 
@@ -123,7 +126,7 @@ div#head_logo {
 }
 
 .clear_footer {
-	height: 160px;
+	height: 180px;
 	clear: both;
 }
 
@@ -221,7 +224,7 @@ div#tpe_section {
 	max-height: 100px;
 	color: #000000;
 	font-family: "Open sans", "Helvetica", "Arial", sans-serif;
-	font-size: 1.2em;
+	font-size: 1em;
 	line-height: 1.2em;
 	font-weight: normal;
 	padding: 10px 5px;
@@ -256,9 +259,10 @@ div#tpe_section {
 /*===================== FOOTER ======================*/
 .footer {
 	width: 100%;
-	background: #e2e2e2;
+	/* background: #e2e2e2; */
+	background: #fff;
 	overflow: hidden;
-	height: 160px;
+	height: 180px;
 	clear: both;
 	position: relative;
 	color: #656360;
@@ -266,6 +270,7 @@ div#tpe_section {
 	-o-box-shadow: 0 0 5px #3c3c3c;
 	box-shadow: 0 0 5px #3c3c3c;
 	min-width: 1016px;
+	padding-bottom: 20px;
 }
 
 .footer_contents {
@@ -273,7 +278,10 @@ div#tpe_section {
 	margin: auto;
 	padding-top: 10px;
 }
-
+.footer_contents table tr td{
+	text-align: center;
+	width: 33%;
+}
 div#follow_us {
 	width: 280px;
 	height: 70px;
@@ -282,20 +290,15 @@ div#follow_us {
 	color: #656360;
 	font-weight: bold;
 	font-size: 14px;
-	padding-top: 30px;
 }
 
-.tpe_collab {
-	width: 700px;
-	margin: 0;
-	padding: 0;
-	float: left;
+.left-border{
+	border-left: 1px solid #e2e2e2; 
 }
-
 div#tpe_copyright {
-	clear: left;
 	text-align: center;
-	padding: 10px;
+	font-size: 0.75em;
+	line-height: 1.2em;
 }
 
 #tpe_copyright a {
@@ -308,8 +311,7 @@ div#tpe_copyright {
 .collab {
 	width: 220px;
 	height: 100px;
-	float: left;
-	margin-right: 10px;
+	margin: auto;
 }
 
 .collab img {
@@ -659,14 +661,10 @@ div#contact_message {
 	margin: 10px auto;
 }
 
-.team_member {
-	padding: 5px;
-	width: 330px;
-	height: 150px;
-	margin: 10px auto;
-	float: left;
+.member p{
+	font-size: 0.75em;
+	font-weight: normal;
 }
-
 .member_photo {
 	width: 70px;
 	height: 70px;
