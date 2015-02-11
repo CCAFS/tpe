@@ -21,6 +21,7 @@
 <script src="${ctx}/script/jquery-impromptu.js" type="text/javascript"></script>
 <link rel="stylesheet" media="all" type="text/css"
 	href="${ctx}/css/jquery-impromptu.css" />
+<script src="${ctx}/script/tpe-impromptu.js" type="text/javascript"></script>
 
 <%-- <script type="text/javascript" src="${ctx}/script/init-map.js"></script> --%>
 <script>
@@ -35,11 +36,7 @@
 		<p>
 			<a href="#" class="tour" id="TourLink"></a>
 		</p>
-		<div class="buttons" id="tour">
-			<button class="run" id="tour-tpe"></button>
-		</div>
-		
-		
+
 		<div id="select_variables">
 			<h4 class="expanded">Map Options</h4>
 			<div id="variables">
@@ -123,6 +120,8 @@
 		</div>
 		<div id="dialog-plot">
 			<div id="dialog-chart"></div>
+			<div id="dialog-infos">The brief description of the chart and
+				related details</div>
 		</div>
 		<div class="graphics-info"></div>
 

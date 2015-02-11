@@ -348,7 +348,7 @@ function initializeMap(data) {
 	// Add the environment info window at the top of the Google Map result
 
 	var topInfos = document.createElement('div');
-	var innerInfo = '<div><img src="img/info.png" /></div>';
+	var innerInfo = '<div><img src="img/help.png" /></div>';
 	topInfos.innerHTML = innerInfo;
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(topInfos);
 
@@ -747,48 +747,23 @@ function featureInfo(event) {
  * function.
  */
 function geoJsonData(action) {
-	// Hide the charts
-	// $('#env_container').hide();
-	// $('#plot_lai').hide();
-	// $('#plot_temprain').hide();
-	// $('#plot_pcew').hide();
-	// $('#rain_radiation').hide();
-
-	// console.log(parameters);
 	$.ajax({
 		type : "GET",
 		async : false,// thats the trick
 		url : action,
 		data : $('#tpe_index').serialize(),
 		dataType : "json",
-		success : function(dataJson) { //
-			// var columnData = null, columnNames = result.colNames;
-			// console.log(dataJson.geoJson);
-			// console.log(dataJson.countryGeoJson);
-
-			// probabilitiesJSON = dataJson.data;
+		success : function(dataJson) { 
 			dataJSON = dataJson.dataJson;
-
 			boxJSON = dataJson.boxplotData;
-
 			// console.log(dataJson.probabilities);
 			categoriesJSON = dataJson.categories;
-
 			climateSeriesJSON = dataJson.seriesData;
-			// categoriesList = dataJson.categoriesList;
-			// plotBands = dataJson.plotBands;
-			// seriesLai = dataJson.seriesLai;
-			// seriesPcew = dataJson.seriesPcew;
-			// seriesRainCum = dataJson.seriesRainCum;
-			// seriesTempRain = dataJson.seriesTempRain;
-			// categoriesTempRain = dataJson.categoriesTempRain;
 			var seriesDataMap = dataJson.seriesData;
 			// var hfeSeries, lfeSeries, feSeries;
 			// console.log(seriesDataMap);
 			if (seriesDataMap != null)
 				$.each(seriesDataMap, function(envKey, listOfSeriesMap) {
-					// console.log(envKey);
-					// console.log(listOfSeriesMap);
 					if (envKey == 'HFE') {
 						hfeSeries = listOfSeriesMap;
 						// console.log(listOfSeriesMap);
@@ -815,7 +790,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -832,6 +807,10 @@ function createClimatePlot(seriesJSON, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+		credits=false;
+		legend=false;
+		labelsEnabled=false;
+		exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -843,6 +822,10 @@ function createClimatePlot(seriesJSON, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		exporting=true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -904,7 +887,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 														'click',
 														function() {
 															// Add CCAFS Link
-															location.href = 'http://www.ccafs-tpe.org'
+//															location.href = 'http://www.ccafs-tpe.org'
 														})
 
 												.css({
@@ -931,7 +914,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 							}
 						},
 						credits : {
-							enabled : true,
+							enabled : credits,
 							text : 'Source: CCAFS TPE (www.ccafs.org)',
 							href : 'http://www.ccafs.org',
 							style : {
@@ -954,6 +937,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 						xAxis : {
 							type : 'category',
 							labels : {
+								enabled: labelsEnabled,
 								rotation : -45,
 								style : {
 									fontSize : fontSize,
@@ -971,7 +955,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 						 * legend : { enabled : false },
 						 */
 						legend : {
-
+							enabled : legend,
 							itemStyle : {
 								color : '#000000',
 								// fontWeight : 'bold',
@@ -994,6 +978,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 						},
 						series : seriesJSON,
 						exporting : {
+							 enabled: exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -1017,7 +1002,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1034,6 +1019,10 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+		credits=false;
+		legend=false;
+		labelsEnabled=false;
+		exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1045,6 +1034,10 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		exporting=true;
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -1110,7 +1103,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 														'click',
 														function() {
 															// Add CCAFS Link
-															location.href = 'http://www.ccafs-tpe.org'
+//															location.href = 'http://www.ccafs-tpe.org'
 														})
 
 												.css({
@@ -1139,7 +1132,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 
 						},
 						credits : {
-							enabled : true,
+							enabled : credits,
 							text : 'Source: CCAFS TPE (www.ccafs.org)',
 							href : 'http://www.ccafs.org',
 							style : {
@@ -1161,6 +1154,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 						xAxis : {
 							categories : categoriesJSON,
 							labels : {
+								enabled: labelsEnabled,
 								rotation : -45,
 								style : {
 									fontSize : fontSize,
@@ -1186,7 +1180,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 							ceiling : 100
 						},
 						legend : {
-
+							enabled : legend,
 							itemStyle : {
 								color : '#000000',
 								// fontWeight : 'bold',
@@ -1222,6 +1216,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 						},
 						series : seriesJSON,
 						exporting : {
+							 enabled: exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -1250,7 +1245,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1267,6 +1262,12 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+		credits=false;
+		legend=false;
+		labelsEnabled=false;
+		yAxisTitle=null;
+		xAxisTitle=null;
+		exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1276,8 +1277,14 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 		legendX = 120;
 		legendY = 20;
 		spacingBottom = 50;
-		width = null;
-		height = null;
+//		width = 600;
+//		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		yAxisTitle='Yield (Kg/ha)';
+		xAxisTitle='Harvest Years';
+		exporting=true;
 	}
 	var chart = new Highcharts.Chart(
 			{
@@ -1307,97 +1314,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					events : {
 						load : function() {
 							if (smallPlot) {
-
 								this.renderer
-										.image('img/info.png', 4, 2, 20, 20)
-										.on(
-												'click',
-												function() {
-													// createTPEBoxPlot(
-													// categories, series,
-													// false);
-													// $('#dialog-plot').dialog(
-													// 'open');
-													$('.graphics-info')
-															.trigger('click');
-													//											
-												})
-										.css({
-											cursor : 'Pointer'
-										})
-										.css({
-											position : 'relative',
-											"margin-left" : "-90px"
-										// opacity : 0.75
-										})
-										.attr({
-											zIndex : 300,
-											id : 'zoomImage'
-										})
-										.add()
-										.on(
-												'mouseover',
-												function() {
-
-													// Call the function that
-													// displays the info
-													// about to view when the
-													// control is clicked
-													graphicsInfo(
-															'Click to view the Boxplot information',
-															'You will view more decription about the plot.');
-
-													// Call back for image mouse
-													// hover
-													// Draw a text relative to
-													// Image X
-													// and Y
-													// text = chart.renderer
-													// .text(
-													// "Click to view graphics
-													// infos",
-													// 40, 50)
-													// .add();
-
-													// var box = text.getBBox();
-
-													// Now draw a box
-													// surrounding the
-													// tool tip text
-													// textBG = chart.renderer
-													// .rect(40, 50, 50,
-													// 50, 5)
-													// .attr(
-													// {
-													// fill : '#FFFFEF',
-													// stroke : 'gray',
-													// 'stroke-width' : 1,
-													// zIndex : 4
-													// }).add();
-												}).on('mouseout', function() {
-											// Hide the info window when
-											// the mouse leaves the
-											// control
-											$('#info').hide();
-
-											// Call back for mouse out
-											// on the
-											// image
-											// Destroy Both markers text
-											// and
-											// textBG on
-											// mouse out
-											// Make text and textBG as
-											// global
-											// functions
-											// for access accross
-											// functions
-											// text.destroy();
-											// textBG.destroy();
-
-										}).add();
-								this.renderer
-										.image('img/zoom-in.png', 30, 2, 20, 20)
+										.image('img/zoom-in.png', 10, 2, 20, 20)
 										.on(
 												'click',
 												function() {
@@ -1447,7 +1365,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-									location.href = 'http://www.ccafs-tpe.org'
+//									location.href = 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -1458,15 +1376,6 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 									zIndex : 100
 								}).add();
 							}
-
-							/*
-							 * if (smallPlot) { // add report div var ch = this,
-							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
-							 * id="flash"><div id="report">Click to enlarge</div></div>',
-							 * x, y + 10, true).css({ // width: circleradius*2,
-							 * color : '#009900', fontSize : '30px', textAlign :
-							 * 'center' }).attr({ zIndex : 101 }).add(); }
-							 */
 						},
 
 						click : function() {
@@ -1481,7 +1390,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					}
 				},
 				credits : {
-					enabled : true,
+					enabled : credits,
 					text : 'Source: CCAFS TPE (www.ccafs.org)',
 					href : 'http://www.ccafs.org',
 					style : {
@@ -1499,7 +1408,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					}
 				},
 				legend : {
-					enabled : true,
+					enabled : legend,
 					layout : 'horizontal',
 					align : 'left',
 					x : legendX,
@@ -1514,20 +1423,14 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 						fontSize : fontSize
 					}
 				},
-
 				xAxis : [
-				/*
-				 * { labels : { x : 5, useHTML : true, formatter : function() {
-				 * return '<img src="img/ccafs_logo.png" style="height:50px;
-				 * width:50px;"><img>'; } } },
-				 */
 				{
 					categories : series.categories,
 					// offset : 0,
 					// gridLineWidth : 1,
 					// width : 200,
 					title : {
-						text : 'Harvest Years',
+						text : xAxisTitle,
 						style : {
 							color : '#000000',
 							fontSize : fontSize,
@@ -1546,6 +1449,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					},
 					gridLineWidth : 1,
 					labels : {
+						enabled: labelsEnabled,
 						rotation : -45,
 						style : {
 							fontSize : fontSize,
@@ -1557,7 +1461,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 				yAxis : {
 					min : 0,
 					title : {
-						text : 'Yield (Kg/ha)',
+						text : yAxisTitle,
 						style : {
 							color : '#000000',
 							fontSize : fontSize,
@@ -1574,6 +1478,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 						}
 					},
 					labels : {
+						enabled: labelsEnabled,
 						formatter : function() {
 							return this.value.toString();
 						},
@@ -1599,6 +1504,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 
 				series : series.series,
 				exporting : {
+					 enabled: exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',
@@ -1625,7 +1531,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 
 	// Set the div where to render the plot
 	if (smallPlot) {
@@ -1643,6 +1549,11 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+
+		credits=false;
+			legend=false;
+			labelsEnabled=false;
+			exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1654,11 +1565,16 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		exporting=true;
 	}
 	$('#' + renderTo)
 			.highcharts(
 					{
 						credits : {
+							enabled : credits,
 							// This hides highcharts.com from the legend
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
@@ -1734,7 +1650,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 														'click',
 														function() {
 															// Add CCAFS Link
-															location.href = 'http://www.ccafs-tpe.org'
+//															location.href = 'http://www.ccafs-tpe.org'
 														}).css({
 													cursor : 'Pointer'
 												}).css({
@@ -1744,18 +1660,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 												}).attr({
 													zIndex : 100
 												}).add();
-									}
-
-									/*
-									 * if (smallPlot) { // add report div var ch =
-									 * this, x = 20, y = 57; ch.flashText =
-									 * ch.renderer .text( '<div id="flash"><div
-									 * id="report">Click to enlarge</div></div>',
-									 * x, y + 10, true).css({ // width:
-									 * circleradius*2, color : '#009900',
-									 * fontSize : '30px', textAlign : 'center'
-									 * }).attr({ zIndex : 101 }).add(); }
-									 */
+									} 
 								},
 
 								click : function() {
@@ -1801,6 +1706,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 								text : seriesMap.yaxis
 							},
 							labels : {
+								enabled: labelsEnabled,
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
@@ -1816,21 +1722,13 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							}
 						},
 						legend : {
+							enabled : legend,
 							// layout : 'horizontal',
 							// align : 'left',
 							x : legendX,
 							// verticalAlign : 'bottom',
 							y : legendY,
-							floating : true,
-							// backgroundColor : '#FFFFFF',
-							// itemWidth : itemWidth,
-							// itemStyle : {
-							// color : '#000',
-							// fontFamily : 'MuseoS500',
-							// // fontWeight : 'bold',
-							// fontSize : fontSize
-							// // width : itemWidth
-							// },
+							floating : true, 
 							title : {
 								text : seriesMap.legendTitle
 							}
@@ -1840,15 +1738,11 @@ function plotLAI(seriesMap, environment, smallPlot) {
 						},
 						series : seriesMap.series,
 						exporting : {
+							enabled: exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
-									symbol : 'url(img/download_32.png)',
-								// symbolStrokeWidth : 1,
-								// symbolFill : '#bada55',
-								// symbolStroke : '#330033',
-								// symbolX : 6,
-								// symbolY : 6
+									symbol : 'url(img/download_32.png)'
 								}
 							}
 						}
@@ -1901,7 +1795,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1918,6 +1812,11 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+
+		credits=false;
+			legend=false;
+			labelsEnabled=false; 
+			exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -1929,11 +1828,17 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true; 
+		exporting=true;
 	}
 
 	$('#' + renderTo).highcharts(
 			{
 				credits : {
+
+					enabled : credits,
 					// This hides highcharts.com from the legend
 					// enabled : false
 					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
@@ -1996,7 +1901,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-									location.href = 'http://www.ccafs-tpe.org'
+//									location.href = 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -2007,15 +1912,6 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 									zIndex : 100
 								}).add();
 							}
-
-							/*
-							 * if (smallPlot) { // add report div var ch = this,
-							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
-							 * id="flash"><div id="report">Click to enlarge</div></div>',
-							 * x, y + 10, true).css({ // width: circleradius*2,
-							 * color : '#009900', fontSize : '30px', textAlign :
-							 * 'center' }).attr({ zIndex : 101 }).add(); }
-							 */
 						},
 
 						click : function() {
@@ -2061,26 +1957,20 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 						text : seriesMap.yaxis
 					},
 					labels : {
+						enabled: labelsEnabled,
 						overflow : 'justify',
 						format : '{value:.1f}'
 					}
 				},
 				legend : {
+					enabled : legend,
 					// layout : 'horizontal',
 					// align : 'left',
 					x : legendX,
 					// verticalAlign : 'bottom',
 					y : legendY,
 					floating : true,
-					// backgroundColor : '#FFFFFF',
-					// itemWidth : itemWidth,
-					// itemStyle : {
-					// color : '#000',
-					// fontFamily : 'MuseoS500',
-					// // fontWeight : 'bold',
-					// fontSize : fontSize
-					// // width : itemWidth
-					// },
+					 
 					title : {
 						text : seriesMap.legendTitle
 					}
@@ -2090,6 +1980,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 				},
 				series : seriesMap.series,
 				exporting : {
+					 enabled: exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',
@@ -2123,7 +2014,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2140,6 +2031,10 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+		credits=false;
+		legend=false;
+		labelsEnabled=false;
+		exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2151,11 +2046,16 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		exporting=true;
 	}
 	$('#' + renderTo)
 			.highcharts(
 					{
 						credits : {
+							enabled : credits,
 							// This hides highcharts.com from the legend
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
@@ -2231,7 +2131,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 														'click',
 														function() {
 															// Add CCAFS Link
-															location.href = 'http://www.ccafs-tpe.org'
+//															location.href = 'http://www.ccafs-tpe.org'
 														}).css({
 													cursor : 'Pointer'
 												}).css({
@@ -2304,6 +2204,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							},
 							// gridLineWidth : 1,
 							labels : {
+								enabled: labelsEnabled,
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
@@ -2323,6 +2224,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							}
 						},
 						legend : {
+							enabled : legend,
 							// layout : 'horizontal',
 							// align : 'left',
 							x : legendX,
@@ -2348,6 +2250,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 						series : seriesMap.series,
 
 						exporting : {
+							 enabled: exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -2387,7 +2290,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
-	var legendX, legendY, spacingBottom, itemWidth, width, height;
+	var legendX, legendY, spacingBottom, itemWidth, width, height,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2401,6 +2304,13 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		// itemWidth = 40;
 		width = 241;
 		height = 200;
+
+		credits=false;
+			legend=false;
+			labelsEnabled=false;
+			yAxisTitle=null;
+			xAxisTitle=null;
+			exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2413,11 +2323,18 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		// itemWidth = 100;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		yAxisTitle='Yield (Kg/ha)';
+		xAxisTitle='Months';
+		exporting=true;
 	}
 
 	$('#' + renderTo).highcharts(
 			{
 				credits : {
+					enabled : credits,
 					// This hides highcharts.com from the legend
 					// enabled : false
 					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
@@ -2492,7 +2409,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-									location.href = 'http://www.ccafs-tpe.org'
+//									location.href = 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -2533,6 +2450,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 				xAxis : {
 					categories : categories,
 					labels : {
+						enabled: labelsEnabled,
 						rotation : -45,
 						style : {
 							fontSize : fontSize,
@@ -2540,12 +2458,13 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						}
 					},
 					title : {
-						text : 'Months'
+						text : xAxisTitle
 					}
 
 				},
 				yAxis : [ { // Primary yAxis
 					labels : {
+						enabled: labelsEnabled,
 						// format : '{value}°C',
 						style : {
 							color : '#4572A7',
@@ -2585,6 +2504,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					shared : true
 				},
 				legend : {
+					enabled : legend,
 					layout : 'horizontal',
 					align : 'left',
 					x : legendX,
@@ -2609,6 +2529,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 				},
 				series : series[station],
 				exporting : {
+					 enabled: exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',
@@ -2633,7 +2554,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2650,6 +2571,12 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+		credits=false;
+		legend=false;
+		labelsEnabled=false;
+		yAxisTitle=null;
+		xAxisTitle=null;
+		exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2661,11 +2588,18 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 		spacingBottom = 50;
 		width = null;
 		height = null;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		yAxisTitle=seriesMap.yaxis;
+		xAxisTitle=seriesMap.xaxis;
+		exporting=true;
 	}
 	$('#' + renderTo)
 			.highcharts(
 					{
 						credits : {
+							enabled : credits,
 							// This hides highcharts.com from the legend
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
@@ -2741,7 +2675,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 														'click',
 														function() {
 															// Add CCAFS Link
-															location.href = 'http://www.ccafs-tpe.org'
+//															location.href = 'http://www.ccafs-tpe.org'
 														}).css({
 													cursor : 'Pointer'
 												}).css({
@@ -2796,7 +2730,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						xAxis : {
 							categories : seriesMap.categories,
 							title : {
-								text : seriesMap.xaxis,
+								text : xAxisTitle,
 								align : 'high'
 							},
 							gridLineWidth : 1,
@@ -2811,10 +2745,11 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						},
 						yAxis : {
 							title : {
-								text : seriesMap.yaxis
+								text : yAxisTitle
 							},
 							// gridLineWidth : 1,
 							labels : {
+								enabled: labelsEnabled,
 								overflow : 'justify',
 								format : '{value:.1f}'
 							}
@@ -2834,6 +2769,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							}
 						},
 						legend : {
+							enabled : legend,
 							// layout : 'horizontal',
 							// align : 'left',
 							x : legendX,
@@ -2859,6 +2795,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						series : seriesMap.series,
 
 						exporting : {
+							 enabled: exporting,
 							buttons : {
 								contextButton : {
 									// symbol: 'circle',
@@ -2893,7 +2830,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
-	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom;
+	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom,credits,legend,labelsEnabled,yAxisTitle,xAxisTitle,exporting;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -2910,6 +2847,12 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 		spacingBottom = 35;
 		width = 241;
 		height = 200;
+		credits=false;
+		legend=false;
+		labelsEnabled=false;
+		yAxisTitle=null;
+		xAxisTitle=null;
+		exporting=false;
 	} else {
 		// Jsp page div
 		renderTo = dialogDiv;
@@ -2925,6 +2868,12 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 		// marginTop: 10;
 		// marginLeft: 60;
 		// marginRight: 10;
+		credits=true;
+		legend=true;
+		labelsEnabled=true;
+		yAxisTitle=seriesMap.yaxis;
+		xAxisTitle=seriesMap.xaxis;
+		exporting=true;
 	}
 
 	var chart = new Highcharts.Chart(
@@ -2933,6 +2882,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				// $('#' + renderTo).highcharts(
 				// {
 				credits : {
+					enabled : credits,
 					// This hides highcharts.com from the legend
 					// enabled : false
 					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
@@ -2996,7 +2946,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 								this.renderer.image('img/ccafs_logo.png', 90,
 										0, 120, 50).on('click', function() {
 									// Add CCAFS Link
-									location.href = 'http://www.ccafs-tpe.org'
+//									location.href = 'http://www.ccafs-tpe.org'
 								}).css({
 									cursor : 'Pointer'
 								}).css({
@@ -3007,15 +2957,6 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 									zIndex : 100
 								}).add();
 							}
-
-							/*
-							 * if (smallPlot) { // add report div var ch = this,
-							 * x = 20, y = 57; ch.flashText = ch.renderer .text( '<div
-							 * id="flash"><div id="report">Click to enlarge</div></div>',
-							 * x, y + 10, true).css({ // width: circleradius*2,
-							 * color : '#009900', fontSize : '30px', textAlign :
-							 * 'center' }).attr({ zIndex : 101 }).add(); }
-							 */
 						},
 
 						click : function() {
@@ -3048,7 +2989,8 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				xAxis : {
 					categories : seriesMap.categories,
 					title : {
-						text : seriesMap.xaxis,
+//						text : seriesMap.xaxis,
+						text : xAxisTitle,
 						align : 'high'
 					},
 					gridLineWidth : 1,
@@ -3058,14 +3000,17 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				},
 				yAxis : {
 					title : {
-						text : seriesMap.yaxis
+//						text : seriesMap.yaxis
+						text : yAxisTitle
 					},
 					labels : {
+						enabled: labelsEnabled,
 						overflow : 'justify',
 						format : '{value:.1f}'
 					}
 				},
 				legend : {
+					enabled : legend,
 					// layout : 'horizontal',
 					// align : 'left',
 					x : legendX,
@@ -3090,6 +3035,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				},
 				series : seriesMap.series,
 				exporting : {
+					 enabled: exporting,
 					buttons : {
 						contextButton : {
 							// symbol: 'circle',

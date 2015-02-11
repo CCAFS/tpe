@@ -4,79 +4,7 @@ $(document)
 
 					// Make the Map Options dreaggable
 					$("#select_variables").draggable();
-					//////////////////
-					var tourSubmitFunc = function(e,v,m,f){
-						if(v === -1){
-							$.prompt.prevState();
-							return false;
-						}
-						else if(v === 1){
-							$.prompt.nextState();
-							return false;
-						}
-			},
-			tourStates = [
-				{
-					title: 'Welcome to TPE Visualization Platform',
-					html: 'Please take a quick tour of the platform\nYou have to first select the map options here.',
-					buttons: { Next: 1 },
-					focus: 0,
-					position: { container: '#select_variables', x: 100, y: 60, width: 200, arrow: 'tc' },
-					submit: tourSubmitFunc
-				},
-				{
-					title: 'Google Map Results',
-					html: 'The here you view the target population environments\nYou can zoom in or click.',
-					buttons: { Prev: -1, Next: 1 },
-					focus: 1,
-					position: { container: '#tpe_map', x: 170, y: 0, width: 300, arrow: 'lt' },
-					submit: tourSubmitFunc
-				}  ,
-				{
-					title: 'Viewing the TPE Graphics',
-					html: 'Here you will view the Graphics of the Map results.',
-					buttons: { Prev: -1, Next: 1 },
-					focus: 1,
-					position: { container: '#tpe_analytics', x: -300, y: 120, width: 275, arrow: 'lt' },
-					submit: tourSubmitFunc
-				},
-				{
-					title: 'Viewing more Graphics',
-					html: 'Here you view more Graphics. Please just click on any.',
-					buttons: { Prev: -1, Next: 1 },
-					focus: 1,
-					position: { container: '#plot_slide', x: -300, y: 120, width: 275, arrow: 'lt' },
-					submit: tourSubmitFunc
-				},
-				{
-					title: 'Viewing the Zoomed or Detailed Graphics',
-					html: 'CLick on the zoom icon or button to view a zoom graphic.',
-					buttons: { Done: 2 },
-					focus: 0,
-					position: { container: '.zoom', x: -370, y: 120, width: 275, arrow: 'lt' },
-					submit: tourSubmitFunc
-				}
-			];
-			
-			$.prompt(tourStates);
-					// run the TPE Welcome tour
-					$('#tpe_main')
-							.each(
-									function(i, el) {
-										var $ex = $(this), $run = $ex
-												.find('.run'), code = $ex.find(
-												'.code').text();
-										$run.click(function(e) {
-											e.preventDefault();
-											(new Function(code))();
-										});
-									});
-
-					// TPE Welcome tour
-					$('#TourLink').click(function(e) {
-						e.preventDefault();
-						$('#tour-tpe').click();
-					});
+					// ////////////////
 
 					// For the graphics dialog window
 					$(window).resize(function() {
@@ -141,8 +69,8 @@ $(document)
 						loadVariables(outputText);
 						// Initialize or load the Google Map when all the
 						// variables are loaded
-						// ///////////////////////////////////////////////////////////////initializeGoogleMap();
-
+						///////////////////////////////////////////////////////////////initializeGoogleMap();
+						 $('#TourLink').trigger('click');
 					});
 
 					// Automatically reload the corresponding output params div
@@ -332,7 +260,7 @@ $(document)
 
 								// Load the Google Map, the selected crop
 								// cultivar changes
-								// //////////////////////////////////////////////////////////////////////initializeGoogleMap();
+								initializeGoogleMap();
 							});
 
 							// Automatically reload the crop cultivars when the

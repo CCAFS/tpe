@@ -35,7 +35,7 @@ div#main_header {
 	-webkit-box-shadow: 5px 5px 5px #3c3c3c;
 	-o-box-shadow: 5px 5px 5px #3c3c3c;
 	box-shadow: 5px 5px 5px #3c3c3c;
-	min-width: 1300px;
+	min-width: 1000px;
 	z-index: 1000;
 }
 
@@ -997,10 +997,30 @@ div#loading {
 	left: 45%;
 	z-index: 1000;
 }
-
+div#dialog-plot{
+	position: relative;
+	width: 100%;
+	height: auto;
+	height: 100%;
+	
+}
 div#dialog-chart {
-	width: 80%;
+	width:auto;
+	width: 800px;
+	/* height: auto; */
 	height: 80%;
+	float: left; 
+	
+}
+
+div#dialog-infos {
+	width:auto;
+	width: 200px;
+	/* height: auto; */ 
+	height: 80%;
+	float: left;
+	border: 1px solid #4e2700;
+	margin-left: 5px;
 }
 
 .guide_list {
@@ -1023,7 +1043,7 @@ div#plot_slide, .rain_radiation, .soil_plot {
 #plot_slide h3 {
 	font-size: 1em;
 	line-height: 1.5em;
-	margin:0;
+	margin: 0;
 	margin-top: 5px;
 	color: #444;
 	border: none;
