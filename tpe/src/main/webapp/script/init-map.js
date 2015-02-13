@@ -87,6 +87,14 @@ function initializeGoogleMap() {
  */
 function initializeMap(data) {
 
+	var infoWindow = new google.maps.InfoWindow({
+		content : ""
+	});
+
+	var colorValues = [ "red", "blue", "green", "yellow", "purple", "pink",
+			"orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesClimate = [
+			"green", "black" ], colors;
+
 	/*
 	 * $('#zoomImage').hide(); $('#container').mouseenter(function(e) {
 	 * $('#zoomImage').show(); }).mouseleave(function(e) {
@@ -115,7 +123,7 @@ function initializeMap(data) {
 	// var defaultZoom = 4;
 	// It is assumed that maps for different countries will have different
 	// default zoom. Such as Brazil =4 and Colombia =6
-	var defaultZoom = data.zoom;
+	var defaultZoom = data.zoomCus;
 	// Variable for TPE map
 	var map;
 	// Google map options
@@ -123,8 +131,22 @@ function initializeMap(data) {
 		zoom : defaultZoom,
 		center : defaultLatLng,
 		mapTypeId : google.maps.MapTypeId.ROADMAP,
-		draggableCursor : 'crosshair',
-		draggableCursor : 'default'
+		// draggableCursor : 'crosshair',
+		draggableCursor : 'default',
+
+		zoomControl : true,
+		zoomControlOptions : {
+			// style: google.maps.ZoomControlStyle.DEFAULT,
+			style : google.maps.ZoomControlStyle.SMALL,
+			position : google.maps.ControlPosition.LEFT_CENTER
+		},
+		scaleControl : true,
+		panControl : false,
+		navigationControl : false,
+		streetViewControl : false,
+		mapTypeControl : false,
+		overviewMapControl : false,
+		rotateControl : false,
 	}
 
 	// Create the new map and make sure the tpe_map div
@@ -144,12 +166,310 @@ function initializeMap(data) {
 	 * idPropertyName : "stationId" }); } });
 	 */
 
+	// If the selected map option is SOIL then create the marker cluster
+	// features for the soil points
+	// var bounds = new google.maps.LatLngBounds();
+	if (selectedOutput.toUpperCase() == 'SOIL') {
+		// Create a marker cluster var
+		var redClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-red.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-red.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-red.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-red.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-red.png",
+				width : 90
+			} ]
+		});
+		var blueClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-blue.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-blue.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-blue.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-blue.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-blue.png",
+				width : 90
+			} ]
+		});
+
+		var greenClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-green.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-green.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-green.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-green.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-green.png",
+				width : 90
+			} ]
+		});
+
+		var yellowClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-yellow.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-yellow.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-yellow.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-yellow.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-yellow.png",
+				width : 90
+			} ]
+		});
+
+		var pinkClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-pink.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-pink.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-pink.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-pink.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-pink.png",
+				width : 90
+			} ]
+		});
+
+		var purpleClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-purple.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-purple.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-purple.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-purple.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-purple.png",
+				width : 90
+			} ]
+		});
+
+		var orangeClusterer = new MarkerClusterer(map, null, {
+			styles : [ {
+				height : 53,
+				url : "img/markers/m1-orange.png",
+				width : 53
+			}, {
+				height : 56,
+				url : "img/markers/m2-orange.png",
+				width : 56
+			}, {
+				height : 66,
+				url : "img/markers/m3-orange.png",
+				width : 66
+			}, {
+				height : 78,
+				url : "img/markers/m4-orange.png",
+				width : 78
+			}, {
+				height : 90,
+				url : "img/markers/m5-orange.png",
+				width : 90
+			} ]
+		});
+
+		redClusterer.setMap(map);
+		orangeClusterer.setMap(map);
+		blueClusterer.setMap(map);
+		greenClusterer.setMap(map);
+		yellowClusterer.setMap(map);
+		pinkClusterer.setMap(map);
+		purpleClusterer.setMap(map);
+
+		google.maps.event.addListener(map.data, 'addfeature', function(e) {
+			if (e.feature.getGeometry().getType() === 'Point') {
+				var marker = new google.maps.Marker({
+					position : e.feature.getGeometry().get(),
+					title : e.feature.getProperty('name'),
+					map : map,
+					icon : {
+						/*
+						 * url : 'img/' + e.feature.getProperty('color') +
+						 * '.png'
+						 */
+						url : 'http://maps.google.com/mapfiles/ms/icons/'
+								+ e.feature.getProperty('color') + '.png',
+						animation : google.maps.Animation.DROP
+					/*
+					 * url : 'http://maps.google.com/mapfiles/ms/icons/' +
+					 * e.feature.getProperty('color') + '-dot.png'
+					 */
+					/*
+					 * size : new google.maps.Size(10, 10), scaledSize : new
+					 * google.maps.Size(10, 10)
+					 */
+					// origin : new google.maps.Point(0,
+					// 0),
+					// anchor : new google.maps.Point(0,
+					// 0)
+					// url : "img/station_green.png"
+					// url :
+					// "${ctx}/img/station_green.png"
+					}
+				});
+				// Add a click event to the marker
+				google.maps.event.addListener(marker, 'click', function(marker,
+						e) {
+					return function() {
+						// show an infowindow on
+						// click
+						// Show the info window
+						// only for other
+						// features but not
+						// country
+						infoWindow.setContent('<div class="info_window">'
+								+ '<h2>' + e.feature.getProperty('name')
+								+ '</h2>' + featureInfo(e) + '</div>');
+						var anchor = new google.maps.MVCObject();
+						// anchor.set("position",
+						// e.latLng);
+						anchor.set("position", e.feature.getGeometry().get());
+						anchor.set("options", {
+							pixelOffset : new google.maps.Size(0, 0)
+						});
+						infoWindow.open(map, anchor);
+					};
+				}(marker, e));
+
+				// Add the Hover event to the marker
+				google.maps.event.addListener(marker, 'mouseover', function(
+						marker, e) {
+					return function() {
+
+						e.feature.setProperty('selected', true);
+						$('#info').show();
+						$('#info h2').text(e.feature.getProperty('name'));
+						// $('#info
+						// span').text(e.feature.getProperty('stationName'));
+						$('#info span').html(featureInfo(e));
+
+						// Display the plot only
+						// for the soil point
+						// features
+						var probJSON = dataJSON[e.feature.getProperty('code')];
+						createSoilPlot(categoriesJSON, probJSON, true);
+
+					};
+				}(marker, e));
+
+				// Add the mouseout event to the marker
+				// Hide the info window
+				google.maps.event.addListener(marker, 'mouseout', function(
+						marker, e) {
+					return function() {
+						e.feature.setProperty('selected', false);
+						$('#info').hide();
+					};
+				}(marker, e));
+
+				// Add the marker to the marker cluster
+
+				if (e.feature.getProperty('color') == 'red')
+					redClusterer.addMarker(marker);
+				else if (e.feature.getProperty('color') == 'blue')
+					blueClusterer.addMarker(marker);
+				else if (e.feature.getProperty('color') == 'green')
+					greenClusterer.addMarker(marker);
+				else if (e.feature.getProperty('color') == 'yellow')
+					yellowClusterer.addMarker(marker);
+				else if (e.feature.getProperty('color') == 'pink')
+					pinkClusterer.addMarker(marker);
+				else if (e.feature.getProperty('color') == 'purple')
+					purpleClusterer.addMarker(marker);
+				else if (e.feature.getProperty('color') == 'orange')
+					orangeClusterer.addMarker(marker);
+
+				// bounds.extend(e.feature.getGeometry().get());
+				// map.fitBounds(bounds);
+				map.setCenter(e.feature.getGeometry().get());
+			}
+		});
+		// layer = map.data.addGeoJson(data.geoJson);
+		map.data.addGeoJson(data.geoJson, {
+			idPropertyName : "id"
+		});
+		map.data.setMap(null);
+	} else if (selectedOutput.toUpperCase() == 'CLIMATE') {
+		// Add the GeoJson features to the map
+		map.data.addGeoJson(data.geoJson, {
+			idPropertyName : "id"
+		});
+	}
 	// Add the GeoJson features to the map
-	map.data.addGeoJson(data.geoJson, {
-		idPropertyName : "id"
-	});
-	
-	
+	// map.data.addGeoJson(data.geoJson, {
+	// idPropertyName : "id"
+	// });
+
 	// console.log(data.geoJson);
 	// Add the selected country polygon feature to the map.
 	map.data.addGeoJson(data.countryGeoJson, {
@@ -171,7 +491,6 @@ function initializeMap(data) {
 		idPropertyName : "id"
 	});
 
-	
 	/*
 	 * $.getJSON(markersAction, function(data) { console.log(data.soilGeoJson)
 	 * console.log(data.countryGeoJson) map.data.addGeoJson(data.soilGeoJson, {
@@ -239,9 +558,6 @@ function initializeMap(data) {
 			fillColor : "#ffffff"
 		};
 	});
-	var colorValues = [ "red", "blue", "green", "brown", "purple", "pink",
-			"orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesClimate = [
-			"green", "black" ], colors;
 
 	// get the legend container, create a legend, add a legend renderer fn
 	// var $legendContainer = $('#legend-container')
@@ -359,9 +675,9 @@ function initializeMap(data) {
 	map.controls[google.maps.ControlPosition.LEFT_CENTER]
 			.push($legendContainer[0]);
 
-	var infoWindow = new google.maps.InfoWindow({
-		content : ""
-	});
+	// var infoWindow = new google.maps.InfoWindow({
+	// content : ""
+	// });
 
 	// listen for click events
 	map.data.addListener('click', function(e) {
@@ -387,9 +703,13 @@ function initializeMap(data) {
 		// TODO Create the plot
 		if (e.feature.getProperty('featureType') == 'SOIL') {
 			currentOutput = 'SOIL';
+			// TODO To eliminate this because the soil points are added to the
+			// marker clusterer
+			// TODO This is not accessed.
 			// Display the plot only for the soil feature
 			var probJSON = dataJSON[e.feature.getProperty('code')];
 			// createSoilPlot(categoriesJSON, probJSON, true);
+			createSoilPlot(categoriesJSON, probJSON, true);
 		} else if (e.feature.getProperty('featureType') == 'TPE') {
 			// Display the TPE Box plot
 			createTPEBoxPlot(categoriesJSON, boxJSON, true);

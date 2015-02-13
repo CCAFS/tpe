@@ -12,7 +12,8 @@
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/south-street/jquery-ui.css" />
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 <script type="text/javascript" src="${ctx}/script/init-map.js"></script>
 <script type="text/javascript" src="${ctx}/script/select-params.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -22,7 +23,8 @@
 <link rel="stylesheet" media="all" type="text/css"
 	href="${ctx}/css/jquery-impromptu.css" />
 <script src="${ctx}/script/tpe-impromptu.js" type="text/javascript"></script>
-
+<script src="${ctx}/script/markerclusterer.js" type="text/javascript"></script>
+<!-- <script	src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script> -->
 <%-- <script type="text/javascript" src="${ctx}/script/init-map.js"></script> --%>
 <script>
 	$(document).ready(function() {

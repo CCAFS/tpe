@@ -150,7 +150,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="img/team.png" />
+							<img src="img/david.jpg" />
 						</div>
 						<div class="member_infos">
 							<h5>David Arango Londono - Statistical analyst</h5>
