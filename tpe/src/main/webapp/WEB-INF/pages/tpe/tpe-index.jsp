@@ -28,7 +28,19 @@
 <%-- <script type="text/javascript" src="${ctx}/script/init-map.js"></script> --%>
 <script>
 	$(document).ready(function() {
+		/* $('[name="jqi_5_buttonDone"]').click(function() {
+			console.log('####################################');
+			$("html, body").animate({
+				scrollTop : 0
+			}, "slow");
+		});
 
+		$('.jqiclose').click(function() {
+			console.log('####################################');
+			$("html, body").animate({
+				scrollTop : 0
+			}, "slow");
+		}); */
 	});
 </script>
 </head>

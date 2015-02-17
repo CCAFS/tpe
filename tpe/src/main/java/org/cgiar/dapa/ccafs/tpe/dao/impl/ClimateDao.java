@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -67,6 +68,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	private static final String VALUE_SUFFIX = "valueSuffix";
 	private static final Object VALUE_SUFFIX_C = " Â°C";
 	private static final Object VALUE_SUFFIX_R = " MJ/m2.day";
+	private static final Object VALUE_SUFFIX_T = " °C";
 
 	public ClimateDao() {
 		super(Climate.class);
@@ -161,6 +163,8 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		// query.setParameter("indicators", indicators);
 		List<Climate> results = query.getResultList();
 		Climate climate;
+		// Create a decimal format
+		DecimalFormat df = new DecimalFormat("#.##");
 		for (Iterator<Climate> iterator = results.iterator(); iterator
 				.hasNext();) {
 			climate = iterator.next();
@@ -170,10 +174,11 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			properties.put(STATION_NUMBER, climate.getStation().getNumber());
 			properties.put(STATION_NAME, climate.getStation().getName());
 			properties.put(STATION_ID, climate.getStation().getId());
-			properties.put(TMIN, climate.getTmin());
-			properties.put(TMAX, climate.getTmax());
-			properties.put(RADIATION, climate.getRadiation());
-			properties.put(PRECIPITATION, climate.getPrecipitation());
+			properties.put(TMIN, df.format(climate.getTmin()));
+			properties.put(TMAX, df.format(climate.getTmax()));
+			properties.put(RADIATION, df.format(climate.getRadiation()));
+			properties
+					.put(PRECIPITATION, df.format(climate.getPrecipitation()));
 			properties.put(REGION_NAME, climate.getStation().getRegion()
 					.getName());
 			properties.put(PROPERTY_AUTHOR, climate.getAuthor());
@@ -248,18 +253,20 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		Map<Integer, Object> stationsSeriesMap = new LinkedHashMap<Integer, Object>();
 		List<Map<String, Object>> seriesMapList = new LinkedList<Map<String, Object>>();
 		Map<String, Object> seriesMap = new LinkedHashMap<String, Object>();
-//		Map<String, Object> seriesMap2 = new LinkedHashMap<String, Object>();
+		// Map<String, Object> seriesMap2 = new LinkedHashMap<String, Object>();
 		Map<String, Object> toolTipMap = new LinkedHashMap<String, Object>();
 
 		// Get the stations
 		List<Station> stations = getStations(country);
 		List<Double> rainfall = new LinkedList<Double>();
 		List<Double> radiation = new LinkedList<Double>();
+		List<Double> tmin = new LinkedList<Double>();
+		List<Double> tmax = new LinkedList<Double>();
 		// Add the months catgories[1-12]
 		List<Integer> categories = new LinkedList<Integer>(Arrays.asList(1, 2,
 				3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
 		seriesData.put(CATEGORIES, categories);
-
+		DecimalFormat df = new DecimalFormat("#.##");
 		for (Station station : stations) {
 			seriesMapList = new LinkedList<Map<String, Object>>();
 			StringBuffer q = new StringBuffer("from " + entityClass.getName())
@@ -271,10 +278,17 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			List<Climate> results = query.getResultList();
 			rainfall = new LinkedList<Double>();
 			radiation = new LinkedList<Double>();
+			tmin = new LinkedList<Double>();
+			tmax = new LinkedList<Double>();
+
 			// Create the series data
 			for (Climate climate : results) {
-				rainfall.add(climate.getPrecipitation());
-				radiation.add(climate.getRadiation());
+				rainfall.add(Double.parseDouble(df.format(climate
+						.getPrecipitation())));
+				radiation.add(Double.parseDouble(df.format(climate
+						.getRadiation())));
+				tmin.add(Double.parseDouble(df.format(climate.getTmin())));
+				tmax.add(Double.parseDouble(df.format(climate.getTmax())));
 			}
 
 			// Add rainfall column series data
@@ -283,22 +297,49 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			seriesMap.put(TYPE, TYPE_COLUMN);
 			seriesMap.put(NAME, "Rainfall");
 			seriesMap.put(COLOR, "#4572A7");
-			seriesMap.put(AXIS_Y, 1);
+			seriesMap.put(AXIS_Y, 2);
 			seriesMap.put(DATA, rainfall);
 			// Tool Tip
 			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_MM);
 			seriesMap.put(TOOL_TIP, toolTipMap);
 			seriesMapList.add(seriesMap);
 
+			// Add radiation series
 			seriesMap = new LinkedHashMap<String, Object>();
 			seriesMap.put(TYPE, TYPE_SPLINE);
 			seriesMap.put(NAME, "Radiation");
+//			seriesMap.put(AXIS_Y, 1);
 			seriesMap.put(COLOR, "#89A54E");
 			seriesMap.put(DATA, radiation);
 			toolTipMap = new LinkedHashMap<String, Object>();
 			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
 			seriesMap.put(TOOL_TIP, toolTipMap);
 			seriesMapList.add(seriesMap);
+
+			// Add the min temperature series
+//			seriesMap = new LinkedHashMap<String, Object>();
+//			seriesMap.put(TYPE, TYPE_SPLINE);
+//			seriesMap.put(NAME, "Tmin");
+//			seriesMap.put(AXIS_Y, 2);
+//			seriesMap.put(COLOR, "#FF4500");
+//			seriesMap.put(DATA, tmin);
+//			toolTipMap = new LinkedHashMap<String, Object>();
+//			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_T);
+//			seriesMap.put(TOOL_TIP, toolTipMap);
+//			seriesMapList.add(seriesMap);
+
+			// Add the max temperature series
+			seriesMap = new LinkedHashMap<String, Object>();
+			seriesMap.put(TYPE, TYPE_SPLINE);
+			seriesMap.put(NAME, "Tmax");
+			seriesMap.put(AXIS_Y, 2);
+			seriesMap.put(COLOR, "#800000");
+			seriesMap.put(DATA, tmax);
+			toolTipMap = new LinkedHashMap<String, Object>();
+			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_T);
+			seriesMap.put(TOOL_TIP, toolTipMap);
+			seriesMapList.add(seriesMap);
+
 			// Add the station id and its series data
 			stationsSeriesMap.put(station.getId(), seriesMapList);
 		}
@@ -306,5 +347,4 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 		return seriesData;
 	}
-
 }

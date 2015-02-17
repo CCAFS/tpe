@@ -239,7 +239,7 @@
 										cssClass="contact-text-label" /></td>
 							</tr>
 							<tr>
-								<td><textarea name="details" rows="17" id="details"
+								<td><textarea name="details" rows="10" id="details"
 										class="join-text-area"
 										placeholder="Your details here"
 										style="resize: none;"></textarea></td>

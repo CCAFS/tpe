@@ -1,3 +1,6 @@
+/**
+ * The implementation of the TPE Tool welcome impromptu dialog form
+ */
 $(document)
 		.ready(
 				function() {
@@ -20,9 +23,9 @@ $(document)
 								focus : 0,
 								position : {
 									container : '#tpe_map',
-									x : 400,
+									x : 650,
 									y : 10,
-									width : 400,
+									width : 300,
 									arrow : 'tl'
 								},
 								submit : tourSubmitFunc
@@ -88,8 +91,8 @@ $(document)
 								focus : 1,
 								position : {
 									container : '#plot_box',
-									x : -300,
-									y : 10,
+									x : -320,
+									y : 0,
 									width : 300,
 									arrow : 'rt'
 								},
@@ -112,7 +115,7 @@ $(document)
 								submit : tourSubmitFunc
 							} ];
 
-				//	 $.prompt(tourStates);
+					// $.prompt(tourStates);
 					// run the TPE Welcome tour
 					$('#tpe_main')
 							.each(
@@ -129,6 +132,7 @@ $(document)
 					// Return to the top of the page when the Done button is
 					// clicked
 					$('[name="jqi_5_buttonDone"]').click(function() {
+						console.log('####################################');
 						$("html, body").animate({
 							scrollTop : 0
 						}, "slow");
@@ -137,6 +141,7 @@ $(document)
 					// Return to the top of the page when the close button is
 					// clicked
 					$('.jqiclose').click(function() {
+						console.log('####################################');
 						$("html, body").animate({
 							scrollTop : 0
 						}, "slow");

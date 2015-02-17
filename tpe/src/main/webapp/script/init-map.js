@@ -36,7 +36,6 @@ function initializeGoogleMap() {
 	var tpeGeoJsonAction = 'tpeGeoJson.geojson';
 	var climateGeoJsonAction = 'climateGeoJson.geojson';
 	var params, actionJson;
-
 	// Use the switch statement to determine the selected output, from the first
 	// select drop down box
 	// TPE, SOIL or CLIMATE
@@ -75,6 +74,7 @@ function initializeGoogleMap() {
 		// Call the geoJsonData function and pass the params y action
 		geoJsonData(actionJson);
 		// initializeMap();
+
 		break;
 	default:
 		break;
@@ -454,6 +454,16 @@ function initializeMap(data) {
 				map.setCenter(e.feature.getGeometry().get());
 			}
 		});
+
+		google.maps.event.addListener(redClusterer, "mouseover", function(
+				cluster) {
+			$('#info').show();
+			$('#info h2').text('Red Clusterer');
+			// $('#info
+			// span').text(e.feature.getProperty('stationName'));
+			$('#info span').html('This is the red clusterer');
+		});
+
 		// layer = map.data.addGeoJson(data.geoJson);
 		map.data.addGeoJson(data.geoJson, {
 			idPropertyName : "id"
@@ -575,7 +585,7 @@ function initializeMap(data) {
 					texture = 'Loam';
 				} else if (val == 'green') {
 					texture = 'Clay';
-				} else if (val == 'brown') {
+				} else if (val == 'yellow') {
 					texture = 'Sand Loam';
 				} else if (val == 'purple') {
 					texture = 'Clay Loam';
@@ -678,6 +688,46 @@ function initializeMap(data) {
 	// var infoWindow = new google.maps.InfoWindow({
 	// content : ""
 	// });
+
+	// TODO Display default graphics
+	// Display the graphics by defalut, when the map is rendered
+	// console.log('Getting the default option: '+selectedOutput.toUpperCase());
+	if (selectedOutput.toUpperCase() == 'TPE') {
+		// console.log('Getting the default TPE options');
+		// Show the box plot
+		// Display the TPE Box plot
+		createTPEBoxPlot(categoriesJSON, boxJSON, true);
+		// Display the Relative Transpiration Ration Plot
+		// Iterate through the list of maps of favourable data.
+		// Then get the map of PCEW
+		$.each(hfeSeries, function(indx, seriesMap) {
+			// If it is map og PCEW
+			if (seriesMap.type == 'LAI') {
+				// Create LAI Plot
+				plotLAI(seriesMap, 'LAI', true);
+			} else if (seriesMap.type == 'PCEW') {
+				plotPCEW(seriesMap, 'PCEW', true);
+			} else if (seriesMap.type == 'WAGT') {
+				plotWAGT(seriesMap, 'WAGT', true);
+			} else if (seriesMap.type == 'RAINSUM') {
+				plotRAIN(seriesMap, 'RAINSUM', true);
+			} else if (seriesMap.type == 'RAINCUM') {
+				plotRAINCUM(seriesMap, 'RAINCUM', true);
+			}
+		});
+	} else if (selectedOutput.toUpperCase() == 'SOIL') {
+		// By default display the soil plots
+		// Use the clay texture code 'C'. This will display the chart for clay
+		// by default.
+		var probJSON = dataJSON['C'];
+		// createSoilPlot(categoriesJSON, probJSON, true);
+		createSoilPlot(categoriesJSON, probJSON, true);
+	} else if (selectedOutput.toUpperCase() == 'CLIMATE') {
+		// By default display the clamate charts
+		// Create rainfall and radiation plot
+		// Use a default station id and it is name
+		rainfallRadiationPlot(climateSeriesJSON, true, 390, 'CAMPOS LINDOS');
+	}
 
 	// listen for click events
 	map.data.addListener('click', function(e) {
@@ -2608,7 +2658,6 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		credits = false;
 		legend = false;
 		labelsEnabled = false;
-		yAxisTitle = 'Yield (Kg/ha)';
 		xAxisTitle = 'Months';
 		exporting = false;
 	} else {
@@ -2626,7 +2675,6 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 		credits = true;
 		legend = true;
 		labelsEnabled = true;
-		yAxisTitle = 'Yield (Kg/ha)';
 		xAxisTitle = 'Months';
 		exporting = true;
 	}
@@ -2760,7 +2808,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					},
 					title : {
 						text : xAxisTitle
-					}
+					},
+					crosshair : true
 
 				},
 				yAxis : [ { // Primary yAxis
@@ -2801,7 +2850,52 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					// format : '{value:.2f}'
 					},
 					opposite : true
-				} ],
+				}, { // Tertially yAxis, Max Temperature
+					title : {
+						text : 'Max Temperature (°C)',
+						rotation : -90,
+						x : 10,
+						style : {
+							color : '#4572A7'
+						}
+					},
+					labels : {
+						enabled : labelsEnabled,
+						// format : '{value} mm',
+						// rotation: -45,
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					opposite : true
+				}
+				
+				
+			/*	{ // Primary yAxis
+					labels : {
+						enabled : labelsEnabled,
+						// format : '{value}°C',
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					title : {
+						text : 'Min Temperature (°C)',
+						style : {
+							color : '#4572A7'
+						}
+					},
+					opposite : true
+				} */
+				
+				
+				],
 				tooltip : {
 					shared : true
 				},
