@@ -16,6 +16,7 @@ package org.cgiar.dapa.ccafs.tpe.action;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
@@ -23,6 +24,7 @@ import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.opensymphony.xwork2.Action;
@@ -38,7 +40,7 @@ import com.opensymphony.xwork2.Preparable;
  *
  */
 public abstract class BaseAction extends ActionSupport implements Preparable,
-		ServletContextAware {
+		ServletContextAware, ServletRequestAware {
 
 	private static final long serialVersionUID = 3706037816101380217L;
 	@SuppressWarnings("unused")
@@ -52,6 +54,10 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 	private String path;
 	protected Region region;
 	private Cultivar cultivar;
+
+	protected HttpServletRequest hsr;
+	protected HttpSession hs;
+
 	/**
 	 * The TPE Service
 	 */
@@ -60,6 +66,11 @@ public abstract class BaseAction extends ActionSupport implements Preparable,
 
 	public BaseAction() {
 		super();
+	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest hsr) {
+		this.hsr = hsr;
 	}
 
 	@Override

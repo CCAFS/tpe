@@ -16,6 +16,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.cgiar.dapa.ccafs.tpe.exception.TPEException;
 import org.cgiar.dapa.ccafs.tpe.util.Constants;
 
 /**
@@ -46,8 +47,9 @@ public interface IGenericDao<T, K extends Serializable> extends Constants{
 	 * @param entity
 	 *            the object,entity or record to save into the database
 	 * @return managed copy of the original object or record.
+	 * @throws TPEException 
 	 */
-	T addOrMerge(T entity)  ;
+	T addOrMerge(T entity) throws TPEException  ;
 
 	/**
 	 * Creates a new entity

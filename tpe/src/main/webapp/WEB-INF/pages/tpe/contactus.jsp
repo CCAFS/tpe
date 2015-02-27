@@ -11,16 +11,46 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#send").click(function(e) {
-			var data = $('#contactForm').serialize();
 			e.preventDefault();
-			$.ajax({
-				url : "contactInfo.action",
-				type : "POST",
-				data : data,
-				success : function() {
-					//alert("Just contacted the tpe support team...");
-				}
-			});
+
+			//$('span.errorMessage').text('');
+			// checking for inputs
+			var input = $("#name").val();
+			// no error checking
+			if (input.length != 0) {
+				// send message if no error
+
+				$('.notify-sending').animate({
+					width : 'toggle'
+				});
+				//e.preventDefault();
+				var data = $('#contactForm').serialize();
+				$('#send').attr("disabled", true);
+				$.ajax({
+					global : false,
+					url : "contact_us.action",
+					type : "POST",
+					data : data,
+					//async : false,
+					success : function() {
+						//alert("Just contacted the tpe support team...");
+						$('#email').val('');
+						$('#organization').val('');
+						$('#name').val('');
+						$('#details').val('');
+						$(".notify-sending").hide();
+						$('.notify-sent').show().delay(5000).fadeOut();
+						$('#send').removeAttr("disabled");
+						$("#name").css({
+							'border' : '1px solid #ccc'
+						})
+					}
+				});
+			} else {
+				$("#name").css({
+					'border-color' : '#990000'
+				})
+			}
 			return false;
 		});
 	});
@@ -202,10 +232,10 @@
 			</div>
 			<div class="pane_right">
 				<div id="contact_pane">
-
+					<div class="notify-sent">Message Sent</div>
+					<div class="notify-sending">Sending...</div>
 					<!--action="contactInfo" method="post"  -->
-					<form name="contactForm" id="contactForm" action="contactInfo"
-						method="post">
+					<form method="post" id="contactForm">
 						<div class="contact-info">
 							<h4>Have a question or an exciting new idea?</h4>
 							<!-- We would love to hear from you.	Have a question or an exciting new idea? -->
@@ -240,8 +270,7 @@
 							</tr>
 							<tr>
 								<td><textarea name="details" rows="10" id="details"
-										class="join-text-area"
-										placeholder="Your details here"
+										class="join-text-area" placeholder="Your details here"
 										style="resize: none;"></textarea></td>
 							</tr>
 							<tr>

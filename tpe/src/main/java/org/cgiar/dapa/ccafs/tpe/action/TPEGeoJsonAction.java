@@ -71,7 +71,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The default Google Map zoom
 	 */
-	protected Integer zoom = 4;
+	protected Integer zoomCus = 4;
 	/**
 	 * The selected list of years
 	 */
@@ -110,18 +110,6 @@ public class TPEGeoJsonAction extends BaseAction {
 	private Map<String, Object> boxplotData = new LinkedHashMap<String, Object>();
 	private List<String> categories = new LinkedList<String>();
 
-	// private List<Object> categoriesList;
-	// private List<Object> categoriesTempRain;
-	// private List<Map<String, Object>> series;
-	// private List<Map<String, Object>> plotBands;
-
-	// private List<Map<String, Object>> seriesLai;
-
-	// private List<Map<String, Object>> seriesPcew;
-
-	// private List<Map<String, Object>> seriesRainCum;
-
-	// private List<Map<String, Object>> seriesTempRain;
 	/**
 	 * The Highcharts categories for the LAI, PCEW, RAIN_CUM, RAIN_S,WAGT plots
 	 */
@@ -130,18 +118,26 @@ public class TPEGeoJsonAction extends BaseAction {
 	// private List<Object> categoriesStress;
 
 	private Map<String, Object> seriesData;
-
-	// private Map<String, Object> pcewData;
-	// private Map<String, Object> rainCumData;
-	// private Map<String, Object> wagtData;
-	// private Map<String, Object> rainSData;
-	// private Map<String, Object> rainTempData;
 	/**
 	 * The crop cultivar
 	 */
 	private Cultivar cultivar;
 
+	private Boolean showhelp = true;
+
 	public String execute() {
+
+		hs = hsr.getSession();
+		try {
+			if (hs.getAttribute("help") != null) {
+				// hs.removeAttribute("help");
+				// hs.setAttribute("help", true);
+				showhelp = (Boolean) hs.getAttribute("help");
+			}
+		} catch (Exception e) {
+			// TODO Log error
+		}
+
 		// Retrieve the data that will be converted into GeoJson by this action
 		// from the struts.xml
 		// TODO Get the parameters from the session or pass them from the ajax
@@ -153,7 +149,7 @@ public class TPEGeoJsonAction extends BaseAction {
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
-			this.setZoom(this.getRegion().getZoom());
+			this.setZoomCus(this.getRegion().getZoom());
 
 			// Loads the Country Region Geo json file.
 			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
@@ -199,22 +195,6 @@ public class TPEGeoJsonAction extends BaseAction {
 			// log.info(dataJson);
 			categories = tpeService.getTPEYears(getSelectedCountry(),
 					getSelectedCultivar());
-			// log.info(categories);
-
-			// LAI
-			// categoriesList = ChartUtil.categories();
-			// seriesLai = ChartUtil.seriesLAI();
-			// plotBands = ChartUtil.plotBands();
-
-			// PCEW
-			// seriesPcew = ChartUtil.seriesPCEW();
-
-			// RAIN CUM
-			// seriesRainCum = ChartUtil.seriesRainCum();
-
-			// TEMP RAIN
-			// setCategoriesTempRain(ChartUtil.categoriesTempRain());
-			// seriesTempRain = ChartUtil.seriesTempRain();
 
 		}
 
@@ -255,12 +235,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public Integer getZoom() {
-		return zoom;
+	public Integer getZoomCus() {
+		return zoomCus;
 	}
 
-	public void setZoom(Integer zoom) {
-		this.zoom = zoom;
+	public void setZoomCus(Integer zoomCus) {
+		this.zoomCus = zoomCus;
 	}
 
 	public Object getCountryGeoJson() {
@@ -341,6 +321,14 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setCultivar(Cultivar cultivar) {
 		this.cultivar = cultivar;
+	}
+
+	public Boolean getShowhelp() {
+		return showhelp;
+	}
+
+	public void setShowhelp(Boolean showhelp) {
+		this.showhelp = showhelp;
 	}
 
 }

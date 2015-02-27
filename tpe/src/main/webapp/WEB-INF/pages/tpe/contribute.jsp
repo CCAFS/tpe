@@ -27,6 +27,53 @@
 										opacity : '1'
 									}); */
 								});
+
+						$("#send").click(
+								function(e) {
+									e.preventDefault();
+									//$('span.errorMessage').text('');
+									// checking for inputs
+									var input = $("#name").val();
+									// no error checking
+									if (input.length != 0) {
+										// send message if no error
+
+										$('.sending-involved').animate({
+											width : 'toggle'
+										});
+										//e.preventDefault();
+										var data = $('#contributeForm')
+												.serialize();
+										$('#send').attr("disabled", true);
+										$.ajax({
+											global : false,
+											url : "contactInfo.action",
+											type : "POST",
+											data : data,
+											//async : false,
+											success : function() {
+												//alert("Just contacted the tpe support team...");
+												$('#email').val('');
+												$('#organization').val('');
+												$('#name').val('');
+												$('#details').val('');
+												$(".sending-involved").hide();
+												$('.notify-involved').show()
+														.delay(5000).fadeOut();
+												$('#send').removeAttr(
+														"disabled");
+												$("#name").css({
+													'border' : '1px solid #ccc'
+												})
+											}
+										});
+									} else {
+										$("#name").css({
+											'border-color' : '#990000'
+										})
+									}
+									return false;
+								});
 					});
 </script>
 </head>
@@ -56,36 +103,7 @@
 				<div id="tpe-bubble-7">We've the TPE Visualization tools that
 					searches crop specific mega environments</div>
 
-
-
-				<!-- 	<p class="triangle-border right">The entire appearance is
-					created only with CSS.</p>
-				<p class="triangle-border left">But it could be any element you
-					want.</p> -->
 			</div>
-
-
-
-
-			<!-- 			<p>Target Population of Environments Platform provides data
-				initially for only two crops (Beans and Rice) from Brazil, Colombia
-				and Latin America. If you are interested to get involved in
-				improving the platform and to cover more target population
-				environments for different crops from other countries, there are
-				many ways to join the TPE project.</p>
-			<p>The TPE project is open to anyone wishing to share and
-				contribute data, information or topics relevant to Target Population
-				of Environments for various crops. Please state your motivation,
-				crop of your interest, country and how you would wish to contribute
-				using the form below. Also you can contact our support team using
-				the contact Fpage for more information.</p>
-			<p>The development of the agricultural sector in recent years has
-				been marked by great challenges due to new conditions and permanent
-				changes in the global climate regime, challenges which present an
-				imminent risk to food security for the most vulnerable. It is
-				crucial to cooperate and work together across multiple countries and
-				institutions to seek strategies and appropriate response mechanisms
-				against such eventualities.</p> -->
 		</div>
 		<div id="get-involved">
 			<!-- Brief Description of how to get involved in the project -->
@@ -100,9 +118,12 @@
 					this form and we will get back to you as soon as possible.</p>
 			</div>
 			<!-- For for getting involved -->
+
 			<div id="join_form">
+				<div class="notify-involved">Message Sent</div>
+				<div class="sending-involved">Sending...</div>
 				<h1>Get Involved</h1>
-				<form action="getInvolved" method="post">
+				<form id="contributeForm" method="post">
 					<p>Please fill out the following form and then click Get
 						Involved.</p>
 					<table id="join_table">
@@ -127,51 +148,11 @@
 								type="text" placeholder="Your Email Address"></input></td>
 						</tr>
 
-						<%-- 	<tr>
-						<td><s:label key="join.crop" cssClass="join-text-label" /></td>
-					</tr>
-					<tr>
-						<td><input id="crop" name="crop" class="join-text"
-							type="text" placeholder="Crop Name"></input></td>
-					</tr> --%>
-
-						<%-- 	<tr>
-						<td><s:label key="join.cultivar" cssClass="join-text-label" /></td>
-					</tr>
-					<tr>
-						<td><input id="cultivar" name="cultivar" class="join-text"
-							type="text" placeholder="Cultivar"></input></td>
-					</tr> --%>
-
-						<%-- <tr>
-						<td><s:label key="join.motivation" cssClass="join-text-label" /></td>
-					</tr>
-					<tr>
-						<td><input id="motivation" name="motivation" type="text"
-							class="join-text" placeholder="Motivation"></input></td>
-					</tr> --%>
-
-						<%-- 	<tr>
-						<td><s:label key="join.area" cssClass="join-text-label" /></td>
-					</tr>
-					<tr>
-						<td><input id="area" name="area" class="join-text"
-							type="text" placeholder="Are of interest"></input></td>
-					</tr> --%>
-
-						<%-- 	<tr>
-						<td><s:label key="join.region" cssClass="join-text-label" /></td>
-					</tr>
-					<tr>
-						<td><input id="reagion" name="region" class="join-text"
-							type="text" placeholder="Region"></input></td>
-					</tr> --%>
-
 						<tr>
 							<td><s:label key="join.message" cssClass="join-text-label" /></td>
 						</tr>
 						<tr>
-							<td><textarea name="message" rows="8" class="join-text-area"
+							<td><textarea name="details" rows="8" class="join-text-area"
 									placeholder="Your details" style="resize: none;"></textarea></td>
 						</tr>
 						<tr>

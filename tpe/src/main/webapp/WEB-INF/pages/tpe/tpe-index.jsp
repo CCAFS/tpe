@@ -133,6 +133,7 @@
 			</div>
 		</div>
 		<div id="dialog-plot">
+			<div id="close-button">X</div>
 			<div id="dialog-chart"></div>
 			<div id="dialog-infos">The brief description of the chart and
 				related details</div>

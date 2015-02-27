@@ -3,7 +3,14 @@ $(document)
 				function() {
 
 					// Make the Map Options dreaggable
-					$("#select_variables").draggable();
+					// Initialize the draggable with the containment option
+					// specified:
+					$("#select_variables").draggable({
+						containment : "#tpe_main",
+						cursor : 'move',
+						snap : '#tpe_main'
+					});
+
 					// ////////////////
 
 					// For the graphics dialog window
@@ -69,8 +76,8 @@ $(document)
 						loadVariables(outputText);
 						// Initialize or load the Google Map when all the
 						// variables are loaded
-						///////////////////////////////////////////////////////////////initializeGoogleMap();
-						 $('#TourLink').trigger('click');
+						// /////////////////////////////////////////////////////////////initializeGoogleMap();
+						$('#TourLink').trigger('click');
 					});
 
 					// Automatically reload the corresponding output params div

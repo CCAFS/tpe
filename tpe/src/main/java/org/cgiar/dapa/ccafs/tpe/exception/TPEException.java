@@ -11,47 +11,42 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.action;
+package org.cgiar.dapa.ccafs.tpe.exception;
 
-import com.opensymphony.xwork2.ActionSupport;
+/**
+ * The TPE platform exception
+ * 
+ * @author NMATOVU
+ *
+ */
+public class TPEException extends Exception {
 
-public class IndexAction extends BaseAction {
+	private static final long serialVersionUID = 5164271948743765231L;
 
-	private static final long serialVersionUID = 1886907782804805164L;
-
-	public String execute() {
-
-		return ActionSupport.SUCCESS;
+	public TPEException() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public String documentation() {
-
-		// Retrieve all the platform tags
-		// tags = tpeService.getAllTags();
-
-		return ActionSupport.SUCCESS;
+	public TPEException(String message, Throwable cause,
+			boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+		// TODO Auto-generated constructor stub
 	}
 
-	public String resources() {
-
-		return ActionSupport.SUCCESS;
+	public TPEException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
 	}
 
-	public String workshops() {
-
-		return ActionSupport.SUCCESS;
+	public TPEException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
 	}
 
-	public String project() {
-		return ActionSupport.SUCCESS;
-	}
-
-	public String tutorials() {
-		return ActionSupport.SUCCESS;
-	}
-
-	public String scientific() {
-		return ActionSupport.SUCCESS;
+	public TPEException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
 	}
 
 }

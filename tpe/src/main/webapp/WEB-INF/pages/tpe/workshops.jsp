@@ -13,12 +13,10 @@
 			<div class="pane_left">
 				<div class="tpe_sec">
 					<div class="tpe_sec_img">
-						<div class="img_box">
 							<a target="_blank"
 								href="http://dapa.ciat.cgiar.org/working-on-target-population-of-environments-tpe-identification-for-rice-and-beans-in-colombia-and-brazil/"><img
 								src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
 								alt="image" /> </a>
-						</div>
 					</div>
 					<div class="news-min">
 						<h4>
@@ -38,12 +36,10 @@
 				</div>
 				<div class="tpe_sec">
 					<div class="tpe_sec_img">
-						<div class="img_box">
 							<a target="_blank"
 								href="http://ccafs.cgiar.org/blog/steadying-aim-crop-breeders-using-target-population-environments#.VMK5PUfF9Rs"><img
 								src="http://ccafs.cgiar.org/sites/default/files/styles/large/public/blog/pictures/6796024650_f33e8f0ee9_z.jpg?itok=CH9VNO0S"
 								alt="image" /> </a>
-						</div>
 					</div>
 					<div class="news-min">
 						<h4>

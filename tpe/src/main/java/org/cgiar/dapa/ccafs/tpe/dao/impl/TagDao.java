@@ -11,44 +11,22 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.exception;
+package org.cgiar.dapa.ccafs.tpe.dao.impl;
+
+import org.cgiar.dapa.ccafs.tpe.dao.ITagDao;
+import org.cgiar.dapa.ccafs.tpe.entity.Tag;
 
 /**
- * The TPE platform exception
+ * This class implements the methods defined in the tag dao interface.
  * 
  * @author NMATOVU
  *
  */
-public class TPEPlatformException extends Exception {
+// @SuppressWarnings("unchecked")
+public class TagDao extends GenericDao<Tag, Integer> implements ITagDao {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2073986648025832654L;
-
-	public TPEPlatformException() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public TPEPlatformException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
-	}
-
-	public TPEPlatformException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
-	}
-
-	public TPEPlatformException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
-	}
-
-	public TPEPlatformException(Throwable cause) {
-		super(cause);
+	public TagDao() {
+		super(Tag.class);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -47,7 +47,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	private static final String RADIATION = "radiation";
 	private static final String PRECIPITATION = "precipitation";
 	private static final String PLOT_DATA = "plotData";
-
+	private static final String ENABLED = "enabled";
 	private static final String TYPE = "type";
 	private static final Object TYPE_COLUMN = "column";
 	private static final String NAME = "name";
@@ -267,6 +267,11 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 				3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
 		seriesData.put(CATEGORIES, categories);
 		DecimalFormat df = new DecimalFormat("#.##");
+
+		// The marker options. Only for the lines. Bars (rainfall will not have
+		// these options)
+		Map<String, Object> markerMap = new LinkedHashMap<String, Object>();
+
 		for (Station station : stations) {
 			seriesMapList = new LinkedList<Map<String, Object>>();
 			StringBuffer q = new StringBuffer("from " + entityClass.getName())
@@ -291,53 +296,78 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 				tmax.add(Double.parseDouble(df.format(climate.getTmax())));
 			}
 
+			// Add radiation series
+			seriesMap = new LinkedHashMap<String, Object>();
+			seriesMap.put(TYPE, TYPE_SPLINE);
+			seriesMap.put(NAME, "Radiation");
+			seriesMap.put(AXIS_Y, 0);
+			seriesMap.put(COLOR, "#89A54E");
+			seriesMap.put(DATA, radiation);
+			toolTipMap = new LinkedHashMap<String, Object>();
+			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
+			seriesMap.put(TOOL_TIP, toolTipMap);
+			// Add marker options
+			// Add marker options
+			markerMap = new LinkedHashMap<String, Object>();
+			markerMap.put(LINE_WIDTH, 2);
+			// markerMap.put(LINE_COLOR, clusterColor);
+			// markerMap.put(FILL_COLOR, clusterColor);
+			markerMap.put(ENABLED, false);
+			seriesMap.put(MARKER, markerMap);
+
+			seriesMapList.add(seriesMap);
+
 			// Add rainfall column series data
 			seriesMap = new LinkedHashMap<String, Object>();
 			toolTipMap = new LinkedHashMap<String, Object>();
 			seriesMap.put(TYPE, TYPE_COLUMN);
 			seriesMap.put(NAME, "Rainfall");
 			seriesMap.put(COLOR, "#4572A7");
-			seriesMap.put(AXIS_Y, 2);
+			seriesMap.put(AXIS_Y, 1);
 			seriesMap.put(DATA, rainfall);
 			// Tool Tip
 			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_MM);
 			seriesMap.put(TOOL_TIP, toolTipMap);
 			seriesMapList.add(seriesMap);
 
-			// Add radiation series
+			// Add the min temperature series
 			seriesMap = new LinkedHashMap<String, Object>();
 			seriesMap.put(TYPE, TYPE_SPLINE);
-			seriesMap.put(NAME, "Radiation");
-//			seriesMap.put(AXIS_Y, 1);
-			seriesMap.put(COLOR, "#89A54E");
-			seriesMap.put(DATA, radiation);
+			seriesMap.put(NAME, "Tmin");
+			seriesMap.put(AXIS_Y, 2);
+			seriesMap.put(COLOR, "#FF4500");
+			seriesMap.put(DATA, tmin);
 			toolTipMap = new LinkedHashMap<String, Object>();
-			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
+			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_T);
 			seriesMap.put(TOOL_TIP, toolTipMap);
-			seriesMapList.add(seriesMap);
 
-			// Add the min temperature series
-//			seriesMap = new LinkedHashMap<String, Object>();
-//			seriesMap.put(TYPE, TYPE_SPLINE);
-//			seriesMap.put(NAME, "Tmin");
-//			seriesMap.put(AXIS_Y, 2);
-//			seriesMap.put(COLOR, "#FF4500");
-//			seriesMap.put(DATA, tmin);
-//			toolTipMap = new LinkedHashMap<String, Object>();
-//			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_T);
-//			seriesMap.put(TOOL_TIP, toolTipMap);
-//			seriesMapList.add(seriesMap);
+			// Add marker options
+			markerMap = new LinkedHashMap<String, Object>();
+			markerMap.put(LINE_WIDTH, 2);
+			// markerMap.put(LINE_COLOR, clusterColor);
+			// markerMap.put(FILL_COLOR, clusterColor);
+			markerMap.put(ENABLED, false);
+			seriesMap.put(MARKER, markerMap);
+			seriesMapList.add(seriesMap);
 
 			// Add the max temperature series
 			seriesMap = new LinkedHashMap<String, Object>();
 			seriesMap.put(TYPE, TYPE_SPLINE);
 			seriesMap.put(NAME, "Tmax");
-			seriesMap.put(AXIS_Y, 2);
+			seriesMap.put(AXIS_Y, 3);
 			seriesMap.put(COLOR, "#800000");
 			seriesMap.put(DATA, tmax);
 			toolTipMap = new LinkedHashMap<String, Object>();
 			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_T);
 			seriesMap.put(TOOL_TIP, toolTipMap);
+
+			// Add marker options
+			markerMap = new LinkedHashMap<String, Object>();
+			markerMap.put(LINE_WIDTH, 2);
+			// markerMap.put(LINE_COLOR, clusterColor);
+			// markerMap.put(FILL_COLOR, clusterColor);
+			markerMap.put(ENABLED, false);
+			seriesMap.put(MARKER, markerMap);
 			seriesMapList.add(seriesMap);
 
 			// Add the station id and its series data

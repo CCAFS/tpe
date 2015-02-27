@@ -1,27 +1,27 @@
-$(document)
-		.ready(
-				function() {
-					$
-							.getJSON(
-									"http://api.flickr.com/services/rest/tpe_platform?method=flickr.people.getPublicPhotos&user_id=tpe_platform&api_key=0f7aeb59277bbd6eeb36ca39c4ce0252",
+$(document).ready(
+		function() {
 
-									// http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=your_api_key&user_id=tpe_platform
-									function(data) {
-										$
-												.each(
-														data.items,
-														function(i, item) {
-															if (i == 6)
-																return false;
-															$(
-																	'<div class="tpe_sec_img"><a href="'
-																			+ item.link
-																			+ '"><img src="'
-																			+ item.media.m
-																			+ '"</img></a></div>')
-																	.appendTo(
-																			'.flickr-stream');
+			// User Id/Group id
+			var userid = "2787037@N20";
+			$
+					.getJSON(
+							"http://api.flickr.com/services/feeds/groups_pool.gne?id="
+									+ userid
+									+ "&lang=en-us&format=json&jsoncallback=?",
+							function(data) {
+								$.each(data.items, function(index, item) {
+									// Retrieve only six photos from the
+									// specified group
+									if (index == 6)
+										return false;
+									$(
+											'<div class="flickr-img"><a target="_blank" href="'
+													+ item.link
+													+ '"><img src="'
+													+ item.media.m
+													+ '"</img></a></div>')
+											.appendTo('.flickr-stream');
 
-														});
-									});
-				});
+								});
+							});
+		});

@@ -70,7 +70,7 @@ public class SoilGeoJsonAction extends BaseAction {
 	/**
 	 * The default Google Map zoom
 	 */
-	protected Integer zoom = 4;
+	protected Integer zoomCus = 4;
 	/**
 	 * The selected list of years
 	 */
@@ -121,7 +121,7 @@ public class SoilGeoJsonAction extends BaseAction {
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 
-			this.setZoom(this.getRegion().getZoom());
+			this.setZoomCus(this.getRegion().getZoom());
 
 			// Load the country geojson file
 			setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
@@ -179,12 +179,14 @@ public class SoilGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public Integer getZoom() {
-		return zoom;
+	 
+
+	public Integer getZoomCus() {
+		return zoomCus;
 	}
 
-	public void setZoom(Integer zoom) {
-		this.zoom = zoom;
+	public void setZoomCus(Integer zoomCus) {
+		this.zoomCus = zoomCus;
 	}
 
 	public Object getCountryGeoJson() {

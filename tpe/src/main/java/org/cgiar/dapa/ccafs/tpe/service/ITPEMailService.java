@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service;
 
+import java.util.Map;
 
 /**
  * The interface that implements the email service methods
@@ -22,16 +23,25 @@ package org.cgiar.dapa.ccafs.tpe.service;
  */
 public interface ITPEMailService {
 	/**
-	 * This sends the mail message
-	 * 
-	 * @param to
-	 *            the email to send to the mail message
-	 * @param subject
-	 *            the mail subject
-	 * @param body
-	 *            the email body
+	 * This sends the mail notification to the system admin about the new user
+	 * wishing or interested to contribute to the platform. It uses the velocity
+	 * template for the body.
+	 *
+	 * @param templateVariables
+	 *            Variables to use when processing the template.
 	 */
-	public void sendMail(String to, String subject, String body);
+	public void notifyAdmin(final Map<String, Object> templateVariables);
+
+	/**
+	 * This sends the mail notification to the user who is wishing or interested
+	 * to contribute to the platform. So after the user sends the request, he or
+	 * she will be notified automatically about the receipt of the request.
+	 * 
+	 * @param templateVariables
+	 *            Variables to use when processing the template.
+	 */
+	public void notifyUser(final String userEmail,
+			final Map<String, Object> templateVariables);
 
 	/**
 	 * This sends a pre-configured mailmessage
@@ -40,4 +50,12 @@ public interface ITPEMailService {
 	 *            the pre configured mail message to send
 	 */
 	public void sendPreConfiguredMail(String message);
+
+	/**
+	 * This sends the user's contact infos to the admin or platform support
+	 * team.
+	 * 
+	 * @param templateVariables
+	 */
+	public void contactUs(Map<String, Object> templateVariables);
 }

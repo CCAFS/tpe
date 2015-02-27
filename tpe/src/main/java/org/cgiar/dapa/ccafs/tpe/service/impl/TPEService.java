@@ -29,6 +29,7 @@ import org.cgiar.dapa.ccafs.tpe.dao.IRegionDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
+import org.cgiar.dapa.ccafs.tpe.dao.ITagDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
@@ -36,8 +37,11 @@ import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.entity.Tag;
+import org.cgiar.dapa.ccafs.tpe.exception.TPEException;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements the methods defined in the ITPEService interface
@@ -45,7 +49,7 @@ import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
  * @author NMATOVU
  *
  */
-
+@Transactional
 public class TPEService implements ITPEService {
 	private ICropDao cropDao;
 	private ICultivarDao cultivarDao;
@@ -55,6 +59,11 @@ public class TPEService implements ITPEService {
 	private IClimateDao climateDao;
 	private ISoilPropertyDao soilPropertyDao;
 	private IPhenologyGrowthDao phenologyGrowthDao;
+	private ITagDao tagDao;
+
+	public void setTagDao(ITagDao tagDao) {
+		this.tagDao = tagDao;
+	}
 
 	private IEnvironmentSoilDao environmentSoilDao;
 
@@ -377,14 +386,24 @@ public class TPEService implements ITPEService {
 	public Map<String, Object> getSeriesData(Integer cultivarId,
 			Integer countryId) {
 
-		return phenologyGrowthDao.getSeriesData(cultivarId, countryId)
-
-		;
+		return phenologyGrowthDao.getSeriesData(cultivarId, countryId);
 	}
 
 	@Override
 	public Map<String, Object> getClimateSeries(Integer country) {
 
 		return climateDao.getClimateSeries(country);
+	}
+
+	@Override
+	public List<Tag> getAllTags() {
+
+		return tagDao.getAll();
+	}
+
+	@Override
+	public void addTag(Tag tag) throws TPEException {
+		tagDao.addOrMerge(tag);
+
 	}
 }

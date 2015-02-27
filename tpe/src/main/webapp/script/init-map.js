@@ -170,181 +170,41 @@ function initializeMap(data) {
 	// features for the soil points
 	// var bounds = new google.maps.LatLngBounds();
 	if (selectedOutput.toUpperCase() == 'SOIL') {
-		// Create a marker cluster var
-		var redClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-red.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-red.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-red.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-red.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-red.png",
-				width : 90
-			} ]
-		});
-		var blueClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-blue.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-blue.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-blue.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-blue.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-blue.png",
-				width : 90
-			} ]
-		});
 
-		var greenClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-green.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-green.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-green.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-green.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-green.png",
-				width : 90
-			} ]
-		});
+		var markerClusterer = new MarkerClusterer(
+				map,
+				null,
+				{
+					styles : [
+							{
 
-		var yellowClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-yellow.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-yellow.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-yellow.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-yellow.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-yellow.png",
-				width : 90
-			} ]
-		});
+								height : 53,
+								url : "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png",
+								width : 53
+							},
+							{
+								height : 56,
+								url : "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m2.png",
+								width : 56
+							},
+							{
+								height : 66,
+								url : "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m3.png",
+								width : 66
+							},
+							{
+								height : 78,
+								url : "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m4.png",
+								width : 78
+							},
+							{
+								height : 90,
+								url : "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m5.png",
+								width : 90
+							} ]
+				});
 
-		var pinkClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-pink.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-pink.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-pink.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-pink.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-pink.png",
-				width : 90
-			} ]
-		});
-
-		var purpleClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-purple.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-purple.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-purple.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-purple.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-purple.png",
-				width : 90
-			} ]
-		});
-
-		var orangeClusterer = new MarkerClusterer(map, null, {
-			styles : [ {
-				height : 53,
-				url : "img/markers/m1-orange.png",
-				width : 53
-			}, {
-				height : 56,
-				url : "img/markers/m2-orange.png",
-				width : 56
-			}, {
-				height : 66,
-				url : "img/markers/m3-orange.png",
-				width : 66
-			}, {
-				height : 78,
-				url : "img/markers/m4-orange.png",
-				width : 78
-			}, {
-				height : 90,
-				url : "img/markers/m5-orange.png",
-				width : 90
-			} ]
-		});
-
-		redClusterer.setMap(map);
-		orangeClusterer.setMap(map);
-		blueClusterer.setMap(map);
-		greenClusterer.setMap(map);
-		yellowClusterer.setMap(map);
-		pinkClusterer.setMap(map);
-		purpleClusterer.setMap(map);
+		markerClusterer.setMap(map);
 
 		google.maps.event.addListener(map.data, 'addfeature', function(e) {
 			if (e.feature.getGeometry().getType() === 'Point') {
@@ -434,34 +294,12 @@ function initializeMap(data) {
 
 				// Add the marker to the marker cluster
 
-				if (e.feature.getProperty('color') == 'red')
-					redClusterer.addMarker(marker);
-				else if (e.feature.getProperty('color') == 'blue')
-					blueClusterer.addMarker(marker);
-				else if (e.feature.getProperty('color') == 'green')
-					greenClusterer.addMarker(marker);
-				else if (e.feature.getProperty('color') == 'yellow')
-					yellowClusterer.addMarker(marker);
-				else if (e.feature.getProperty('color') == 'pink')
-					pinkClusterer.addMarker(marker);
-				else if (e.feature.getProperty('color') == 'purple')
-					purpleClusterer.addMarker(marker);
-				else if (e.feature.getProperty('color') == 'orange')
-					orangeClusterer.addMarker(marker);
+				markerClusterer.addMarker(marker);
 
 				// bounds.extend(e.feature.getGeometry().get());
 				// map.fitBounds(bounds);
 				map.setCenter(e.feature.getGeometry().get());
 			}
-		});
-
-		google.maps.event.addListener(redClusterer, "mouseover", function(
-				cluster) {
-			$('#info').show();
-			$('#info h2').text('Red Clusterer');
-			// $('#info
-			// span').text(e.feature.getProperty('stationName'));
-			$('#info span').html('This is the red clusterer');
 		});
 
 		// layer = map.data.addGeoJson(data.geoJson);
@@ -1699,6 +1537,9 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 															false);
 													$('#dialog-plot').dialog(
 															'open');
+													// $(".ui-widget-header").hide();
+//													$('.ui-dialog-titlebar').remove();
+													// $(".ui-dialog-titlebar").hide();
 												})
 										.css({
 											cursor : 'Pointer'
@@ -1907,7 +1748,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 	var titleFontSize = '10px;'
 	var legendX, legendY, width, height;
 	var marginBottom, marginTop, marginLeft, marginRight, spacingBottom, credits, legend, labelsEnabled, yAxisTitle, xAxisTitle, exporting;
-
+	var showLegendTitle = true, showLegendTitle2 = true, titleSet = false, titleSet2 = false;
 	// Set the div where to render the plot
 	if (smallPlot) {
 		// Dialog div
@@ -1935,8 +1776,8 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		// Chart font size for the dialog chart
 		fontSize = '14px';
 		titleFontSize = '30px';
-		legendX = 0;
-		legendY = 20;
+		legendX = 70;
+		legendY = 80;
 		spacingBottom = 50;
 		width = null;
 		height = null;
@@ -2100,18 +1941,64 @@ function plotLAI(seriesMap, environment, smallPlot) {
 						},
 						legend : {
 							enabled : legend,
-							// layout : 'horizontal',
+							layout : 'vertical',
+							verticalAlign : 'top',
+							align : 'left',
 							// align : 'left',
 							x : legendX,
 							// verticalAlign : 'bottom',
 							y : legendY,
 							floating : true,
-							title : {
-								text : seriesMap.legendTitle
-							}
-						// floating : true,
-						// draggable : true
-						// zIndex : 400
+							// draggable: true,
+
+							/*
+							 * title : { text : seriesMap.legendTitle },
+							 */
+							// / floating : true,
+							// draggable : true
+							// zIndex : 400
+							labelFormatter : function() {
+								if (this.type == 'column') {
+									// if (!titleSet) {
+									// titleSet = true;
+									// return seriesMap.legendTitle;
+									// }
+
+									// if (showLegendTitle == true) {
+									// showLegendTitle = false;
+									return seriesMap.legendTitle + ' '
+											+ this.name;
+									// }
+									// return this.name;
+
+								} else if ((this.type == 'spline')
+										|| (this.type == 'Dash')
+										|| (this.type == 'LongDashDot')) {
+									// if (!titleSet2) {
+									// titleSet2 = true;
+									// return seriesMap.legendTitle2;
+									// }
+									// if (showLegendTitle2 == true) {
+									// showLegendTitle2 = false;
+									return seriesMap.legendTitle2 + ' '
+											+ this.name;
+									// }
+									// return this.name;
+								} else
+									return this.name;
+
+								/*
+								 * if (this.x == 0) return '<h2>' +
+								 * seriesMap.legendTitle + '</h2>' +
+								 * this.name; else if (this.x == 2) return '<div
+								 * class="second"><h2>Title Group 2</h2>' +
+								 * this.name + '</div>'; else return this.name;
+								 */
+
+							},
+							// symbolPadding: 10,
+							backgroundColor : '#FFFFFF',
+							useHTML : true
 						},
 						series : seriesMap.series,
 						exporting : {
@@ -2159,6 +2046,16 @@ function viewPlot() {
 			}
 		} ]
 	});
+
+	// For closing the dialog
+	$('#close-button').click(function() {
+		$('#dialog-plot').dialog('close');
+	});
+	
+	//Hide the title bar of the dialog
+	// $(".ui-widget-header").hide();
+	$('.ui-dialog-titlebar').remove();
+	// $(".ui-dialog-titlebar").hide();
 
 }
 
@@ -2823,6 +2720,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						format : '{value:.1f}'
 					// format : '{value:.2f}'
 					},
+					min : 0,
 					title : {
 						text : 'Radation (MJ/m2.day)',
 						style : {
@@ -2850,6 +2748,27 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					// format : '{value:.2f}'
 					},
 					opposite : true
+				},
+
+				{ // Primary yAxis
+					labels : {
+						enabled : labelsEnabled,
+						// format : '{value}°C',
+						style : {
+							color : '#4572A7',
+							fontSize : fontSize
+						},
+						format : '{value:.1f}'
+					// format : '{value:.2f}'
+					},
+					min : 0,
+					title : {
+						text : 'Min Temperature (°C)',
+						style : {
+							color : '#4572A7'
+						}
+					}
+				// opposite : true
 				}, { // Tertially yAxis, Max Temperature
 					title : {
 						text : 'Max Temperature (°C)',
@@ -2859,6 +2778,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 							color : '#4572A7'
 						}
 					},
+					min : 0,
 					labels : {
 						enabled : labelsEnabled,
 						// format : '{value} mm',
@@ -2872,29 +2792,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					},
 					opposite : true
 				}
-				
-				
-			/*	{ // Primary yAxis
-					labels : {
-						enabled : labelsEnabled,
-						// format : '{value}°C',
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
-					},
-					title : {
-						text : 'Min Temperature (°C)',
-						style : {
-							color : '#4572A7'
-						}
-					},
-					opposite : true
-				} */
-				
-				
+
 				],
 				tooltip : {
 					shared : true

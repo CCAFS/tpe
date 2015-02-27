@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<body>
+Dear TPE Support Team,<p/>
+
+Please note that a new TPE platform user would like to contribute to TPE methodology.<p/>
+<p>User's Name: ${name}</p>
+<p>Email Address: ${email}</p>
+<p>Organization: ${organization}</p>
+<p>Description: ${details}</p>
+
+Thanks<br/>
+
+Platform Admin.
+
+</body>
+</html>

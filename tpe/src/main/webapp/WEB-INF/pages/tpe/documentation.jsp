@@ -7,7 +7,11 @@
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/script/flickr-tpe.js"></script>
+<script type="text/javascript" src="${ctx}/script/tpe-tags.js"></script>
 <title>TPE Documentation</title>
+<script type="text/javascript">
+	
+</script>
 </head>
 
 <body>
@@ -18,12 +22,10 @@
 		<div>
 			<div class="pane_left">
 				<!--Documentation Area-->
-				<div class="tpe_sec">
-					<div class="tpe_sec_img">
-						<div class="img_box">
-							<a href="project.jspx"><img src="img/tpe_map.jpg" alt="image" />
-							</a>
-						</div>
+				<div class="doc-list">
+					<div class="img">
+						<a href="project.jspx"><img src="img/tpe_map.jpg" alt="image" />
+						</a>
 					</div>
 					<div class="doc-min">
 						<h4>
@@ -53,12 +55,10 @@
 							analysis in other geographical areas.</p>
 					</div>
 				</div>
-				<div class="tpe_sec">
-					<div class="tpe_sec_img">
-						<div class="img_box">
-							<a href="scientific.jspx"><img src="img/tpe_map.jpg"
-								alt="image" /> </a>
-						</div>
+				<div class="doc-list">
+					<div class="img">
+						<a href="scientific.jspx"><img src="img/tpe_map.jpg"
+							alt="image" /> </a>
 					</div>
 					<div class="doc-min">
 						<h4>
@@ -67,12 +67,10 @@
 						<p>This is about TPE Platform</p>
 					</div>
 				</div>
-				<div class="tpe_sec">
-					<div class="tpe_sec_img">
-						<div class="img_box">
-							<a href="brazilian.jspx"><img src="img/tpe_map.jpg"
-								alt="image" /> </a>
-						</div>
+				<div class="doc-list">
+					<div class="img">
+						<a href="brazilian.jspx"><img src="img/tpe_map.jpg"
+							alt="image" /> </a>
 					</div>
 					<div class="doc-min">
 						<h4>
@@ -81,12 +79,10 @@
 						<p>Brazilian Case Study</p>
 					</div>
 				</div>
-				<div class="tpe_sec">
-					<div class="tpe_sec_img">
-						<div class="img_box">
+				<div class="doc-list">
+					<div class="img">
 							<a href="colombian.jspx"><img src="img/tpe_map.jpg"
 								alt="image" /> </a>
-						</div>
 					</div>
 					<div class="doc-min">
 						<h4>

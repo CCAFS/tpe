@@ -74,7 +74,7 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The default Google Map zoom
 	 */
-	protected Integer zoom = 4;
+	protected Integer zoomCus = 4;
 	/**
 	 * The selected list of years
 	 */
@@ -114,7 +114,7 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 		setLat(getRegion().getLatitude());
 		setLng(getRegion().getLongitude());
-		this.setZoom(this.getRegion().getZoom());
+		this.setZoomCus(this.getRegion().getZoom());
 		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
 				+ getRegion().getName().toUpperCase() + ".geo.json"));
 		// Load states geo json data
@@ -161,12 +161,14 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public Integer getZoom() {
-		return zoom;
+	 
+
+	public Integer getZoomCus() {
+		return zoomCus;
 	}
 
-	public void setZoom(Integer zoom) {
-		this.zoom = zoom;
+	public void setZoomCus(Integer zoomCus) {
+		this.zoomCus = zoomCus;
 	}
 
 	public Object getCountryGeoJson() {

@@ -97,6 +97,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	private static final String DASH_STYLE = "dashStyle";
 	private static final String Z_INDEX = "zIndex";
 	private static final String TITLE_SUB = "subTitle";
+	private static final String LEGEND_TITLE_2 = "legendTitle2";
 
 	private Logger log = Logger.getLogger(this.getClass());
 
@@ -257,8 +258,6 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 		return query.getResultList();
 	}
-
-	 
 
 	@Override
 	public List<Chart> getTPEColumnSeries(Integer subregionId,
@@ -515,7 +514,8 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		List<Integer> clusters = Utils.getClusters();
 		List<Series> seriesTypes = getSeriesTypes();
 		Cultivar cultivar = getCultivar(cultivarId);
-//		List<Object> categories = getStressCategories(Utils.getStressSeries(),	cultivarId, countryId);
+		// List<Object> categories =
+		// getStressCategories(Utils.getStressSeries(), cultivarId, countryId);
 		Series secondSeriesType = null;
 		// Map<String, Object> laiData = new LinkedHashMap<String, Object>();
 		// List<Map<String, Object>> seriesList = new LinkedList<Map<String,
@@ -546,6 +546,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				String titleYaxis = null;
 				String titleY2axis = null;
 				String titleLegend = null;
+				String titleLegend2 = null;
 				if (type.getName().toLowerCase().equals(TYPE_LAI)) {
 					// queryString = new
 					// StringBuffer("select r.dae, r.lai, r.actualTranspiration from ");
@@ -559,6 +560,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					titleXaxis = "Days After Emergency";
 					titleYaxis = "LAI and Actual Transpiration";
 					titleLegend = "LAI";
+					titleLegend2 = "Stress Profile";
 					secondSeriesType = getSeriesByName(TYPE_TRW);
 				} else if (type.getName().toLowerCase().equals(TYPE_PCEW)) {
 					// queryString = new
@@ -651,29 +653,11 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 				if (queryString != null) {
 					for (Integer cluster : clusters) {
-						data = new LinkedList<Object>();
-						data2 = new LinkedList<Object>();
+						data = new LinkedList<Object>(); 
 						queryResult = getSeries(queryString, cluster,
 								cultivarId, countryId, environment.getId(),
 								type.getId());
-
-						if (multiAxis) {
-							queryResult2 = getSeries(queryString2, cluster,
-									cultivarId, countryId, environment.getId(),
-									secondSeriesType.getId());
-							if (queryResult2 != null && !queryResult2.isEmpty()) {
-								for (Object[] result2 : queryResult2) {
-
-									// cats.add((Float) result2[0]);
-									data2.add(result2[1]);
-								}
-								seriesList
-										.add(getSeriesMap(data2, seriesType2,
-												Utils.getClusterColor(cluster),
-												cluster));
-							}
-						}
-
+ 
 						if (queryResult != null && !queryResult.isEmpty()) {
 							add = true;
 							cats = new LinkedList<Object>();
@@ -688,6 +672,27 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 							// log.info("Data: " + data);
 							seriesList.add(getSeriesMap(data, seriesType,
 									Utils.getClusterColor(cluster), cluster));
+						}
+					}
+
+					// If it is a multi axis plot
+					if (multiAxis) {
+						for (Integer cluster : clusters) {
+							data2 = new LinkedList<Object>();
+							queryResult2 = getSeries(queryString2, cluster,
+									cultivarId, countryId, environment.getId(),
+									secondSeriesType.getId());
+							if (queryResult2 != null && !queryResult2.isEmpty()) {
+								for (Object[] result2 : queryResult2) {
+
+									// cats.add((Float) result2[0]);
+									data2.add(result2[1]);
+								}
+								seriesList
+										.add(getSeriesMap(data2, seriesType2,
+												Utils.getClusterColor(cluster),
+												cluster));
+							}
 						}
 					}
 
@@ -706,6 +711,10 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 						// TODO Modify this
 						seriesMap.put(TITLE_X, titleXaxis);
 						seriesMap.put(LEGEND_TITLE, titleLegend);
+						// Add a second legend title for LAI
+						// It is null for other charts
+						if (titleLegend2 != null)
+							seriesMap.put(LEGEND_TITLE_2, titleLegend2);
 
 						// TODO Add plot bands
 						plotBands = getPlotBands(cultivar,

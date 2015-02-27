@@ -26,6 +26,8 @@ import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
+import org.cgiar.dapa.ccafs.tpe.entity.Tag;
+import org.cgiar.dapa.ccafs.tpe.exception.TPEException;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -550,5 +552,21 @@ public interface ITPEService {
 	 * @return climate series
 	 */
 	Map<String, Object> getClimateSeries(Integer country);
+
+	/**
+	 * Retrieves all the platform tags from the database
+	 * 
+	 * @return tags
+	 */
+	List<Tag> getAllTags();
+
+	/**
+	 * SAves a new tag into the database
+	 * 
+	 * @param tag
+	 *            the new tag record to save into the database
+	 * @throws TPEException 
+	 */
+	void addTag(Tag tag) throws TPEException;
 
 }
