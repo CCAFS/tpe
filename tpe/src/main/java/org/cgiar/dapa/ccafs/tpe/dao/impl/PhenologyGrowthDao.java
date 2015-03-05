@@ -37,7 +37,7 @@ import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
 import org.cgiar.dapa.ccafs.tpe.util.Cluster;
 import org.cgiar.dapa.ccafs.tpe.util.ClusterColor;
-import org.cgiar.dapa.ccafs.tpe.util.StatisticsTPE;
+import org.cgiar.dapa.ccafs.tpe.util.StatisticsUtils;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 /**
@@ -356,11 +356,11 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				// Quartiles
 				Number q1, q2, qm, q3, q4;
 
-				q1 = StatisticsTPE.minValue(results);
-				q2 = StatisticsTPE.quartile1(results);
-				qm = StatisticsTPE.median(results);
-				q3 = StatisticsTPE.quartile3(results);
-				q4 = StatisticsTPE.maxValue(results);
+				q1 = StatisticsUtils.minValue(results);
+				q2 = StatisticsUtils.quartile1(results);
+				qm = StatisticsUtils.median(results);
+				q3 = StatisticsUtils.quartile3(results);
+				q4 = StatisticsUtils.maxValue(results);
 
 				yield.add(Float.parseFloat(String.valueOf(q1)));
 				yield.add(Float.parseFloat(String.valueOf(q2)));
