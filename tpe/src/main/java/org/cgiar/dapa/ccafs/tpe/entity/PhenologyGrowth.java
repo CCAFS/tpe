@@ -50,10 +50,7 @@ public class PhenologyGrowth extends BaseResult {
 	 * The crop cultivar that relates to this record
 	 */
 	private Cultivar cultivar;
-	/**
-	 * The crop model that is attached to this record
-	 */
-	private Model model;
+
 	/**
 	 * The region that relates to this record
 	 */
@@ -434,16 +431,6 @@ public class PhenologyGrowth extends BaseResult {
 
 	public void setCultivar(Cultivar cultivar) {
 		this.cultivar = cultivar;
-	}
-
-	@ManyToOne(targetEntity = Model.class)
-	@JoinColumn(name = "model_id", referencedColumnName = "model_id")
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model) {
-		this.model = model;
 	}
 
 	@ManyToOne(targetEntity = Region.class)

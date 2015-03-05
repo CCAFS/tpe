@@ -64,10 +64,7 @@ public class SoilProperty extends BaseResult {
 	 * The station that relates to this property
 	 */
 	private Station station;
-	/**
-	 * The model
-	 */
-	private Model model;
+
 	/**
 	 * The average organic carbon (chamical property)
 	 */
@@ -146,16 +143,6 @@ public class SoilProperty extends BaseResult {
 
 	public void setStation(Station station) {
 		this.station = station;
-	}
-
-	@ManyToOne(targetEntity = Model.class)
-	@JoinColumn(name = "model_id", referencedColumnName = "model_id")
-	public Model getModel() {
-		return model;
-	}
-
-	public void setModel(Model model) {
-		this.model = model;
 	}
 
 	@Column(name = "longitude")
