@@ -340,7 +340,7 @@ $(document)
 							 * initializeGoogleMap(); });
 							 */
 							$("select#select_country").change(function() {
-								// ///////////////////////////////////////////////////////////////////initializeGoogleMap();
+								initializeGoogleMap();
 							});
 
 							break;
