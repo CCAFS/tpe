@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -28,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "climate")
-@AttributeOverride(name = "id", column = @Column(name = "climate_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "climate_id"))
 public class Climate extends BaseResult {
 
 	/**
@@ -101,7 +100,7 @@ public class Climate extends BaseResult {
 	private Integer month;
 
 	@ManyToOne(targetEntity = Category.class)
-	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	public Category getCategory() {
 		return category;
 	}
@@ -111,7 +110,7 @@ public class Climate extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Station.class)
-	@JoinColumn(name = "station_id", referencedColumnName = "station_id")
+	@JoinColumn(name = "station_id", referencedColumnName = "id")
 	public Station getStation() {
 		return station;
 	}

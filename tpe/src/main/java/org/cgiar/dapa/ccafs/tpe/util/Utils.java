@@ -44,7 +44,6 @@ public class Utils implements Constants {
 	 * The size of the tile
 	 */
 	private static final Double TILE_SIZE_64 = 20.0;
-	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(Utils.class.getClass());
 
 	/**
@@ -238,5 +237,115 @@ public class Utils implements Constants {
 		}
 
 		return color;
+	}
+
+	/**
+	 * Loads the Geo JSON files from the server
+	 * 
+	 * @param fileName
+	 *            the name of the Geo JSON file to load
+	 * @return the Geo JSON file
+	 */
+	public static Object readJSON(String fileName) {
+		// The geo JSON file to load.
+		Object json = null;
+
+		// If the file is not null
+		if (fileName != null) {
+			File brazilJSON = new File(fileName);
+			JSONParser parser = new JSONParser();
+
+			try {
+				// Read the file from the specified path
+				json = parser.parse(new FileReader(brazilJSON
+						.getCanonicalPath()));
+				log.info(fileName);
+				log.info(json);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return json;
+	}
+
+	/**
+	 * Loads the Geo JSON file for the specified region name and type.
+	 * 
+	 * @param region
+	 *            the name of the geo json file to load
+	 * @param type
+	 *            the type of the region to load. This determines the path of
+	 *            the file.
+	 * @return GeoJSON object
+	 */
+	public static Object loadGeoJSON(String region, String type) {
+		String path = "";
+		if (region != null && type != null) {
+			String file = region.toLowerCase();
+
+			if (type.equals(JSON_REGION))
+				path = "/CIAT 2015/resources/script/" + file + ".json";
+			// brazilJSON = new File("/CIAT 2015/resources/script/" + file +
+			// ".json");
+			else if (type.equals(JSON_STATES))
+				path = "/CIAT 2015/resources/script/" + region + "_states.json";
+			else if (type.equals(JSON_MUNICIPIOS))
+				path = "/CIAT 2015/resources/script/" + region
+						+ "_municipios.json";
+			else if (type.equals(JSON_BOUNDARY))
+				path = "/CIAT 2015/resources/script/" + region
+						+ "_boundary.json";
+		}
+		return readJSON(path);
+	}
+
+	/**
+	 * Loads the TPE JSON based on the selected region and map result TPE
+	 * 
+	 * @param crop
+	 *            the selected map option TPE
+	 * @param region
+	 *            the selected region (Latin America, Colombia or Brazil)
+	 * @param cultivar
+	 *            the selected crop cultivar
+	 * @return JSON object
+	 */
+	public static Object readJSON(String crop, String region, String cultivar) {
+		String path = "";
+		if (region != null && crop != null) {
+			region = region.toLowerCase();
+			crop = crop.toLowerCase();
+			cultivar = cultivar.toLowerCase();
+			path = "/CIAT 2015/resources/script/" + region + "_" + crop + "_"
+					+ cultivar + ".json";
+		}
+		return readJSON(path);
+	}
+
+	/**
+	 * Loads the JSON based on the selected region and map (Soil and climate)
+	 * 
+	 * @param map
+	 *            the selected climate or soil map option
+	 * @param region
+	 *            the selected region (Latin America, Colombia or Brazil)
+	 * @return JSON object
+	 */
+	public static Object readJSON(String map, String region) {
+		String path = "";
+		if (region != null && map != null) {
+			region = region.toLowerCase();
+			map = map.toLowerCase();
+			path = "/CIAT 2015/resources/script/" + region + "_" + map
+					+ ".json";
+		}
+		return readJSON(path);
 	}
 }

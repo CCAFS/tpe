@@ -74,7 +74,7 @@ public interface Constants {
 	public static final String OUTPUT_SOIL = "SOIL";
 
 	public static final String ENTITY_CLASS_OUTPUT = "Output";
-
+	public static final String CATEGORY_DESCRIPTION_MAP = "Map";
 	public static final String STATION_NAME = "stationName";
 	public static final String STATION_NUMBER = "stationNumber";
 	public static final String REGION_NAME = "regionName";
@@ -124,4 +124,14 @@ public interface Constants {
 	public static final String SOIL_PROPERTY_VALUE = "soilPropertyValue";
 	// private static final Object FEATURE_TYPE_SOIL = "SOIL";
 	public static final String FEATURE_TYPE = "featureType";
+	/**
+	 * The constant for the map option for TPE
+	 */
+	public static final String JSON_MAP_TPE = "tpe";
+	public static final String JSON_MAP_SOIL = "soil";
+	public static final String JSON_MAP_CLIMATE = "climate";
+	public static final String JSON_REGION = "region";
+	public static final String JSON_MUNICIPIOS = "municipios";
+	public static final String JSON_BOUNDARY = "boundary";
+	public static final String JSON_STATES = "states";
 }

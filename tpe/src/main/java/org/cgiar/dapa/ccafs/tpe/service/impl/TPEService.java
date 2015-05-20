@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -173,35 +172,6 @@ public class TPEService implements ITPEService {
 	public Station getStationById(Integer stationId) {
 
 		return stationDao.getById(stationId);
-	}
-
-	@Override
-	public List<Climate> getClimateByStations(List<Integer> stationIds,
-			Integer categoryId, String year) {
-
-		return climateDao.getClimateByStations(stationIds, categoryId, year);
-	}
-
-	@Override
-	public List<Climate> getClimateByRegions(List<Integer> regionIds,
-			Integer categoryId, String year) {
-
-		return climateDao.getClimateByRegions(regionIds, categoryId, year);
-	}
-
-	@Override
-	public List<Climate> getClimate(Date fromDate, Date toDate,
-			Integer regionId, Integer categoryId) {
-
-		return climateDao.getClimate(fromDate, toDate, regionId, categoryId);
-	}
-
-	@Override
-	public List<Station> getStationsByClimate(Date fromDate, Date toDate,
-			Integer categoryId, Integer regionId) {
-
-		return climateDao.getStationsByClimate(fromDate, toDate, categoryId,
-				regionId);
 	}
 
 	@Override
@@ -405,5 +375,17 @@ public class TPEService implements ITPEService {
 	public void addTag(Tag tag) throws TPEException {
 		tagDao.addOrMerge(tag);
 
+	}
+
+	@Override
+	public List<Climate> getClimateByStations(List<Integer> stationIds) {
+
+		return climateDao.getClimateByStations(stationIds);
+	}
+
+	@Override
+	public List<Climate> getClimateByRegions(List<Integer> regionIds) {
+
+		return climateDao.getClimateByRegions(regionIds);
 	}
 }

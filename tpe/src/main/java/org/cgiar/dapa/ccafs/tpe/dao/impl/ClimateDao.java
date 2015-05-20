@@ -76,75 +76,6 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	}
 
 	@Override
-	public List<Climate> getClimateByStations(List<Integer> stationIds,
-			Integer categoryId, String year) {
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.id in (:stations)")
-				.append(" and r.category.id =:category")
-				.append(" and r.year =:year");
-
-		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("stations", stationIds);
-		query.setParameter("category", categoryId);
-		query.setParameter("year", year);
-		return query.getResultList();
-	}
-
-	@Override
-	public List<Climate> getClimateByRegions(List<Integer> regionIds,
-			Integer categoryId, String year) {
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.region.id in (:regions)")
-				.append(" and r.category.id =:category")
-				.append(" and r.year =:year");
-
-		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("regions", regionIds);
-		query.setParameter("category", categoryId);
-		query.setParameter("year", year);
-		return query.getResultList();
-	}
-
-	@Override
-	public List<Climate> getClimate(Date fromDate, Date toDate,
-			Integer regionId, Integer categoryId) {
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.region.id =:region")
-				.append(" and r.category.id =:category")
-				.append(" and r.recordedOn between :fromDate and :toDate");
-
-		Query query = entityManager.createQuery(q.toString());
-		// query.setMaxResults(rows);
-		// query.setFirstResult((page - 1) * rows);
-		query.setParameter("category", categoryId);
-		query.setParameter("region", regionId);
-		query.setParameter("fromDate", fromDate);
-		query.setParameter("toDate", toDate);
-
-		return query.getResultList();
-	}
-
-	@Override
-	public List<Station> getStationsByClimate(Date fromDate, Date toDate,
-			Integer categoryId, Integer regionId) {
-		StringBuffer q = new StringBuffer("select r.station from "
-				+ entityClass.getName())
-				.append(" r where r.station.region.id =:region")
-				.append(" and r.category.id =:category")
-				.append(" and r.recordedOn between :fromDate and :toDate");
-
-		Query query = entityManager.createQuery(q.toString());
-		// query.setMaxResults(rows);
-		// query.setFirstResult((page - 1) * rows);
-		query.setParameter("category", categoryId);
-		query.setParameter("region", regionId);
-		query.setParameter("fromDate", fromDate);
-		query.setParameter("toDate", toDate);
-
-		return query.getResultList();
-	}
-
-	@Override
 	public Map<String, Object> getClimateGeoJSON(Integer countryId,
 			List<Integer> indicators) {
 
@@ -376,5 +307,28 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		seriesData.put(SERIES, stationsSeriesMap);
 
 		return seriesData;
+	}
+
+	@Override
+	public List<Climate> getClimateByStations(List<Integer> stationIds) {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.id in (:stations)");
+		// .append(" and r.year =:year");
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("stations", stationIds);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Climate> getClimateByRegions(List<Integer> regionIds) {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.station.region.id in (:regions)");
+		// .append(" and r.year =:year");
+
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("regions", regionIds);
+		return query.getResultList();
 	}
 }

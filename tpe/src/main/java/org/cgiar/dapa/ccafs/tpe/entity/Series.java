@@ -14,7 +14,6 @@
 
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -27,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "series")
-@AttributeOverride(name = "id", column = @Column(name = "series_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "series_id"))
 public class Series extends BaseEntity {
 
 	private static final long serialVersionUID = 4125448263059429436L;

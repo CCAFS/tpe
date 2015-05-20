@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -35,7 +34,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "station")
-@AttributeOverride(name = "id", column = @Column(name = "station_id"))
+// @AttributeOverride(name = "id", column = @Column(name = "station_id"))
 public class Station extends BaseEntity {
 
 	/**
@@ -63,13 +62,18 @@ public class Station extends BaseEntity {
 	 * The longitude of the weather station
 	 */
 	private Double longitude;
-
 	/**
-	 * The altitude of the weather station
+	 * The country where the station is located.This is used in case the the
+	 * station is not attached to any state or municipios.
 	 */
-	private Double altitude;
+	private String country;
 
-	@Column(name = "station_name")
+	// /**
+	// * The altitude of the weather station
+	// */
+	// private Double altitude;
+
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -79,7 +83,7 @@ public class Station extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Region.class)
-	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	@JoinColumn(name = "region_id", referencedColumnName = "id")
 	public Region getRegion() {
 		return region;
 	}
@@ -88,7 +92,7 @@ public class Station extends BaseEntity {
 		this.region = region;
 	}
 
-	@Column(name = "station_number")
+	@Column(name = "number")
 	public Integer getNumber() {
 
 		if (this.number != null)
@@ -100,7 +104,7 @@ public class Station extends BaseEntity {
 		this.number = number;
 	}
 
-	@Column(name = "station_latitude")
+	@Column(name = "latitude")
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -109,7 +113,7 @@ public class Station extends BaseEntity {
 		this.latitude = latitude;
 	}
 
-	@Column(name = "station_longitude")
+	@Column(name = "longitude")
 	public Double getLongitude() {
 		return longitude;
 	}
@@ -118,14 +122,14 @@ public class Station extends BaseEntity {
 		this.longitude = longitude;
 	}
 
-	@Column(name = "station_altitude")
-	public Double getAltitude() {
-		return altitude;
-	}
-
-	public void setAltitude(Double altitude) {
-		this.altitude = altitude;
-	}
+	// @Column(name = "altitude")
+	// public Double getAltitude() {
+	// return altitude;
+	// }
+	//
+	// public void setAltitude(Double altitude) {
+	// this.altitude = altitude;
+	// }
 
 	@Override
 	public String toString() {
@@ -150,6 +154,15 @@ public class Station extends BaseEntity {
 		return new LinkedList<Double>(Arrays.asList(this.getLongitude(),
 				this.getLatitude()));
 
+	}
+
+	@Column(name = "country")
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 }

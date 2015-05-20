@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,7 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "crop")
-@AttributeOverride(name = "id", column = @Column(name = "crop_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "crop_id"))
 public class Crop extends BaseEntity {
 
 	/**
@@ -44,7 +43,7 @@ public class Crop extends BaseEntity {
 	 */
 	// private Category category;
 
-	@Column(name = "crop_name")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}

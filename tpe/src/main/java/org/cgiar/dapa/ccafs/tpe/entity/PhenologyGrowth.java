@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,7 +37,7 @@ import org.cgiar.dapa.ccafs.tpe.util.Scenario;
  */
 @Entity
 @Table(name = "phenology_growth")
-@AttributeOverride(name = "id", column = @Column(name = "result_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "result_id"))
 public class PhenologyGrowth extends BaseResult {
 
 	/**
@@ -424,7 +423,7 @@ public class PhenologyGrowth extends BaseResult {
 	private String variable;
 
 	@ManyToOne(targetEntity = Cultivar.class)
-	@JoinColumn(name = "cultivar_id", referencedColumnName = "cultivar_id")
+	@JoinColumn(name = "cultivar_id", referencedColumnName = "id")
 	public Cultivar getCultivar() {
 		return cultivar;
 	}
@@ -434,7 +433,7 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Region.class)
-	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	@JoinColumn(name = "region_id", referencedColumnName = "id")
 	public Region getRegion() {
 		return region;
 	}
@@ -444,7 +443,7 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Station.class)
-	@JoinColumn(name = "station_id", referencedColumnName = "station_id")
+	@JoinColumn(name = "station_id", referencedColumnName = "id")
 	public Station getStation() {
 		return station;
 	}
@@ -1057,7 +1056,7 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Soil.class)
-	@JoinColumn(name = "soil_id", referencedColumnName = "soil_id")
+	@JoinColumn(name = "soil_id", referencedColumnName = "id")
 	public Soil getSoil() {
 		return soil;
 	}
@@ -1135,7 +1134,7 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Environment.class)
-	@JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
+	@JoinColumn(name = "environment_id", referencedColumnName = "id")
 	public Environment getEnvironment() {
 		return environment;
 	}
@@ -1181,7 +1180,7 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Category.class)
-	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	public Category getCategory() {
 		return category;
 	}
@@ -1200,7 +1199,7 @@ public class PhenologyGrowth extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Series.class)
-	@JoinColumn(name = "series_id", referencedColumnName = "series_id")
+	@JoinColumn(name = "series_id", referencedColumnName = "id")
 	public Series getSeries() {
 		return series;
 	}

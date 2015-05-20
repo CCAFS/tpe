@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -28,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "soil")
-@AttributeOverride(name = "id", column = @Column(name = "soil_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "soil_id"))
 public class Soil extends BaseEntity {
 
 	/**
@@ -49,7 +48,7 @@ public class Soil extends BaseEntity {
 	 */
 	private String color;
 
-	@Column(name = "soil_name")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -58,7 +57,7 @@ public class Soil extends BaseEntity {
 		this.name = name;
 	}
 
-	@Column(name = "soil_code")
+	@Column(name = "code")
 	public String getCode() {
 		return code;
 	}
@@ -76,7 +75,7 @@ public class Soil extends BaseEntity {
 
 	}
 
-	@Column(name = "soil_color")
+	@Column(name = "color")
 	public String getColor() {
 		
 		return color;

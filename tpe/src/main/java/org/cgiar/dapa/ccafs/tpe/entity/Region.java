@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -47,7 +46,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "region")
-@AttributeOverride(name = "id", column = @Column(name = "region_id"))
+// @AttributeOverride(name = "id", column = @Column(name = "id"))
 public class Region extends BaseEntity {
 
 	/**
@@ -92,8 +91,13 @@ public class Region extends BaseEntity {
 	 * The default Google Map zoom for this region
 	 */
 	private Integer zoom;
+	/**
+	 * The country name. It is used in case the parent region is not specified.
+	 * So this region will belong to the country
+	 */
+	private String country;
 
-	@Column(name = "region_name")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -102,7 +106,7 @@ public class Region extends BaseEntity {
 		this.name = name;
 	}
 
-	@Column(name = "region_alpha_iso")
+	@Column(name = "alpha_iso")
 	public String getAlphaISO() {
 		return alphaISO;
 	}
@@ -130,7 +134,7 @@ public class Region extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Region.class)
-	@JoinColumn(name = "region_parent", referencedColumnName = "region_id")
+	@JoinColumn(name = "parent", referencedColumnName = "id")
 	public Region getParent() {
 		return parent;
 	}
@@ -140,7 +144,7 @@ public class Region extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Category.class)
-	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	public Category getCategory() {
 		return category;
 	}
@@ -149,7 +153,7 @@ public class Region extends BaseEntity {
 		this.category = category;
 	}
 
-	@Column(name = "region_numeric_iso")
+	@Column(name = "numeric_iso")
 	public Integer getNumericISO() {
 		return numericISO;
 	}
@@ -158,7 +162,7 @@ public class Region extends BaseEntity {
 		this.numericISO = numericISO;
 	}
 
-	@Column(name = "region_level")
+	@Column(name = "level")
 	public String getLevel() {
 		return level;
 	}
@@ -200,5 +204,14 @@ public class Region extends BaseEntity {
 
 	public void setZoom(Integer zoom) {
 		this.zoom = zoom;
+	}
+
+	@Column(name = "country")
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }

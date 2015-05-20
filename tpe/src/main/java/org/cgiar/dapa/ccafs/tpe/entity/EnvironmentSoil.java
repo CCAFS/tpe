@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -22,7 +21,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "environment_soil")
-@AttributeOverride(name = "id", column = @Column(name = "env_soil_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "env_soil_id"))
 public class EnvironmentSoil extends BaseEntity {
 
 	/**
@@ -36,7 +35,7 @@ public class EnvironmentSoil extends BaseEntity {
 	private Region region;
 
 	@ManyToOne(targetEntity = Environment.class)
-	@JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
+	@JoinColumn(name = "environment_id", referencedColumnName = "id")
 	public Environment getEnvironment() {
 		return environment;
 	}
@@ -46,7 +45,7 @@ public class EnvironmentSoil extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Soil.class)
-	@JoinColumn(name = "soil_id", referencedColumnName = "soil_id")
+	@JoinColumn(name = "soil_id", referencedColumnName = "id")
 	public Soil getSoil() {
 		return soil;
 	}
@@ -74,7 +73,7 @@ public class EnvironmentSoil extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Region.class)
-	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	@JoinColumn(name = "region_id", referencedColumnName = "id")
 	public Region getRegion() {
 		return region;
 	}

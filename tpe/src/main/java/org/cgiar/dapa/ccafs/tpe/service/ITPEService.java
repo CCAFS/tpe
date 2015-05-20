@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -128,78 +127,6 @@ public interface ITPEService {
 	 * @return station
 	 */
 	Station getStationById(Integer stationId);
-
-	/**
-	 * Retrieves the climate records for the specified category from the
-	 * database from the specified weather stations located from particular
-	 * region(s) for the specified year.
-	 * 
-	 * @param stationIds
-	 *            the ids of the stations from which to retrieve the climate
-	 * 
-	 * @param categoryId
-	 *            the category id of the climate to retrieve
-	 * 
-	 * @param year
-	 *            the year for the climate to retrieve
-	 * @return climate
-	 */
-	List<Climate> getClimateByStations(List<Integer> stationIds,
-			Integer categoryId, String year);
-
-	/**
-	 * Retrieves all the climate information for the specified category from the
-	 * database from all the weather stations from the specified regions for the
-	 * specified year.
-	 * 
-	 * @param regionIds
-	 *            primary keys of the regions from which to retrieve the climate
-	 *            data
-	 * @param categoryId
-	 *            the category id of the climate to retrieve
-	 * @param year
-	 *            the year for the climate to retrieve
-	 * @return climate
-	 */
-	List<Climate> getClimateByRegions(List<Integer> regionIds,
-			Integer categoryId, String year);
-
-	// TODO To include order by.
-	// TODO Set start row and max rows from the database
-	/**
-	 * Retrieves climate from to a particular date for a given category from the
-	 * given region (country)
-	 * 
-	 * @param fromDate
-	 *            from date
-	 * @param toDate
-	 *            to date
-	 * @param regionId
-	 *            country or region id
-	 * @param categoryId
-	 *            category id of the climate category
-	 * @return climate
-	 */
-	List<Climate> getClimate(Date fromDate, Date toDate, Integer regionId,
-			Integer categoryId);
-
-	// TODO Add order by and max rows and start row
-	/**
-	 * Retrieves all stations associated with the specified climate category
-	 * between a certain date range from a specified region (country)
-	 * 
-	 * @param fromDate
-	 *            starting date
-	 * @param toDate
-	 *            to date
-	 * @param categoryId
-	 *            climate category id
-	 * @param regionId
-	 *            region (country) id
-	 * @return stations
-	 */
-	List<Station> getStationsByClimate(Date fromDate, Date toDate,
-			Integer categoryId, Integer regionId);
 
 	/**
 	 * Retrieve the soil texture by the primary key
@@ -565,8 +492,26 @@ public interface ITPEService {
 	 * 
 	 * @param tag
 	 *            the new tag record to save into the database
-	 * @throws TPEException 
+	 * @throws TPEException
 	 */
 	void addTag(Tag tag) throws TPEException;
+
+	/**
+	 * List climate records for the specified stations.
+	 * 
+	 * @param stationIds
+	 *            list of station ids
+	 * @return climate
+	 */
+	List<Climate> getClimateByStations(List<Integer> stationIds);
+
+	/**
+	 * Lists climate records from the database for the specified regions
+	 * 
+	 * @param regionIds
+	 *            list of region ids
+	 * @return climate
+	 */
+	List<Climate> getClimateByRegions(List<Integer> regionIds);
 
 }

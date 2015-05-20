@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -29,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "cultivar")
-@AttributeOverride(name = "id", column = @Column(name = "cultivar_id"))
+//@AttributeOverride(name = "id", column = @Column(name = "cultivar_id"))
 public class Cultivar extends BaseEntity {
 
 	/**
@@ -97,7 +96,7 @@ public class Cultivar extends BaseEntity {
 	 */
 	private Integer reproductiveStart;
 
-	@Column(name = "cultivar_name")
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -107,7 +106,7 @@ public class Cultivar extends BaseEntity {
 	}
 
 	@ManyToOne(targetEntity = Crop.class)
-	@JoinColumn(name = "crop_id", referencedColumnName = "crop_id")
+	@JoinColumn(name = "crop_id", referencedColumnName = "id")
 	public Crop getCrop() {
 		return crop;
 	}

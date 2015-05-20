@@ -207,6 +207,10 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
+	<bean id="jsonTestAction" class="org.cgiar.dapa.ccafs.tpe.action.JsonTestAction"
+		scope="session">
+		<aop:scoped-proxy/>
+	</bean>
 
 
 </beans>

@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -44,7 +43,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "soil_property")
-@AttributeOverride(name = "id", column = @Column(name = "property_id"))
+// @AttributeOverride(name = "id", column = @Column(name = "property_id"))
 public class SoilProperty extends BaseResult {
 
 	/**
@@ -115,18 +114,23 @@ public class SoilProperty extends BaseResult {
 	 */
 	private Double latitude;
 
-	/**
-	 * Soil property value. Since different properties have different data
-	 * types, we chose to use string or object data type for all.
-	 */
+	// /**
+	// * Soil property value. Since different properties have different data
+	// * types, we chose to use string or object data type for all.
+	// */
 	// private Double propertyValue = 0d;
-	/**
-	 * The soil property
-	 */
+	// /**
+	// * The soil property
+	// */
 	// private Property property;
+	/**
+	 * The region where the soil point is located. This field is considered in
+	 * case the station is null or not specified.
+	 */
+	private Region region;
 
 	@ManyToOne(targetEntity = Soil.class)
-	@JoinColumn(name = "soil_id", referencedColumnName = "soil_id")
+	@JoinColumn(name = "soil_id", referencedColumnName = "id")
 	public Soil getSoil() {
 		return soil;
 	}
@@ -136,7 +140,7 @@ public class SoilProperty extends BaseResult {
 	}
 
 	@ManyToOne(targetEntity = Station.class)
-	@JoinColumn(name = "station_id", referencedColumnName = "station_id")
+	@JoinColumn(name = "station_id", referencedColumnName = "id")
 	public Station getStation() {
 		return station;
 	}
@@ -270,6 +274,16 @@ public class SoilProperty extends BaseResult {
 
 	public void setAvailableSoilWater(Float availableSoilWater) {
 		this.availableSoilWater = availableSoilWater;
+	}
+
+	@ManyToOne(targetEntity = Region.class)
+	@JoinColumn(name = "region_id", referencedColumnName = "id")
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 }
