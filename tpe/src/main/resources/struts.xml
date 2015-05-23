@@ -108,6 +108,8 @@
 		<action name="paramsOut" class="tpeAction" method="paramsOut">
 			<result name="soil">/WEB-INF/pages/tpe/soil-params.jsp</result>
 			<result name="tpe">/WEB-INF/pages/tpe/tpe-params.jsp</result>
+			<result name="stability">/WEB-INF/pages/tpe/tpe-params.jsp</result>
+			<result name="area">/WEB-INF/pages/tpe/tpe-params.jsp</result>
 			<result name="climate">/WEB-INF/pages/tpe/climate-params.jsp</result>
 		</action>
 		<action name="subregions" class="tpeAction" method="loadSubregions">
@@ -182,7 +184,11 @@
 				<param name="includeProperties">tags.*</param>
 			</result>
 		</action>
-
+		<action name="stabilityGeoJson" class="stabilityGeoJsonAction">
+			<result type="json">
+				<param name="includeProperties">stabilityGeoJson.*,regionGeoJson.*,municipiosGeoJSON.*,zoomCus,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,boxplotData.*,categories.*,seriesData.*</param>
+			</result>
+		</action>
 
 	</package>
 

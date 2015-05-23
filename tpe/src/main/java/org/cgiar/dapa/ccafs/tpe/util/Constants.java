@@ -130,6 +130,8 @@ public interface Constants {
 	public static final String JSON_MAP_TPE = "tpe";
 	public static final String JSON_MAP_SOIL = "soil";
 	public static final String JSON_MAP_CLIMATE = "climate";
+	public static final String JSON_MAP_STABILITY = "stability";
+	public static final String JSON_MAP_AREA= "area";
 	public static final String JSON_REGION = "region";
 	public static final String JSON_MUNICIPIOS = "municipios";
 	public static final String JSON_BOUNDARY = "boundary";

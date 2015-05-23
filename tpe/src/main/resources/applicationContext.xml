@@ -209,8 +209,11 @@
 	</bean>
 	<bean id="jsonTestAction" class="org.cgiar.dapa.ccafs.tpe.action.JsonTestAction"
 		scope="session">
-		<aop:scoped-proxy/>
+		<aop:scoped-proxy />
 	</bean>
-
+	<bean id="stabilityGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.StabilityGeoJsonAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
 
 </beans>

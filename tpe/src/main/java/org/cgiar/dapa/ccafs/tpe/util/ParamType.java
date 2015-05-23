@@ -20,7 +20,7 @@ package org.cgiar.dapa.ccafs.tpe.util;
  *
  */
 public enum ParamType {
-	TPE(1), SOIL(2), CLIMATE(3);
+	TPE(1), SOIL(2), CLIMATE(3), STABILITY(10), AREA(11);
 	private Integer id;
 
 	private ParamType(Integer id) {
