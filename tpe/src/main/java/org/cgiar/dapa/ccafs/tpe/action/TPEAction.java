@@ -23,9 +23,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
-import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.util.ParamType;
-import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -40,14 +38,13 @@ public class TPEAction extends BaseAction {
 
 	private static final long serialVersionUID = -4801328465223186532L;
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 	private List<Category> outputs;
 	private Integer selectedOutput;
 	private Integer preselectedOutput;
-//	private List<Soil> textures;
-//	private List<Integer> selectedTextures;
-//	private List<Integer> preselectedTextures;
+	// private List<Soil> textures;
+	// private List<Integer> selectedTextures;
+	// private List<Integer> preselectedTextures;
 	private List<Region> countries;
 	private Integer selectedCountry;
 	private Integer preselectedCountry;
@@ -89,14 +86,29 @@ public class TPEAction extends BaseAction {
 	public String execute() {
 		// Retrieve the out put variables from the database
 		outputs = tpeService.getOutputs();
-		if (!outputs.isEmpty() && outputs != null)
+		if (!outputs.isEmpty() && outputs != null) {
 			// Make sure the outputs list is not empty or null, before setting
 			// the default preselect value
-			preselectedOutput = outputs.get(2).getId();
-		else
+			preselectedOutput = outputs.get(3).getId();
+
+			log.info("Output not null: " + preselectedOutput);
+		} else {
 			// If empty or null, then initialize the outputs with the empty
 			// arraylist
 			outputs = new ArrayList<Category>();
+
+			log.info("Output is null");
+		}
+
+		// Object regionGeoJSON = Utils.loadGeoJSON("brazil", JSON_REGION);
+		// log.info(regionGeoJSON);
+
+		// Object statesGeoJson = Utils.loadGeoJSON("brazil", JSON_STATES);
+		// log.info(statesGeoJson);
+
+		// Object tpeGeoJson = Utils.readJSON("rice", "brazil", "brsprimavera");
+		// log.info(tpeGeoJson);
+
 		return ActionSupport.SUCCESS;
 	}
 
@@ -107,13 +119,16 @@ public class TPEAction extends BaseAction {
 	 */
 	public String paramsOut() {
 		// Retrieve the countries from the database
-		countries = tpeService.getCountries();
+		// countries = tpeService.getCountries();
+		// Retrieve countries and continents (Latin America)
+		countries = tpeService.getCountriesAndContinents();
+
 		// Initialize the years
 		// years = new ArrayList<String>();
 		if (!countries.isEmpty() && countries != null) {
 			// Preselect the country
 			preselectedCountry = countries.get(0).getId();
-
+			log.info("Country Id: " + preselectedCountry);
 			// TODO Ignore the sub regions and stations in the beta version
 			// Get the sub regions
 			/*
@@ -127,99 +142,114 @@ public class TPEAction extends BaseAction {
 		 * regions = new ArrayList<Region>(); preselectedRegions = new
 		 * ArrayList<Integer>();
 		 */
+		if (this.getSelectedOutput() != null) {
+			log.info("Output not !=null: " + selectedOutput);
+			// Get the name of the selected output from the database
+			String outputName = tpeService
+					.getCategoryById(this.getSelectedOutput()).getName()
+					.toUpperCase();
+			log.info("Output Name: " + outputName);
+			if (outputName.equals(ParamType.TPE.name())
+					|| outputName.equals(ParamType.STABILITY.name())) {
+				log.info("Output Name equals Stability: " + outputName);
+				// Retrieve all the crops from the database
+				crops = tpeService.getAllCrops();
+				// Generate the scenarios from the utils class
+				// scenarios = Utils.getScenarios();
+				// if (!scenarios.isEmpty() && scenarios != null)
+				// // Select the first item in the list: zero based index
+				// preselectedScenario = 0;
 
-		if (this.getSelectedOutput().equals(ParamType.TPE.getId())) {
+				if (!crops.isEmpty() && crops != null) {
 
-			// Retrieve all the crops from the database
-			crops = tpeService.getAllCrops();
-			// Generate the scenarios from the utils class
-			// scenarios = Utils.getScenarios();
-			// if (!scenarios.isEmpty() && scenarios != null)
-			// // Select the first item in the list: zero based index
-			// preselectedScenario = 0;
+					// Preselect the crop
+					preselectedCrop = crops.get(0).getId();
+					// Get the crop cultivars for the preselected crop
+					cultivars = tpeService.getCultivarsByCrop(preselectedCrop);
+					log.info("Crop not null: " + preselectedCrop);
+					// Preselect the crop cultivar
+					if (!cultivars.isEmpty() && cultivars != null) {
 
-			if (!crops.isEmpty() && crops != null) {
-				// Preselect the crop
-				preselectedCrop = crops.get(0).getId();
-				// Get the crop cultivars for the preselected crop
-				cultivars = tpeService.getCultivarsByCrop(preselectedCrop);
-				// Preselect the crop cultivar
-				if (!cultivars.isEmpty() && cultivars != null) {
-					preselectedCultivar = cultivars.get(0).getId();
-					// Retrieve the years based on the selected country and
-					// crop
-					// cultivar
-					/*
-					 * years = tpeService.getTPEYears(countries.get(0).getId(),
-					 * preselectedCultivar); if (!years.isEmpty() && years !=
-					 * null) preselectedYear = years.get(0);
-					 */
-					// Retrieve the sowing windows for the selected cultivar
-					/*
-					 * swindows = tpeService
-					 * .getWindowSowingByCultivar(preselectedCultivar);
-					 * 
-					 * if (!swindows.isEmpty() && swindows != null) { //
-					 * Preselect the swindow preselectedWindow =
-					 * swindows.get(0).getId(); }
-					 */
+						preselectedCultivar = cultivars.get(0).getId();
+
+						log.info("Cultivar not null: " + preselectedCultivar);
+
+						// Retrieve the years based on the selected country and
+						// crop
+						// cultivar
+						/*
+						 * years =
+						 * tpeService.getTPEYears(countries.get(0).getId(),
+						 * preselectedCultivar); if (!years.isEmpty() && years
+						 * != null) preselectedYear = years.get(0);
+						 */
+						// Retrieve the sowing windows for the selected cultivar
+						/*
+						 * swindows = tpeService
+						 * .getWindowSowingByCultivar(preselectedCultivar);
+						 * 
+						 * if (!swindows.isEmpty() && swindows != null) { //
+						 * Preselect the swindow preselectedWindow =
+						 * swindows.get(0).getId(); }
+						 */
+					}
 				}
+
+				return TPE;
+			} else if (outputName.equals(ParamType.SOIL.name())) {
+
+				// textures = tpeService.getSoilTextures();
+				// if (!textures.isEmpty() && textures != null)
+				// // preselectedTexture = textures.get(0).getId();
+				// // preselectedTextures = textures.get(0).getId();
+				//
+				// setPreselectedTextures(Utils.getTextureId(textures));
+				// else
+				// textures = new ArrayList<Soil>();
+				// Get soil properties
+				// properties = tpeService.getSoilProperties();
+				// if (!properties.isEmpty() && properties != null) {
+				// preselectedProperty = properties.get(3).getId();
+				// // log.info("Soil Properties: " + properties.size());
+				// } else
+				// properties = new ArrayList<Property>();
+				return SOIL;
+			} else if (outputName.equals(ParamType.CLIMATE.name())) {
+				// The climate indicator will be selected before the year is
+				// selected
+				// indicators = tpeService.getClimateProperties();
+				// if (!indicators.isEmpty() && indicators != null)
+				// preselectedIndicator = indicators.get(0).getId();
+				// else
+				// indicators = new ArrayList<Property>();
+
+				// if (!countries.isEmpty() && countries != null) {
+				// TODO The stations and sub regions will be ignored in the beta
+				// version but will be consired in the improved version
+				// Get stations for the first country in the list
+				/*
+				 * stations = tpeService.getStationsByRegion(countries.get(0)
+				 * .getId()); if (!stations.isEmpty() && stations != null) {
+				 * preselectedStations = Utils.getStationIds(stations); } else
+				 * stations = new ArrayList<Station>();
+				 */
+
+				// Get years
+				// TODO Preselect the years based on the selected country and
+				// climate property.
+
+				// The years will be populated basing on the selected year (s)
+				/*
+				 * years = tpeService.getClimateYears(countries.get(0).getId());
+				 * if (!years.isEmpty() && years != null) preselectedYear =
+				 * years.get(0);
+				 */
+
+				// TODO Add the dates FROM and TO
+
+				// }
+				return CLIMATE;
 			}
-
-			return TPE;
-		} else if (this.getSelectedOutput().equals(ParamType.SOIL.getId())) {
-
-			// textures = tpeService.getSoilTextures();
-			// if (!textures.isEmpty() && textures != null)
-			// // preselectedTexture = textures.get(0).getId();
-			// // preselectedTextures = textures.get(0).getId();
-			//
-			// setPreselectedTextures(Utils.getTextureId(textures));
-			// else
-			// textures = new ArrayList<Soil>();
-			// Get soil properties
-			// properties = tpeService.getSoilProperties();
-			// if (!properties.isEmpty() && properties != null) {
-			// preselectedProperty = properties.get(3).getId();
-			// // log.info("Soil Properties: " + properties.size());
-			// } else
-			// properties = new ArrayList<Property>();
-			return SOIL;
-		} else if (this.getSelectedOutput().equals(ParamType.CLIMATE.getId())) {
-			// The climate indicator will be selected before the year is
-			// selected
-			// indicators = tpeService.getClimateProperties();
-			// if (!indicators.isEmpty() && indicators != null)
-			// preselectedIndicator = indicators.get(0).getId();
-			// else
-			// indicators = new ArrayList<Property>();
-
-			// if (!countries.isEmpty() && countries != null) {
-			// TODO The stations and sub regions will be ignored in the beta
-			// version but will be consired in the improved version
-			// Get stations for the first country in the list
-			/*
-			 * stations = tpeService.getStationsByRegion(countries.get(0)
-			 * .getId()); if (!stations.isEmpty() && stations != null) {
-			 * preselectedStations = Utils.getStationIds(stations); } else
-			 * stations = new ArrayList<Station>();
-			 */
-
-			// Get years
-			// TODO Preselect the years based on the selected country and
-			// climate property.
-
-			// The years will be populated basing on the selected year (s)
-			/*
-			 * years = tpeService.getClimateYears(countries.get(0).getId()); if
-			 * (!years.isEmpty() && years != null) preselectedYear =
-			 * years.get(0);
-			 */
-
-			// TODO Add the dates FROM and TO
-
-			// }
-			return CLIMATE;
 		}
 
 		return ActionSupport.SUCCESS;
@@ -311,7 +341,6 @@ public class TPEAction extends BaseAction {
 		this.preselectedOutput = preselectedOutput;
 	}
 
-	 
 	public List<Region> getCountries() {
 		return countries;
 	}

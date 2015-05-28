@@ -26,8 +26,8 @@ import org.cgiar.dapa.ccafs.tpe.util.Utils;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * The action that is responsible for the generation of Stability GeoJSON data for the
- * Stability Google Maps
+ * The action that is responsible for the generation of Stability GeoJSON data
+ * for the Stability Google Maps
  * 
  * @author NMATOVU
  *
@@ -155,10 +155,16 @@ public class StabilityGeoJsonAction extends BaseAction {
 				// this.setTpeGeoJson(Utils.loadJSONData(this.getPath()+
 				// "script/" + getRegion().getName().toUpperCase() + "."+
 				// getCultivar().getName().toUpperCase()+ ".TPE.geo.json"));
-				// TODO Get selected crop and cultivar params to load the stability
+				// TODO Get selected crop and cultivar params to load the
+				// stability
 				// object
-				stabilityGeoJson = Utils.readJSON("rice", region.getName(),
-						"brsprimavera", JSON_MAP_STABILITY);
+				// stabilityGeoJson = Utils.readJSON("rice", region.getName(),
+				// "brsprimavera", JSON_MAP_STABILITY);
+
+				stabilityGeoJson = Utils.readJSON(this.getCultivar().getCrop()
+						.getName().toLowerCase(), region.getName(), this
+						.getCultivar().getName().toLowerCase(),
+						JSON_MAP_STABILITY);
 
 				// Get the categories for LAI, WAGT, etc
 				// It is the same for all clusters and environments
@@ -179,8 +185,8 @@ public class StabilityGeoJsonAction extends BaseAction {
 			// + "script/" + getRegion().getName().toUpperCase()
 			// + ".BOUNDARY.json"));
 
-			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_BOUNDARY);
+//			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
+//					JSON_BOUNDARY);
 
 			boxplotData = tpeService.getTPEBox(getSelectedCountry(),
 					getSelectedCultivar());
