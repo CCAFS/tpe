@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,7 +38,7 @@ import org.cgiar.dapa.ccafs.tpe.util.Scenario;
  */
 @Entity
 @Table(name = "phenology_growth")
-//@AttributeOverride(name = "id", column = @Column(name = "result_id"))
+@AttributeOverride(name = "id", column = @Column(name = "result_id"))
 public class PhenologyGrowth extends BaseResult {
 
 	/**

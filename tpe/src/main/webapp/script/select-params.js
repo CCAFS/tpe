@@ -47,7 +47,7 @@ $(document)
 					// The url for loading the crop cultivars
 					var href_cultivars = "cultivars.action";
 					// The url to load the years
-					var href_years = "years.action";
+					// var href_years = "years.action";
 
 					// Get the select#select_output text
 					var outputControl = document
@@ -116,7 +116,8 @@ $(document)
 											loadVariables(outputText);
 											// Load the Google Map after the
 											// variables are loaded.
-											initializeGoogleMap();
+											// ///////////////////////initializeGoogleMap();
+											visualizeResults();
 										}).hide().slideDown(1000);
 									});
 
@@ -246,9 +247,13 @@ $(document)
 						// Use the selected output text to determine the
 						// variables to display or
 						// show
+
+						//console.log('selected otext: ' + otext.toUpperCase());
 						switch (otext.toUpperCase()) {
 
 						case 'TPE':
+						case 'STABILITY':
+						case 'AREA':
 							// console.log('TPE SELECTED: '+ot.toUpperCase());
 							// Get the preselected crop id
 							preselected_crop = $("select#select_crop").val();
@@ -267,7 +272,8 @@ $(document)
 
 								// Load the Google Map, the selected crop
 								// cultivar changes
-								initializeGoogleMap();
+								// ////////////////////////initializeGoogleMap();
+								visualizeResults();
 							});
 
 							// Automatically reload the crop cultivars when the
@@ -294,7 +300,8 @@ $(document)
 							// Automatically reload the Google Map when the
 							// selected crop change
 							$("select#select_cultivar").change(function() {
-								initializeGoogleMap();
+								// ////////////////////////////initializeGoogleMap();
+								visualizeResults();
 							});
 
 							/*
@@ -340,7 +347,8 @@ $(document)
 							 * initializeGoogleMap(); });
 							 */
 							$("select#select_country").change(function() {
-								initializeGoogleMap();
+								// //////////////////////////initializeGoogleMap();
+								visualizeResults();
 							});
 
 							break;
@@ -387,17 +395,22 @@ $(document)
 							// Automatically reload the map when the country
 							// change
 							$("select#select_country").change(function() {
+								visualizeResults();
 								// //////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
 							break;
 
 						case 'CLIMATE':
-
+							//console.log('Getting climate case');
 							$("select#select_country").change(function() {
+								//console.log('Getting climate casing');
+								visualizeResults();
 								// //////////////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
+							visualizeResults();
+							
 							// console.log('TPE SELECTED: ' +
 							// outputText.toUpperCase());
 							// Automatically reload the Google Map when the
@@ -481,7 +494,8 @@ $(document)
 							/* $(this).slideUp(0).slideDown(1000); */
 
 							// Load the Google Map, the selected country changes
-							initializeGoogleMap();
+							// //////////////////////////////initializeGoogleMap();
+							visualizeResults();
 						});
 
 						// Automatically reload the sub regions when the country
@@ -499,7 +513,8 @@ $(document)
 
 								// Load the Google Map, the selected country
 								// changes
-								initializeGoogleMap();
+								// //////////////////////////////////initializeGoogleMap();
+								visualizeResults();
 							});
 
 						});

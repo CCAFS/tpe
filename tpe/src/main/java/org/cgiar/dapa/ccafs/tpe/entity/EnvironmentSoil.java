@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "environment_soil")
-//@AttributeOverride(name = "id", column = @Column(name = "env_soil_id"))
+@AttributeOverride(name = "id", column = @Column(name = "env_soil_id"))
 public class EnvironmentSoil extends BaseEntity {
 
 	/**

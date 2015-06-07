@@ -89,7 +89,8 @@ public class TPEAction extends BaseAction {
 		if (!outputs.isEmpty() && outputs != null) {
 			// Make sure the outputs list is not empty or null, before setting
 			// the default preselect value
-			preselectedOutput = outputs.get(3).getId();
+			//1
+			preselectedOutput = outputs.get(1).getId();
 
 			log.info("Output not null: " + preselectedOutput);
 		} else {
@@ -127,7 +128,8 @@ public class TPEAction extends BaseAction {
 		// years = new ArrayList<String>();
 		if (!countries.isEmpty() && countries != null) {
 			// Preselect the country
-			preselectedCountry = countries.get(0).getId();
+			//countries.size()-1
+			preselectedCountry = countries.get(countries.size()-1).getId();
 			log.info("Country Id: " + preselectedCountry);
 			// TODO Ignore the sub regions and stations in the beta version
 			// Get the sub regions
@@ -150,7 +152,8 @@ public class TPEAction extends BaseAction {
 					.toUpperCase();
 			log.info("Output Name: " + outputName);
 			if (outputName.equals(ParamType.TPE.name())
-					|| outputName.equals(ParamType.STABILITY.name())) {
+					|| outputName.equals(ParamType.STABILITY.name())
+					|| outputName.equals(ParamType.AREA.name())) {
 				log.info("Output Name equals Stability: " + outputName);
 				// Retrieve all the crops from the database
 				crops = tpeService.getAllCrops();
@@ -281,7 +284,7 @@ public class TPEAction extends BaseAction {
 		// Retrieve the crop cultivars for the selected crop
 		if (selectedCrop != null) {
 			cultivars = tpeService.getCultivarsByCrop(selectedCrop);
-
+			log.info("# of cultivars: " + cultivars.size());
 			if (!cultivars.isEmpty() && cultivars != null)
 				// Preselect the id of the first crop cultivar in the
 				// list

@@ -14,7 +14,9 @@
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/south-street/jquery-ui.css" />
 <script
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-<script type="text/javascript" src="${ctx}/script/init-map.js"></script>
+<script type="text/javascript" src="${ctx}/script/visualize-results.js"></script>
+<script type="text/javascript" src="${ctx}/script/load-json.js"></script>
+<script type="text/javascript" src="${ctx}/script/initialize-map.js"></script>
 <script type="text/javascript" src="${ctx}/script/select-params.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/highcharts-more.js"></script>

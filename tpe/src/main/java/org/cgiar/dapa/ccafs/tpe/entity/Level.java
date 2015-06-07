@@ -11,14 +11,40 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.util;
+package org.cgiar.dapa.ccafs.tpe.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
- * This enum provides the region categories
+ * This class represents the level in the model
  * 
  * @author NMATOVU
  *
  */
-public enum RegionCategory {
-	COUNTRY, STATE, PROVINCE, MUNICIPIO, DISTRICT, CONTINENT
+@Entity
+@Table(name = "level") 
+public class Level extends BaseEntity {
+  
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2378722165434156826L;
+	/**
+	 * The name of the level in the climatic data
+	 */
+	private String name;
+
+	   
+
+	@Column(name = "name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

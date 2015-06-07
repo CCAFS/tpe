@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -43,7 +44,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "soil_property")
-// @AttributeOverride(name = "id", column = @Column(name = "property_id"))
+@AttributeOverride(name = "id", column = @Column(name = "property_id"))
 public class SoilProperty extends BaseResult {
 
 	/**

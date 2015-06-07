@@ -34,11 +34,13 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 *            the country id
 	 * @param indicators
 	 *            the climate indicators
+	 * @param regionCategory
+	 *            the region category id
 	 * 
 	 * @return climate GeoJSON features
 	 */
 	Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators);
+			List<Integer> indicators, Integer regionCategory);
 
 	/**
 	 * LIst all the years linked to the specified country id (or its sub regions

@@ -166,17 +166,17 @@
 		</action>
 		<action name="soilGeoJson" class="soilGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoomCus,lat,lng,years.*,dataJson.*,categories.*,statesGeoJson.*,tpeBoundaryJson.*</param>
+				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoomCus,lat,lng,years.*,dataJson.*,categories.*,tpeBoundaryJson.*</param>
 			</result>
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">tpeGeoJson.*,regionGeoJson.*,municipiosGeoJSON.*,zoomCus,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,boxplotData.*,categories.*,seriesData.*</param>
+				<param name="includeProperties">tpeGeoJson.*,regionGeoJson.*,municipiosGeoJSON.*,zoomCus,lat,lng,years.*,tpeBoundaryJson.*,boxplotData.*,categories.*,seriesData.*</param>
 			</result>
 		</action>
 		<action name="climateGeoJson" class="climateGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">geoJson.*,countryGeoJson.*,zoomCus,lat,lng,years.*,statesGeoJson.*,seriesData.*</param>
+				<param name="includeProperties">regionJson.*,geoJson.*,countryGeoJson.*,zoomCus,lat,lng,years.*,seriesData.*</param>
 			</result>
 		</action>
 		<action name="tags" class="tagsAction">
@@ -186,7 +186,12 @@
 		</action>
 		<action name="stabilityGeoJson" class="stabilityGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">stabilityGeoJson.*,regionGeoJson.*,municipiosGeoJSON.*,zoomCus,lat,lng,years.*,statesGeoJson.*,tpeBoundaryJson.*,boxplotData.*,categories.*,seriesData.*</param>
+				<param name="includeProperties">stabilityGeoJson.*,regionGeoJson.*,municipiosGeoJSON.*,zoomCus,lat,lng,years.*,tpeBoundaryJson.*,boxplotData.*,categories.*,seriesData.*</param>
+			</result>
+		</action>
+		<action name="areaGeoJson" class="areaGeoJsonAction">
+			<result type="json">
+				<param name="includeProperties">areaGeoJson.*,zoomCus,lat,lng</param>
 			</result>
 		</action>
 

@@ -269,9 +269,10 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators) {
+			List<Integer> indicators, Integer regionCategory) {
 
-		return climateDao.getClimateGeoJSON(countryId, indicators);
+		return climateDao.getClimateGeoJSON(countryId, indicators,
+				regionCategory);
 	}
 
 	@Override
@@ -387,5 +388,11 @@ public class TPEService implements ITPEService {
 	public List<Climate> getClimateByRegions(List<Integer> regionIds) {
 
 		return climateDao.getClimateByRegions(regionIds);
+	}
+
+	@Override
+	public List<Region> getCountriesAndContinents() {
+
+		return regionDao.getCountriesAndContinents();
 	}
 }

@@ -256,11 +256,12 @@ public class Utils implements Constants {
 			JSONParser parser = new JSONParser();
 
 			try {
+				log.info(brazilJSON.getCanonicalPath());
 				// Read the file from the specified path
 				json = parser.parse(new FileReader(brazilJSON
 						.getCanonicalPath()));
-				log.info(fileName);
-				log.info(json);
+				//log.info(fileName);
+				//log.info(json);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -315,16 +316,20 @@ public class Utils implements Constants {
 	 *            the selected region (Latin America, Colombia or Brazil)
 	 * @param cultivar
 	 *            the selected crop cultivar
+	 * @param map
+	 *            the type of map (tpe, stability or area)
 	 * @return JSON object
 	 */
-	public static Object readJSON(String crop, String region, String cultivar) {
+	public static Object readJSON(String crop, String region, String cultivar,
+			String map) {
 		String path = "";
 		if (region != null && crop != null) {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
 			cultivar = cultivar.toLowerCase();
 			path = "/CIAT 2015/resources/script/" + region + "_" + crop + "_"
-					+ cultivar + ".json";
+					+ cultivar + "_" + map + ".json";
+			log.info(path);
 		}
 		return readJSON(path);
 	}

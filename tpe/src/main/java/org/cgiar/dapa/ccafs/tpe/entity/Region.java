@@ -86,7 +86,7 @@ public class Region extends BaseEntity {
 	/**
 	 * The level or administrative division of the region (level one)
 	 */
-	private String level;
+	private Level level;
 	/**
 	 * The default Google Map zoom for this region
 	 */
@@ -96,6 +96,23 @@ public class Region extends BaseEntity {
 	 * So this region will belong to the country
 	 */
 	private String country;
+	/**
+	 * The country code.
+	 */
+	private Integer countryCode;
+	/**
+	 * The state code
+	 */
+	private Integer stateCode;
+	/**
+	 * The municipality code.
+	 */
+	private Integer municipalityCode;
+	/**
+	 * The region where the country belongs (Caribean, South America, Central
+	 * America)
+	 */
+	private String region;
 
 	@Column(name = "name")
 	public String getName() {
@@ -162,12 +179,13 @@ public class Region extends BaseEntity {
 		this.numericISO = numericISO;
 	}
 
-	@Column(name = "level")
-	public String getLevel() {
+		@ManyToOne(targetEntity = Level.class)
+	@JoinColumn(name = "level_id", referencedColumnName = "id")
+	public Level getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(Level level) {
 		this.level = level;
 	}
 
@@ -199,6 +217,10 @@ public class Region extends BaseEntity {
 
 	@Column(name = "zoom")
 	public Integer getZoom() {
+
+		if (zoom == null)
+			return 4;
+
 		return zoom;
 	}
 
@@ -214,4 +236,41 @@ public class Region extends BaseEntity {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	@Column(name = "country_code")
+	public Integer getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(Integer countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	@Column(name = "state_code")
+	public Integer getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(Integer stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	@Column(name = "municipality_code")
+	public Integer getMunicipalityCode() {
+		return municipalityCode;
+	}
+
+	public void setMunicipalityCode(Integer municipalityCode) {
+		this.municipalityCode = municipalityCode;
+	}
+
+	@Column(name = "region")
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
 }

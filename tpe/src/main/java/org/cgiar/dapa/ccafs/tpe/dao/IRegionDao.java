@@ -51,4 +51,11 @@ public interface IRegionDao extends IGenericDao<Region, Integer> {
 	 * @return subregions
 	 */
 	List<Region> getSubregionsByCountry(Integer countryId);
+
+	/**
+	 * Retrieves countries and continents from the regions table.
+	 * 
+	 * @return countries and continents
+	 */
+	List<Region> getCountriesAndContinents();
 }

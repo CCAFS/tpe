@@ -14,6 +14,7 @@
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -77,7 +78,10 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 	@Override
 	public Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators) {
+			List<Integer> indicators, Integer regionCategory) {
+
+		// TODO Use category name;
+		Integer continent = 12;
 
 		// TODO Ignore the indicators
 		// Initialize the climateGeoJSON with a LinkedHashMap();
@@ -86,12 +90,27 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		GeometryPoint climateGeometry;
 		// FeatureProperty climateProperty;
 		Map<String, Object> properties = new LinkedHashMap<String, Object>();
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.region.parent.id =:country")
-				.append(" or r.station.region.parent.parent.id =:country");
+
+		StringBuffer q = null;
+
+		if (continent == regionCategory)
+			q = new StringBuffer("from " + entityClass.getName())
+					.append(" r where r.level.id in (:levels)");
+
+		else
+			q = new StringBuffer("from " + entityClass.getName()).append(
+					" r where r.station.region.parent.id =:country").append(
+					" or r.station.region.parent.parent.id =:country");
+
 		Query query = entityManager.createQuery(q.toString());
-		query.setParameter("country", countryId);
-		// query.setParameter("indicators", indicators);
+
+		if (continent == regionCategory) {
+			query.setParameter("levels",
+					new ArrayList<Integer>(Arrays.asList(1, 2, 3)));
+		} else
+
+			query.setParameter("country", countryId);
+
 		List<Climate> results = query.getResultList();
 		Climate climate;
 		// Create a decimal format
@@ -99,19 +118,39 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		for (Iterator<Climate> iterator = results.iterator(); iterator
 				.hasNext();) {
 			climate = iterator.next();
-			climateGeometry = new GeometryPoint(climate.getStation()
-					.getCoordinates());
-			properties.put(FEATURE_NAME, climate.getStation().getName());
-			properties.put(STATION_NUMBER, climate.getStation().getNumber());
-			properties.put(STATION_NAME, climate.getStation().getName());
-			properties.put(STATION_ID, climate.getStation().getId());
+			if (continent == regionCategory) {
+				climateGeometry = new GeometryPoint(climate.getCoordinates());
+				properties.put("country", climate.getRegion().getParent().getName());
+				properties.put(FEATURE_NAME, climate.getRegion().getName());
+				properties.put(STATION_NUMBER, climate.getRegion()
+						.getMunicipalityCode());
+				properties.put(STATION_NAME, climate.getRegion().getName());
+				// TODO Refactor the feature ID
+				properties.put(STATION_ID, climate.getRegion().getId()
+						.toString()
+						+ climate.getLongitude().toString()
+						+ climate.getLatitude().toString());
+				properties.put(REGION_NAME, climate.getRegion().getName());
+			}
+
+			else {
+				climateGeometry = new GeometryPoint(climate.getStation()
+						.getCoordinates());
+										properties.put("country", null);
+				properties.put(FEATURE_NAME, climate.getStation().getName());
+				properties
+						.put(STATION_NUMBER, climate.getStation().getNumber());
+				properties.put(STATION_NAME, climate.getStation().getName());
+				properties.put(STATION_ID, climate.getStation().getId());
+				properties.put(REGION_NAME, climate.getStation().getRegion()
+						.getName());
+			}
+
 			properties.put(TMIN, df.format(climate.getTmin()));
 			properties.put(TMAX, df.format(climate.getTmax()));
-			properties.put(RADIATION, df.format(climate.getRadiation()));
+//			properties.put(RADIATION, df.format(climate.getRadiation()));
 			properties
 					.put(PRECIPITATION, df.format(climate.getPrecipitation()));
-			properties.put(REGION_NAME, climate.getStation().getRegion()
-					.getName());
 			properties.put(PROPERTY_AUTHOR, climate.getAuthor());
 			properties.put(PROPERTY_SOURCE, climate.getSource());
 			properties.put(FEATURE_COLOR, STATION_COLOR_BLACK);

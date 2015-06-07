@@ -33,9 +33,8 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 8564417689624834186L;
 
-	private static final Object COUNTRY_COLOMBIA = "COLOMBIA";
+	// private static final Object COUNTRY_COLOMBIA = "COLOMBIA";
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -93,38 +92,51 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The corresponding country states geojson data
 	 */
-	private Object statesGeoJson;
+	// private Object statesGeoJson;
 	/**
 	 * The series data map
 	 */
 	private Map<String, Object> seriesData;
 
+	private Object regionJson;
+
 	public String execute() {
 
 		// Retrieve the soil GeoJson data from the database
 		if (getSelectedCountry() != null) {
-
+			log.info("COUNTRY: " + selectedCountry);
+			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
+			setLat(getRegion().getLatitude());
+			setLng(getRegion().getLongitude());
+			this.setZoomCus(this.getRegion().getZoom());
+			log.info("Loaded Region, Now loading GeoJson");
 			// TODO Initially dont consider selection of climate indicators
-			this.setGeoJson(tpeService.getClimateGeoJSON(
-					this.getSelectedCountry(), null));
+			this.setGeoJson(tpeService.getClimateGeoJSON(this
+					.getSelectedCountry(), null, getRegion().getCategory()
+					.getId()));
 			// Get the climate series data from the database
-			seriesData = tpeService.getClimateSeries(getSelectedCountry());
+			 seriesData = tpeService.getClimateSeries(getSelectedCountry());
+			log.info("SET GeoJson data");
+
+			log.info("Loading RegionJSON file");
+			// Load the Climate Geo Json areas
+			setRegionJson(Utils.readJSON(JSON_MAP_CLIMATE, region.getName()
+					.toLowerCase()));
+
+			log.info("Set Region JSON");
+
 		}
 
-		this.setRegion(tpeService.getRegionById(getSelectedCountry()));
-		setLat(getRegion().getLatitude());
-		setLng(getRegion().getLongitude());
-		this.setZoomCus(this.getRegion().getZoom());
-		setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/"
-				+ getRegion().getName().toUpperCase() + ".geo.json"));
+		// setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/" +
+		// getRegion().getName().toUpperCase() + ".geo.json"));
 		// Load states geo json data
 
-		if (getRegion().getName().toUpperCase().equals(COUNTRY_COLOMBIA))
-			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
-					+ getRegion().getName().toUpperCase() + ".CLIMATE.geo.json"));
-		else
-			this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
-					+ getRegion().getName().toUpperCase() + ".STATES.geo.json"));
+		// if (getRegion().getName().toUpperCase().equals(COUNTRY_COLOMBIA))
+		// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+		// + getRegion().getName().toUpperCase() + ".CLIMATE.geo.json"));
+		// else
+		// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
+		// + getRegion().getName().toUpperCase() + ".STATES.geo.json"));
 
 		return ActionSupport.SUCCESS;
 	}
@@ -161,8 +173,6 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	 
-
 	public Integer getZoomCus() {
 		return zoomCus;
 	}
@@ -187,20 +197,20 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.geoJson = geoJson;
 	}
 
-	public Object getStatesGeoJson() {
-		return statesGeoJson;
-	}
-
-	public void setStatesGeoJson(Object statesGeoJson) {
-		this.statesGeoJson = statesGeoJson;
-	}
-
 	public Map<String, Object> getSeriesData() {
 		return seriesData;
 	}
 
 	public void setSeriesData(Map<String, Object> seriesData) {
 		this.seriesData = seriesData;
+	}
+
+	public Object getRegionJson() {
+		return regionJson;
+	}
+
+	public void setRegionJson(Object regionJson) {
+		this.regionJson = regionJson;
 	}
 
 }

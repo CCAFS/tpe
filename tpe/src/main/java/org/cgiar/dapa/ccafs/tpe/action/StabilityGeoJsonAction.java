@@ -88,7 +88,7 @@ public class StabilityGeoJsonAction extends BaseAction {
 	/**
 	 * The corresponding country states geojson data
 	 */
-	private Object statesGeoJson;
+	// private Object statesGeoJson;
 	/**
 	 * The tpe boundary geo json
 	 */
@@ -141,8 +141,11 @@ public class StabilityGeoJsonAction extends BaseAction {
 			// "script/"
 			// + getRegion().getName().toUpperCase() + ".STATES.geo.json"));
 
-			statesGeoJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_STATES);
+			// TODO Don't load the states or polygon json objects
+			/*
+			 * statesGeoJson = Utils.loadGeoJSON(getRegion().getName(),
+			 * JSON_STATES);
+			 */
 
 			municipiosGeoJSON = Utils.loadGeoJSON(getRegion().getName(),
 					JSON_MUNICIPIOS);
@@ -185,8 +188,11 @@ public class StabilityGeoJsonAction extends BaseAction {
 			// + "script/" + getRegion().getName().toUpperCase()
 			// + ".BOUNDARY.json"));
 
-//			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
-//					JSON_BOUNDARY);
+			// tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
+			// JSON_BOUNDARY);
+
+			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
+					JSON_BOUNDARY);
 
 			boxplotData = tpeService.getTPEBox(getSelectedCountry(),
 					getSelectedCultivar());
@@ -258,14 +264,6 @@ public class StabilityGeoJsonAction extends BaseAction {
 
 	public void setLng(Double lng) {
 		this.lng = lng;
-	}
-
-	public Object getStatesGeoJson() {
-		return statesGeoJson;
-	}
-
-	public void setStatesGeoJson(Object statesGeoJson) {
-		this.statesGeoJson = statesGeoJson;
 	}
 
 	public Object getTpeBoundaryJson() {

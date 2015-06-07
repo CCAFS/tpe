@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -48,6 +50,19 @@ public class RegionDao extends GenericDao<Region, Integer> implements
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("country", countryId);
 
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Region> getCountriesAndContinents() {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				.append(" r where r.category.name in(:categories)");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter(
+				"categories",
+				new ArrayList<String>(Arrays.asList(
+						RegionCategory.COUNTRY.name(),
+						RegionCategory.CONTINENT.name())));
 		return query.getResultList();
 	}
 

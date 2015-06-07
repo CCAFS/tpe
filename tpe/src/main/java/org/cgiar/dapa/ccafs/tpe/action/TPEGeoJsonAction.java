@@ -36,7 +36,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 2409450891248252753L;
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -108,7 +107,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The corresponding country states geojson data
 	 */
-	private Object statesGeoJson;
+	// private Object statesGeoJson;
 	/**
 	 * The tpe boundary geo json
 	 */
@@ -174,9 +173,11 @@ public class TPEGeoJsonAction extends BaseAction {
 			// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() +
 			// "script/"
 			// + getRegion().getName().toUpperCase() + ".STATES.geo.json"));
-
-			statesGeoJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_STATES);
+			// TODO Don't load the states or polygon json objects
+			/*
+			 * statesGeoJson = Utils.loadGeoJSON(getRegion().getName(),
+			 * JSON_STATES);
+			 */
 
 			municipiosGeoJSON = Utils.loadGeoJSON(getRegion().getName(),
 					JSON_MUNICIPIOS);
@@ -190,8 +191,9 @@ public class TPEGeoJsonAction extends BaseAction {
 				// "script/" + getRegion().getName().toUpperCase() + "."+
 				// getCultivar().getName().toUpperCase()+ ".TPE.geo.json"));
 				// TODO Get selected crop and cultivar
-				tpeGeoJson = Utils.readJSON(this.getCultivar().getCrop().getName().toLowerCase(), region.getName(),
-						this.getCultivar().getName().toLowerCase(), JSON_MAP_TPE);
+				tpeGeoJson = Utils.readJSON(this.getCultivar().getCrop()
+						.getName().toLowerCase(), region.getName(), this
+						.getCultivar().getName().toLowerCase(), JSON_MAP_TPE);
 
 				// Get the categories for LAI, WAGT, etc
 				// It is the same for all clusters and environments
@@ -293,14 +295,6 @@ public class TPEGeoJsonAction extends BaseAction {
 
 	public void setLng(Double lng) {
 		this.lng = lng;
-	}
-
-	public Object getStatesGeoJson() {
-		return statesGeoJson;
-	}
-
-	public void setStatesGeoJson(Object statesGeoJson) {
-		this.statesGeoJson = statesGeoJson;
 	}
 
 	public Object getTpeBoundaryJson() {

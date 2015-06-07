@@ -320,11 +320,13 @@ public interface ITPEService {
 	 *            the country id
 	 * @param indicators
 	 *            the climate indicators
+	 * @param regionCategory
+	 *            category of the region
 	 * 
 	 * @return climate GeoJSON features
 	 */
 	Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators);
+			List<Integer> indicators, Integer regionCategory);
 
 	/**
 	 * Retrieves the chart series for a selected (clicked) sub region from the
@@ -513,5 +515,12 @@ public interface ITPEService {
 	 * @return climate
 	 */
 	List<Climate> getClimateByRegions(List<Integer> regionIds);
+
+	/**
+	 * Retrieves countries and continents from the regions table.
+	 * 
+	 * @return countries and continents
+	 */
+	List<Region> getCountriesAndContinents();
 
 }

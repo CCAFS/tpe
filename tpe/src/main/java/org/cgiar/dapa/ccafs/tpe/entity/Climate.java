@@ -13,11 +13,17 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * This class represents the climate in the simulation model
@@ -27,7 +33,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "climate")
-//@AttributeOverride(name = "id", column = @Column(name = "climate_id"))
+@AttributeOverride(name = "id", column = @Column(name = "climate_id"))
 public class Climate extends BaseResult {
 
 	/**
@@ -98,6 +104,24 @@ public class Climate extends BaseResult {
 	 * The month
 	 */
 	private Integer month;
+
+	private Integer monthPlantingDate;
+
+	private Level level;
+
+	/**
+	 * The latitude of the weather station
+	 */
+	private Double latitude;
+	/**
+	 * The longitude of the weather station
+	 */
+	private Double longitude;
+
+	/**
+	 * The region where the weather station is located or found
+	 */
+	private Region region;
 
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -182,4 +206,65 @@ public class Climate extends BaseResult {
 		this.month = month;
 	}
 
+	@Column(name = "month_planting_date")
+	public Integer getMonthPlantingDate() {
+		return monthPlantingDate;
+	}
+
+	public void setMonthPlantingDate(Integer monthPlantingDate) {
+		this.monthPlantingDate = monthPlantingDate;
+	}
+
+	@ManyToOne(targetEntity = Level.class)
+	@JoinColumn(name = "level_id", referencedColumnName = "id")
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	@Column(name = "latitude")
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	@Column(name = "longitude")
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+	@ManyToOne(targetEntity = Region.class)
+	@JoinColumn(name = "region_id", referencedColumnName = "id")
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	/**
+	 * The coordinates. The ordering of x and y are important, this means that
+	 * when representing latitude and longitiude the order is
+	 * [longitude,latitude].
+	 * 
+	 * @return coordinates [longitude,latitude]
+	 */
+	@Transient
+	public List<Double> getCoordinates() {
+
+		return new LinkedList<Double>(Arrays.asList(this.getLongitude(),
+				this.getLatitude()));
+
+	}
 }
