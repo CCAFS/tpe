@@ -215,9 +215,6 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
-	<bean id="areaGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.AreaGeoJsonAction"
-		scope="request">
-		<property name="tpeService" ref="tpeService" />
-	</bean>
+	 
 
 </beans>

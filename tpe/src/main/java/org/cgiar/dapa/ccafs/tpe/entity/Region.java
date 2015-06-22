@@ -47,7 +47,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "region")
 // @AttributeOverride(name = "id", column = @Column(name = "id"))
-public class Region extends BaseEntity {
+public class Region extends BaseEntity implements Coordinate {
 
 	/**
 	 * 
@@ -179,7 +179,7 @@ public class Region extends BaseEntity {
 		this.numericISO = numericISO;
 	}
 
-		@ManyToOne(targetEntity = Level.class)
+	@ManyToOne(targetEntity = Level.class)
 	@JoinColumn(name = "level_id", referencedColumnName = "id")
 	public Level getLevel() {
 		return level;

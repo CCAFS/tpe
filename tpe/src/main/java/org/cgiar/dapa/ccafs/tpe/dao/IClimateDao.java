@@ -40,7 +40,7 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 * @return climate GeoJSON features
 	 */
 	Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators, Integer regionCategory);
+			List<Integer> indicators, Boolean continent);
 
 	/**
 	 * LIst all the years linked to the specified country id (or its sub regions
@@ -52,14 +52,17 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 */
 	List<String> getClimateYears(Integer countryId);
 
+
 	/**
 	 * Retrieves the climate series data from the database
 	 * 
 	 * @param country
 	 *            the selected country id
+	 * @param continent
+	 *            the boolean value if the region is a continent.
 	 * @return climate series
 	 */
-	Map<String, Object> getClimateSeries(Integer country);
+	Map<String, Object> getClimateSeries(Integer country, boolean continent);
 
 	/**
 	 * List climate records for the specified stations.
@@ -78,4 +81,6 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 * @return climate
 	 */
 	List<Climate> getClimateByRegions(List<Integer> regionIds);
+	
+	List<Object[]>getClimateData(Integer countryId);
 }

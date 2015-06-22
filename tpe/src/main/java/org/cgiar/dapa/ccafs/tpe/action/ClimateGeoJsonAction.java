@@ -73,22 +73,23 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The default Google Map zoom
 	 */
-	protected Integer zoomCus = 4;
+	protected Integer zoom = 4;
 	/**
 	 * The selected list of years
 	 */
 	// protected List<String> selectedYears;
 	/**
-	 * The field for holding the selected country geo json data from the json
-	 * file from the server
+	 * The field for holding the selected country or continent geo json data.
+	 * This will only hold data for the country boundary.
 	 */
-	protected Object countryGeoJson;
+	protected Object regionJson;
 
 	/**
-	 * The soil GeoJson map that will provide the GeoJson features on the Google
-	 * Map
+	 * The features json includes weather stations with thier corresponding
+	 * climatic information (min & max temperature, precipitation). These
+	 * features will be loaded on the Google Map
 	 */
-	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
+	protected Map<String, Object> featuresJson = new LinkedHashMap<String, Object>();
 	/**
 	 * The corresponding country states geojson data
 	 */
@@ -96,9 +97,17 @@ public class ClimateGeoJsonAction extends BaseAction {
 	/**
 	 * The series data map
 	 */
-	private Map<String, Object> seriesData;
+	private Map<String, Object> seriesJson;
+	/**
+	 * The JSON for the growing regions or areas for the currently selected crop
+	 * and cultiva from the selected country or Continent.
+	 */
+	private Object growingRegionsJson;
 
-	private Object regionJson;
+	/**
+	 * The municipalities Geo JSON object
+	 */
+	private Object municipalitiesJson;
 
 	public String execute() {
 
@@ -108,22 +117,35 @@ public class ClimateGeoJsonAction extends BaseAction {
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
-			this.setZoomCus(this.getRegion().getZoom());
+			this.setZoom(this.getRegion().getZoom());
 			log.info("Loaded Region, Now loading GeoJson");
+			boolean continent = false;
+			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
+				continent = true;
+			log.info("Continent: "+continent);
 			// TODO Initially dont consider selection of climate indicators
-			this.setGeoJson(tpeService.getClimateGeoJSON(this
-					.getSelectedCountry(), null, getRegion().getCategory()
-					.getId()));
+			this.setFeaturesJson(tpeService.getClimateGeoJSON(
+					this.getSelectedCountry(), null, continent));
+			log.info("Loaded features json");
 			// Get the climate series data from the database
-			 seriesData = tpeService.getClimateSeries(getSelectedCountry());
-			log.info("SET GeoJson data");
+			//TODO Get series separately for each hovered station
+			//seriesJson = tpeService.getClimateSeries(getSelectedCountry(),continent);
+			//log.info("Loaded series data");
 
 			log.info("Loading RegionJSON file");
-			// Load the Climate Geo Json areas
-			setRegionJson(Utils.readJSON(JSON_MAP_CLIMATE, region.getName()
-					.toLowerCase()));
+
+			// Load the crop growing areas json file for the selected region.
+			// TODO Add the select option for crop for climate
+			// TODO Remove constant for crop
+			setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region.getName()
+					.toLowerCase(), JSON_MAP_GROWING));
 
 			log.info("Set Region JSON");
+			// Add or load the country Json data
+			regionJson = Utils.loadGeoJSON(getRegion().getName().toLowerCase(),	JSON_REGION);
+
+			// Add municipalities JSON
+			setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),JSON_MUNICIPIOS));
 
 		}
 
@@ -173,36 +195,12 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public Integer getZoomCus() {
-		return zoomCus;
+	public Integer getZoom() {
+		return zoom;
 	}
 
-	public void setZoomCus(Integer zoomCus) {
-		this.zoomCus = zoomCus;
-	}
-
-	public Object getCountryGeoJson() {
-		return countryGeoJson;
-	}
-
-	public void setCountryGeoJson(Object countryGeoJson) {
-		this.countryGeoJson = countryGeoJson;
-	}
-
-	public Map<String, Object> getGeoJson() {
-		return geoJson;
-	}
-
-	public void setGeoJson(Map<String, Object> geoJson) {
-		this.geoJson = geoJson;
-	}
-
-	public Map<String, Object> getSeriesData() {
-		return seriesData;
-	}
-
-	public void setSeriesData(Map<String, Object> seriesData) {
-		this.seriesData = seriesData;
+	public void setZoom(Integer zoom) {
+		this.zoom = zoom;
 	}
 
 	public Object getRegionJson() {
@@ -211,6 +209,38 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	public void setRegionJson(Object regionJson) {
 		this.regionJson = regionJson;
+	}
+
+	public Map<String, Object> getFeaturesJson() {
+		return featuresJson;
+	}
+
+	public void setFeaturesJson(Map<String, Object> featuresJson) {
+		this.featuresJson = featuresJson;
+	}
+
+	public Object getGrowingRegionsJson() {
+		return growingRegionsJson;
+	}
+
+	public void setGrowingRegionsJson(Object growingRegionsJson) {
+		this.growingRegionsJson = growingRegionsJson;
+	}
+
+	public Object getMunicipalitiesJson() {
+		return municipalitiesJson;
+	}
+
+	public void setMunicipalitiesJson(Object municipalitiesJson) {
+		this.municipalitiesJson = municipalitiesJson;
+	}
+
+	public Map<String, Object> getSeriesJson() {
+		return seriesJson;
+	}
+
+	public void setSeriesJson(Map<String, Object> seriesJson) {
+		this.seriesJson = seriesJson;
 	}
 
 }

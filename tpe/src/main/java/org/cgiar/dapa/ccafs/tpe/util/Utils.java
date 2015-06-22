@@ -260,8 +260,8 @@ public class Utils implements Constants {
 				// Read the file from the specified path
 				json = parser.parse(new FileReader(brazilJSON
 						.getCanonicalPath()));
-				//log.info(fileName);
-				//log.info(json);
+				// log.info(fileName);
+				// log.info(json);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -292,17 +292,19 @@ public class Utils implements Constants {
 			String file = region.toLowerCase();
 
 			if (type.equals(JSON_REGION))
-				path = "/CIAT 2015/resources/script/" + file + ".json";
+				// Loads the country border json data
+				path = "/resources/script/" + file + ".json";
 			// brazilJSON = new File("/CIAT 2015/resources/script/" + file +
 			// ".json");
 			else if (type.equals(JSON_STATES))
-				path = "/CIAT 2015/resources/script/" + region + "_states.json";
+				// Loads the country states json data
+				path = "/resources/script/" + region + "_states.json";
 			else if (type.equals(JSON_MUNICIPIOS))
-				path = "/CIAT 2015/resources/script/" + region
-						+ "_municipios.json";
+				// Loads the municipios json data
+				path = "/resources/script/" + region + "_municipios.json";
 			else if (type.equals(JSON_BOUNDARY))
-				path = "/CIAT 2015/resources/script/" + region
-						+ "_boundary.json";
+				// Loads the TPE boundary json data
+				path = "/resources/script/" + region + "_boundary.json";
 		}
 		return readJSON(path);
 	}
@@ -327,8 +329,32 @@ public class Utils implements Constants {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
 			cultivar = cultivar.toLowerCase();
-			path = "/CIAT 2015/resources/script/" + region + "_" + crop + "_"
-					+ cultivar + "_" + map + ".json";
+			path = "/resources/script/" + region + "_" + crop + "_" + cultivar
+					+ "_" + map + ".json";
+			log.info(path);
+		}
+		return readJSON(path);
+	}
+
+	/**
+	 * Loads the crop growing region or areas JSON based on the selected region
+	 * and map result option
+	 * 
+	 * @param crop
+	 *            the selected map option TPE
+	 * @param region
+	 *            the selected region (Latin America, Colombia or Brazil)
+	 * @param map
+	 *            the type of map (tpe, stability or area)
+	 * @return JSON object
+	 */
+	public static Object readJSON(String crop, String region, String map) {
+		String path = "";
+		if (region != null && crop != null) {
+			region = region.toLowerCase();
+			crop = crop.toLowerCase();
+			path = "/resources/script/" + region + "_" + crop + "_" + map
+					+ ".json";
 			log.info(path);
 		}
 		return readJSON(path);
@@ -348,8 +374,7 @@ public class Utils implements Constants {
 		if (region != null && map != null) {
 			region = region.toLowerCase();
 			map = map.toLowerCase();
-			path = "/CIAT 2015/resources/script/" + region + "_" + map
-					+ ".json";
+			path = "/resources/script/" + region + "_" + map + ".json";
 		}
 		return readJSON(path);
 	}

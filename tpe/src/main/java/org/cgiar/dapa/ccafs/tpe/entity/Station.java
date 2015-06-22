@@ -35,7 +35,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "station")
 // @AttributeOverride(name = "id", column = @Column(name = "station_id"))
-public class Station extends BaseEntity {
+public class Station extends BaseEntity implements Coordinate {
 
 	/**
 	 * 

@@ -13,6 +13,10 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.util;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 
 /**
@@ -84,6 +88,9 @@ public interface Constants {
 	public static final String PROPERTY_YEAR = "year";
 	public static final String PROPERTY_SOURCE = "source";
 	public static final String STATION_COORDINATES = "stationCoordinates";
+	public static final String PLANTING_DATE = "plantingDate";
+	public static final String MUNICIPALITY_NAME = "municipalityName";
+	public static final String STATE_NAME = "stateName";
 	/**
 	 * The station property id constant
 	 */
@@ -111,6 +118,8 @@ public interface Constants {
 	 */
 	public static final Object STATION_COLOR_GREEN = "station_green";
 	public static final Object STATION_COLOR_BLACK = "station_black";
+	public static final Object STATION_COLOR_BLACK1 = "station_back1";
+	public static final Object STATION_COLOR_RED = "station_red";
 	public static final String PROPERTY_ID = "property";
 	/**
 	 * The constant for the property name
@@ -124,16 +133,34 @@ public interface Constants {
 	public static final String SOIL_PROPERTY_VALUE = "soilPropertyValue";
 	// private static final Object FEATURE_TYPE_SOIL = "SOIL";
 	public static final String FEATURE_TYPE = "featureType";
+	public static final String INFO_SERIES = "infoSeries";
 	/**
 	 * The constant for the map option for TPE
 	 */
 	public static final String JSON_MAP_TPE = "tpe";
 	public static final String JSON_MAP_SOIL = "soil";
 	public static final String JSON_MAP_CLIMATE = "climate";
+	/**
+	 * The constant for crop growing areas or regions
+	 */
+	public static final String JSON_MAP_GROWING = "growing";
 	public static final String JSON_MAP_STABILITY = "stability";
-	public static final String JSON_MAP_AREA= "area";
+	public static final String JSON_MAP_AREA = "area";
 	public static final String JSON_REGION = "region";
 	public static final String JSON_MUNICIPIOS = "municipios";
 	public static final String JSON_BOUNDARY = "boundary";
 	public static final String JSON_STATES = "states";
+	/**
+	 * The constant for the country or continent boundary
+	 */
+	public static final String JSON_REGION_BOUNDARY = "boundary";
+	/**
+	 * The constant for rice
+	 */
+	public static final String CROP_RICE = "rice";
+
+	public List<Integer> MONTHS = new LinkedList<Integer>(Arrays.asList(1, 2,
+			3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+
+	public static final String CATEGORY_CONTINENT = "Continent";
 }

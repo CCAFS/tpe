@@ -30,6 +30,7 @@ public class Environment extends BaseEntity {
 	private String code;
 	private String color;
 	private String description;
+	private Integer cluster;
 
 	@Column(name = "name")
 	public String getName() {
@@ -66,5 +67,12 @@ public class Environment extends BaseEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+@Column(name = "cluster")
+	public Integer getCluster() {
+		return cluster;
+	}
 
+	public void setCluster(Integer cluster) {
+		this.cluster = cluster;
+	}
 }

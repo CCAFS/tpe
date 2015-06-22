@@ -33,6 +33,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
@@ -269,10 +270,9 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators, Integer regionCategory) {
+			List<Integer> indicators, Boolean continent) {
 
-		return climateDao.getClimateGeoJSON(countryId, indicators,
-				regionCategory);
+		return climateDao.getClimateGeoJSON(countryId, indicators, continent);
 	}
 
 	@Override
@@ -361,9 +361,10 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public Map<String, Object> getClimateSeries(Integer country) {
+	public Map<String, Object> getClimateSeries(Integer country,
+			boolean continent) {
 
-		return climateDao.getClimateSeries(country);
+		return climateDao.getClimateSeries(country, continent);
 	}
 
 	@Override
@@ -394,5 +395,18 @@ public class TPEService implements ITPEService {
 	public List<Region> getCountriesAndContinents() {
 
 		return regionDao.getCountriesAndContinents();
+	}
+
+	@Override
+	public List<Object[]> getClimateData(Integer countryId) {
+
+		return climateDao.getClimateData(countryId);
+	}
+
+	@Override
+	public List<PhenologyGrowth> getTestSeries(Integer countryId,
+			Integer cultivarId) {
+		
+		return phenologyGrowthDao.getTestSeries(countryId, cultivarId);
 	}
 }

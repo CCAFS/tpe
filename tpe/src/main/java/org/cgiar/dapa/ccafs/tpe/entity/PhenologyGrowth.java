@@ -422,6 +422,14 @@ public class PhenologyGrowth extends BaseResult {
 	 * The variable name
 	 */
 	private String variable;
+	/**
+	 * File name that could work as id for the records.
+	 */
+	private String nameFileId;
+	/**
+	 * The status e.g Rainfed, Irrigated.
+	 */
+	private String status;
 
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "id")
@@ -1236,4 +1244,21 @@ public class PhenologyGrowth extends BaseResult {
 		this.variable = variable;
 	}
 
+	@Column(name = "name_file_id")
+	public String getNameFileId() {
+		return nameFileId;
+	}
+
+	public void setNameFileId(String nameFileId) {
+		this.nameFileId = nameFileId;
+	}
+
+	@Column(name = "status")
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

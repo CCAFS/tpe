@@ -22,6 +22,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
+import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
@@ -326,7 +327,7 @@ public interface ITPEService {
 	 * @return climate GeoJSON features
 	 */
 	Map<String, Object> getClimateGeoJSON(Integer countryId,
-			List<Integer> indicators, Integer regionCategory);
+			List<Integer> indicators, Boolean  continent);
 
 	/**
 	 * Retrieves the chart series for a selected (clicked) sub region from the
@@ -478,9 +479,11 @@ public interface ITPEService {
 	 * 
 	 * @param country
 	 *            the selected country id
+	 * @param continent
+	 *            the boolean value if the region is a continent.
 	 * @return climate series
 	 */
-	Map<String, Object> getClimateSeries(Integer country);
+	Map<String, Object> getClimateSeries(Integer country, boolean continent);
 
 	/**
 	 * Retrieves all the platform tags from the database
@@ -522,5 +525,9 @@ public interface ITPEService {
 	 * @return countries and continents
 	 */
 	List<Region> getCountriesAndContinents();
+
+	List<Object[]> getClimateData(Integer countryId);
+
+	List<PhenologyGrowth> getTestSeries(Integer countryId, Integer cultivarId);
 
 }
