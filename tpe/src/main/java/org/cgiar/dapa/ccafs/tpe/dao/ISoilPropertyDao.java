@@ -66,7 +66,7 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 * @return soil features
 	 */
 	Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
-			Integer countryId);
+			Integer countryId,Boolean continent);
 
 	/**
 	 * Retrieves the soil features for the specified soil property category id
@@ -104,5 +104,5 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 * @return soil GeoJson
 	 */
 	Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
-			Integer countryId);
+			Integer countryId, Boolean continent);
 }

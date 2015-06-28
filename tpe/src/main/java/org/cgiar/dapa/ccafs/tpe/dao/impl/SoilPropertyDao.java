@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -127,10 +128,11 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 
 	@Override
 	public Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
-			Integer countryId) {
+			Integer countryId, Boolean continent) {
 
 		return this.getSoilGeoJson(
-				new ArrayList<Integer>(Arrays.asList(propertyId)), countryId);
+				new ArrayList<Integer>(Arrays.asList(propertyId)), countryId,
+				continent);
 	}
 
 	@Override
@@ -196,7 +198,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 
 	@Override
 	public Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
-			Integer countryId) {
+			Integer countryId, Boolean continent) {
 
 		// TODO Use the projection class to query the properties and geometry
 		// Initialize the features list with new LinkedList to keep the desired
@@ -206,13 +208,23 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		Map<String, Object> soilFeatures = new LinkedHashMap<String, Object>();
 		// TODO Should get the region name not the country name
 		// r.station.region.parent.id
-		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.station.region.parent.id =:region").append(
-						" or r.station.region.parent.parent.id =:region");
+		StringBuffer q;
+		if (continent)
+			q = new StringBuffer("from " + entityClass.getName())
+					.append(" r where r.region.parent.parent.parent.parent.id =:region");
+		else
+			q = new StringBuffer("from " + entityClass.getName())
+					.append(" r where r.region.parent.id =:region");
+
+		q.append(" and r.continent =:continent");
+		// q = new StringBuffer("from " + entityClass.getName()).append(
+		// " r where r.station.region.parent.id =:region").append(
+		// " or r.station.region.parent.parent.id =:region");
+		// }
 
 		Query query = entityManager.createQuery(q.toString());
 
-		// query.setParameter("properties", propertyIds);
+		query.setParameter("continent", continent);
 		query.setParameter("region", countryId);
 		// TODO Remove the station id
 		// query.setParameter("station", 1);
@@ -224,8 +236,10 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		// int count = 0;
 		// FeatureProperty property;
 		Map<String, Object> properties = new LinkedHashMap<String, Object>();
+		// Create a decimal format
+		DecimalFormat df = new DecimalFormat("#.##");
 		if (results != null) {
-
+			log.info(results.size());
 			for (Iterator<SoilProperty> iteratorProperty = results.iterator(); iteratorProperty
 					.hasNext();) {
 				soilProperty = iteratorProperty.next();
@@ -248,12 +262,34 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 						soilProperty.getWaterCFCapacity());
 				properties.put(WATER_CAPACITY_WILT_POINT,
 						soilProperty.getWaterCWpoint());
-				properties.put(SOIL_LAT, soilProperty.getLatitude());
-				properties.put(SOIL_LNG, soilProperty.getLongitude());
-				properties.put(STATION_NAME, soilProperty.getStation()
-						.getName());
-				properties.put(REGION_NAME, soilProperty.getStation()
-						.getRegion().getName());
+
+				properties.put(SOIL_TEXTURE_CLAY, soilProperty.getClay());
+
+				properties.put(SOIL_TEXTURE_SILT, soilProperty.getSilt());
+
+				properties.put(SOIL_TEXTURE_SAND, soilProperty.getSand());
+			
+				properties.put(SOIL_LAT,df.format( soilProperty.getLatitude()));
+				properties.put(SOIL_LNG, df.format(soilProperty.getLongitude()));
+
+				if (continent) {
+
+					properties.put(COUNTRY_NAME, soilProperty.getRegion()
+							.getParent().getParent().getName());
+
+					properties.put(STATE_NAME, soilProperty.getRegion()
+							.getParent().getName());
+
+					properties.put(MUNICIPALITY_NAME, soilProperty.getRegion()
+							.getName());
+					properties.put(STATION_NAME, soilProperty.getRegion()
+							.getName());
+				} else {
+					properties.put(COUNTRY_NAME, soilProperty.getRegion().getParent().getName());
+					properties.put(STATION_NAME, soilProperty.getRegion().getName());
+
+				}
+
 				if (soilProperty.getSoil() != null) {
 					properties.put(FEATURE_ID, soilProperty.getId() + "_"
 							+ soilProperty.getSoil().getName());
@@ -300,5 +336,4 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		soilFeatures.put(GEOJSON_KEY_FEATURES, features);
 		return soilFeatures;
 	}
-
 }

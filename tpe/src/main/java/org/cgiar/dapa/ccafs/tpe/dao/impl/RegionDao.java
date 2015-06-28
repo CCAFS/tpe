@@ -56,13 +56,15 @@ public class RegionDao extends GenericDao<Region, Integer> implements
 	@Override
 	public List<Region> getCountriesAndContinents() {
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.category.name in(:categories)");
+				.append(" r where r.category.name in(:categories)").append(
+						" and r.select =:select");
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter(
 				"categories",
 				new ArrayList<String>(Arrays.asList(
 						RegionCategory.COUNTRY.name(),
 						RegionCategory.CONTINENT.name())));
+		query.setParameter("select", true);
 		return query.getResultList();
 	}
 

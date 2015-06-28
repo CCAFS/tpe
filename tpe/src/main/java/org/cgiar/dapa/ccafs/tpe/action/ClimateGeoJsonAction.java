@@ -113,26 +113,26 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 		// Retrieve the soil GeoJson data from the database
 		if (getSelectedCountry() != null) {
-			log.info("COUNTRY: " + selectedCountry);
+			//log.info("COUNTRY: " + selectedCountry);
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 			this.setZoom(this.getRegion().getZoom());
-			log.info("Loaded Region, Now loading GeoJson");
+		//	log.info("Loaded Region, Now loading GeoJson");
 			boolean continent = false;
 			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
 				continent = true;
-			log.info("Continent: "+continent);
+			//log.info("Continent: "+continent);
 			// TODO Initially dont consider selection of climate indicators
 			this.setFeaturesJson(tpeService.getClimateGeoJSON(
 					this.getSelectedCountry(), null, continent));
-			log.info("Loaded features json");
+			//log.info("Loaded features json");
 			// Get the climate series data from the database
 			//TODO Get series separately for each hovered station
 			//seriesJson = tpeService.getClimateSeries(getSelectedCountry(),continent);
 			//log.info("Loaded series data");
 
-			log.info("Loading RegionJSON file");
+			//log.info("Loading RegionJSON file");
 
 			// Load the crop growing areas json file for the selected region.
 			// TODO Add the select option for crop for climate
@@ -140,13 +140,14 @@ public class ClimateGeoJsonAction extends BaseAction {
 			setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region.getName()
 					.toLowerCase(), JSON_MAP_GROWING));
 
-			log.info("Set Region JSON");
+			//log.info("Set Region JSON");
 			// Add or load the country Json data
 			regionJson = Utils.loadGeoJSON(getRegion().getName().toLowerCase(),	JSON_REGION);
 
 			// Add municipalities JSON
 			setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),JSON_MUNICIPIOS));
 
+			//log.info("Added municipios");
 		}
 
 		// setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/" +

@@ -249,9 +249,9 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
-			Integer countryId) {
+			Integer countryId,Boolean continent) {
 
-		return soilPropertyDao.getSoilFeaturesByCountry(propertyId, countryId);
+		return soilPropertyDao.getSoilFeaturesByCountry(propertyId, countryId, continent);
 	}
 
 	@Override
@@ -315,9 +315,9 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
-			Integer countryId) {
+			Integer countryId, Boolean continent) {
 
-		return soilPropertyDao.getSoilGeoJson(propertyIds, countryId);
+		return soilPropertyDao.getSoilGeoJson(propertyIds, countryId,continent);
 	}
 
 	@Override

@@ -70,16 +70,8 @@ public class SoilGeoJsonAction extends BaseAction {
 	/**
 	 * The default Google Map zoom
 	 */
-	protected Integer zoomCus = 4;
-	/**
-	 * The selected list of years
-	 */
-	// protected List<String> selectedYears;
-	/**
-	 * The field for holding the selected country geo json data from the json
-	 * file from the server
-	 */
-	protected Object countryGeoJson;
+	protected Integer zoom = 4;
+
 	/**
 	 * The corresponding country states geojson data
 	 */
@@ -89,18 +81,23 @@ public class SoilGeoJsonAction extends BaseAction {
 	 * The soil GeoJson map that will provide the GeoJson features on the Google
 	 * Map
 	 */
-	protected Map<String, Object> geoJson = new LinkedHashMap<String, Object>();
+	protected Map<String, Object> featuresJson = new LinkedHashMap<String, Object>();
 
-	private Map<String, List<Probability>> dataJson = new LinkedHashMap<String, List<Probability>>();
+	private Map<String, List<Probability>> seriesJson = new LinkedHashMap<String, List<Probability>>();
 	// private Map<String, List<Map<String, Object>>> probabilities = new
 	// LinkedHashMap<String, List<Map<String, Object>>>();
 
-	private List<String> categories = new LinkedList<String>();
+	private List<String> categoriesJson = new LinkedList<String>();
 	private Object tpeBoundaryJson;
 	/**
 	 * The country (Colombia or Brazil) or region(Latin America) geo JSON object
 	 */
-	private Object regionGeoJSON;
+	private Object regionJson;
+
+	/**
+	 * The municipalities Geo JSON object
+	 */
+	private Object municipalitiesJson;
 
 	public String execute() {
 
@@ -120,12 +117,11 @@ public class SoilGeoJsonAction extends BaseAction {
 		if (this.getSelectedCountry() != null) {
 
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
-
-			// log.info(getRegion());
+ 
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 
-			this.setZoomCus(this.getRegion().getZoom());
+			this.setZoom(this.getRegion().getZoom());
 
 			// Load the country geojson file
 			/*
@@ -133,8 +129,7 @@ public class SoilGeoJsonAction extends BaseAction {
 			 * getRegion().getName().toUpperCase() + ".geo.json"));
 			 */
 
-			setRegionGeoJSON(Utils.loadGeoJSON(getRegion().getName(),
-					JSON_REGION));
+			setRegionJson(Utils.loadGeoJSON(getRegion().getName(), JSON_REGION));
 
 			// Load the corresponding country states
 			//
@@ -142,17 +137,23 @@ public class SoilGeoJsonAction extends BaseAction {
 			// "script/"
 			// + getRegion().getName().toUpperCase() + ".STATES.geo.json");
 
-			categories = tpeService.getEnvSowingDates(getSelectedCountry());
-			dataJson = tpeService.getEnvSoilProbabilities(getSelectedCountry());
+			categoriesJson = tpeService.getEnvSowingDates(getSelectedCountry());
+			setSeriesJson(tpeService.getEnvSoilProbabilities(getSelectedCountry()));
 			// log.info("About to query data.");
-			this.setGeoJson(this.tpeService.getSoilGeoJson(null,
-					getSelectedCountry()));
+			boolean continent = false;
+			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
+				continent = true;
+			this.setFeaturesJson(this.tpeService.getSoilGeoJson(null,
+					getSelectedCountry(),continent));
 			// TODO Add cultivar parameter
 			/*
 			 * this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath() +
 			 * "script/" + getRegion().getName().toUpperCase() +
 			 * ".BOUNDARY.json"));
 			 */
+
+			municipalitiesJson = Utils.loadGeoJSON(getRegion().getName(),
+					JSON_MUNICIPIOS);
 
 			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
 					JSON_BOUNDARY);
@@ -194,44 +195,12 @@ public class SoilGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public Integer getZoomCus() {
-		return zoomCus;
+	public Map<String, Object> getFeaturesJson() {
+		return featuresJson;
 	}
 
-	public void setZoomCus(Integer zoomCus) {
-		this.zoomCus = zoomCus;
-	}
-
-	public Object getCountryGeoJson() {
-		return countryGeoJson;
-	}
-
-	public void setCountryGeoJson(Object countryGeoJson) {
-		this.countryGeoJson = countryGeoJson;
-	}
-
-	public Map<String, Object> getGeoJson() {
-		return geoJson;
-	}
-
-	public void setGeoJson(Map<String, Object> geoJson) {
-		this.geoJson = geoJson;
-	}
-
-	public Map<String, List<Probability>> getDataJson() {
-		return dataJson;
-	}
-
-	public void setDataJson(Map<String, List<Probability>> dataJson) {
-		this.dataJson = dataJson;
-	}
-
-	public List<String> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
+	public void setFeaturesJson(Map<String, Object> featuresJson) {
+		this.featuresJson = featuresJson;
 	}
 
 	public Object getTpeBoundaryJson() {
@@ -242,12 +211,44 @@ public class SoilGeoJsonAction extends BaseAction {
 		this.tpeBoundaryJson = tpeBoundaryJson;
 	}
 
-	public Object getRegionGeoJSON() {
-		return regionGeoJSON;
+	public Integer getZoom() {
+		return zoom;
 	}
 
-	public void setRegionGeoJSON(Object regionGeoJSON) {
-		this.regionGeoJSON = regionGeoJSON;
+	public void setZoom(Integer zoom) {
+		this.zoom = zoom;
+	}
+
+	public Object getRegionJson() {
+		return regionJson;
+	}
+
+	public void setRegionJson(Object regionJson) {
+		this.regionJson = regionJson;
+	}
+
+	public Object getMunicipalitiesJson() {
+		return municipalitiesJson;
+	}
+
+	public void setMunicipalitiesJson(Object municipalitiesJson) {
+		this.municipalitiesJson = municipalitiesJson;
+	}
+
+	public List<String> getCategoriesJson() {
+		return categoriesJson;
+	}
+
+	public void setCategoriesJson(List<String> categoriesJson) {
+		this.categoriesJson = categoriesJson;
+	}
+
+	public Map<String, List<Probability>> getSeriesJson() {
+		return seriesJson;
+	}
+
+	public void setSeriesJson(Map<String, List<Probability>> seriesJson) {
+		this.seriesJson = seriesJson;
 	}
 
 }

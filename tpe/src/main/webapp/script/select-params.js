@@ -76,6 +76,7 @@ $(document)
 						loadVariables(outputText);
 						// Initialize or load the Google Map when all the
 						// variables are loaded
+						//visualizeResults();
 						// /////////////////////////////////////////////////////////////initializeGoogleMap();
 						$('#TourLink').trigger('click');
 					});
@@ -253,7 +254,6 @@ $(document)
 
 						case 'TPE':
 						case 'STABILITY':
-						case 'AREA':
 							// console.log('TPE SELECTED: '+ot.toUpperCase());
 							// Get the preselected crop id
 							preselected_crop = $("select#select_crop").val();
@@ -391,7 +391,7 @@ $(document)
 							 * $("select#select_textures").click(function() {
 							 * initializeGoogleMap(); });
 							 */
-
+							visualizeResults();
 							// Automatically reload the map when the country
 							// change
 							$("select#select_country").change(function() {
@@ -402,6 +402,9 @@ $(document)
 							break;
 
 						case 'CLIMATE':
+							
+							visualizeResults();
+							
 							//console.log('Getting climate case');
 							$("select#select_country").change(function() {
 								//console.log('Getting climate casing');
@@ -409,7 +412,7 @@ $(document)
 								// //////////////////////////////////////////////////////////////////initializeGoogleMap();
 							});
 
-							visualizeResults();
+							///////////////////visualizeResults();
 							
 							// console.log('TPE SELECTED: ' +
 							// outputText.toUpperCase());

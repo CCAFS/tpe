@@ -15,10 +15,10 @@ function loadJson(action, map) {
 			// If TPE or Stability option was selected. Then assign the
 			// associated data to the variables
 			if ((map == OUTPUT_TPE) || (map == OUTPUT_STABILITY)) {
-				boxJSON = jsonResult.boxplotData;
+				boxJSON = jsonResult.boxJson;
 				// console.log(dataJson.probabilities);
-				categoriesJSON = jsonResult.categories;
-				var seriesDataMap = jsonResult.seriesData;
+				categoriesJSON = jsonResult.categoriesJson;
+				var seriesDataMap = jsonResult.seriesJson;
 				// var hfeSeries, lfeSeries, feSeries;
 				// console.log(seriesDataMap);
 				if (seriesDataMap != null)
@@ -32,33 +32,37 @@ function loadJson(action, map) {
 							feSeries = listOfSeriesMap;
 						}
 					});
-				
-//				initializeMap(jsonResult);
+
+				// initializeMap(jsonResult);
 
 			} else if (map == OUTPUT_CLIMATE) {
 				// console.log(dataJson.probabilities);
-				categoriesJSON = jsonResult.categories;
-				climateSeriesJSON = jsonResult.seriesData;
-//				initializeMap(jsonResult.geoJson);
+				// climateSeriesJSON = jsonResult.seriesJson;
+
+				//seriesJSON = jsonResult.seriesJson;
+
+				categoriesJSON = null;
+				hfeSeries = null;
+				lfeSeries = null;
+				feSeries = null;
+				boxJSON = null;
+
+				// initializeMap(jsonResult.geoJson);
 				// var seriesDataMap = dataJson.seriesData;
-				//console.log('Loading climate JSON data');
+				// console.log('Loading climate JSON data');
 			} else if (map == OUTPUT_SOIL) {
-				soilJson = dataJson.dataJson;
-				categoriesJSON = jsonResult.categories;
-//				initializeMap(jsonResult.geoJson);
+				// soilJson = dataJson.seriesJson;
+				seriesJSON = jsonResult.seriesJson;
+				categoriesJSON = jsonResult.categoriesJson;
+				// initializeMap(jsonResult.geoJson);
+
+				hfeSeries = null;
+				lfeSeries = null;
+				feSeries = null;
+				boxJSON = null;
 			}
-			else if (map == OUTPUT_AREA) {
-//				soilJson = dataJson.dataJson;
-//				categoriesJSON = jsonResult.categories;
-				
-			}
-			// else if (map == 'AREA') {
-			//
-			// } else {
-			//
-			// }
 			initializeMap(jsonResult);
-			//////////////////////initializeMap(jsonResult.geoJson);
+			// ////////////////////initializeMap(jsonResult.geoJson);
 			// $('.graphics-info').trigger('click');
 		}
 	});

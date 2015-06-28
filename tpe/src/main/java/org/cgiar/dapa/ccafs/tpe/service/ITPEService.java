@@ -287,7 +287,7 @@ public interface ITPEService {
 	 * @return soil features
 	 */
 	Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
-			Integer countryId);
+			Integer countryId,Boolean continent);
 
 	/**
 	 * Retrieves the soil features for the specified soil property category id
@@ -408,7 +408,7 @@ public interface ITPEService {
 	 * @return soil GeoJson
 	 */
 	Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
-			Integer countryId);
+			Integer countryId, Boolean continent);
 
 	/**
 	 * Gets the sowing dates

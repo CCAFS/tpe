@@ -91,6 +91,7 @@ public interface Constants {
 	public static final String PLANTING_DATE = "plantingDate";
 	public static final String MUNICIPALITY_NAME = "municipalityName";
 	public static final String STATE_NAME = "stateName";
+	public static final String FEATURE_ICON = "featureIcon";
 	/**
 	 * The station property id constant
 	 */
@@ -163,4 +164,17 @@ public interface Constants {
 			3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
 
 	public static final String CATEGORY_CONTINENT = "Continent";
+	
+	
+	
+	
+	
+	public static final String SOIL_TEXTURE_CLAY = "clay";
+	public static final String SOIL_TEXTURE_SILT = "silt";
+	public static final String SOIL_TEXTURE_SAND = "sand";
+	
+	
+	
+	
+	
 }

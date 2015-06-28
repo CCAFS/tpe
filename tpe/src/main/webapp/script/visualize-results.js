@@ -1,8 +1,9 @@
 var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics', legendTitle;
-var hfeSeries, lfeSeries, feSeries, boxJSON, climateSeriesJSON, clickedFeature, currentOutput, clickedFeatureName, selectedFeature, selectedOutput;
-var OUTPUT_SOIL = 'SOIL', OUTPUT_CLIMATE = 'CLIMATE', OUTPUT_TPE = 'TPE', OUTPUT_AREA = 'AREA', OUTPUT_STABILITY = 'STABILITY';
-var ENV_HFE = 'HFE', ENV_LFE = 'LFE', ENV_FE = 'FE', soilJson;
+var hfeSeries, lfeSeries, feSeries, boxJSON, clickedFeature, currentOutput, clickedFeatureName, selectedFeature, selectedOutput;
+var OUTPUT_SOIL = 'SOIL', OUTPUT_CLIMATE = 'CLIMATE', OUTPUT_TPE = 'TPE', OUTPUT_STABILITY = 'STABILITY';
+var ENV_HFE = 'HFE', ENV_LFE = 'LFE', ENV_FE = 'FE', seriesJSON;
 var COLOR_HFE = '#00ff00', COLOR_LFE = '#ff0000', COLOR_FE = '#0041a0';
+var STABILITY_HIGH='high',STABILITY_MIDDLE='middle',STABILITY_LOW='low';
 
 /**
  * Depending on the selected OUTPUT text, get the corresponding selected params.
@@ -36,12 +37,11 @@ function visualizeResults() {
 	var tpeGeoJsonAction = 'tpeGeoJson.geojson';
 	var climateGeoJsonAction = 'climateGeoJson.geojson';
 	var stabilityGeoJsonAction = 'stabilityGeoJson.geojson';
-	var areaGeoJsonAction = 'areaGeoJson.geojson';
 	var params, actionJson;
 	// Use the switch statement to determine the selected output, from the first
 	// select drop down box
 	// TPE, SOIL or CLIMATE
-	//console.log('About to select the OUTPUT MAP...');
+	// console.log('About to select the OUTPUT MAP...');
 	switch (selectedOutput.toUpperCase()) {
 	case 'TPE':
 		// Set the legend title for TPE
@@ -73,21 +73,6 @@ function visualizeResults() {
 		// initializeMap();
 
 		break;
-	case 'AREA':
-		// Set the legend title for STABILITY Map
-		legendTitle = 'Legend: South America Rice Area';
-		hideShow('AREA');
-		// Selected STABILITY. The get the
-		// corresponding selected STABILITY
-		// params
-
-		// The action url for the Stability map
-		actionJson = 'areaGeoJson.geojson';
-		// Call the geoJsonData function and pass the params y action
-		loadJson(actionJson, 'AREA');
-		// initializeMap();
-
-		break;
 
 	case 'SOIL':
 		legendTitle = 'Legend: Soil Texture';
@@ -107,7 +92,7 @@ function visualizeResults() {
 		// Call the geoJsonData function and pass the params y action
 		loadJson(actionJson, 'CLIMATE');
 		// initializeMap();
-		//console.log('OUTPUT IS CLIMATE');
+		// console.log('OUTPUT IS CLIMATE');
 		break;
 	default:
 		break;
@@ -117,18 +102,18 @@ function visualizeResults() {
 
 function hideShow(graphic) {
 
-	if (graphic == 'TPE') {
+	if ((graphic == 'TPE') || (graphic == 'STABILITY')) {
 		$('#plot_slide').show();
 		// Hide the charts
 		$('.plot_box').show();
 		$('.soil_plot').hide();
-		// $('.plot_lai').show();
+		// $('.plot_lai').show();//Will be hidden by default
 		// $('.plot_temprain').show();
 		$('.plot_pcew').show();
 		$('.rain_radiation').hide();
-		// $('.plot_wagt').show();
-		// $('.plot_rainsum').show();
-		// $('.plot_raincum').show();
+		//$('.plot_wagt').show();//Will be hidden by default.
+		// $('.plot_rainsum').show();//This will be hiden by default
+		// $('.plot_raincum').show();//Will be hidden by default.
 		$('#analytics h3').show();
 	} else if (graphic == 'SOIL') {
 		$('#plot_slide').hide();
@@ -219,3 +204,4 @@ function graphicsInfo(info, desc) {
 
 	// return $htmlText;
 }
+ 

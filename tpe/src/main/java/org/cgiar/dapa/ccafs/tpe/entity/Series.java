@@ -29,8 +29,12 @@ import javax.persistence.Table;
 //@AttributeOverride(name = "id", column = @Column(name = "series_id"))
 public class Series extends BaseEntity {
 
-	private static final long serialVersionUID = 4125448263059429436L;
+//	private static final long serialVersionUID = 4125448263059429436L;
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6345450577082770001L;
 	/**
 	 * The name of the category
 	 */

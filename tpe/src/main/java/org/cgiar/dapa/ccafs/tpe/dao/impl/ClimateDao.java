@@ -137,13 +137,13 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		query.setParameter("id", countryId);
 		results = query.getResultList();
 
-		log.info(results);
+		//log.info(results);
 		// results = results != null ? results : new ArrayList<Object[]>();
 
 		if ((results == null) || (results.size() == 0))
 			return new LinkedHashMap<String, Object>();
 
-		log.info(results.size());
+		//log.info(results.size());
 
 		climateFeatures.addAll(createFeatures(results, continent));
 		// }
@@ -180,11 +180,12 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 				// Municipality/State/Country/Continent
 				// properties.put(REGION_NAME, row[9]);
 				properties.put(PLANTING_DATE, row[9]);
+				properties.put(FEATURE_ICON, true);
 
 			}
 
 			else {
-
+				properties.put(FEATURE_ICON, false);
 			}
 			climateGeometry = new GeometryPoint(new LinkedList<Double>(
 					Arrays.asList(Double.parseDouble(row[6].toString()),
@@ -206,6 +207,8 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			// TODO Refactor the feature ID
 			properties.put(STATION_ID,
 					row[6].toString() + "_" + row[7].toString());
+			properties.put(FEATURE_ID,
+					row[6].toString() + "_" + row[7].toString());
 
 			Map<String, List<Object>> infoSeries = new LinkedHashMap<String, List<Object>>();
 
@@ -213,16 +216,16 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			// The results are ordered by month 1-12 (Jan-Dec)
 			infoSeries.put(
 					"tmin",
-					new LinkedList<Object>(Arrays.asList(df.format(row[3])
-							.toString().split(","))));
+					new LinkedList<Object>(Arrays.asList(row[3].toString()
+							.split(","))));
 			infoSeries.put(
 					"tmax",
-					new LinkedList<Object>(Arrays.asList(df.format(row[4])
-							.toString().split(","))));
+					new LinkedList<Object>(Arrays.asList(row[4].toString()
+							.split(","))));
 			infoSeries.put(
 					"prec",
-					new LinkedList<Object>(Arrays.asList(df.format(row[5])
-							.toString().split(","))));
+					new LinkedList<Object>(Arrays.asList(row[5].toString()
+							.split(","))));
 
 			// infoSeries = getInfoSeries(climate, continent);
 			properties.put(INFO_SERIES, infoSeries);
@@ -232,19 +235,14 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			// Add data series for creating the graphics plot
 			properties.put(
 					"dataSeries",
-					createDataSeries(
+					createDataSeries(Lists.transform(new LinkedList<String>(
+							Arrays.asList(row[3].toString().split(","))), fn),
 							Lists.transform(
-									new LinkedList<String>(Arrays.asList(df
-											.format(row[3]).toString()
-											.split(","))), fn),
+									new LinkedList<String>(Arrays.asList(row[4]
+											.toString().split(","))), fn),
 							Lists.transform(
-									new LinkedList<String>(Arrays.asList(df
-											.format(row[4]).toString()
-											.split(","))), fn),
-							Lists.transform(
-									new LinkedList<String>(Arrays.asList(df
-											.format(row[5]).toString()
-											.split(","))), fn),
+									new LinkedList<String>(Arrays.asList(row[5]
+											.toString().split(","))), fn),
 							row[6].toString() + "_" + row[7].toString()));
 
 			features.add(new FeaturePoint(FEATURES_TYPE, climateGeometry,
@@ -337,7 +335,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		seriesMap.put(TYPE, TYPE_COLUMN);
 		seriesMap.put(NAME, "Rainfall");
 		seriesMap.put(COLOR, "#4572A7");
-		seriesMap.put(AXIS_Y, 1);
+		seriesMap.put(AXIS_Y, 0);
 		seriesMap.put(DATA, prec);
 		// Tool Tip
 		toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_MM);
@@ -348,7 +346,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		seriesMap = new LinkedHashMap<String, Object>();
 		seriesMap.put(TYPE, TYPE_SPLINE);
 		seriesMap.put(NAME, "Tmin");
-		seriesMap.put(AXIS_Y, 2);
+		seriesMap.put(AXIS_Y, 1);
 		seriesMap.put(COLOR, "#FF4500");
 		seriesMap.put(DATA, tmin);
 		toolTipMap = new LinkedHashMap<String, Object>();
@@ -368,7 +366,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		seriesMap = new LinkedHashMap<String, Object>();
 		seriesMap.put(TYPE, TYPE_SPLINE);
 		seriesMap.put(NAME, "Tmax");
-		seriesMap.put(AXIS_Y, 3);
+		seriesMap.put(AXIS_Y, 2);
 		seriesMap.put(COLOR, "#800000");
 		seriesMap.put(DATA, tmax);
 		toolTipMap = new LinkedHashMap<String, Object>();
@@ -387,7 +385,9 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		// Add the station id and its series data
 		stationsSeriesMap.put(pointId, seriesMapList);
 
-		seriesData.put(SERIES, stationsSeriesMap);
+//		seriesData.put(SERIES, stationsSeriesMap);
+		
+		seriesData.put(SERIES, seriesMapList);
 
 		return seriesData;
 	}

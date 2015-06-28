@@ -70,7 +70,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The default Google Map zoom
 	 */
-	protected Integer zoomCus = 4;
+	protected Integer zoom = 4;
 	/**
 	 * The selected list of years
 	 */
@@ -83,18 +83,18 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The country (Colombia or Brazil) or region(Latin America) geo JSON object
 	 */
-	private Object regionGeoJSON;
+	private Object regionJSON;
 	/**
 	 * The municipalities Geo JSON object
 	 */
-	private Object municipiosGeoJSON;
+	private Object municipalitiesJson;
 
 	/**
 	 * The TPE GeoJson map that will provide the GeoJson features on the Google
 	 * Map
 	 */
 
-	private Object tpeGeoJson;
+	private Object featuresJson;
 
 	/**
 	 * The country or region latitude coordinate.
@@ -115,8 +115,8 @@ public class TPEGeoJsonAction extends BaseAction {
 	/**
 	 * The list of box plot data
 	 */
-	private Map<String, Object> boxplotData = new LinkedHashMap<String, Object>();
-	private List<String> categories = new LinkedList<String>();
+	private Map<String, Object> boxJson = new LinkedHashMap<String, Object>();
+	private List<String> categoriesJson = new LinkedList<String>();
 
 	/**
 	 * The Highcharts categories for the LAI, PCEW, RAIN_CUM, RAIN_S,WAGT plots
@@ -125,7 +125,7 @@ public class TPEGeoJsonAction extends BaseAction {
 	// private Map<String, List<Object>> categoriesStress;
 	// private List<Object> categoriesStress;
 
-	private Map<String, Object> seriesData;
+	private Map<String, Object> seriesJson;
 	/**
 	 * The crop cultivar
 	 */
@@ -154,11 +154,11 @@ public class TPEGeoJsonAction extends BaseAction {
 		// log.info("selected crop: " + selectedCrop);
 		// TODO Change country to region
 		if (getSelectedCountry() != null) {
-			log.info("country not null: " + getSelectedCountry());
+			// log.info("country not null: " + getSelectedCountry());
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
-			this.setZoomCus(this.getRegion().getZoom());
+			this.setZoom(this.getRegion().getZoom());
 
 			// Loads the Country(Brazil, Colombia) or Region (Latin America) Geo
 			// json file.
@@ -166,8 +166,7 @@ public class TPEGeoJsonAction extends BaseAction {
 			// + getRegion().getName().toUpperCase() + ".geo.json"));
 			// Loads the Country(Brazil, Colombia) or Region (Latin America) Geo
 			// json file.
-			regionGeoJSON = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_REGION);
+			regionJSON = Utils.loadGeoJSON(getRegion().getName(), JSON_REGION);
 
 			// Load the states geo json data
 			// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() +
@@ -179,11 +178,11 @@ public class TPEGeoJsonAction extends BaseAction {
 			 * JSON_STATES);
 			 */
 
-			municipiosGeoJSON = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_MUNICIPIOS);
+			setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
+					JSON_MUNICIPIOS));
 
 			if (selectedCultivar != null) {
-				log.info("Cultivar not null:  " + selectedCultivar);
+				//log.info("Cultivar:  " + selectedCultivar);
 				this.setCultivar(tpeService.getCultivar(selectedCultivar));
 				// Load the TPE geo json dat
 
@@ -191,7 +190,7 @@ public class TPEGeoJsonAction extends BaseAction {
 				// "script/" + getRegion().getName().toUpperCase() + "."+
 				// getCultivar().getName().toUpperCase()+ ".TPE.geo.json"));
 				// TODO Get selected crop and cultivar
-				tpeGeoJson = Utils.readJSON(this.getCultivar().getCrop()
+				featuresJson = Utils.readJSON(this.getCultivar().getCrop()
 						.getName().toLowerCase(), region.getName(), this
 						.getCultivar().getName().toLowerCase(), JSON_MAP_TPE);
 
@@ -202,29 +201,31 @@ public class TPEGeoJsonAction extends BaseAction {
 				// tpeService.getStressCategories(Utils.getStressSeries(),
 				// getCultivar().getId(),getSelectedCountry());
 
-				// log.info("Getting the series data... ");
+				//log.info("Added features... ");
 
-				seriesData = tpeService.getSeriesData(getCultivar().getId(),
+				seriesJson = tpeService.getSeriesData(getCultivar().getId(),
 						getSelectedCountry());
 				// log.info(seriesData.size());
+				//log.info("Added series... ");
+				tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName()
+						.toLowerCase(), JSON_BOUNDARY);
+				//log.info("Added boundary... ");
+				boxJson = tpeService.getTPEBox(getSelectedCountry(),
+						getSelectedCultivar());
+				//log.info("Added box... ");
+
+				// log.info(getSelectedCountry());
+				// log.info(getSelectedCultivar());
+				// log.info(dataJson);
+				categoriesJson = tpeService.getTPEYears(getSelectedCountry(),
+						getSelectedCultivar());
+				//log.info("Added categories... ");
 			}
 
 			// Loads the TPE boundary for the selected country and crop
 			// this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath()
 			// + "script/" + getRegion().getName().toUpperCase()
 			// + ".BOUNDARY.json"));
-
-			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_BOUNDARY);
-
-			boxplotData = tpeService.getTPEBox(getSelectedCountry(),
-					getSelectedCultivar());
-
-			// log.info(getSelectedCountry());
-			// log.info(getSelectedCultivar());
-			// log.info(dataJson);
-			categories = tpeService.getTPEYears(getSelectedCountry(),
-					getSelectedCultivar());
 
 		}
 
@@ -265,20 +266,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.selectedCountry = selectedCountry;
 	}
 
-	public Integer getZoomCus() {
-		return zoomCus;
+	public Integer getZoom() {
+		return zoom;
 	}
 
-	public void setZoomCus(Integer zoomCus) {
-		this.zoomCus = zoomCus;
-	}
-
-	public Object getTpeGeoJson() {
-		return tpeGeoJson;
-	}
-
-	public void setTpeGeoJson(Object tpeGeoJson) {
-		this.tpeGeoJson = tpeGeoJson;
+	public void setZoom(Integer zoom) {
+		this.zoom = zoom;
 	}
 
 	public Double getLat() {
@@ -305,28 +298,12 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.tpeBoundaryJson = tpeBoundaryJson;
 	}
 
-	public Map<String, Object> getBoxplotData() {
-		return boxplotData;
+	public Map<String, Object> getSeriesJson() {
+		return seriesJson;
 	}
 
-	public void setBoxplotData(Map<String, Object> boxplotData) {
-		this.boxplotData = boxplotData;
-	}
-
-	public List<String> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<String> categories) {
-		this.categories = categories;
-	}
-
-	public Map<String, Object> getSeriesData() {
-		return seriesData;
-	}
-
-	public void setSeriesData(Map<String, Object> seriesData) {
-		this.seriesData = seriesData;
+	public void setSeriesJson(Map<String, Object> seriesJson) {
+		this.seriesJson = seriesJson;
 	}
 
 	public Cultivar getCultivar() {
@@ -345,20 +322,44 @@ public class TPEGeoJsonAction extends BaseAction {
 		this.showhelp = showhelp;
 	}
 
-	public Object getRegionGeoJSON() {
-		return regionGeoJSON;
+	public Object getRegionJSON() {
+		return regionJSON;
 	}
 
-	public void setRegionGeoJSON(Object regionGeoJSON) {
-		this.regionGeoJSON = regionGeoJSON;
+	public void setRegionJSON(Object regionJSON) {
+		this.regionJSON = regionJSON;
 	}
 
-	public Object getMunicipiosGeoJSON() {
-		return municipiosGeoJSON;
+	public Object getFeaturesJson() {
+		return featuresJson;
 	}
 
-	public void setMunicipiosGeoJSON(Object municipiosGeoJSON) {
-		this.municipiosGeoJSON = municipiosGeoJSON;
+	public void setFeaturesJson(Object featuresJson) {
+		this.featuresJson = featuresJson;
+	}
+
+	public Object getMunicipalitiesJson() {
+		return municipalitiesJson;
+	}
+
+	public void setMunicipalitiesJson(Object municipalitiesJson) {
+		this.municipalitiesJson = municipalitiesJson;
+	}
+
+	public List<String> getCategoriesJson() {
+		return categoriesJson;
+	}
+
+	public void setCategoriesJson(List<String> categoriesJson) {
+		this.categoriesJson = categoriesJson;
+	}
+
+	public Map<String, Object> getBoxJson() {
+		return boxJson;
+	}
+
+	public void setBoxJson(Map<String, Object> boxJson) {
+		this.boxJson = boxJson;
 	}
 
 }

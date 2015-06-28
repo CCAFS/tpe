@@ -273,6 +273,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				+ entityClass.getName())
 				.append(" r where r.region.id =:country")
 				.append(" or r.region.parent.parent.id =:country")
+				.append(" or r.region.parent.id =:country")
 				.append(" and r.cultivar.id =:cultivar")
 				.append(" order by r.year asc");
 
@@ -311,10 +312,12 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 		// List<BoxPlot> data = new LinkedList<BoxPlot>();
 		List<Environment> environments = getEnvironments();
+
 		Environment env;
 		// org.apache.commons.math3.util
 		List<String> years = new LinkedList<String>();
 		years = getTPEYears(country, cultivar);
+		// log.info("# years: " + years.size());
 		// Add the categories
 		boxPlotData.put(CATEGORIES, years);
 
@@ -330,14 +333,16 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 			series = new LinkedHashMap<String, Object>();
 			// List<Object> yearOutliers = new LinkedList<Object>();
 			// List<List<Object>> outliersList = new LinkedList<List<Object>>();
-
+			// log.info(env.getCode());
 			for (String year : years) {
 				StringBuffer q = new StringBuffer("select r.wrr14 from "
 						+ entityClass.getName())
-						.append(" r where r.region.id =:country")
-						.append(" or r.region.parent.parent.id =:country")
+						.append(" r where r.region.parent.id =:country")
+						// .append(" or r.region.parent.parent.id =:country")
+						// .append(" or r.region.parent.id =:country")
 						.append(" and r.cultivar.id =:cultivar")
-						.append(" and r.environment.id =:environment")
+						// .append(" and r.environment.id =:environment")
+						.append(" and r.cluster =:environment")
 						.append(" and r.year =:year")
 						.append(" order by r.wrr14 asc");
 
@@ -346,10 +351,12 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				query.setParameter("country", country);
 				query.setParameter("cultivar", cultivar);
 				query.setParameter("year", year);
-				query.setParameter("environment", env.getId());
+				// query.setParameter("environment", env.getId());
+				query.setParameter("environment", env.getCluster());
 
 				List<Number> results = query.getResultList();
 
+				// log.info(results.size());
 				// List<PhenologyGrowth> results = query.getResultList();
 				yield = new LinkedList<Float>();
 				// YieldList = new LinkedList<List<Float>>();
@@ -362,11 +369,16 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				q3 = StatisticsUtils.quartile3(results);
 				q4 = StatisticsUtils.maxValue(results);
 
-				yield.add(Float.parseFloat(String.valueOf(q1)));
-				yield.add(Float.parseFloat(String.valueOf(q2)));
-				yield.add(Float.parseFloat(String.valueOf(qm)));
-				yield.add(Float.parseFloat(String.valueOf(q3)));
-				yield.add(Float.parseFloat(String.valueOf(q4)));
+				yield.add(Float.parseFloat(String.valueOf(q1 != null ? q1
+						: new Float(0))));
+				yield.add(Float.parseFloat(String.valueOf(q2 != null ? q2
+						: new Float(0))));
+				yield.add(Float.parseFloat(String.valueOf(qm != null ? qm
+						: new Float(0))));
+				yield.add(Float.parseFloat(String.valueOf(q3 != null ? q3
+						: new Float(0))));
+				yield.add(Float.parseFloat(String.valueOf(q4 != null ? q4
+						: new Float(0))));
 				// yield.add((Float) q2);
 				// yield.add((Float) q3);
 				// yield.add((Float) q4);
@@ -563,6 +575,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					titleLegend2 = "Stress Profile";
 					secondSeriesType = getSeriesByName(TYPE_TRW);
 				} else if (type.getName().toLowerCase().equals(TYPE_PCEW)) {
+					// log.info(type.getName());
 					// queryString = new
 					// StringBuffer("select r.dae, r.stressIndex from ");
 					queryString = "select r.dae, r.stressIndex from ";
@@ -574,6 +587,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					titleYaxis = "Stress Index (ETa/ETp)";
 					titleLegend = "Stress Profile";
 				} else if (type.getName().toLowerCase().equals(TYPE_RAIN_S)) {
+					// log.info(type.getName());
 					// queryString = new
 					// StringBuffer("select r.dae, r.averageWeeklyRain from ");
 					queryString = "select r.dae, r.averageWeeklyRain from ";
@@ -585,6 +599,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 					titleYaxis = "Average Weekly Rainfall (mm)";
 					titleLegend = "Stress Profile";
 				} else if (type.getName().toLowerCase().equals(TYPE_RAIN_CUM)) {
+					// log.info(type.getName());
 					// queryString = new
 					// StringBuffer("select r.dae, r.raincum from ");
 					queryString = "select r.dae, r.raincum from ";
@@ -653,12 +668,14 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 				if (queryString != null) {
 					for (Integer cluster : clusters) {
-						data = new LinkedList<Object>(); 
+						data = new LinkedList<Object>();
 						queryResult = getSeries(queryString, cluster,
 								cultivarId, countryId, environment.getId(),
 								type.getId());
- 
-						if (queryResult != null && !queryResult.isEmpty()) {
+						// log.info("Cluster: " + cluster + " cultivar: "+
+						// cultivarId + " country: " + countryId+ " env: " +
+						// environment.getId() + " serie: "+ type.getId());
+						if (queryResult != null && queryResult.size() > 0) {
 							add = true;
 							cats = new LinkedList<Object>();
 							for (Object[] result : queryResult) {
@@ -682,7 +699,8 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 							queryResult2 = getSeries(queryString2, cluster,
 									cultivarId, countryId, environment.getId(),
 									secondSeriesType.getId());
-							if (queryResult2 != null && !queryResult2.isEmpty()) {
+
+							if (queryResult2 != null && queryResult2.size() > 0) {
 								for (Object[] result2 : queryResult2) {
 
 									// cats.add((Float) result2[0]);
@@ -693,11 +711,13 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 												Utils.getClusterColor(cluster),
 												cluster));
 							}
+
 						}
 					}
 
 					if (add) {
 						seriesMap.put(CATEGORIES, cats);
+						// log.info(cats);
 						// series.add(seriesMap);
 						seriesMap.put(SERIES, seriesList);
 						seriesMap.put(TYPE, type.getName().toUpperCase());
@@ -868,7 +888,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		q.append(entityClass.getName())
 				.append(" r where r.region.id =:country")
 				.append(" and r.cultivar.id =:cultivar")
-				.append(" and r.series.id =:series")
+				.append(" and r.series.id =:series_id")
 				.append(" and r.environment.id =:environment")
 				.append(" and r.cluster =:cluster")
 				.append(" order by r.dae asc");
@@ -878,11 +898,12 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 		query.setParameter("country", countryId);
 		query.setParameter("cultivar", cultivarId);
-		query.setParameter("series", typeId);
+		query.setParameter("series_id", typeId);
 		query.setParameter("cluster", cluster);
 		query.setParameter("environment", environment);
 
 		List<Object[]> results = query.getResultList();
+		// log.info("Results: " + results.size());
 		return results;
 	}
 
@@ -893,5 +914,33 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		Query query = entityManager.createQuery(q.toString());
 
 		return query.getResultList();
+	}
+
+	@Override
+	public List<PhenologyGrowth> getTestSeries(Integer countryId,
+			Integer cultivarId) {
+		StringBuffer q = new StringBuffer("from " + entityClass.getName())
+				// .append(" r");
+				.append(" r where r.region.id =:country")
+				// .append(" or r.region.parent.id =:country")
+				.append(" and r.cultivar.id =:cultivar")
+				.append(" and r.series.id =:series")
+				.append(" and r.environment.id =:environment")
+				// .append(" and r.cluster =:environment")
+				.append(" and r.cluster =:cluster")
+				.append(" order by r.dae asc");
+		// log.info("Query string...");
+		// log.info(q);
+		Query query = entityManager.createQuery(q.toString());
+
+		query.setParameter("country", countryId);
+		query.setParameter("cultivar", cultivarId);
+		query.setParameter("series", 1);
+		query.setParameter("cluster", 1);
+		query.setParameter("environment", 1);
+
+		List<PhenologyGrowth> results = query.getResultList();
+
+		return results;
 	}
 }

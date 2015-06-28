@@ -331,7 +331,7 @@ public class Utils implements Constants {
 			cultivar = cultivar.toLowerCase();
 			path = "/resources/script/" + region + "_" + crop + "_" + cultivar
 					+ "_" + map + ".json";
-			log.info(path);
+//			log.info(path);
 		}
 		return readJSON(path);
 	}

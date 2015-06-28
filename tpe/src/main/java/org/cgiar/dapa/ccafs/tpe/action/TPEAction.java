@@ -89,16 +89,19 @@ public class TPEAction extends BaseAction {
 		if (!outputs.isEmpty() && outputs != null) {
 			// Make sure the outputs list is not empty or null, before setting
 			// the default preselect value
-			//1
-			preselectedOutput = outputs.get(1).getId();
+			// 0:Climate
+			// 1:Soil
+			// 2=Stability
+			// 3:TPE
+			preselectedOutput = outputs.get(0).getId();
 
-			log.info("Output not null: " + preselectedOutput);
+			// log.info("Output not null: " + preselectedOutput);
 		} else {
 			// If empty or null, then initialize the outputs with the empty
 			// arraylist
 			outputs = new ArrayList<Category>();
 
-			log.info("Output is null");
+			// log.info("Output is null");
 		}
 
 		// Object regionGeoJSON = Utils.loadGeoJSON("brazil", JSON_REGION);
@@ -128,9 +131,10 @@ public class TPEAction extends BaseAction {
 		// years = new ArrayList<String>();
 		if (!countries.isEmpty() && countries != null) {
 			// Preselect the country
-			//countries.size()-1
-			preselectedCountry = countries.get(countries.size()-1).getId();
-			log.info("Country Id: " + preselectedCountry);
+			// countries.size()-1
+//			preselectedCountry = countries.get(0).getId();
+			 preselectedCountry = countries.get(countries.size() - 1).getId();
+			// log.info("Country Id: " + preselectedCountry);
 			// TODO Ignore the sub regions and stations in the beta version
 			// Get the sub regions
 			/*
@@ -145,16 +149,15 @@ public class TPEAction extends BaseAction {
 		 * ArrayList<Integer>();
 		 */
 		if (this.getSelectedOutput() != null) {
-			log.info("Output not !=null: " + selectedOutput);
+			// log.info("Output not !=null: " + selectedOutput);
 			// Get the name of the selected output from the database
 			String outputName = tpeService
 					.getCategoryById(this.getSelectedOutput()).getName()
 					.toUpperCase();
-			log.info("Output Name: " + outputName);
+			// log.info("Output Name: " + outputName);
 			if (outputName.equals(ParamType.TPE.name())
-					|| outputName.equals(ParamType.STABILITY.name())
-					|| outputName.equals(ParamType.AREA.name())) {
-				log.info("Output Name equals Stability: " + outputName);
+					|| outputName.equals(ParamType.STABILITY.name())) {
+				// log.info("Output Name equals Stability: " + outputName);
 				// Retrieve all the crops from the database
 				crops = tpeService.getAllCrops();
 				// Generate the scenarios from the utils class
@@ -169,13 +172,14 @@ public class TPEAction extends BaseAction {
 					preselectedCrop = crops.get(0).getId();
 					// Get the crop cultivars for the preselected crop
 					cultivars = tpeService.getCultivarsByCrop(preselectedCrop);
-					log.info("Crop not null: " + preselectedCrop);
+					// log.info("Crop not null: " + preselectedCrop);
 					// Preselect the crop cultivar
 					if (!cultivars.isEmpty() && cultivars != null) {
 
 						preselectedCultivar = cultivars.get(0).getId();
 
-						log.info("Cultivar not null: " + preselectedCultivar);
+						// log.info("Cultivar not null: " +
+						// preselectedCultivar);
 
 						// Retrieve the years based on the selected country and
 						// crop
@@ -284,7 +288,7 @@ public class TPEAction extends BaseAction {
 		// Retrieve the crop cultivars for the selected crop
 		if (selectedCrop != null) {
 			cultivars = tpeService.getCultivarsByCrop(selectedCrop);
-			log.info("# of cultivars: " + cultivars.size());
+			// log.info("# of cultivars: " + cultivars.size());
 			if (!cultivars.isEmpty() && cultivars != null)
 				// Preselect the id of the first crop cultivar in the
 				// list

@@ -1,5 +1,5 @@
 var colorValues = [ "red", "blue", "green", "yellow", "purple", "pink",
-		"orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesStability = [
+		"lightblue", "orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesStability = [
 		"#990000", "#009900", "#000099" ], colorValuesClimate = [ "black" ], colors;
 /**
  * The function that initializes the Google Map
@@ -34,7 +34,7 @@ function initializeMap(data) {
 	// var defaultZoom = 4;
 	// It is assumed that maps for different countries will have different
 	// default zoom. Such as Brazil =4 and Colombia =6
-	var defaultZoom = data.zoomCus;
+	var defaultZoom = data.zoom;
 	// Variable for TPE map
 	var map;
 	// Google map options
@@ -60,7 +60,7 @@ function initializeMap(data) {
 		rotateControl : false,
 	}
 
-	console.log('Selected Output: ' + selectedOutput);
+	// console.log('Selected Output: ' + selectedOutput);
 	// Create the new map and make sure the tpe_map div
 	// exists
 	map = new google.maps.Map(document.getElementById('tpe_map'), mapOptions);
@@ -83,7 +83,7 @@ function initializeMap(data) {
 		// Use the clay texture code 'C'. This will display the chart for clay
 		// by default.
 		// var probJSON = dataJSON['C'];
-		createSoilGraphics(dataJSON['C']);
+		createSoilGraphics(seriesJSON['C']);
 
 	} else if (selectedOutput.toUpperCase() == OUTPUT_CLIMATE) {
 
@@ -98,7 +98,7 @@ function initializeMap(data) {
 		createLegend(map);
 
 		// Add climate graphics
-		createClimateGraphics(data.stationId, data.stationName);
+		createClimateGraphics(null, null);
 		// console.log('Initialization completed');
 	}
 
@@ -109,16 +109,6 @@ function initializeMap(data) {
 		createStabilityFeatures(map, data);
 		// Add legend
 		createLegend(map);
-	}
-
-	else if (selectedOutput.toUpperCase() == OUTPUT_AREA) {
-
-		// Add features
-		createAreaFeatures(map, data);
-
-		// Add legend
-		createLegend(map);
-
 	} else if (selectedOutput.toUpperCase() == OUTPUT_TPE) {
 		// Load admin regions
 		loadAdminRegions(map, data);
@@ -146,23 +136,6 @@ function initializeMap(data) {
 }
 
 /**
- * Creates the features for the environment groups
- * 
- * @param map
- *            the map to contain the features
- * @param data
- *            the data containing the features.
- */
-function createAreaFeatures(map, data) {
-	// console.log('AREA selected.');
-	// console.log(data.areaGeoJson);
-	// Add the GeoJson features to the map
-	map.data.addGeoJson(data.areaGeoJson, {
-		idPropertyName : "id"
-	});
-}
-
-/**
  * Creates the climate features.
  * 
  * @param map
@@ -173,8 +146,8 @@ function createAreaFeatures(map, data) {
 function createClimateFeatures(map, data) {
 	// Add climate regions
 
-	if (data.regionJson != null) {
-		map.data.addGeoJson(data.regionJson, {
+	if (data.growingRegionsJson != null) {
+		map.data.addGeoJson(data.growingRegionsJson, {
 			idPropertyName : "id"
 		});
 		// console.log('regionJson is not null');
@@ -182,21 +155,22 @@ function createClimateFeatures(map, data) {
 	// console.log('regionJson is null');
 
 	// Add the GeoJson features to the map, stations
-	if (data.geoJson != null)
-		map.data.addGeoJson(data.geoJson, {
+	if (data.featuresJson != null)
+		map.data.addGeoJson(data.featuresJson, {
 			idPropertyName : "id"
 		});
 }
 /**
  * Creates climate graphics
  */
-function createClimateGraphics(stationId, stationName) {
-	// By default display the clamate charts
+function createClimateGraphics(dataSeries, stationName) {
+	// By default display the climate charts
 	// Create rainfall and radiation plot
 	// Use a default station id and it is name
 	// TODO Get default station id and name from the database
-	if (climateSeriesJSON != null)
-		rainfallRadiationPlot(climateSeriesJSON, true, stationId, stationName);
+	if (dataSeries != null && stationName != null)
+		rainfallRadiationPlot(dataSeries, true, stationName);
+	// console.log(dataSeries);
 }
 
 /**
@@ -224,9 +198,11 @@ function createLegend(map) {
 				} else if (val == 'purple') {
 					texture = 'Clay Loam';
 				} else if (val == 'orange') {
-					texture = 'Clay Sand';
+					texture = 'Sandy Clay';
 				} else if (val == 'pink') {
 					texture = 'Sand Clay Loam';
+				} else if (val == 'lightblue') {
+					texture = 'Silt Clay Loam';
 				}
 				// else if (val == 'black') {
 				// texture = 'Station';
@@ -300,11 +276,11 @@ function createLegend(map) {
 			$.each(colorValuesArray, function(index, val) {
 				var env_col;
 				if (val == '#990000') {
-					env_col = 'Environment Stability High (>87%)';
+					env_col = 'Environment Stability Low (50-62%)';
 				} else if (val == '#000099') {
 					env_col = 'Environment Stability Middle (62-87%)';
 				} else if (val == '#009900') {
-					env_col = 'Environment Stability Low (50-62%)';
+					env_col = 'Environment Stability High (>87%)';
 				}
 
 				var $div = $('<div style="height:25px;">').append(
@@ -320,13 +296,14 @@ function createLegend(map) {
 			// Gray color for municipality
 			var $leg_municipio = $('<div style="height:25px;">').append(
 					$('<div class="legend-color-box">').css({
-						backgroundColor : '#bebebe',
+						backgroundColor : '#bebebe'
 					})).append(
 					$('<div class="legend_text">').html('Municipality'));
 			// Black for boundary or country
 			var $leg_rice_prod = $('<div style="height:25px;">').append(
 					$('<div class="legend-color-box">').css({
-						backgroundColor : '#000099',
+						// backgroundColor : '#90ee90'// Light green
+						backgroundColor : '#009900'// Light green
 					})).append(
 					$('<div class="legend_text">').html(
 							'Rice Production Region'));
@@ -334,19 +311,20 @@ function createLegend(map) {
 			$legend.append($leg_municipio);
 			$legend.append($leg_rice_prod);
 
-			$.each(colorValuesArray, function(index, val) {
-				var climate_feature;
-				if (val == 'blue') {
-					climate_feature = 'Region';
-				} else if (val == 'black') {
-					climate_feature = 'Station';
+			$.each(colorValuesStability, function(index, val) {
+				var climate_feature, $div;
+				if (val == '#990000') {
+					climate_feature = 'Weather Info';
+					$div = $('<div style="height:25px;">').append(
+							$('<div class="legend-color-box">').css({
+								backgroundColor : val,
+							})).append(
+							$('<div class="legend_text">')
+									.html(climate_feature));
 				}
-
-				var $div = $('<div style="height:25px;">').append(
-						$('<div class="legend-color-box">').css({
-							backgroundColor : val,
-						})).append(
-						$('<div class="legend_text">').html(climate_feature));
+				// else if (val == 'red') {
+				// climate_feature = 'Station';
+				// }
 
 				$legend.append($div);
 			});
@@ -355,8 +333,7 @@ function createLegend(map) {
 
 	if (selectedOutput.toUpperCase() == OUTPUT_SOIL)
 		renderLegend(colorValues);
-	else if ((selectedOutput.toUpperCase() == OUTPUT_TPE)
-			|| (selectedOutput.toUpperCase() == OUTPUT_AREA))
+	else if (selectedOutput.toUpperCase() == OUTPUT_TPE)
 		renderLegend(colorValuesTPE);
 	else if (selectedOutput.toUpperCase() == OUTPUT_STABILITY)
 		renderLegend(colorValuesStability);
@@ -367,20 +344,6 @@ function createLegend(map) {
 	map.controls[google.maps.ControlPosition.LEFT_CENTER]
 			.push($legendContainer[0]);
 
-}
-/**
- * Adds the Area map features to the map
- * 
- * @param map
- *            the initialized map to contain the features
- * @param data
- *            the data containing features to add
- */
-function createAreaFeatures(map, data) {
-	// Add the GeoJson features to the map
-	map.data.addGeoJson(data.areaGeoJson, {
-		idPropertyName : "id"
-	});
 }
 
 /**
@@ -393,9 +356,10 @@ function createAreaFeatures(map, data) {
  */
 function createStabilityFeatures(map, data) {
 	// Add the GeoJson features to the map
-	map.data.addGeoJson(data.stabilityGeoJson, {
-		idPropertyName : "id"
-	});
+	if (data.featuresJson != null)
+		map.data.addGeoJson(data.featuresJson, {
+			idPropertyName : "id"
+		});
 }
 
 /**
@@ -408,10 +372,10 @@ function createStabilityFeatures(map, data) {
  */
 function createTPEFeatures(map, data) {
 	// Add the TPE for the selected country features to the map.
-	map.data.addGeoJson(data.tpeGeoJson, {
-		idPropertyName : "id"
-	});
-
+	if (data.featuresJson != null)
+		map.data.addGeoJson(data.featuresJson, {
+			idPropertyName : "id"
+		});
 }
 /**
  * Creates TPE graphics
@@ -421,6 +385,12 @@ function createTPEGraphics(series) {
 	// Display the TPE Box plot
 	if ((categoriesJSON != null) && (boxJSON != null))
 		createTPEBoxPlot(categoriesJSON, boxJSON, true);
+	// console.log('CATEGORIES');
+	// console.log(categoriesJSON);
+	// console.log('BOX');
+	// console.log(boxJSON);
+	// console.log('SERIES');
+	// console.log(series);
 	// Display the Relative Transpiration Ration Plot
 	// Iterate through the list of maps of favourable data.
 	// Then get the map of PCEW
@@ -434,10 +404,19 @@ function createTPEGraphics(series) {
 				plotPCEW(seriesMap, 'PCEW', true);
 			} else if (seriesMap.type == 'WAGT') {
 				plotWAGT(seriesMap, 'WAGT', true);
+				// console.log('=============== RAIN WAGT DONE==============');
+				// console.log(seriesMap);
 			} else if (seriesMap.type == 'RAINSUM') {
+				// console.log('=============== RAIN SUM ==============');
 				plotRAIN(seriesMap, 'RAINSUM', true);
+				// console.log('=============== RAIN SUM DONE==============');
+				// console.log(seriesMap);
 			} else if (seriesMap.type == 'RAINCUM') {
+				// console.log('=============== RAIN CUM==============');
 				plotRAINCUM(seriesMap, 'RAINCUM', true);
+				// console.log('=============== RAIN CUM DONE==============');
+				// console.log(seriesMap);
+
 			}
 		});
 }
@@ -449,30 +428,29 @@ function createTPEGraphics(series) {
  * @param data
  */
 function loadAdminRegions(map, data) {
-	if ((data.regionGeoJson != null) || (data.municipiosGeoJson != null)
-			|| (data.statesGeoJson != null) || (data.tpeBoundaryJson != null)) {
-		console
-				.log('Municipios, regions, boundary and states are available!!!');
+	// console.log('Municipios, regions, boundary and states are available!!!');
+
+	if (data.regionJson != null)
 		// Add the selected country polygon feature to the map.
-		map.data.addGeoJson(data.regionGeoJson, {
+		map.data.addGeoJson(data.regionJson, {
 			idPropertyName : "id"
 		});
 
-		// Add the selected country municipios polygon feature to the map.
-		map.data.addGeoJson(data.municipiosGeoJSON, {
-			idPropertyName : "id"
+	// Add the selected country municipios polygon feature to the map.
+	if (data.municipalitiesJson != null)
+		map.data.addGeoJson(data.municipalitiesJson, {
+			idPropertyName : "ADM2_NAME"
 		});
-		// TODO Remove or don't add the states/polygons.
-		// Add the selected country states polygon features to the map.
-		// map.data.addGeoJson(data.statesGeoJson, {
-		// idPropertyName : "id"
-		// });
-		// Add tpe boundary json data
-
+	// TODO Remove or don't add the states/polygons.
+	// Add the selected country states polygon features to the map.
+	// map.data.addGeoJson(data.statesGeoJson, {
+	// idPropertyName : "id"
+	// });
+	// Add tpe boundary json data
+	if (data.tpeBoundaryJson != null)
 		map.data.addGeoJson(data.tpeBoundaryJson, {
 			idPropertyName : "id"
 		});
-	}
 }
 /**
  * This function add style or styles the map Google features
@@ -490,7 +468,10 @@ function addStyle(map) {
 
 		if ((feature.getProperty('name') == ENV_LFE)
 				|| (feature.getProperty('name') == ENV_HFE)
-				|| (feature.getProperty('name') == ENV_FE)) {
+				|| (feature.getProperty('name') == ENV_FE)
+				|| (feature.getProperty('name') == STABILITY_HIGH)
+				|| (feature.getProperty('name') == STABILITY_MIDDLE)
+				|| (feature.getProperty('name') == STABILITY_LOW)) {
 
 			return {
 				visible : true,
@@ -499,7 +480,7 @@ function addStyle(map) {
 				strokeWeight : 1,
 				strokeColor : feature.getProperty('colour'),
 				// strokeOpacity : 1,
-				// fillOpacity : 1,
+				// fillOpacity : 0.5,//1,// 0
 				fillColor : feature.getProperty('colour'),
 				zIndex : 1000
 			};
@@ -512,10 +493,12 @@ function addStyle(map) {
 				clickable : true,
 				title : name,
 				strokeWeight : 1,
-				strokeColor : feature.getProperty('colour'),
+				// strokeColor : feature.getProperty('colour'),
+				strokeColor : '#009900',
 				// strokeOpacity : 1,
 				// fillOpacity : 1,
-				fillColor : feature.getProperty('colour'),
+				fillColor : '#009900',
+				// fillColor : feature.getProperty('colour'),
 				zIndex : 1000
 			};
 		}
@@ -527,12 +510,64 @@ function addStyle(map) {
 				title : name,
 				strokeWeight : 2,
 				strokeColor : "#000",
+				fillOpacity : 1,
+				// fillOpacity: 0.20,
 				fillOpacity : 0,
+				fillColor : "#ffffff"
+			};
+		} else if (feature.getProperty('name') == 'municipality') {
+			return {
+				visible : true,
+				clickable : true,
+				title : name,
+				strokeWeight : 2,
+				strokeColor : "#989898",
+				// fillOpacity : 1,
 				// fillOpacity: 0.20,
 				fillColor : "#ffffff"
 			};
 		}
 
+		else if (feature.getProperty('featureType') == OUTPUT_CLIMATE) {
+			// If the feature belongs to Latin America, then return the blue
+			// icons.
+			if (feature.getProperty('featureIcon') == true)
+				return {
+					icon : {
+						url : 'img/station_blue.png',
+						size : new google.maps.Size(10, 10),
+						scaledSize : new google.maps.Size(10, 10)
+
+					// path: google.maps.SymbolPath.CIRCLE,
+					// scale: 3,
+					// fillColor: "#F00",
+					// fillOpacity: 0.4,
+					// strokeWeight: 0.4
+					},
+					visible : true,
+					clickable : true,
+					title : name,
+					strokeWeight : 1,
+					strokeColor : "#ffffff",
+					// fillOpacity : 0,
+					fillOpacity : 1
+				};
+			// For any other country, red icons will be returned.
+			return {
+				icon : {
+					url : 'img/station_red.png',
+					size : new google.maps.Size(10, 10),
+					scaledSize : new google.maps.Size(10, 10)
+				},
+				visible : true,
+				clickable : true,
+				title : name,
+				strokeWeight : 1,
+				strokeColor : "#ffffff",
+				// fillOpacity : 0,
+				fillOpacity : 1
+			};
+		}
 		return {
 			icon : {
 				url : 'img/' + color + '.png',
@@ -669,7 +704,7 @@ function createSoilFeatures(map, data) {
 					// Display the plot only
 					// for the soil point
 					// features
-					var probJSON = soilJson[e.feature.getProperty('code')];
+					var probJSON = seriesJSON[e.feature.getProperty('code')];
 					createSoilPlot(categoriesJSON, probJSON, true);
 
 				};
@@ -696,9 +731,10 @@ function createSoilFeatures(map, data) {
 	});
 
 	// layer = map.data.addGeoJson(data.geoJson);
-	map.data.addGeoJson(data.geoJson, {
-		idPropertyName : "id"
-	});
+	if (data.featuresJson != null)
+		map.data.addGeoJson(data.featuresJson, {
+			idPropertyName : "id"
+		});
 	map.data.setMap(null);
 
 }
@@ -749,7 +785,7 @@ function addClickListener(map) {
 			// marker clusterer
 			// TODO This is not accessed.
 			// Display the plot only for the soil feature
-			var probJSON = dataJSON[e.feature.getProperty('code')];
+			var probJSON = seriesJSON[e.feature.getProperty('code')];
 			// createSoilPlot(categoriesJSON, probJSON, true);
 			// createSoilPlot(categoriesJSON, probJSON, true);
 
@@ -812,10 +848,10 @@ function addClickListener(map) {
 			// e.feature.getProperty('stationId'),
 			// e.feature.getProperty('name'));
 
-			createClimateGraphics(e.feature.getProperty('stationId'), e.feature
-					.getProperty('name'));
+			createClimateGraphics(e.feature.getProperty('dataSeries'),
+					e.feature.getProperty('name'));
 
-			clickedFeature = e.feature.getProperty('stationId');
+			clickedFeature = e.feature.getProperty('dataSeries');
 			clickedFeatureName = e.feature.getProperty('name');
 		}
 	});
@@ -835,7 +871,13 @@ function addMouseOverListener(map) {
 						if (e.feature.getProperty('name') == 'TPE_BOUNDARY') {
 							// TODO: If feature is boundary, then Do nothing
 							// console.log(e.feature.getProperty('name'));
+							map.data.overrideStyle(e.feature, {
+								strokeColor : '#000',
+								fillOpacity : 0,
+								fillColor : '#ffffff'
+							});
 						}
+
 						// else if (e.feature.getProperty('name') == 'Brazil') {
 						// TODO: If feature is country, then Do nothing
 						// console.log(e.feature.getProperty('name'));
@@ -845,8 +887,28 @@ function addMouseOverListener(map) {
 						// console.log(e.feature.getProperty('name'));
 						// }
 						else {
-
 							$('#info').show();
+							if (e.feature.getProperty('name') == 'municipality') {
+								// TODO: If feature is boundary, then Do nothing
+								// console.log(e.feature.getProperty('name'));
+								map.data.overrideStyle(e.feature, {
+									strokeColor : '#000',
+									fillOpacity : 0,
+									fillColor : '#989898'
+								});
+								// $('#info').show();
+								$('#info h2')
+										.text(
+												'ADM2 Name: '
+														+ e.feature
+																.getProperty('ADM2_NAME'));
+								$('#info span')
+										.html(
+												'ADM1 Name: '
+														+ e.feature
+																.getProperty('ADM1_NAME'));
+
+							}
 							if (e.feature.getProperty('featureType') == OUTPUT_TPE) {
 								$('#info h2')
 										.text(
@@ -888,8 +950,8 @@ function addMouseOverListener(map) {
 								// Revert feature style
 								map.data.overrideStyle(e.feature, {
 									strokeColor : strokeColor,
-									fillOpacity : 0.5,
-									fillColor : fillColor
+									fillOpacity : 0,// 0.5//1
+									fillColor : '#ffffff'// fillColor
 								});
 
 							}
@@ -899,8 +961,8 @@ function addMouseOverListener(map) {
 									|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')) {
 								// Display the plot only for the soil point
 								// features
-								if (dataJSON != null) {
-									var probJSON = dataJSON[e.feature
+								if (seriesJSON != null) {
+									var probJSON = seriesJSON[e.feature
 											.getProperty('code')];
 									// createSoilPlot(categoriesJSON, probJSON,
 									// true);
@@ -911,32 +973,114 @@ function addMouseOverListener(map) {
 								// h2').text(e.feature.getProperty('name'));
 								$('#info h2')
 										.text(
-												'STABILITY: '
+												'Stability: '
 														+ e.feature
 																.getProperty('name'));
-							} else if (e.feature.getProperty('featureType') == OUTPUT_AREA) {
-								// $('#info
-								// h2').text(e.feature.getProperty('name'));
-								$('#info h2')
-										.text(
-												'RICE AREA: '
-														+ e.feature
-																.getProperty('name'));
+								var strokeColor, fillColor;
+
+								// Add plots using series data
+								if (e.feature.getProperty('name') == STABILITY_HIGH) {
+									// Create the feature graphics
+									createTPEGraphics(hfeSeries)
+
+									strokeColor = '#009900';// #009900
+									fillColor = '#009900';// #009900
+
+									// console.log(hfeSeries);
+
+								} else if (e.feature.getProperty('name') == STABILITY_MIDDLE) {
+
+									// Create feature graphics
+									createTPEGraphics(feSeries)
+									// console.log(feSeries);
+
+									strokeColor = '#000099';
+									fillColor = '#000099';
+
+								} else if (e.feature.getProperty('name') == STABILITY_LOW) {
+
+									// Create graphics
+									createTPEGraphics(lfeSeries)
+
+									strokeColor = '#990000';
+									fillColor = '#990000';
+								}
+
+								// Revert feature style
+								map.data.overrideStyle(e.feature, {
+									strokeColor : strokeColor,
+									fillOpacity : 0,// 0.5,
+									fillColor : '#ffffff'// fillColor
+								});
 							} else if (e.feature.getProperty('featureType') == OUTPUT_CLIMATE) {
-
+								// Add title to the infos
 								$('#info h2').text(
 										e.feature.getProperty('name'));
-								if (climateSeriesJSON != null)
-									createClimateGraphics(e.feature
-											.getProperty('stationId'),
-											e.feature.getProperty('name'));
+								if (e.feature.getProperty('name') != 'TPE_BOUNDARY')
+									$('#info h2')
+											.css(
+													{
+														'background-image' : 'url(img/station_red.png)',
+														'background-repeat' : 'no-repeat',
+														'background-position' : 'right'
+													});
+
+								// if (seriesJSON != null)
+								createClimateGraphics(
+										e.feature.getProperty('dataSeries'),
+										e.feature.getProperty('name')
+												+ ' - '
+												+ e.feature
+														.getProperty("countryName") == null ? ''
+												: e.feature
+														.getProperty("countryName"));
+								if (e.feature.getProperty('featureIcon') == true)
+									map.data
+											.overrideStyle(
+													e.feature,
+													{
+														icon : {
+															url : 'img/station_red.png',
+															size : new google.maps.Size(
+																	10, 10),
+															scaledSize : new google.maps.Size(
+																	10, 10)
+														}
+													});
+
 							} else if (e.feature.getProperty('featureType') == 'REGION') {
-
+								// var strokeColor = '#009900', fillColor =
+								// '#009900';
 								$('#info h2').text(
-										e.feature.getProperty('name'));
-							}
+										e.feature.getProperty('name')
+												+ ' Rice Growing Region');
+								$('#info h2').css({
+									'background-image' : 'none'
+								});
+								// countryId is the id of the feature
+								// var countryId = e.feature.getProperty('id');
+								/*
+								 * map.data .forEach(function(feature) { if
+								 * (feature .getProperty('featureType') ==
+								 * OUTPUT_CLIMATE) if (feature
+								 * .getProperty('countryName') == countryId) {
+								 * map.data .overrideStyle( feature, { icon : {
+								 * url : 'img/station_red.png', size : new
+								 * google.maps.Size( 10, 10), scaledSize : new
+								 * google.maps.Size( 10, 10) } }); } });
+								 */
 
-							else {
+								// Revert feature style
+								map.data.overrideStyle(e.feature, {
+									fillOpacity : 0,
+									fillColor : '#002200',
+									strokeWeight : 1,
+									// strokeColor :
+									// feature.getProperty('colour'),
+									strokeColor : '#002200'
+								});
+
+							} else {
 								$('#info h2').text(
 										e.feature.getProperty('name'));
 							}
@@ -969,17 +1113,26 @@ function addMouseOutListener(map) {
 
 		if ((e.feature.getProperty('name') == ENV_LFE)
 				|| (e.feature.getProperty('name') == ENV_HFE)
-				|| (e.feature.getProperty('name') == ENV_FE)) {
+				|| (e.feature.getProperty('name') == ENV_FE)
+				|| (e.feature.getProperty('name') == STABILITY_HIGH)
+				|| (e.feature.getProperty('name') == STABILITY_MIDDLE)
+				|| (e.feature.getProperty('name') == STABILITY_LOW)) {
 			map.data.overrideStyle(e.feature, {
 				strokeColor : e.feature.getProperty('colour'),
-				fillOpacity : 0.20,
+				fillOpacity : 0.4,// 1,// 0.20//0,
 				fillColor : e.feature.getProperty('colour')
+			});
+		} else if (e.feature.getProperty('name') == 'municipality') {
+			map.data.overrideStyle(e.feature, {
+				strokeColor : '#989898',
+				fillOpacity : 0.4,// 1,
+				fillColor : '#ffffff'
 			});
 		}
 
 		// Dynamically show the graphics using the last clicked feature id or
 		// key
-		if (currentOutput == OUTPUT_TPE) {
+		if (e.feature.getProperty('featureType') == OUTPUT_TPE) {
 			var lastSeries;
 			if (clickedFeature == ENV_HFE)
 				lastSeries = hfeSeries;
@@ -992,22 +1145,46 @@ function addMouseOutListener(map) {
 				// Iterate the list of series map
 				createTPEGraphics(lastSeries);
 			}
-		} else if (currentOutput == OUTPUT_CLIMATE) {
+		} else if (e.feature.getProperty('featureType') == OUTPUT_CLIMATE) {
 
-			if (e.feature.getProperty('featureType') == 'REGION')
+			/*
+			 * if (e.feature.getProperty('featureType') == 'REGION')
+			 * map.data.overrideStyle(e.feature, { strokeColor :
+			 * e.feature.getProperty('colour'), fillOpacity : 0.20, fillColor :
+			 * e.feature.getProperty('colour') });
+			 */
+
+			// if (e.feature.getProperty('featureType') == OUTPUT_CLIMATE)
+			if (e.feature.getProperty('featureIcon') == true)
 				map.data.overrideStyle(e.feature, {
-					strokeColor : e.feature.getProperty('colour'),
-					fillOpacity : 0.20,
-					fillColor : e.feature.getProperty('colour')
+					icon : {
+						url : 'img/station_blue.png',
+						size : new google.maps.Size(10, 10),
+						scaledSize : new google.maps.Size(10, 10)
+					}
 				});
 
 			// rainfallRadiationPlot(climateSeriesJSON, true,
 			// clickedFeature,clickedFeatureName);
-
 			createClimateGraphics(clickedFeature, clickedFeatureName);
 
+		} else if (e.feature.getProperty('featureType') == 'REGION') {
+			map.data.overrideStyle(e.feature, {
+				fillOpacity : 0.4,// 0.5,
+				fillColor : '#009900',
+				strokeWeight : 1,
+				// strokeColor : feature.getProperty('colour'),
+				strokeColor : '#009900'
+			});
+
+		} else if (e.feature.getProperty('featureType') == OUTPUT_STABILITY) {
+			map.data.overrideStyle(e.feature, {
+				strokeColor : e.feature.getProperty('colour'),
+				fillOpacity : 0.4,// 1,// 0.20//0,
+				fillColor : e.feature.getProperty('colour')
+			});
 		}
-		// TODO Add Stability, Area and Soil
+		// TODO Add Stability and Soil
 	});
 }
 
@@ -1036,7 +1213,18 @@ function featureInfo(event) {
 
 	} else if (event.feature.getProperty('featureType') == 'SOIL') {
 		// If the soil icon was clicked
-		$htmlText = '<div>Region: ' + event.feature.getProperty("regionName");
+		// Country
+		$htmlText = '<div>Country: ' + event.feature.getProperty("countryName");
+
+		// State
+		$htmlText = $htmlText + '</div><div>State: '
+				+ event.feature.getProperty("stateName");
+
+		// Municipality
+		$htmlText = $htmlText + '</div><div>Municipality: '
+				+ event.feature.getProperty("municipalityName");
+
+		// Station
 		$htmlText = $htmlText + '</div><div>Station: '
 				+ event.feature.getProperty("stationName");
 		// Add the coordinates
@@ -1046,57 +1234,114 @@ function featureInfo(event) {
 		// Add the soil properties
 		// PH
 		$htmlText = $htmlText + '</div><div>PH: '
-				+ event.feature.getProperty("ph") + '</div>';
+				+ event.feature.getProperty("ph") == null ? '--'
+				: event.feature.getProperty("ph") + '</div>';
+		// Clay
+		$htmlText = $htmlText + '<div>Clay: '
+				+ event.feature.getProperty("clay") == null ? '--'
+				: event.feature.getProperty("clay") + '(%)</div>';
+
+		// Silt
+		$htmlText = $htmlText + '<div>Silt: '
+				+ event.feature.getProperty("silt") == null ? '--'
+				: event.feature.getProperty("silt") + '(%)</div>';
+
+		// Sand
+		$htmlText = $htmlText + '<div>Sand: '
+				+ event.feature.getProperty("sand") == null ? '--'
+				: event.feature.getProperty("sand") + '(%)</div>';
+
 		// Depth
 		$htmlText = $htmlText + '<div>Depth: '
-				+ event.feature.getProperty("depth") + '</div>';
+				+ event.feature.getProperty("depth") == null ? '--'
+				: event.feature.getProperty("depth") + ' (g/cm-3)</div>';
+
 		// availableSoilWater
-		$htmlText = $htmlText + '<div>Available Soil Water: '
-				+ event.feature.getProperty("availableSoilWater") + '</div>';
+		$htmlText = $htmlText + '<div>Available soil moisture: '
+				+ event.feature.getProperty("availableSoilWater") == null ? '--'
+				: event.feature.getProperty("availableSoilWater")
+						+ '(m3 m-3)</div>';
 		// Bulk Density
 		$htmlText = $htmlText + '<div>Bulk Density: '
-				+ event.feature.getProperty("bulkDensity") + '</div>';
+				+ event.feature.getProperty("bulkDensity") == null ? '--'
+				: event.feature.getProperty("bulkDensity") + '</div>';
 		// Cation Exchange
-		$htmlText = $htmlText + '<div>Cation Exchange: '
-				+ event.feature.getProperty("cationExchange") + '</div>';
+		$htmlText = $htmlText + '<div>Cation exchange capacity: '
+				+ event.feature.getProperty("cationExchange") == null ? '--'
+				: event.feature.getProperty("cationExchange")
+						+ '(cmol kg-1)</div>';
 		// Organic Carbon
 		$htmlText = $htmlText + '<div>Organic Carbon: '
-				+ event.feature.getProperty("organicCarbon") + '</div>';
+				+ event.feature.getProperty("organicCarbon") == null ? '--'
+				: event.feature.getProperty("organicCarbon") + '(g kg-1)</div>';
 		// Organic Matter
 		$htmlText = $htmlText + '<div>Organic Matter: '
-				+ event.feature.getProperty("organicMatter") + '</div>';
+				+ event.feature.getProperty("organicMatter") == null ? '--'
+				: event.feature.getProperty("organicMatter") + '</div>';
 		// Water Content Field Capacity
-		$htmlText = $htmlText + '<div>Water Content Field Capacity: '
-				+ event.feature.getProperty("waterContentFieldCapacity")
-				+ '</div>';
+		$htmlText = $htmlText + '<div>Soil moisture at Field capacity: '
+				+ event.feature.getProperty("waterContentFieldCapacity") == null ? '--'
+				: event.feature.getProperty("waterContentFieldCapacity")
+						+ ' (m3 m-3)</div>';
 		// Taxonomy
 		$htmlText = $htmlText + '<div>Taxonomy: '
-				+ event.feature.getProperty("taxonomy") + '</div>';
+				+ event.feature.getProperty("taxonomy") == null ? '--'
+				: event.feature.getProperty("taxonomy") + '</div>';
 		// Water Capacity Wilt Point
-		$htmlText = $htmlText + '<div>Water Capacity Wilt Point: '
-				+ event.feature.getProperty("waterCapacityWiltPoint")
-				+ '</div>';
+		$htmlText = $htmlText + '<div>Soil moisture at Wilting point: '
+				+ event.feature.getProperty("waterCapacityWiltPoint") == null ? '--'
+				: event.feature.getProperty("waterCapacityWiltPoint")
+						+ '(m3 m-3)</div>';
 	} else if (event.feature.getProperty('featureType') == 'CLIMATE') {
 
-		if (event.feature.getProperty("country") != null)
+		if (event.feature.getProperty("regionName") != null)
+			$htmlText = $htmlText + '<div>Region: '
+					+ event.feature.getProperty("regionName");
+
+		if (event.feature.getProperty("countryName") != null)
 			$htmlText = $htmlText + '<div>Country: '
-					+ event.feature.getProperty("country");
+					+ event.feature.getProperty("countryName");
+		if (event.feature.getProperty("stateName") != null)
+			$htmlText = $htmlText + '<div>State: '
+					+ event.feature.getProperty("stateName");
+		if (event.feature.getProperty("municipalityName") != null)
+			$htmlText = $htmlText + '<div>Municipality: '
+					+ event.feature.getProperty("municipalityName");
+		if (event.feature.getProperty("plantingDate") != null)
+			$htmlText = $htmlText + '<div>Planting Date: '
+					+ event.feature.getProperty("plantingDate");
+		// Add a table of tmin, tmax and precipitation for the currently hovered
+		// station
+		if (event.feature.getProperty('infoSeries') != null) {
+			var infoSeries = event.feature.getProperty('infoSeries');
+			// Add a table for tmin, tmax and precipitation.
+			$htmlText = $htmlText
+					+ '<div><table>'
+					+ '<tr><td>Month:</td><td>J</td><td>F</td><td>M</td><td>A</td><td>M</td><td>J</td>'
+					+ '<td>J</td><td>A</td><td>S</td><td>O</td><td>N</td><td>D</td></tr>';
+			$.each(infoSeries, function(key, listOfValues) {
+				$htmlText = $htmlText + '<tr><td>' + key + '</td>';
+				$.each(listOfValues, function(index, value) {
+					$htmlText = $htmlText + '<td>'
+							+ parseFloat(value).toFixed(2) + '</td>';
+				});
+				$htmlText = $htmlText + '</tr>'
+			});
+			$htmlText = $htmlText + '</table></div>';
+		}
 
-		$htmlText = $htmlText + '<div>Municipality/Station: '
-				+ event.feature.getProperty("stationName");
-
-		$htmlText = $htmlText + '<div>Station No:'
-				+ event.feature.getProperty('stationNumber') + '</div>';
+		// $htmlText = $htmlText + '<div>Station No:'+
+		// event.feature.getProperty('stationNumber') + '</div>';
 		// Add climate properties here
-		// Min Temperature
-		$htmlText = $htmlText + '<div>Min Temperature: '
-				+ event.feature.getProperty("minT") + '</div>';
-		// Max Temperature
-		$htmlText = $htmlText + '<div>Max Temperature: '
-				+ event.feature.getProperty("maxT") + '</div>';
-		// Precipitation
-		$htmlText = $htmlText + '<div>Precipitation: '
-				+ event.feature.getProperty("precipitation") + '</div>';
+		// // Min Temperature
+		// $htmlText = $htmlText + '<div>Min Temperature: '
+		// + event.feature.getProperty("minT") + '</div>';
+		// // Max Temperature
+		// $htmlText = $htmlText + '<div>Max Temperature: '
+		// + event.feature.getProperty("maxT") + '</div>';
+		// // Precipitation
+		// $htmlText = $htmlText + '<div>Precipitation: '
+		// + event.feature.getProperty("precipitation") + '</div>';
 		// Radiation
 		// $htmlText = $htmlText + '<div>Radiation: ' +
 		// event.feature.getProperty("radiation") + '</div>';
@@ -1121,6 +1366,8 @@ function featureInfo(event) {
 
 		$htmlText = $htmlText + '<div>Cultivar: '
 				+ event.feature.getProperty("cultivar") + '</div>';
+		$htmlText = $htmlText + '<div>'
+				+ event.feature.getProperty("ADM2_NAME") + '</div>';
 	}
 
 	else {
@@ -2618,14 +2865,15 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 					});
 }
 
-function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
+function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 	var categories, series;
-	if (seriesMap != null) {
-		categories = seriesMap['categories'];
-		series = seriesMap['series'];
+	if (dataSeries != null) {
+		categories = dataSeries['categories'];
+		series = dataSeries['series'];
 	}
-
-	// console.log(series[station]);
+	console.log(stationName);
+	console.log(series);
+	console.log(categories);
 
 	// $('#rain_radiation').show();
 	var renderTo = 'rain_radiation';// Default div
@@ -2718,26 +2966,22 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						load : function() {
 							if (smallPlot) {
 								this.renderer.image('img/zoom-in.png', 10, 2,
-										20, 20)
-										.on(
-												'click',
-												function() {
-													rainfallRadiationPlot(
-															seriesMap, false,
-															station,
-															stationName);
-													$('#dialog-plot').dialog(
-															'open');
-												}).css({
-											cursor : 'Pointer'
+										20, 20).on(
+										'click',
+										function() {
+											rainfallRadiationPlot(dataSeries,
+													false, stationName);
+											$('#dialog-plot').dialog('open');
 										}).css({
-											position : 'relative',
-											"margin-left" : "-90px"
-										// opacity : 0.75
-										}).attr({
-											zIndex : 300,
-											id : 'zoomImage'
-										}).add();
+									cursor : 'Pointer'
+								}).css({
+									position : 'relative',
+									"margin-left" : "-90px"
+								// opacity : 0.75
+								}).attr({
+									zIndex : 300,
+									id : 'zoomImage'
+								}).add();
 
 								// $('.highcharts-legend-item
 								// rect').attr('r',
@@ -2764,8 +3008,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						},
 						click : function() {
 							if (smallPlot) {
-								rainfallRadiationPlot(seriesMap, false,
-										station, stationName);
+								rainfallRadiationPlot(dataSeries, false,
+										stationName);
 								// $('#report').html('click on title');
 								$('#dialog-plot').dialog('open');
 							}
@@ -2804,25 +3048,17 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					crosshair : true
 
 				},
-				yAxis : [ { // Primary yAxis
-					labels : {
-						enabled : labelsEnabled,
-						// format : '{value}°C',
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
-					},
-					min : 0,
-					title : {
-						text : 'Radation (MJ/m2.day)',
-						style : {
-							color : '#4572A7'
-						}
-					}
-				}, { // Secondary yAxis
+				yAxis : [
+
+				/*
+				 * { // Primary yAxis labels : { enabled : labelsEnabled, //
+				 * format : '{value}°C', style : { color : '#4572A7', fontSize :
+				 * fontSize }, format : '{value:.1f}' // format : '{value:.2f}' },
+				 * min : 0, title : { text : 'Radation (MJ/m2.day)', style : {
+				 * color : '#4572A7' } } },
+				 */
+
+				{ // Secondary yAxis
 					title : {
 						text : 'Rainfall (mm)',
 						rotation : -90,
@@ -2841,8 +3077,9 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						},
 						format : '{value:.1f}'
 					// format : '{value:.2f}'
-					},
-					opposite : true
+					}
+				// ,
+				// opposite : true
 				},
 
 				{ // Primary yAxis
@@ -2862,8 +3099,8 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 						style : {
 							color : '#4572A7'
 						}
-					}
-				// opposite : true
+					},
+					opposite : true
 				}, { // Tertially yAxis, Max Temperature
 					title : {
 						text : 'Max Temperature (°C)',
@@ -2916,7 +3153,7 @@ function rainfallRadiationPlot(seriesMap, smallPlot, station, stationName) {
 					draggable : true
 				// zIndex : 400
 				},
-				series : series[station],
+				series : series,
 				exporting : {
 					enabled : exporting,
 					buttons : {

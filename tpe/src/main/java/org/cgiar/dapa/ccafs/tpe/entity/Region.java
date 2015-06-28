@@ -113,6 +113,7 @@ public class Region extends BaseEntity implements Coordinate {
 	 * America)
 	 */
 	private String region;
+	private Boolean select;
 
 	@Column(name = "name")
 	public String getName() {
@@ -271,6 +272,15 @@ public class Region extends BaseEntity implements Coordinate {
 
 	public void setRegion(String region) {
 		this.region = region;
+	}
+
+	@Column(name = "select")
+	public Boolean getSelect() {
+		return select;
+	}
+
+	public void setSelect(Boolean select) {
+		this.select = select;
 	}
 
 }

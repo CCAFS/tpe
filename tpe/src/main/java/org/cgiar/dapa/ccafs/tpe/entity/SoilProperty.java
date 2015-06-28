@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.beanutils.converters.BooleanArrayConverter;
+
 /**
  * This class represents the soil properties in the simulation model. Each soil
  * property is categorized as physical, chemical or hydraulic property. Each
@@ -114,6 +116,11 @@ public class SoilProperty extends BaseResult {
 	 * The latitude of the soil texture from a given region
 	 */
 	private Double latitude;
+
+	private Float clay;
+	private Float silt;
+	private Float sand;
+	private Boolean continent;
 
 	// /**
 	// * Soil property value. Since different properties have different data
@@ -285,6 +292,42 @@ public class SoilProperty extends BaseResult {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+	@Column(name = "clay")
+	public Float getClay() {
+		return clay;
+	}
+
+	public void setClay(Float clay) {
+		this.clay = clay;
+	}
+
+	@Column(name = "silt")
+	public Float getSilt() {
+		return silt;
+	}
+
+	public void setSilt(Float silt) {
+		this.silt = silt;
+	}
+
+	@Column(name = "sand")
+	public Float getSand() {
+		return sand;
+	}
+
+	public void setSand(Float sand) {
+		this.sand = sand;
+	}
+
+	@Column(name = "continent")
+	public Boolean getContinent() {
+		return continent;
+	}
+
+	public void setContinent(Boolean continent) {
+		this.continent = continent;
 	}
 
 }

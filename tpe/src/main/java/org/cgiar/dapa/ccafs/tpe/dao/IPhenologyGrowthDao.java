@@ -174,4 +174,6 @@ public interface IPhenologyGrowthDao extends IGenericDao<PhenologyGrowth, Long> 
 	 * @return lai series data
 	 */
 	Map<String, Object> getSeriesData(Integer cultivarId, Integer countryId);
+	
+	List<PhenologyGrowth> getTestSeries(Integer countryId, Integer cultivarId);
 }
