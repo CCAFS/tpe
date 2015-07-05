@@ -60,6 +60,12 @@ function initializeMap(data) {
 		rotateControl : false,
 	}
 
+	// Create two data layers.
+	// The crop production or growing layer
+	var productionLayer = new google.maps.Data();
+	// The features layer
+	var featuresLayer = new google.maps.Data();
+
 	// console.log('Selected Output: ' + selectedOutput);
 	// Create the new map and make sure the tpe_map div
 	// exists
@@ -72,8 +78,10 @@ function initializeMap(data) {
 		// Load admin regions
 		loadAdminRegions(map, data);
 
-		// Create the soil map
-		createSoilFeatures(map, data);
+		// Create the soil map. Pass in the features and production layers.
+		// Features layer will contain the soil features and the production
+		// layer will contain the rice production region.
+		createSoilFeatures(map, data, featuresLayer, productionLayer);
 		// Add legend
 		createLegend(map);
 
@@ -145,13 +153,19 @@ function initializeMap(data) {
  */
 function createClimateFeatures(map, data) {
 	// Add climate regions
-
-	if (data.growingRegionsJson != null) {
+	// Add the crop production region if not null
+	if (null != data.growingRegionsJson) {
 		map.data.addGeoJson(data.growingRegionsJson, {
 			idPropertyName : "id"
 		});
 		// console.log('regionJson is not null');
 	}
+	// if (data.growingRegionsJson != null) {
+	// map.data.addGeoJson(data.growingRegionsJson, {
+	// idPropertyName : "id"
+	// });
+	// // console.log('regionJson is not null');
+	// }
 	// console.log('regionJson is null');
 
 	// Add the GeoJson features to the map, stations
@@ -451,6 +465,7 @@ function loadAdminRegions(map, data) {
 		map.data.addGeoJson(data.tpeBoundaryJson, {
 			idPropertyName : "id"
 		});
+
 }
 /**
  * This function add style or styles the map Google features
@@ -486,7 +501,7 @@ function addStyle(map) {
 			};
 		}
 
-		else if ((feature.getProperty('featureType') == 'REGION')) {
+		else if (feature.getProperty('featureType') == 'REGION') {
 
 			return {
 				visible : true,
@@ -534,7 +549,8 @@ function addStyle(map) {
 			if (feature.getProperty('featureIcon') == true)
 				return {
 					icon : {
-						url : 'img/station_blue.png',
+						url : 'img/weather_info.png',// url :
+						// 'img/station_blue.png',
 						size : new google.maps.Size(10, 10),
 						scaledSize : new google.maps.Size(10, 10)
 
@@ -599,7 +615,93 @@ function addStyle(map) {
  * @param map
  * @param data
  */
-function createSoilFeatures(map, data) {
+function createSoilFeatures(map, data, featLayer, prodLayer) {
+	// Add the crop production regions
+	// Add the crop production region if not null
+	if (null != data.growingRegionsJson) {
+		// map.data.addGeoJson(data.growingRegionsJson, {
+		// idPropertyName : "id"
+		// });
+
+		prodLayer.addGeoJson(data.growingRegionsJson, {
+			idPropertyName : "id"
+		});
+		// console.log('regionJson is not null');
+
+		prodLayer.setMap(map);
+		// Set the style for the production layer
+		prodLayer.setStyle(function(feature) {
+			// All production features are of featureType REGION
+			if (feature.getProperty('featureType') == 'REGION') {
+				return {
+					visible : true,
+					clickable : true,
+					title : name,
+					strokeWeight : 1,
+					// strokeColor : feature.getProperty('colour'),
+					strokeColor : '#009900',
+					// strokeOpacity : 1,
+					// fillOpacity : 1,
+					fillColor : '#009900',
+					// fillColor : feature.getProperty('colour'),
+					zIndex : 1000
+				};
+			}
+		});
+
+		// Addmouseover event
+		prodLayer.addListener('mouseover',
+				function(e) {
+					if (e.feature.getProperty('featureType') == 'REGION') {
+						e.feature.setProperty('selected', true);
+						// Show the info window
+						$('#info').show();
+						// Show the country name
+						$('#info h2').text(
+								e.feature.getProperty('name')
+										+ ' Rice Growing Region');
+						// Hide the background image
+						$('#info h2').css({
+							'background-image' : 'none'
+						});
+
+						prodLayer.overrideStyle(e.feature, {
+							fillOpacity : 0,
+							fillColor : '#002200',
+							strokeWeight : 1,
+							// strokeColor :
+							// feature.getProperty('colour'),
+							strokeColor : '#002200'
+						});
+					}
+				});
+
+		// Add mouseout event
+		prodLayer.addListener('mouseout', function(e) {
+			if (e.feature.getProperty('featureType') == 'REGION') {
+				e.feature.setProperty('selected', false);
+				// Hide the Info window
+				$('#info h2').text('');
+				$('#info span').html('');
+				$('#info').hide();
+				prodLayer.overrideStyle(e.feature, {
+					fillOpacity : 0.4,// 0.5,
+					fillColor : '#009900',
+					strokeWeight : 1,
+					// strokeColor : feature.getProperty('colour'),
+					strokeColor : '#009900'
+				});
+			}
+		});
+	}
+	// if (data.growingRegionsJson != null) {
+	// console.log('Added production regions in soil module')
+	// map.data.addGeoJson(data.growingRegionsJson, {
+	// idPropertyName : "id"
+	// });
+	// }
+	// else
+	// console.log('Production region is null')
 
 	var markerClusterer = new MarkerClusterer(
 			map,
@@ -635,13 +737,14 @@ function createSoilFeatures(map, data) {
 			});
 
 	markerClusterer.setMap(map);
-
-	google.maps.event.addListener(map.data, 'addfeature', function(e) {
+	// google.maps.event.addListener(map.data, 'addfeature', function(e) {
+	google.maps.event.addListener(featLayer, 'addfeature', function(e) {
 		if (e.feature.getGeometry().getType() === 'Point') {
 			var marker = new google.maps.Marker({
 				position : e.feature.getGeometry().get(),
 				title : e.feature.getProperty('name'),
 				map : map,
+				// snippet : e.feature.getProperty('color'),
 				icon : {
 					/*
 					 * url : 'img/' + e.feature.getProperty('color') + '.png'
@@ -667,32 +770,29 @@ function createSoilFeatures(map, data) {
 				}
 			});
 			// Add a click event to the marker
-			google.maps.event.addListener(marker, 'click', function(marker, e) {
-				return function() {
-					// show an infowindow on
-					// click
-					// Show the info window
-					// only for other
-					// features but not
-					// country
-					infoWindow.setContent('<div class="info_window">' + '<h2>'
-							+ e.feature.getProperty('name') + '</h2>'
-							+ featureInfo(e) + '</div>');
-					var anchor = new google.maps.MVCObject();
-					// anchor.set("position",
-					// e.latLng);
-					anchor.set("position", e.feature.getGeometry().get());
-					anchor.set("options", {
-						pixelOffset : new google.maps.Size(0, 0)
-					});
-					infoWindow.open(map, anchor);
-				};
-			}(marker, e));
+			/*
+			 * google.maps.event.addListener(marker, 'click', function(marker,
+			 * e) { return function() { // show an infowindow on // click //
+			 * Show the info window // only for other // features but not //
+			 * country infoWindow.setContent('<div class="info_window">' + '<h2>' +
+			 * e.feature.getProperty('name') + '</h2>' + featureInfo(e) + '</div>');
+			 * var anchor = new google.maps.MVCObject(); //
+			 * anchor.set("position", // e.latLng); anchor.set("position",
+			 * e.feature.getGeometry().get()); anchor.set("options", {
+			 * pixelOffset : new google.maps.Size(0, 0) }); infoWindow.open(map,
+			 * anchor); }; }(marker, e));
+			 */
 
 			// Add the Hover event to the marker
 			google.maps.event.addListener(marker, 'mouseover', function(marker,
 					e) {
+
+				// console.log("mouseover: ");
+
 				return function() {
+					// console.log("Center of cluster: " + e.feature());
+					// console.log("Number of managed markers in cluster: " +
+					// marker);
 
 					e.feature.setProperty('selected', true);
 					$('#info').show();
@@ -716,6 +816,8 @@ function createSoilFeatures(map, data) {
 					e) {
 				return function() {
 					e.feature.setProperty('selected', false);
+					$('#info h2').text('');
+					$('#info span').html('');
 					$('#info').hide();
 				};
 			}(marker, e));
@@ -730,13 +832,117 @@ function createSoilFeatures(map, data) {
 		}
 	});
 
+	// Add the mouseover for the marker clusterer. When the clusterer is
+	// hovered, then the details will be displayed in the infor window (# of
+	// soil points, color, etc).
+	// Display the info window on top right corner of the map
+	google.maps.event
+			.addListener(
+					markerClusterer,
+					"mouseover",
+					function(cluster) {
+						// console.log("mouseover: ");
+						// console.log("Center of cluster: " +
+						// cluster.getCenter());
+						// console.log("Number of managed markers in cluster: "+
+						// cluster.getSize());
+
+						$('#info').show();
+
+						var m = cluster.getMarkers();
+						var p = [];
+						var clayMk = 0, sandMk = 0, loamMk = 0, clayLoamMk = 0, sandyLoamMk = 0, sandyClayMk = 0, sandClayLoamMk = 0, siltClayLoamMk = 0;
+						for (var i = 0; i < m.length; i++) {
+							var clor = m[i].getTitle();
+							if (clor == 'Sand') {
+								// Sand//red;
+								sandMk++;
+							} else if (clor == 'Loam') {
+								// 'Loam'//blue;
+								loamMk++;
+							} else if (clor == 'Clay') {
+								clayMk++// 'Clay'//green;
+							} else if (clor == 'Sandy Loam') {
+								sandyLoamMk++// 'Sand Loam'//yellow;
+							} else if (clor == 'Clay Loam') {
+								clayLoamMk++// 'Clay Loam'//purple;
+							} else if (clor == 'Sandy Clay') {
+								sandyClayMk++// 'Sandy Clay'//orange;
+							} else if (clor == 'Sandy Clay Loam') {
+								sandClayLoamMk++// 'Sand Clay Loam';//pink
+							} else if (clor == 'Silty Clay Loam') {
+								siltClayLoamMk++// 'Silt Clay Loam';//lightblue
+							}
+							// p.push(m[i].getPosition());
+						}
+
+						$('#info h2').text(cluster.getSize() + ' soil points');
+
+						var $clusterText = '<div id="marker_clusterer">';
+						// If the station was clicked
+						if (sandMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/red.png) no-repeat right;">#'
+									+ sandMk + ' Sand points</h3></div>';
+						if (loamMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/blue.png) no-repeat right;">#'
+									+ loamMk + ' Loam points</h3></div>';
+						if (clayMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/green.png) no-repeat right;">#'
+									+ clayMk + ' Clay points</h3></div>';
+						if (sandyLoamMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/yellow.png) no-repeat right;">#'
+									+ sandyLoamMk
+									+ '  Sandy Loam points</h3></div>';
+						if (clayLoamMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/purple.png) no-repeat right;">#'
+									+ clayLoamMk
+									+ ' Clay Loam points</h3></div>';
+						if (sandyClayMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/orange.png) no-repeat right;">#'
+									+ sandyClayMk
+									+ ' Sandy Clay points</h3></div>';
+						if (sandClayLoamMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/pink.png) no-repeat right;">#'
+									+ sandClayLoamMk
+									+ ' Sand Clay Loam points</h3></div>';
+						if (siltClayLoamMk > 0)
+							$clusterText = $clusterText
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/lightblue.png) no-repeat right;">#'
+									+ siltClayLoamMk
+									+ ' Silt Clay Loam points</h3></div>';
+						$('#info span').html($clusterText + '</div>');
+
+					});
+
+	// Add the mouseout event that will hide the info window.
+	google.maps.event.addListener(markerClusterer, "mouseout",
+			function(cluster) {
+				// Hide the info window
+				$('#info h2').text('');
+				$('#info span').html('');
+				$('#info').hide();
+			});
+
 	// layer = map.data.addGeoJson(data.geoJson);
-	if (data.featuresJson != null)
-		map.data.addGeoJson(data.featuresJson, {
+	if (data.featuresJson != null) {
+		// map.data.addGeoJson(data.featuresJson, {
+		// idPropertyName : "id"
+		// });
+
+		featLayer.addGeoJson(data.featuresJson, {
 			idPropertyName : "id"
 		});
-	map.data.setMap(null);
+	}
 
+	// map.data.setMap(null);
+	featLayer.setMap(null);
 }
 /**
  * Creates soil graphics
@@ -1026,14 +1232,15 @@ function addMouseOverListener(map) {
 													});
 
 								// if (seriesJSON != null)
-								createClimateGraphics(
-										e.feature.getProperty('dataSeries'),
-										e.feature.getProperty('name')
-												+ ' - '
+
+								var cnt = e.feature.getProperty("countryName") == null ? ''
+										: ' '
 												+ e.feature
-														.getProperty("countryName") == null ? ''
-												: e.feature
-														.getProperty("countryName"));
+														.getProperty("countryName");
+								createClimateGraphics(e.feature
+										.getProperty('dataSeries'), e.feature
+										.getProperty('name')
+										+ cnt);
 								if (e.feature.getProperty('featureIcon') == true)
 									map.data
 											.overrideStyle(
@@ -1104,6 +1311,8 @@ function addMouseOutListener(map) {
 	map.data.addListener('mouseout', function(e) {
 		e.feature.setProperty('selected', false);
 		// Hide the Info window
+		$('#info h2').text('');
+		$('#info span').html('');
 		$('#info').hide();
 
 		/*
@@ -1158,7 +1367,8 @@ function addMouseOutListener(map) {
 			if (e.feature.getProperty('featureIcon') == true)
 				map.data.overrideStyle(e.feature, {
 					icon : {
-						url : 'img/station_blue.png',
+						url : 'img/weather_info.png',// url :
+						// 'img/station_blue.png',
 						size : new google.maps.Size(10, 10),
 						scaledSize : new google.maps.Size(10, 10)
 					}
@@ -1233,65 +1443,67 @@ function featureInfo(event) {
 				+ event.feature.getProperty("lng");
 		// Add the soil properties
 		// PH
-		$htmlText = $htmlText + '</div><div>PH: '
-				+ event.feature.getProperty("ph") == null ? '--'
-				: event.feature.getProperty("ph") + '</div>';
+		var ph = event.feature.getProperty("ph") == null ? '--' : event.feature
+				.getProperty("ph");
+
+		$htmlText = $htmlText + '</div><div>PH: ' + ph + '</div>';
 		// Clay
-		$htmlText = $htmlText + '<div>Clay: '
-				+ event.feature.getProperty("clay") == null ? '--'
-				: event.feature.getProperty("clay") + '(%)</div>';
+		var clay = event.feature.getProperty("clay") == null ? '--'
+				: event.feature.getProperty("clay");
+		$htmlText = $htmlText + '<div>Clay: ' + clay + '(%)</div>';
 
 		// Silt
-		$htmlText = $htmlText + '<div>Silt: '
-				+ event.feature.getProperty("silt") == null ? '--'
-				: event.feature.getProperty("silt") + '(%)</div>';
+		var silt = event.feature.getProperty("silt") == null ? '--'
+				: event.feature.getProperty("silt");
+
+		$htmlText = $htmlText + '<div>Silt: ' + silt + '(%)</div>';
 
 		// Sand
-		$htmlText = $htmlText + '<div>Sand: '
-				+ event.feature.getProperty("sand") == null ? '--'
-				: event.feature.getProperty("sand") + '(%)</div>';
+		var sand = event.feature.getProperty("sand") == null ? '--'
+				: event.feature.getProperty("sand");
+		$htmlText = $htmlText + '<div>Sand: ' + sand + '(%)</div>';
 
 		// Depth
-		$htmlText = $htmlText + '<div>Depth: '
-				+ event.feature.getProperty("depth") == null ? '--'
-				: event.feature.getProperty("depth") + ' (g/cm-3)</div>';
+		var depth = event.feature.getProperty("depth") == null ? '--'
+				: event.feature.getProperty("depth");
+		$htmlText = $htmlText + '<div>Depth: ' + depth + ' (g/cm-3)</div>';
 
 		// availableSoilWater
-		$htmlText = $htmlText + '<div>Available soil moisture: '
-				+ event.feature.getProperty("availableSoilWater") == null ? '--'
-				: event.feature.getProperty("availableSoilWater")
-						+ '(m3 m-3)</div>';
+		var asw = event.feature.getProperty("availableSoilWater") == null ? '--'
+				: event.feature.getProperty("availableSoilWater");
+		$htmlText = $htmlText + '<div>Available soil moisture: ' + asw
+				+ '(m3 m-3)</div>';
 		// Bulk Density
-		$htmlText = $htmlText + '<div>Bulk Density: '
-				+ event.feature.getProperty("bulkDensity") == null ? '--'
-				: event.feature.getProperty("bulkDensity") + '</div>';
+		var bd = event.feature.getProperty("bulkDensity") == null ? '--'
+				: event.feature.getProperty("bulkDensity");
+		$htmlText = $htmlText + '<div>Bulk Density: ' + bd + '</div>';
 		// Cation Exchange
-		$htmlText = $htmlText + '<div>Cation exchange capacity: '
-				+ event.feature.getProperty("cationExchange") == null ? '--'
-				: event.feature.getProperty("cationExchange")
-						+ '(cmol kg-1)</div>';
+		var ce = event.feature.getProperty("cationExchange") == null ? '--'
+				: event.feature.getProperty("cationExchange");
+		$htmlText = $htmlText + '<div>Cation exchange capacity: ' + ce
+				+ '(cmol kg-1)</div>';
 		// Organic Carbon
-		$htmlText = $htmlText + '<div>Organic Carbon: '
-				+ event.feature.getProperty("organicCarbon") == null ? '--'
-				: event.feature.getProperty("organicCarbon") + '(g kg-1)</div>';
+		var oc = event.feature.getProperty("organicCarbon") == null ? '--'
+				: event.feature.getProperty("organicCarbon");
+		$htmlText = $htmlText + '<div>Organic Carbon: ' + oc + '(g kg-1)</div>';
 		// Organic Matter
-		$htmlText = $htmlText + '<div>Organic Matter: '
-				+ event.feature.getProperty("organicMatter") == null ? '--'
-				: event.feature.getProperty("organicMatter") + '</div>';
+		var om = event.feature.getProperty("organicMatter") == null ? '--'
+				: event.feature.getProperty("organicMatter");
+		$htmlText = $htmlText + '<div>Organic Matter: ' + om + '</div>';
 		// Water Content Field Capacity
-		$htmlText = $htmlText + '<div>Soil moisture at Field capacity: '
-				+ event.feature.getProperty("waterContentFieldCapacity") == null ? '--'
-				: event.feature.getProperty("waterContentFieldCapacity")
-						+ ' (m3 m-3)</div>';
+		var smf = event.feature.getProperty("waterContentFieldCapacity") == null ? '--'
+				: event.feature.getProperty("waterContentFieldCapacity");
+		$htmlText = $htmlText + '<div>Soil moisture at Field capacity: ' + smf
+				+ ' (m3 m-3)</div>';
 		// Taxonomy
-		$htmlText = $htmlText + '<div>Taxonomy: '
-				+ event.feature.getProperty("taxonomy") == null ? '--'
-				: event.feature.getProperty("taxonomy") + '</div>';
+		var tax = event.feature.getProperty("taxonomy") == null ? '--'
+				: event.feature.getProperty("taxonomy");
+		$htmlText = $htmlText + '<div>Taxonomy: ' + tax + '</div>';
 		// Water Capacity Wilt Point
-		$htmlText = $htmlText + '<div>Soil moisture at Wilting point: '
-				+ event.feature.getProperty("waterCapacityWiltPoint") == null ? '--'
-				: event.feature.getProperty("waterCapacityWiltPoint")
-						+ '(m3 m-3)</div>';
+		var wcw = event.feature.getProperty("waterCapacityWiltPoint") == null ? '--'
+				: event.feature.getProperty("waterCapacityWiltPoint");
+		$htmlText = $htmlText + '<div>Soil moisture at Wilting point: ' + wcw
+				+ '(m3 m-3)</div>';
 	} else if (event.feature.getProperty('featureType') == 'CLIMATE') {
 
 		if (event.feature.getProperty("regionName") != null)
@@ -3025,7 +3237,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					}
 				},
 				subtitle : {
-					text : stationName + ' Station',
+					text : stationName,
 					style : {
 						color : '#4e2700'
 					// fontWeight : 'bold',

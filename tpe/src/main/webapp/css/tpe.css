@@ -29,14 +29,24 @@ button, html input[type=button], input[type=reset], input[type=submit] {
 /*========================= HEADER ============================*/
 div#main_header {
 	width: 100%;
-	height: 76px;
+	/*height: 76px;
 	background: #8ba357;
+	*/
+	height: 260px;
+	background: #fff;
 	margin: 0 auto;
 	margin-top: 0;
 	-webkit-box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.4);
 	-o-box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.4);
 	box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.4);
 	z-index: 1000;
+}
+div#top_header{
+	width: 960px;
+	height: 161px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 28px;
 }
 
 div#header_content {
@@ -52,13 +62,52 @@ div#center-head {
 	width: 956px;
 }
 
+
+#main_header #platform_title{
+	display: block;
+	width: 600px;
+	height: 106px;
+	float: left;
+	margin-top: 40px;
+}
+#main_header #platform_title a{
+	text-decoration:  none;
+	width: 100%;
+	color: #000000;
+}
+#main_header #platform_title a:HOVER,#main_header #platform_title a:LINK,#main_header #platform_title a:VISITED,#main_header #platform_title a:ACTIVE{
+	text-decoration:  none;
+}
+#main_header #platform_title h1{
+	width: 100%;
+	margin-top: 30px;
+}
+#main_header #ccafs_logo{
+	display: block;
+	width: 350px;
+	height: 106px;
+	float: right;
+	margin-top: 40px;
+}
+#main_header #ccafs_logo a{
+	background: url(../img/logo.png) no-repeat top right;
+	display: block;
+	width: 350px;
+	height: 106px;
+	float: right;
+	/*margin-top: 30px;
+	background-size: 100%;*/
+	 background-size: contain; 
+}
 div#menu_main {
-	width: 580px;
-	height: 76px;
+	width: 100%;
+	height: 70px;
 	text-align: center;
 	float: left;
-	margin-left: 15px;
+	/*margin-left: 15px;*/
 	position: relative;
+	background: #47939c;
+	bottom: 0;
 }
 
 ul#menu {
@@ -66,6 +115,7 @@ ul#menu {
 	position: absolute;
 	top: 18px;
 	height: 40px;
+	margin-left: 180px;
 }
 
 ul#menu li {
@@ -492,14 +542,14 @@ div#env_container, div#plot_lai, div#plot_pcew, div#plot_temprain, div#rain_radi
 }
 
 div#select_variables {
-	z-index: 20;
+	z-index: 30;
 	width: 250px;
 	height: auto;
 	padding: 2px;
 	background: transparent;
 	position: fixed;
 	left: 20px;
-	top: 100px;
+	top: 262px;
 }
 
 #select_variables.ui-draggable-dragging {
@@ -1173,6 +1223,46 @@ div#join_form {
 	float: right;
 	width: 45%;
 }
+/*========================= GET INVOLVED ============================*/
+div#get-involved-home{
+	position: relative;
+	padding: 20px;
+}
+
+div#get-involved-container {
+	position: relative;
+	width: 500px; 
+	height: 500px;
+	margin: auto;
+}
+div#get-involved-top {
+	 left: 125px;
+}
+div#get-involved-left {
+	 left: 0;top: 125px;
+}
+div#get-involved-right {
+	 right: 0;top: 125px;
+}
+div#get-involved-bottom {
+	 bottom: 0;left: 125px;
+}
+.get-involved-box {
+	 width: 250px; height: 250px; position: absolute;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 div#get-involved {
 	position: relative;
@@ -1758,7 +1848,14 @@ div#close-button {
 	right: 100px;
 	width: 260px;
 }
-
+div#marker_clusterer{
+	
+}
+#marker_clusterer h3{
+	height: 33px;
+	width: auto;
+	padding-right: 35px;
+}
 
 
 
