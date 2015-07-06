@@ -145,10 +145,10 @@
 				</div>
 				<div id="box_two" class="tpe_box">
 					<div class="box_col">
-						<a href="<s:url namespace="/" action="contribute" />"><h4>Get
-								Involved</h4> </a> <a href="<s:url namespace="/" action="contribute" />">
+						<a href="<s:url namespace="/" action="getinvolved" />"><h4>Get
+								Involved</h4> </a> <a href="<s:url namespace="/" action="getinvolved" />">
 							<img
-							src="http://dapa.ciat.cgiar.org/wp-content/uploads/2013/02/Blog21.png"
+							src="img/get-small.png"
 							alt="image" />
 						</a>
 						<p>The development of the agricultural sector in recent years

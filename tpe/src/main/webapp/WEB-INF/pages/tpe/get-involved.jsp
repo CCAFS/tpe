@@ -9,7 +9,18 @@
 	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
-
+		$('#get-involved-top').on( "click", function() {
+			window.location = "contribute.jspx"; 
+		});
+		$('#get-involved-bottom').on( "click", function() {
+			window.location = "contribute.jspx"; 
+		});
+		$('#get-involved-left').on( "click", function() {
+			window.location = "contribute.jspx"; 
+		});
+		$('#get-involved-right').on( "click", function() {
+			window.location = "contribute.jspx"; 
+		});
 	});
 </script>
 </head>
