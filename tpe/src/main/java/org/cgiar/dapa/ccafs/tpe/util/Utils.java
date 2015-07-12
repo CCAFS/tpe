@@ -246,7 +246,7 @@ public class Utils implements Constants {
 	 *            the name of the Geo JSON file to load
 	 * @return the Geo JSON file
 	 */
-	public static Object readJSON(String fileName) {
+	public static Object readJSON(String fileName) throws IOException {
 		// The geo JSON file to load.
 		Object json = null;
 
@@ -256,7 +256,7 @@ public class Utils implements Constants {
 			JSONParser parser = new JSONParser();
 
 			try {
-				log.info(brazilJSON.getCanonicalPath());
+				// log.info(brazilJSON.getCanonicalPath());
 				// Read the file from the specified path
 				json = parser.parse(new FileReader(brazilJSON
 						.getCanonicalPath()));
@@ -264,10 +264,22 @@ public class Utils implements Constants {
 				// log.info(json);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
+				e.getMessage();
+				log.info("File does not exist [" + fileName + "]");
+				// throw new RuntimeException("The file [" + fileName
+				// + "] does not exist", e);
+				// return null;
+				throw new IOException("File " + fileName + " does not exist.");
+
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.getMessage();
+				// log.info("Unable to load the file " + fileName);
+				// e.printStackTrace();
+				throw new IOException("Cannot upload file " + fileName + "]", e);
+				// throw new RuntimeException("Unable to load file [" + fileName
+				// + "]", e);
+				// return null;
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -285,26 +297,30 @@ public class Utils implements Constants {
 	 *            the type of the region to load. This determines the path of
 	 *            the file.
 	 * @return GeoJSON object
+	 * @throws IOException
 	 */
-	public static Object loadGeoJSON(String region, String type) {
+	public static Object loadGeoJSON(String region, String type)
+			throws IOException {
 		String path = "";
 		if (region != null && type != null) {
 			String file = region.toLowerCase();
 
 			if (type.equals(JSON_REGION))
 				// Loads the country border json data
-				path = "/resources/script/" + file + ".json";
-			// brazilJSON = new File("/CIAT 2015/resources/script/" + file +
-			// ".json");
+				// path = "/resources/" + file + ".json";
+				path = "/opt/resources/" + file + ".json";
 			else if (type.equals(JSON_STATES))
 				// Loads the country states json data
-				path = "/resources/script/" + region + "_states.json";
+				// path = "/resources/" + region + "_states.json";
+				path = "/opt/resources/" + region + "_states.json";
 			else if (type.equals(JSON_MUNICIPIOS))
 				// Loads the municipios json data
-				path = "/resources/script/" + region + "_municipios.json";
+				// path = "/resources/" + region + "_municipios.json";
+				path = "/opt/resources/" + region + "_municipios.json";
 			else if (type.equals(JSON_BOUNDARY))
 				// Loads the TPE boundary json data
-				path = "/resources/script/" + region + "_boundary.json";
+				// path = "/resources/" + region + "_boundary.json";
+				path = "/opt/resources/" + region + "_boundary.json";
 		}
 		return readJSON(path);
 	}
@@ -321,17 +337,20 @@ public class Utils implements Constants {
 	 * @param map
 	 *            the type of map (tpe, stability or area)
 	 * @return JSON object
+	 * @throws IOException
 	 */
 	public static Object readJSON(String crop, String region, String cultivar,
-			String map) {
+			String map) throws IOException {
 		String path = "";
 		if (region != null && crop != null) {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
 			cultivar = cultivar.toLowerCase();
-			path = "/resources/script/" + region + "_" + crop + "_" + cultivar
+			// path = "/resources/" + region + "_" + crop + "_" + cultivar + "_"
+			// + map + ".json";
+			path = "/opt/resources/" + region + "_" + crop + "_" + cultivar
 					+ "_" + map + ".json";
-//			log.info(path);
+			// log.info(path);
 		}
 		return readJSON(path);
 	}
@@ -347,15 +366,18 @@ public class Utils implements Constants {
 	 * @param map
 	 *            the type of map (tpe, stability or area)
 	 * @return JSON object
+	 * @throws IOException
 	 */
-	public static Object readJSON(String crop, String region, String map) {
+	public static Object readJSON(String crop, String region, String map)
+			throws IOException {
 		String path = "";
 		if (region != null && crop != null) {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
-			path = "/resources/script/" + region + "_" + crop + "_" + map
+			// path = "/resources/" + region + "_" + crop + "_" + map + ".json";
+			path = "/opt/resources/" + region + "_" + crop + "_" + map
 					+ ".json";
-			log.info(path);
+			// log.info(path);
 		}
 		return readJSON(path);
 	}
@@ -368,13 +390,15 @@ public class Utils implements Constants {
 	 * @param region
 	 *            the selected region (Latin America, Colombia or Brazil)
 	 * @return JSON object
+	 * @throws IOException
 	 */
-	public static Object readJSON(String map, String region) {
+	public static Object readJSON(String map, String region) throws IOException {
 		String path = "";
 		if (region != null && map != null) {
 			region = region.toLowerCase();
 			map = map.toLowerCase();
-			path = "/resources/script/" + region + "_" + map + ".json";
+			// path = "/resources/" + region + "_" + map + ".json";
+			path = "/opt/resources/" + region + "_" + map + ".json";
 		}
 		return readJSON(path);
 	}

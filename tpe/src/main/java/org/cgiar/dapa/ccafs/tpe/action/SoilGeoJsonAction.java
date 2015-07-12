@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +37,6 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = -2150409370455878988L;
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -99,6 +99,12 @@ public class SoilGeoJsonAction extends BaseAction {
 	 */
 	private Object municipalitiesJson;
 
+	/**
+	 * The JSON for the growing regions or areas for the currently selected crop
+	 * and cultiva from the selected country or Continent.
+	 */
+	private Object growingRegionsJson;
+
 	public String execute() {
 
 		// Retrieve the soil GeoJson data from the database
@@ -117,7 +123,7 @@ public class SoilGeoJsonAction extends BaseAction {
 		if (this.getSelectedCountry() != null) {
 
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
- 
+
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 
@@ -129,7 +135,14 @@ public class SoilGeoJsonAction extends BaseAction {
 			 * getRegion().getName().toUpperCase() + ".geo.json"));
 			 */
 
-			setRegionJson(Utils.loadGeoJSON(getRegion().getName(), JSON_REGION));
+			try {
+				setRegionJson(Utils.loadGeoJSON(getRegion().getName(),
+						JSON_REGION));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 
 			// Load the corresponding country states
 			//
@@ -138,13 +151,14 @@ public class SoilGeoJsonAction extends BaseAction {
 			// + getRegion().getName().toUpperCase() + ".STATES.geo.json");
 
 			categoriesJson = tpeService.getEnvSowingDates(getSelectedCountry());
-			setSeriesJson(tpeService.getEnvSoilProbabilities(getSelectedCountry()));
+			setSeriesJson(tpeService
+					.getEnvSoilProbabilities(getSelectedCountry()));
 			// log.info("About to query data.");
 			boolean continent = false;
 			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
 				continent = true;
 			this.setFeaturesJson(this.tpeService.getSoilGeoJson(null,
-					getSelectedCountry(),continent));
+					getSelectedCountry(), continent));
 			// TODO Add cultivar parameter
 			/*
 			 * this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath() +
@@ -152,11 +166,35 @@ public class SoilGeoJsonAction extends BaseAction {
 			 * ".BOUNDARY.json"));
 			 */
 
-			municipalitiesJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_MUNICIPIOS);
+			try {
+				municipalitiesJson = Utils.loadGeoJSON(getRegion().getName(),
+						JSON_MUNICIPIOS);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 
-			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_BOUNDARY);
+			try {
+				tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
+						JSON_BOUNDARY);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
+
+			// Load the crop growing areas json file for the selected region.
+			// TODO Add the select option for crop for climate
+			// TODO Remove constant for crop
+			try {
+				setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region
+						.getName().toLowerCase(), JSON_MAP_GROWING));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 
 		}
 
@@ -249,6 +287,14 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public void setSeriesJson(Map<String, List<Probability>> seriesJson) {
 		this.seriesJson = seriesJson;
+	}
+
+	public Object getGrowingRegionsJson() {
+		return growingRegionsJson;
+	}
+
+	public void setGrowingRegionsJson(Object growingRegionsJson) {
+		this.growingRegionsJson = growingRegionsJson;
 	}
 
 }

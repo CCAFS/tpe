@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -166,7 +167,14 @@ public class TPEGeoJsonAction extends BaseAction {
 			// + getRegion().getName().toUpperCase() + ".geo.json"));
 			// Loads the Country(Brazil, Colombia) or Region (Latin America) Geo
 			// json file.
-			regionJSON = Utils.loadGeoJSON(getRegion().getName(), JSON_REGION);
+			try {
+				regionJSON = Utils.loadGeoJSON(getRegion().getName(),
+						JSON_REGION);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 
 			// Load the states geo json data
 			// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() +
@@ -178,11 +186,17 @@ public class TPEGeoJsonAction extends BaseAction {
 			 * JSON_STATES);
 			 */
 
-			setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
-					JSON_MUNICIPIOS));
+			try {
+				setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
+						JSON_MUNICIPIOS));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 
 			if (selectedCultivar != null) {
-				//log.info("Cultivar:  " + selectedCultivar);
+				// log.info("Cultivar:  " + selectedCultivar);
 				this.setCultivar(tpeService.getCultivar(selectedCultivar));
 				// Load the TPE geo json dat
 
@@ -190,9 +204,16 @@ public class TPEGeoJsonAction extends BaseAction {
 				// "script/" + getRegion().getName().toUpperCase() + "."+
 				// getCultivar().getName().toUpperCase()+ ".TPE.geo.json"));
 				// TODO Get selected crop and cultivar
-				featuresJson = Utils.readJSON(this.getCultivar().getCrop()
-						.getName().toLowerCase(), region.getName(), this
-						.getCultivar().getName().toLowerCase(), JSON_MAP_TPE);
+				try {
+					featuresJson = Utils.readJSON(this.getCultivar().getCrop()
+							.getName().toLowerCase(), region.getName(), this
+							.getCultivar().getName().toLowerCase(),
+							JSON_MAP_TPE);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+					log.error(e.getMessage());
+				}
 
 				// Get the categories for LAI, WAGT, etc
 				// It is the same for all clusters and environments
@@ -201,25 +222,31 @@ public class TPEGeoJsonAction extends BaseAction {
 				// tpeService.getStressCategories(Utils.getStressSeries(),
 				// getCultivar().getId(),getSelectedCountry());
 
-				//log.info("Added features... ");
+				// log.info("Added features... ");
 
 				seriesJson = tpeService.getSeriesData(getCultivar().getId(),
 						getSelectedCountry());
 				// log.info(seriesData.size());
-				//log.info("Added series... ");
-				tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName()
-						.toLowerCase(), JSON_BOUNDARY);
-				//log.info("Added boundary... ");
+				// log.info("Added series... ");
+				try {
+					tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName()
+							.toLowerCase(), JSON_BOUNDARY);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+					log.error(e.getMessage());
+				}
+				// log.info("Added boundary... ");
 				boxJson = tpeService.getTPEBox(getSelectedCountry(),
 						getSelectedCultivar());
-				//log.info("Added box... ");
+				// log.info("Added box... ");
 
 				// log.info(getSelectedCountry());
 				// log.info(getSelectedCultivar());
 				// log.info(dataJson);
 				categoriesJson = tpeService.getTPEYears(getSelectedCountry(),
 						getSelectedCultivar());
-				//log.info("Added categories... ");
+				// log.info("Added categories... ");
 			}
 
 			// Loads the TPE boundary for the selected country and crop

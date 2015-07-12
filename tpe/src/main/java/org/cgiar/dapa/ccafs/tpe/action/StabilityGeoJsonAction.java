@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,9 +117,9 @@ public class StabilityGeoJsonAction extends BaseAction {
 		// Retrieve the data that will be converted into GeoJson by this action
 		// from the struts.xml
 		// TODO Get the parameters from the session or pass them from the ajax
-		// call. 
+		// call.
 		// TODO Change country to region
-		if (getSelectedCountry() != null) { 
+		if (getSelectedCountry() != null) {
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
@@ -130,7 +131,14 @@ public class StabilityGeoJsonAction extends BaseAction {
 			// + getRegion().getName().toUpperCase() + ".geo.json"));
 			// Loads the Country(Brazil, Colombia) or Region (Latin America) Geo
 			// json file.
-			regionJson = Utils.loadGeoJSON(getRegion().getName(), JSON_REGION); 
+			try {
+				regionJson = Utils.loadGeoJSON(getRegion().getName(),
+						JSON_REGION);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 			// Load the states geo json data
 			// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() +
 			// "script/"
@@ -142,8 +150,14 @@ public class StabilityGeoJsonAction extends BaseAction {
 			 * JSON_STATES);
 			 */
 
-			municipalitiesJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_MUNICIPIOS);
+			try {
+				municipalitiesJson = Utils.loadGeoJSON(getRegion().getName(),
+						JSON_MUNICIPIOS);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 			if (selectedCultivar != null) {
 				// log.info("Cultivar not null:  " + selectedCultivar);
 				this.setCultivar(tpeService.getCultivar(selectedCultivar));
@@ -158,10 +172,16 @@ public class StabilityGeoJsonAction extends BaseAction {
 				// stabilityGeoJson = Utils.readJSON("rice", region.getName(),
 				// "brsprimavera", JSON_MAP_STABILITY);
 
-				setFeaturesJson(Utils.readJSON(this.getCultivar().getCrop()
-						.getName().toLowerCase(), region.getName(), this
-						.getCultivar().getName().toLowerCase(),
-						JSON_MAP_STABILITY));
+				try {
+					setFeaturesJson(Utils.readJSON(this.getCultivar().getCrop()
+							.getName().toLowerCase(), region.getName(), this
+							.getCultivar().getName().toLowerCase(),
+							JSON_MAP_STABILITY));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+					log.error(e.getMessage());
+				}
 
 				// Get the categories for LAI, WAGT, etc
 				// It is the same for all clusters and environments
@@ -182,8 +202,14 @@ public class StabilityGeoJsonAction extends BaseAction {
 			// tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
 			// JSON_BOUNDARY);
 
-			tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
-					JSON_BOUNDARY);
+			try {
+				tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
+						JSON_BOUNDARY);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+				log.error(e.getMessage());
+			}
 			boxJson = tpeService.getTPEBox(getSelectedCountry(),
 					getSelectedCultivar());
 
