@@ -14,7 +14,7 @@
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/south-street/jquery-ui.css" />
 <script
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-	<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/highcharts-more.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="${ctx}/script/visualize-results.js"></script>
@@ -29,21 +29,29 @@
 <!-- <script	src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script> -->
 <%-- <script type="text/javascript" src="${ctx}/script/init-map.js"></script> --%>
 <script>
-	$(document).ready(function() {
-		/* $('[name="jqi_5_buttonDone"]').click(function() {
-			console.log('####################################');
-			$("html, body").animate({
-				scrollTop : 0
-			}, "slow");
-		});
+	$(document).ready(
+			function() {
+				/* $('[name="jqi_5_buttonDone"]').click(function() {
+					console.log('####################################');
+					$("html, body").animate({
+						scrollTop : 0
+					}, "slow");
+				});
 
-		$('.jqiclose').click(function() {
-			console.log('####################################');
-			$("html, body").animate({
-				scrollTop : 0
-			}, "slow");
-		}); */
-	});
+				$('.jqiclose').click(function() {
+					console.log('####################################');
+					$("html, body").animate({
+						scrollTop : 0
+					}, "slow");
+				}); */
+				//This exports the climatic table in climate moduele
+				$("#btnExport").click(
+						function(e) {
+							window.open('data:application/vnd.ms-excel,'
+									+ $('#info-series-table').html());
+							e.preventDefault();
+						});
+			});
 </script>
 </head>
 
@@ -60,7 +68,7 @@
 				<s:select name="selectedOutput" listKey="id" listValue="name"
 					id="select_output" list="outputs" value="preselectedOutput"
 					cssClass="map-options-select" multiple="false" required="true" />
-				<div id="params_out"></div>
+				<div id="params_out">Map options</div>
 			</div>
 		</div>
 
@@ -71,11 +79,6 @@
 					<img src="${ctx}/img/ajax-loader.gif" />
 				</div>
 			</div>
-			<div id="info">
-				<h2></h2>
-				<span id="info_details">Details!</span>
-			</div>
-		
 			<!-- <div id="legend-container">
 				<h3>Legend: Soil Texture</h3>
 			</div> -->
@@ -144,5 +147,19 @@
 		<div class="graphics-info"></div>
 
 	</s:form>
+	<!-- The feature info window-->
+	<div id="info">
+		<h2></h2>
+		<span id="info_details">Details!</span>
+	</div>
+	<!-- The feature info window (static with download button)-->
+	<div id="info-static">
+		<h2></h2>
+		<span id="info_details">Details!</span> <input type="button"
+			id="btnExport" value=" Export Excel " /><input type="button"
+			id="btnClose"
+			onclick="document.getElementById('info-static').style.display='none'"
+			value="Close" />
+	</div>
 </body>
 </html>

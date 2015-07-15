@@ -472,11 +472,9 @@ div#tpe_map {
 	height: 20px;
 }
 
-div#info {
+div#info,div#info-static {
 	display: none;
 	position: absolute;
-	top: 10px;
-	right: 300px;
 	font-size: 13px;
 	/* text-align: center; */
 	text-align: left;
@@ -492,12 +490,20 @@ div#info {
 	z-index: 60;
 	color: #656360;
 }
+#info{
+top: 10px;
+right: 300px;
+}
+#info-static {
+top: 10px;
+right: 300px;
+}
 
-#info table,#info table tr,#info table tr td{
+#info table,#info table tr,#info table tr td,#info-static table,#info-static table tr,#info-static table tr td,#info-static table tr th{
 	font-size: 10px;
 	border:1px solid #656360;
 }
-#info table{
+#info table,#info-static table{
 	border-collapse: collapse;
 }
 
@@ -505,9 +511,12 @@ div#info_details div {
 	clear: both;
 }
 
-#info h2, #info-climate h2 {
+#info h2, #info-climate h2,#info-static h2 {
 	margin-top: 0px;
 	margin-bottom: 5px;
+}
+#info-static h2 {
+background: url(img/close.png no-repeat right);
 }
 
 .select_infos_top {
@@ -549,7 +558,8 @@ div#select_variables {
 	background: transparent;
 	position: fixed;
 	left: 20px;
-	top: 262px;
+	top: 90px;
+/*top: 262px;*/
 }
 
 #select_variables.ui-draggable-dragging {
@@ -1224,39 +1234,40 @@ div#join_form {
 	width: 45%;
 }
 /*========================= GET INVOLVED ============================*/
-div#get-involved-home{
+div#get-involved-home,div#home_container{
 	position: relative;
 	padding: 20px;
 }
 
-div#get-involved-container {
+div#get-involved-container,div#home_panel {
 	position: relative;
 	width: 500px; 
 	height: 500px;
 	margin: auto;
 }
-div#get-involved-top {
+div#get-involved-top,div#panel-top {
 	 left: 125px;
 }
-div#get-involved-left {
+div#get-involved-left,div#panel-left {
 	 left: 0;top: 125px;
 }
-div#get-involved-right {
+div#get-involved-right,div#panel-right {
 	 right: 0;top: 125px;
 }
-div#get-involved-bottom {
+div#get-involved-bottom,div#panel-bottom {
 	 bottom: 0;left: 125px;
 }
-.get-involved-box {
+.get-involved-box,.panel-box {
 	 width: 250px; height: 250px; position: absolute;
 	 cursor: pointer;
 }
-#get-involved-top:HOVER,#get-involved-left:HOVER,#get-involved-right:HOVER,#get-involved-bottom:HOVER {
+#get-involved-top:HOVER,#get-involved-left:HOVER,#get-involved-right:HOVER,#get-involved-bottom:HOVER,
+#panel-top:HOVER,#panel-left:HOVER,#panel-right:HOVER,#panel-bottom:HOVER {
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
   box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
   background: #f1ede8 url("../img/noise-all.png");
-  z-index: 5000;
+  z-index: 500;
    /* Safari 3-4, iOS 1-3.2, Android 1.6- */
   -webkit-border-radius: 50%; 
   /* Firefox 1-3.6 */
@@ -1264,8 +1275,26 @@ div#get-involved-bottom {
   /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
   border-radius: 50%;
 }
-
-
+div#home-panel-infos{
+	display: none;
+position: absolute;
+	font-size: 13px;
+	/* text-align: center; */
+	text-align: left;
+	box-shadow: 0 4px 6px -4px #333;
+	padding: 5px 10px;
+	background: rgb(255, 255, 255);
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
+		rgba(245, 245, 245, 1) 100%);
+	border: rgb(229, 229, 229) 1px solid;
+	/*width: 250px;*/
+	width: 240px;
+	height: auto;
+	z-index: 1000;
+	color: #656360;
+/*top: 10px;
+right: 300px;*/
+}
 
 
 
@@ -1655,9 +1684,62 @@ div#marker_clusterer{
 	padding-right: 35px;
 }
 
+table.inputform {
+	width: 100%;
+}
 
+table.inputform input[type=text],table.inputform input[type=password],
+table.rawform input[type=text],table.rawform input[type=password] {
+	width: 100%;
+}
 
+table.inputform input[type=text].numeric-input,
+table.rawform input[type=text].numeric-input {
+	width: 80px;
+}
 
+table.inputform input[type=text].datetime-input,
+table.rawform input[type=text].datetime-input {
+	width: 160px;
+}
+
+table.inputform textarea,
+table.rawform textarea {
+	width: 100%;
+	height: 60px;
+	font-size: 12px;
+}
+
+table.inputform label {
+	
+}
+
+table.inputform > tbody > tr > td:first-child, td.label {
+	text-align: right;
+	padding-right: 20px;
+	vertical-align: middle;
+}
+
+table.inputform td.tdLabel {
+	width: 200px;
+}
+
+table.inputform tr.identifying>td {
+	font-weight: bold;
+}
+
+table.inputform tr.identifying>td em {
+	font-weight: normal;
+}
+
+table.inputform tr[errorfor] {
+	display: none;
+}
+table.inputform input[type='submit'],table.inputform input[type='button'],table.inputform input[type='reset'] {
+	padding: 3px 5px;
+	margin: 3px 8px;
+	min-width: 100px;
+}
 
 
 

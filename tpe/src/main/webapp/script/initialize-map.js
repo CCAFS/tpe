@@ -1,6 +1,8 @@
 var colorValues = [ "red", "blue", "green", "yellow", "purple", "pink",
 		"lightblue", "orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesStability = [
 		"#990000", "#009900", "#000099" ], colorValuesClimate = [ "black" ], colors;
+// The variable that stores the clicked soil point.
+var clickedSoilCode;
 /**
  * The function that initializes the Google Map
  */
@@ -566,7 +568,9 @@ function addStyle(map) {
 					strokeWeight : 1,
 					strokeColor : "#ffffff",
 					// fillOpacity : 0,
-					fillOpacity : 1
+					fillOpacity : 1,
+					//Add the title that will be displayed as the mouse rollover
+					title : feature.getProperty('name')
 				};
 			// For any other country, red icons will be returned.
 			return {
@@ -581,7 +585,9 @@ function addStyle(map) {
 				strokeWeight : 1,
 				strokeColor : "#ffffff",
 				// fillOpacity : 0,
-				fillOpacity : 1
+				fillOpacity : 1,
+				//Add the title that will be displayed as the mouse rollover
+				title : feature.getProperty('name')
 			};
 		}
 		return {
@@ -882,41 +888,41 @@ function createSoilFeatures(map, data, featLayer, prodLayer) {
 						// If the station was clicked
 						if (sandMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/red.png) no-repeat right;">#'
-									+ sandMk + ' Sand points</h3></div>';
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/red.png) no-repeat right;">'
+									+ sandMk + 'Sand points</h3></div>';
 						if (loamMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/blue.png) no-repeat right;">#'
-									+ loamMk + ' Loam points</h3></div>';
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/blue.png) no-repeat right;">'
+									+ loamMk + 'Loam points</h3></div>';
 						if (clayMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/green.png) no-repeat right;">#'
-									+ clayMk + ' Clay points</h3></div>';
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/green.png) no-repeat right;">'
+									+ clayMk + 'Clay points</h3></div>';
 						if (sandyLoamMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/yellow.png) no-repeat right;">#'
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/yellow.png) no-repeat right;">'
 									+ sandyLoamMk
-									+ '  Sandy Loam points</h3></div>';
+									+ 'Sandy Loam points</h3></div>';
 						if (clayLoamMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/purple.png) no-repeat right;">#'
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/purple.png) no-repeat right;">'
 									+ clayLoamMk
-									+ ' Clay Loam points</h3></div>';
+									+ 'Clay Loam points</h3></div>';
 						if (sandyClayMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/orange.png) no-repeat right;">#'
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/orange.png) no-repeat right;">'
 									+ sandyClayMk
-									+ ' Sandy Clay points</h3></div>';
+									+ 'Sandy Clay points</h3></div>';
 						if (sandClayLoamMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/pink.png) no-repeat right;">#'
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/pink.png) no-repeat right;">'
 									+ sandClayLoamMk
-									+ ' Sand Clay Loam points</h3></div>';
+									+ 'Sand Clay Loam points</h3></div>';
 						if (siltClayLoamMk > 0)
 							$clusterText = $clusterText
-									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/lightblue.png) no-repeat right;">#'
+									+ '<div><h3 style="background : url(http://maps.google.com/mapfiles/ms/icons/lightblue.png) no-repeat right;">'
 									+ siltClayLoamMk
-									+ ' Silt Clay Loam points</h3></div>';
+									+ 'Silt Clay Loam points</h3></div>';
 						$('#info span').html($clusterText + '</div>');
 
 					});
@@ -975,12 +981,12 @@ function addClickListener(map) {
 				|| (e.feature.getProperty('featureType') == 'STATION')
 				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')
 				|| (e.feature.getProperty('featureType') == 'CLIMATE')) {
-			infoWindow.setContent('<div class="info_window">' + '<h2>'
-					+ e.feature.getProperty('name') + '</h2>' + featureInfo(e)
-					+ '</div>');
-			var anchor = new google.maps.MVCObject();
-			anchor.set("position", e.latLng);
-			infoWindow.open(map, anchor);
+//			infoWindow.setContent('<div class="info_window">' + '<h2>'
+//					+ e.feature.getProperty('name') + '</h2>' + featureInfo(e)
+//					+ '</div>');
+//			var anchor = new google.maps.MVCObject();
+//			anchor.set("position", e.latLng);
+//			infoWindow.open(map, anchor);
 
 		}
 
@@ -994,6 +1000,9 @@ function addClickListener(map) {
 			var probJSON = seriesJSON[e.feature.getProperty('code')];
 			// createSoilPlot(categoriesJSON, probJSON, true);
 			// createSoilPlot(categoriesJSON, probJSON, true);
+			// Track and store the id of the clicked soil point.
+			// Store the clicked id into a global variable
+			clickedSoilCode = e.feature.getProperty('code');
 
 			createSoilGraphics(probJSON);
 
@@ -1053,12 +1062,29 @@ function addClickListener(map) {
 			// rainfallRadiationPlot(climateSeriesJSON, true,
 			// e.feature.getProperty('stationId'),
 			// e.feature.getProperty('name'));
+var cnt = e.feature.getProperty("countryName") == null ? ''
+										: ' '
+												+ e.feature
+														.getProperty("countryName");
 
 			createClimateGraphics(e.feature.getProperty('dataSeries'),
-					e.feature.getProperty('name'));
+					e.feature.getProperty('name')+cnt);
 
 			clickedFeature = e.feature.getProperty('dataSeries');
 			clickedFeatureName = e.feature.getProperty('name');
+			//console.log('clicked feature');
+			//console.log(clickedFeature);
+			//console.log('feature name');
+			//console.log(clickedFeatureName);
+
+// Add title to the infos
+$('#info-static').show();
+								$('#info-static h2').text(
+										e.feature.getProperty('name'));
+$('#info-static span').html(featureInfoStatic(e));
+								
+
+//
 		}
 	});
 }
@@ -1241,7 +1267,7 @@ function addMouseOverListener(map) {
 										.getProperty('dataSeries'), e.feature
 										.getProperty('name')
 										+ cnt);
-								if (e.feature.getProperty('featureIcon') == true)
+								if (e.feature.getProperty('featureIcon') == true) {
 									map.data
 											.overrideStyle(
 													e.feature,
@@ -1252,8 +1278,11 @@ function addMouseOverListener(map) {
 																	10, 10),
 															scaledSize : new google.maps.Size(
 																	10, 10)
-														}
+														},
+														title : e.feature
+																.getProperty('name')
 													});
+								}
 
 							} else if (e.feature.getProperty('featureType') == 'REGION') {
 								// var strokeColor = '#009900', fillColor =
@@ -1376,6 +1405,10 @@ function addMouseOutListener(map) {
 
 			// rainfallRadiationPlot(climateSeriesJSON, true,
 			// clickedFeature,clickedFeatureName);
+			//console.log('last clicked feature');
+			//console.log(clickedFeature);
+			//console.log('last feature name');
+			//console.log(clickedFeatureName);
 			createClimateGraphics(clickedFeature, clickedFeatureName);
 
 		} else if (e.feature.getProperty('featureType') == 'REGION') {
@@ -1393,11 +1426,68 @@ function addMouseOutListener(map) {
 				fillOpacity : 0.4,// 1,// 0.20//0,
 				fillColor : e.feature.getProperty('colour')
 			});
+		} else if (e.feature.getProperty('featureType') == OUTPUT_SOIL) {
+			// If the clickedSoilCode variable is not null.
+			if (clickedSoilCode != null)
+				// Display the plot only for the soil point
+				// feature that was clicked. Use the soil code that was stored
+				// in the global variable. clickedSoilCode
+				if (seriesJSON != null) {
+					// Get the data series for the clicked point.
+					var probJSON = seriesJSON[e.feature.getProperty('code')];
+					createSoilGraphics(probJSON);
+				}
 		}
-		// TODO Add Stability and Soil
+		// TODO Add Stability
 	});
 }
 
+
+function featureInfoStatic(event) {
+var $htmlText = '';
+if (event.feature.getProperty('featureType') == 'CLIMATE') {
+
+		if (event.feature.getProperty("regionName") != null)
+			$htmlText = $htmlText + '<div>Region: '
+					+ event.feature.getProperty("regionName");
+
+		if (event.feature.getProperty("countryName") != null)
+			$htmlText = $htmlText + '<div>Country: '
+					+ event.feature.getProperty("countryName");
+		if (event.feature.getProperty("stateName") != null)
+			$htmlText = $htmlText + '<div>State: '
+					+ event.feature.getProperty("stateName");
+		if (event.feature.getProperty("municipalityName") != null)
+			$htmlText = $htmlText + '<div>Municipality: '
+					+ event.feature.getProperty("municipalityName");
+		if (event.feature.getProperty("plantingDate") != null)
+			$htmlText = $htmlText + '<div>Planting Month: '
+					+ event.feature.getProperty("plantingDate");
+		// Add a table of tmin, tmax and precipitation for the currently hovered
+		// station
+		if (event.feature.getProperty('infoSeries') != null) {
+			var infoSeries = event.feature.getProperty('infoSeries');
+			// Add a table for tmin, tmax and precipitation.
+			$htmlText = $htmlText
+					+ '<div><table id="info-series-table">'
+					+ '<tr><th>Month:</th><th>J</th><th>F</th><th>M</th><th>A</th><th>M</th><th>J</th>'
+					+ '<th>J</th><th>A</th><th>S</th><th>O</th><th>N</th><th>D</th></tr>';
+			$.each(infoSeries, function(key, listOfValues) {
+				var unit = (key == 'tmax') || (key == 'tmin') ? ' (°C)'
+						: ' (mm)';
+				$htmlText = $htmlText + '<tr><td>' + key + unit + '</td>';
+				$.each(listOfValues, function(index, value) {
+					$htmlText = $htmlText + '<td>'
+							+ parseFloat(value).toFixed(2) + '</td>';
+				});
+				$htmlText = $htmlText + '</tr>'
+			});
+			$htmlText = $htmlText + '</table></div>';
+		}
+	}
+return $htmlText;
+
+}
 /**
  * This function returns the feature info details for the currently hovered or
  * clicked feature
@@ -1520,7 +1610,7 @@ function featureInfo(event) {
 			$htmlText = $htmlText + '<div>Municipality: '
 					+ event.feature.getProperty("municipalityName");
 		if (event.feature.getProperty("plantingDate") != null)
-			$htmlText = $htmlText + '<div>Planting Date: '
+			$htmlText = $htmlText + '<div>Planting Month: '
 					+ event.feature.getProperty("plantingDate");
 		// Add a table of tmin, tmax and precipitation for the currently hovered
 		// station
@@ -1528,11 +1618,13 @@ function featureInfo(event) {
 			var infoSeries = event.feature.getProperty('infoSeries');
 			// Add a table for tmin, tmax and precipitation.
 			$htmlText = $htmlText
-					+ '<div><table>'
+					+ '<div><table id="monthly-series">'
 					+ '<tr><td>Month:</td><td>J</td><td>F</td><td>M</td><td>A</td><td>M</td><td>J</td>'
 					+ '<td>J</td><td>A</td><td>S</td><td>O</td><td>N</td><td>D</td></tr>';
 			$.each(infoSeries, function(key, listOfValues) {
-				$htmlText = $htmlText + '<tr><td>' + key + '</td>';
+				var unit = (key == 'tmax') || (key == 'tmin') ? ' (°C)'
+						: ' (mm)';
+				$htmlText = $htmlText + '<tr><td>' + key + unit + '</td>';
 				$.each(listOfValues, function(index, value) {
 					$htmlText = $htmlText + '<td>'
 							+ parseFloat(value).toFixed(2) + '</td>';
@@ -3083,9 +3175,9 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		categories = dataSeries['categories'];
 		series = dataSeries['series'];
 	}
-	console.log(stationName);
-	console.log(series);
-	console.log(categories);
+	//console.log(stationName);
+	//console.log(series);
+	//console.log(categories);
 
 	// $('#rain_radiation').show();
 	var renderTo = 'rain_radiation';// Default div
@@ -3117,7 +3209,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		renderTo = dialogDiv;
 		// Chart font size for the dialog chart
 		fontSize = '14px';
-		titleFontSize = '24px';
+		titleFontSize = '18px';
 		legendX = 120;
 		legendY = 20;
 		spacingBottom = 50;
@@ -3129,6 +3221,9 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		labelsEnabled = true;
 		xAxisTitle = 'Months';
 		exporting = true;
+//Create the graphic description for the zoomed plot.
+//Grab the dialog div
+$('#dialog-infos').html('Average Monthly Rainfall and Precipitation from '+stationName);
 	}
 
 	$('#' + renderTo).highcharts(
@@ -3229,7 +3324,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					}
 				},
 				title : {
-					text : 'Average Monthly Rainfall and Radiation',
+					text : 'Average Monthly Rainfall and Precipitation',
 					style : {
 						color : '#4e2700',
 						// fontWeight : 'bold',
@@ -3255,8 +3350,10 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 						}
 					},
 					title : {
-						text : xAxisTitle
+						text : xAxisTitle,
+ zIndex: 10
 					},
+ zIndex: 10,
 					crosshair : true
 
 				},
@@ -3274,7 +3371,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					title : {
 						text : 'Rainfall (mm)',
 						rotation : -90,
-						x : 10,
+						x : 5,
 						style : {
 							color : '#4572A7'
 						}
@@ -3305,15 +3402,20 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 						format : '{value:.1f}'
 					// format : '{value:.2f}'
 					},
-					min : 0,
+					// /////////////////////////////////////////////////// min :
+					// 0,
 					title : {
-						text : 'Min Temperature (°C)',
+						text : 'Min, Max Temperature (°C)',
 						style : {
 							color : '#4572A7'
-						}
+						},
+rotation : -90,
+x : 5
 					},
 					opposite : true
-				}, { // Tertially yAxis, Max Temperature
+ //linkedTo:0
+				}
+/*, { // Tertially yAxis, Max Temperature
 					title : {
 						text : 'Max Temperature (°C)',
 						rotation : -90,
@@ -3322,7 +3424,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 							color : '#4572A7'
 						}
 					},
-					min : 0,
+					// //////////////////////////////////////////// min : 0,
 					labels : {
 						enabled : labelsEnabled,
 						// format : '{value} mm',
@@ -3336,7 +3438,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					},
 					opposite : true
 				}
-
+*/
 				],
 				tooltip : {
 					shared : true
@@ -3362,8 +3464,8 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					// text : ':: Drag'
 					// },
 					floating : true,
-					draggable : true
-				// zIndex : 400
+					draggable : true,
+				zIndex : 1
 				},
 				series : series,
 				exporting : {
