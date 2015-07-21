@@ -25,8 +25,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.beanutils.converters.BooleanArrayConverter;
-
 /**
  * This class represents the soil properties in the simulation model. Each soil
  * property is categorized as physical, chemical or hydraulic property. Each

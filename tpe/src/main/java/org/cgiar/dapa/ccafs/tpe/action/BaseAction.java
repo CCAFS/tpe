@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
+import org.cgiar.dapa.ccafs.tpe.util.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
@@ -40,7 +41,7 @@ import com.opensymphony.xwork2.Preparable;
  *
  */
 public abstract class BaseAction extends ActionSupport implements Preparable,
-		ServletContextAware, ServletRequestAware {
+		ServletContextAware, ServletRequestAware, Constants {
 
 	private static final long serialVersionUID = 3706037816101380217L;
 	@SuppressWarnings("unused")

@@ -38,6 +38,7 @@ public class TPEAction extends BaseAction {
 
 	private static final long serialVersionUID = -4801328465223186532L;
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 	private List<Category> outputs;
 	private Integer selectedOutput;

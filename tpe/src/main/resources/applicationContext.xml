@@ -78,11 +78,12 @@
 	<bean id="mailSession" class="javax.mail.Session" factory-method="getInstance">
 		<constructor-arg>
 			<props>
-				<prop key="mail.smtp.auth">${mail.auth}</prop>
-				<prop key="mail.smtp.host">${mail.host}</prop>
-				<prop key="mail.smtp.port">${mail.port}</prop>
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<prop key="mail.smtp.host">${mail.smtp.host}</prop>
+				<prop key="mail.smtp.port">${mail.smtp.port}</prop>
 				<prop key="mail.smtp.debug">${mail.debug}</prop>
 				<prop key="mail.smtp.transport.protocol">${mail.transport.protocol}</prop>
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
 			</props>
 		</constructor-arg>
 		<constructor-arg ref="smtpAuthenticator" />
@@ -95,9 +96,10 @@
 			value="${mail.password}" /> -->
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.smtp.host">${mail.host}</prop>
-				<prop key="mail.smtp.port">${mail.port}</prop>
+				<prop key="mail.smtp.host">${mail.smtp.host}</prop>
+				<prop key="mail.smtp.port">${mail.smtp.port}</prop>
 				<prop key="mail.smtp.debug">${mail.debug}</prop>
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
 				<prop key="mail.smtp.transport.protocol">${mail.transport.protocol}</prop>
 			</props>
 		</property>
@@ -163,6 +165,12 @@
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 
+
+	<!-- ============================================================ -->
+	<!-- ========================== TPE Web Security Beans===================== -->
+	<!-- ============================================================ -->
+	<!-- <bean id="webConfig" class="org.cgiar.dapa.ccafs.tpe.security.WebSecurityConfig" /> -->
+
 	<!-- ======================================================================= -->
 	<!-- ============================ TPE Actions ============================== -->
 	<!-- ======================================================================= -->
@@ -207,14 +215,10 @@
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
-	<bean id="jsonTestAction" class="org.cgiar.dapa.ccafs.tpe.action.JsonTestAction"
-		scope="session">
-		<aop:scoped-proxy />
-	</bean>
 	<bean id="stabilityGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.StabilityGeoJsonAction"
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
 	</bean>
-	 
+
 
 </beans>

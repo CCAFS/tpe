@@ -46,6 +46,7 @@ public class ContactUsAction extends BaseAction {
 
 	private static final String USER_DETAILS = "details";
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 	// private HttpServletRequest hsr;
 	// private HttpSession hs;

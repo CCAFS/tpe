@@ -69,11 +69,14 @@ div#center-head {
 	height: 106px;
 	float: left;
 	margin-top: 40px;
+	min-width: 600px;
 }
 #main_header #platform_title a{
 	text-decoration:  none;
 	width: 100%;
 	color: #000000;
+	font-size: 90%;
+	font-weight: bold;
 }
 #main_header #platform_title a:HOVER,#main_header #platform_title a:LINK,#main_header #platform_title a:VISITED,#main_header #platform_title a:ACTIVE{
 	text-decoration:  none;
@@ -1288,15 +1291,41 @@ position: absolute;
 		rgba(245, 245, 245, 1) 100%);
 	border: rgb(229, 229, 229) 1px solid;
 	/*width: 250px;*/
-	width: 240px;
+	width: 300px;
 	height: auto;
 	z-index: 1000;
 	color: #656360;
 /*top: 10px;
 right: 300px;*/
 }
-
-
+ 
+.panel-img{
+	display: block;
+   width: 100% !important;
+    height: auto !important;
+}
+.step-img,.step-img-large{
+	display: block;
+    height: auto !important;
+    margin: auto;
+    
+}
+.step-img,.step-parent{
+	width: 250px;
+}
+.step-img-large,.step-parent-large{
+	width: 420px;
+}
+.step-img img{
+   margin: auto;
+}
+ 
+.step-parent,.step-parent-large{
+	position: relative;
+	height: auto;
+	 margin-left: auto;
+	 margin-right: auto;
+}
 
 
 

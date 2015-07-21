@@ -15,3 +15,5 @@
 	String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 %>   
+
+<%@ taglib prefix='security' uri='http://www.springframework.org/security/tags'%>

@@ -65,7 +65,7 @@ public class ContactAction extends BaseAction {
 	// TODO Add the user field and login credentials
 	@Override
 	public String execute() {
-
+		log.info("executing...");
 		return ActionSupport.SUCCESS;
 	}
 
@@ -81,22 +81,14 @@ public class ContactAction extends BaseAction {
 			templateVariables.put(USER_DETAILS, getDetails());
 
 			// Send a contact email to the admin or support team
-			mailService.contactUs(templateVariables);
-
+			 mailService.contactUs(templateVariables);
+			 log.info("mail service..");
 			// Send the email notification to the user confirming the receipt of
 			// the request
-			mailService.notifyUser(getEmail(), templateVariables);
+			 mailService.notifyUser(getEmail(), templateVariables);
 			log.info("sent...");
 		}
 		return ActionSupport.SUCCESS;
-	}
-
-	public ITPEMailService getMailService() {
-		return mailService;
-	}
-
-	public void setMailService(ITPEMailService mailService) {
-		this.mailService = mailService;
 	}
 
 	public String getEmail() {
@@ -131,19 +123,25 @@ public class ContactAction extends BaseAction {
 		this.details = details;
 	}
 
-	@Override
-	public void validate() {
-
-		if (email.isEmpty()) {
-			addFieldError("email", "Email Field cannot be left blank!!!");
-		} else if (!email.contains(".") && !email.contains("@")) {
-			addFieldError("email", "Email ID not valid!!!");
-		} else if (name.isEmpty()) {
-			addFieldError("name", "Your name field cannot be left blank");
-		} else if (details.isEmpty()) {
-			addFieldError("details", "Please Enter your message here");
-		}
+	public ITPEMailService getMailService() {
+		return mailService;
 	}
+
+	public void setMailService(ITPEMailService mailService) {
+		this.mailService = mailService;
+	}
+
+	/*
+	 * @Override public void validate() {
+	 * 
+	 * if (email.isEmpty()) { addFieldError("email",
+	 * "Email Field cannot be left blank!!!"); } else if (!email.contains(".")
+	 * && !email.contains("@")) { addFieldError("email",
+	 * "Email ID not valid!!!"); } else if (name.isEmpty()) {
+	 * addFieldError("name", "Your name field cannot be left blank"); } else if
+	 * (details.isEmpty()) { addFieldError("details",
+	 * "Please Enter your message here"); } }
+	 */
 	// @Override
 	// public void setServletRequest(HttpServletRequest hsr) {
 	// this.hsr = hsr;

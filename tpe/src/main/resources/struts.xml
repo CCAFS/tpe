@@ -20,7 +20,7 @@
 	<constant name="struts.configuration.xml.reload" value="false" />
 	<constant name="struts.serve.static.browserCache" value="false" />
 
-	<package name="default" extends="struts-default" namespace="/">
+	<package name="default" extends="struts-default">
 
 		<!-- Custom interceptor -->
 		<interceptors>
@@ -84,7 +84,7 @@
 		<action name="resources" class="indexAction" method="resources">
 			<result name="success">/WEB-INF/pages/tpe/resources.jsp</result>
 		</action>
-		<action name="contact_index" class="contactAction">
+		<action name="contactUs" class="contactAction">
 			<result name="success">/WEB-INF/pages/tpe/contactus.jsp</result>
 			<!-- <result name="error">/WEB-INF/pages/tpe/error.jsp</result> -->
 		</action>
@@ -99,13 +99,19 @@
 		<action name="contribute" class="indexAction">
 			<result name="success">/WEB-INF/pages/tpe/contribute.jsp</result>
 		</action>
+		<action name="getinvolved" class="indexAction">
+			<result name="success">/WEB-INF/pages/tpe/get-involved.jsp</result>
+		</action>
 		<action name="workshops" class="indexAction" method="workshops">
 			<result name="success">/WEB-INF/pages/tpe/workshops.jsp</result>
 		</action>
 		<action name="toolIndex" class="tpeAction">
 			<result name="success">/WEB-INF/pages/tpe/tpe-index.jsp</result>
 		</action>
-		<action name="paramsOut" class="tpeAction" method="paramsOut">
+		<action name="visualization" class="tpeAction">
+			<result name="success">/WEB-INF/pages/tpe/tpe-index.jsp</result>
+		</action>
+		<action name="map/options" class="tpeAction" method="paramsOut">
 			<result name="soil">/WEB-INF/pages/tpe/soil-params.jsp</result>
 			<result name="tpe">/WEB-INF/pages/tpe/tpe-params.jsp</result>
 			<result name="stability">/WEB-INF/pages/tpe/tpe-params.jsp</result>
@@ -141,11 +147,34 @@
 
 		<action name="addTag" class="tagsAction" method="add">
 		</action>
-		<action name="jsonTest" class="jsonTestAction">
-			<result name="success"></result>
+		<action name="login">
+			<result>/WEB-INF/pages/admin/login.jsp</result>
 		</action>
 	</package>
-	<package name="tpeJson" extends="struts-default,json-default">
+	
+		<!-- Configuration for the security actions -->
+<!-- 	<package name="tpe-login" extends="default">
+		<action name="login">
+			<result>/WEB-INF/pages/admin/login.jsp</result>
+		</action>
+		<action name="accessdenied">
+			<result>/WEB-INF/pages/admin/accessdenied.jsp</result>
+		</action>
+	</package> -->
+
+	<package name="tpe-admin" extends="default" namespace="/admin">
+		<action name="tags" class="tag" method="execute">
+			<result name="success">/WEB-INF/pages/admin/tags.jsp</result> 
+		</action>
+		<action name="tag/add" class="tag" method="add">
+			<result name="success">/WEB-INF/pages/admin/add-tag.jsp</result>
+			<result name="error">/WEB-INF/pages/admin/add-tag.jsp</result>
+			<result name="input">/WEB-INF/pages/admin/add-tag.jsp</result>
+		</action>
+
+	</package>
+	 
+	<package name="tpe-json" extends="struts-default,json-default" namespace="/json">
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
 		</result-types>
@@ -165,7 +194,7 @@
 		</action>
 		<action name="soilGeoJson" class="soilGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">featuresJson.*,regionJson.*,zoom,municipalitiesJson.*,lat,lng,seriesJson.*,categoriesJson.*,tpeBoundaryJson.*</param>
+				<param name="includeProperties">growingRegionsJson.*,featuresJson.*,regionJson.*,zoom,municipalitiesJson.*,lat,lng,seriesJson.*,categoriesJson.*,tpeBoundaryJson.*</param>
 			</result>
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">

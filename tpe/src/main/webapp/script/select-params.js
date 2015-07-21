@@ -34,7 +34,7 @@ $(document)
 					});
 
 					// href for loading the selected params
-					var href_output = "paramsOut.action";
+					var href_output = "map/options.action";
 					// Get the preselected Output (TPE, SOIL, CLIMATE)
 					var outputValue = $("select#select_output").val();
 					// var preselected_output = $("select#select_output").val();

@@ -15,6 +15,7 @@ package org.cgiar.dapa.ccafs.tpe.service.impl;
 
 import java.util.Map;
 
+import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -22,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEMailService;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -77,19 +79,38 @@ public class TPEMailService implements ITPEMailService {
 	public void notifyAdmin(final Map<String, Object> templateVariables) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
-				MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
-						true);
-				message.setTo(supportEmail);
-				message.setFrom(new InternetAddress(adminEmail));
-				message.setSubject(SUBJECT_ADMIN);
+
+				mimeMessage.setRecipient(Message.RecipientType.TO,
+						new InternetAddress(supportEmail));
+				mimeMessage.setFrom(new InternetAddress(adminEmail));
 				String body = VelocityEngineUtils.mergeTemplateIntoString(
 						velocityEngine, "templates/notify-admin.vm", "UTF-8",
 						templateVariables);
-				log.info(body);
-				message.setText(body, true);
+				mimeMessage.setText(body);
+				mimeMessage.setSubject(SUBJECT_ADMIN);
+
+				/*
+				 * MimeMessageHelper message = new
+				 * MimeMessageHelper(mimeMessage, true);
+				 * message.setTo(supportEmail);
+				 * log.info("Support email "+supportEmail); message.setFrom(new
+				 * InternetAddress(adminEmail));
+				 * log.info("Admin email "+adminEmail);
+				 * message.setSubject(SUBJECT_ADMIN); String body =
+				 * VelocityEngineUtils.mergeTemplateIntoString( velocityEngine,
+				 * "templates/notify-admin.vm", "UTF-8", templateVariables);
+				 * log.info(body); message.setText(body, true);
+				 */
 			}
 		};
-		this.mailSender.send(preparator);
+		try {
+			this.mailSender.send(preparator);
+		} catch (MailException ex) {
+			System.err.println(ex.getMessage());
+			log.error(ex.getMessage());
+		}
+
+		log.info("Email has been sent successfully...");
 
 	}
 
@@ -111,6 +132,7 @@ public class TPEMailService implements ITPEMailService {
 			}
 		};
 		this.mailSender.send(preparator);
+		log.info("Your email has been sent successfully...");
 
 	}
 

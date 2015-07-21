@@ -401,12 +401,6 @@ function createTPEGraphics(series) {
 	// Display the TPE Box plot
 	if ((categoriesJSON != null) && (boxJSON != null))
 		createTPEBoxPlot(categoriesJSON, boxJSON, true);
-	// console.log('CATEGORIES');
-	// console.log(categoriesJSON);
-	// console.log('BOX');
-	// console.log(boxJSON);
-	// console.log('SERIES');
-	// console.log(series);
 	// Display the Relative Transpiration Ration Plot
 	// Iterate through the list of maps of favourable data.
 	// Then get the map of PCEW
@@ -569,7 +563,8 @@ function addStyle(map) {
 					strokeColor : "#ffffff",
 					// fillOpacity : 0,
 					fillOpacity : 1,
-					//Add the title that will be displayed as the mouse rollover
+					// Add the title that will be displayed as the mouse
+					// rollover
 					title : feature.getProperty('name')
 				};
 			// For any other country, red icons will be returned.
@@ -586,7 +581,7 @@ function addStyle(map) {
 				strokeColor : "#ffffff",
 				// fillOpacity : 0,
 				fillOpacity : 1,
-				//Add the title that will be displayed as the mouse rollover
+				// Add the title that will be displayed as the mouse rollover
 				title : feature.getProperty('name')
 			};
 		}
@@ -981,12 +976,12 @@ function addClickListener(map) {
 				|| (e.feature.getProperty('featureType') == 'STATION')
 				|| (e.feature.getProperty('featureType') == 'ENVIRONMENT')
 				|| (e.feature.getProperty('featureType') == 'CLIMATE')) {
-//			infoWindow.setContent('<div class="info_window">' + '<h2>'
-//					+ e.feature.getProperty('name') + '</h2>' + featureInfo(e)
-//					+ '</div>');
-//			var anchor = new google.maps.MVCObject();
-//			anchor.set("position", e.latLng);
-//			infoWindow.open(map, anchor);
+			// infoWindow.setContent('<div class="info_window">' + '<h2>'
+			// + e.feature.getProperty('name') + '</h2>' + featureInfo(e)
+			// + '</div>');
+			// var anchor = new google.maps.MVCObject();
+			// anchor.set("position", e.latLng);
+			// infoWindow.open(map, anchor);
 
 		}
 
@@ -1062,29 +1057,26 @@ function addClickListener(map) {
 			// rainfallRadiationPlot(climateSeriesJSON, true,
 			// e.feature.getProperty('stationId'),
 			// e.feature.getProperty('name'));
-var cnt = e.feature.getProperty("countryName") == null ? ''
-										: ' '
-												+ e.feature
-														.getProperty("countryName");
+			var cnt = e.feature.getProperty("countryName") == null ? '' : ' '
+					+ e.feature.getProperty("countryName");
 
 			createClimateGraphics(e.feature.getProperty('dataSeries'),
-					e.feature.getProperty('name')+cnt);
+					e.feature.getProperty('name') + cnt);
 
 			clickedFeature = e.feature.getProperty('dataSeries');
 			clickedFeatureName = e.feature.getProperty('name');
-			//console.log('clicked feature');
-			//console.log(clickedFeature);
-			//console.log('feature name');
-			//console.log(clickedFeatureName);
+			// console.log('clicked feature');
+			// console.log(clickedFeature);
+			// console.log('feature name');
+			// console.log(clickedFeatureName);
 
-// Add title to the infos
-$('#info-static').show();
-								$('#info-static h2').text(
-										e.feature.getProperty('name'));
-$('#info-static span').html(featureInfoStatic(e));
-								
+			// Add title to the infos
+			//TODO Uncomment it to add the static info window
+			/*$('#info-static').show();
+			$('#info-static h2').text(e.feature.getProperty('name'));
+			$('#info-static span').html(featureInfoStatic(e));*/
 
-//
+			//
 		}
 	});
 }
@@ -1142,11 +1134,19 @@ function addMouseOverListener(map) {
 
 							}
 							if (e.feature.getProperty('featureType') == OUTPUT_TPE) {
+								//Remove the background image from h2
 								$('#info h2')
-										.text(
-												'TPE: '
-														+ e.feature
-																.getProperty('name'));
+								.css(
+										{
+											'background-image' : 'none',
+											'background-repeat' : 'no-repeat',
+											'background-position' : 'right'
+										});
+								
+//								$('#info h2').text('TPE: '+ e.feature.getProperty('name'));
+								$('#info h2').css('color',e.feature.getProperty('colour'))
+								.text(e.feature.getProperty('description'));
+								
 								// $('#info
 								// h2').text(e.feature.getProperty('name'));
 
@@ -1331,6 +1331,16 @@ function addMouseOverListener(map) {
 					});
 }
 /**
+ * This hides the info window
+ */
+function hideInfoWindow(){
+	// Hide the Info window
+	$('#info h2').text('');
+	$('#info span').html('');
+	$('#info').hide();
+
+}
+/**
  * This adds the mouseout events
  * 
  * @param map
@@ -1339,11 +1349,7 @@ function addMouseOverListener(map) {
 function addMouseOutListener(map) {
 	map.data.addListener('mouseout', function(e) {
 		e.feature.setProperty('selected', false);
-		// Hide the Info window
-		$('#info h2').text('');
-		$('#info span').html('');
-		$('#info').hide();
-
+		
 		/*
 		 * map.data.overrideStyle(e.feature, { strokeColor : '#990000',
 		 * fillColor : '#009900' });
@@ -1360,6 +1366,7 @@ function addMouseOutListener(map) {
 				fillOpacity : 0.4,// 1,// 0.20//0,
 				fillColor : e.feature.getProperty('colour')
 			});
+			
 		} else if (e.feature.getProperty('name') == 'municipality') {
 			map.data.overrideStyle(e.feature, {
 				strokeColor : '#989898',
@@ -1385,6 +1392,7 @@ function addMouseOutListener(map) {
 			}
 		} else if (e.feature.getProperty('featureType') == OUTPUT_CLIMATE) {
 
+			hideInfoWindow();
 			/*
 			 * if (e.feature.getProperty('featureType') == 'REGION')
 			 * map.data.overrideStyle(e.feature, { strokeColor :
@@ -1405,10 +1413,10 @@ function addMouseOutListener(map) {
 
 			// rainfallRadiationPlot(climateSeriesJSON, true,
 			// clickedFeature,clickedFeatureName);
-			//console.log('last clicked feature');
-			//console.log(clickedFeature);
-			//console.log('last feature name');
-			//console.log(clickedFeatureName);
+			// console.log('last clicked feature');
+			// console.log(clickedFeature);
+			// console.log('last feature name');
+			// console.log(clickedFeatureName);
 			createClimateGraphics(clickedFeature, clickedFeatureName);
 
 		} else if (e.feature.getProperty('featureType') == 'REGION') {
@@ -1442,10 +1450,9 @@ function addMouseOutListener(map) {
 	});
 }
 
-
 function featureInfoStatic(event) {
-var $htmlText = '';
-if (event.feature.getProperty('featureType') == 'CLIMATE') {
+	var $htmlText = '';
+	if (event.feature.getProperty('featureType') == 'CLIMATE') {
 
 		if (event.feature.getProperty("regionName") != null)
 			$htmlText = $htmlText + '<div>Region: '
@@ -1485,7 +1492,7 @@ if (event.feature.getProperty('featureType') == 'CLIMATE') {
 			$htmlText = $htmlText + '</table></div>';
 		}
 	}
-return $htmlText;
+	return $htmlText;
 
 }
 /**
@@ -1653,7 +1660,7 @@ function featureInfo(event) {
 	} else if (event.feature.getProperty('featureType') == OUTPUT_TPE) {
 
 		$htmlText = '<div style="color:' + event.feature.getProperty('colour')
-				+ '";">' + event.feature.getProperty('description') + '</div>';
+				+ '";">' + event.feature.getProperty('name') + '</div>';
 
 		$htmlText = $htmlText + '<div>Crop: '
 				+ event.feature.getProperty("crop") + '</div>';
@@ -2477,6 +2484,9 @@ function plotLAI(seriesMap, environment, smallPlot) {
 		legend = true;
 		labelsEnabled = true;
 		exporting = true;
+		// Create the graphic description for the zoomed plot.
+		// Grab the dialog div
+		$('#dialog-infos').html(seriesMap.title + ' ' + seriesMap.subTitle);
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -2752,6 +2762,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 		legend = true;
 		labelsEnabled = true;
 		exporting = true;
+		$('#dialog-infos').html(seriesMap.title + ' ' + seriesMap.subTitle);
 	}
 
 	$('#' + renderTo).highcharts(
@@ -2966,6 +2977,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 		legend = true;
 		labelsEnabled = true;
 		exporting = true;
+		$('#dialog-infos').html(seriesMap.title + ' ' + seriesMap.subTitle);
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -3175,9 +3187,9 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		categories = dataSeries['categories'];
 		series = dataSeries['series'];
 	}
-	//console.log(stationName);
-	//console.log(series);
-	//console.log(categories);
+	// console.log(stationName);
+	// console.log(series);
+	// console.log(categories);
 
 	// $('#rain_radiation').show();
 	var renderTo = 'rain_radiation';// Default div
@@ -3221,9 +3233,11 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		labelsEnabled = true;
 		xAxisTitle = 'Months';
 		exporting = true;
-//Create the graphic description for the zoomed plot.
-//Grab the dialog div
-$('#dialog-infos').html('Average Monthly Rainfall and Precipitation from '+stationName);
+		// Create the graphic description for the zoomed plot.
+		// Grab the dialog div
+		$('#dialog-infos').html(
+				'Average Monthly Rainfall and Precipitation from '
+						+ stationName);
 	}
 
 	$('#' + renderTo).highcharts(
@@ -3351,9 +3365,9 @@ $('#dialog-infos').html('Average Monthly Rainfall and Precipitation from '+stati
 					},
 					title : {
 						text : xAxisTitle,
- zIndex: 10
+						zIndex : 10
 					},
- zIndex: 10,
+					zIndex : 10,
 					crosshair : true
 
 				},
@@ -3409,36 +3423,22 @@ $('#dialog-infos').html('Average Monthly Rainfall and Precipitation from '+stati
 						style : {
 							color : '#4572A7'
 						},
-rotation : -90,
-x : 5
-					},
-					opposite : true
- //linkedTo:0
-				}
-/*, { // Tertially yAxis, Max Temperature
-					title : {
-						text : 'Max Temperature (°C)',
 						rotation : -90,
-						x : 10,
-						style : {
-							color : '#4572A7'
-						}
-					},
-					// //////////////////////////////////////////// min : 0,
-					labels : {
-						enabled : labelsEnabled,
-						// format : '{value} mm',
-						// rotation: -45,
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
+						x : 5
 					},
 					opposite : true
+				// linkedTo:0
 				}
-*/
+				/*
+				 * , { // Tertially yAxis, Max Temperature title : { text : 'Max
+				 * Temperature (°C)', rotation : -90, x : 10, style : { color :
+				 * '#4572A7' } }, //
+				 * //////////////////////////////////////////// min : 0, labels : {
+				 * enabled : labelsEnabled, // format : '{value} mm', //
+				 * rotation: -45, style : { color : '#4572A7', fontSize :
+				 * fontSize }, format : '{value:.1f}' // format : '{value:.2f}' },
+				 * opposite : true }
+				 */
 				],
 				tooltip : {
 					shared : true
@@ -3465,7 +3465,7 @@ x : 5
 					// },
 					floating : true,
 					draggable : true,
-				zIndex : 1
+					zIndex : 1
 				},
 				series : series,
 				exporting : {
@@ -3534,6 +3534,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 		yAxisTitle = seriesMap.yaxis;
 		xAxisTitle = seriesMap.xaxis;
 		exporting = true;
+		$('#dialog-infos').html(seriesMap.title + ' ' + seriesMap.subTitle);
 	}
 	$('#' + renderTo)
 			.highcharts(
@@ -3793,6 +3794,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 		yAxisTitle = seriesMap.yaxis;
 		xAxisTitle = seriesMap.xaxis;
 		exporting = true;
+		$('#dialog-infos').html(seriesMap.title + ' ' + seriesMap.subTitle);
 	}
 
 	var chart = new Highcharts.Chart(

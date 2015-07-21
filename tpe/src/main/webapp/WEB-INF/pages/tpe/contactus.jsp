@@ -24,7 +24,7 @@
 					width : 'toggle'
 				});
 				//e.preventDefault();
-				var data = $('#contactForm').serialize();
+				var data = $('#contactUs').serialize();
 				$('#send').attr("disabled", true);
 				$.ajax({
 					global : false,
@@ -235,7 +235,7 @@
 					<div class="notify-sent">Message Sent</div>
 					<div class="notify-sending">Sending...</div>
 					<!--action="contactInfo" method="post"  -->
-					<form method="post" id="contactForm">
+					<form method="post" id="contactUs">
 						<div class="contact-info">
 							<h4>Have a question or an exciting new idea?</h4>
 							<!-- We would love to hear from you.	Have a question or an exciting new idea? -->

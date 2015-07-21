@@ -366,7 +366,8 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		seriesMap = new LinkedHashMap<String, Object>();
 		seriesMap.put(TYPE, TYPE_SPLINE);
 		seriesMap.put(NAME, "Tmax");
-		seriesMap.put(AXIS_Y, 2);
+		seriesMap.put(AXIS_Y, 1);
+//seriesMap.put(AXIS_Y, 2);
 		seriesMap.put(COLOR, "#800000");
 		seriesMap.put(DATA, tmax);
 		toolTipMap = new LinkedHashMap<String, Object>();

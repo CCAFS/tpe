@@ -2,8 +2,8 @@
 	<excludes>
 		<pattern>/nodecorate/*</pattern>
 		<pattern>/css/**</pattern>
-		<pattern>/js/**</pattern>
-		<pattern>/images/*</pattern>
+		<pattern>/script/**</pattern>
+		<pattern>/img/*</pattern>
 		<!-- <pattern>/login.jsp</pattern> -->
 		<pattern>/struts/*</pattern>
 		<pattern>/40*.jsp</pattern>
@@ -11,10 +11,14 @@
 		<pattern>/struts/dojo/*</pattern>
 		<pattern>/google*.html</pattern>
 		<pattern>/*.txt</pattern>
-		<pattern>/subregions.*</pattern>
+		<!-- <pattern>/subregions.*</pattern> -->
 		<pattern>/cultivars.*</pattern>
-		<pattern>/years.*</pattern>
-		<pattern>/paramsOut.*</pattern>
+		<!-- <pattern>/years.*</pattern> -->
+		<pattern>/map/options.*</pattern> 
+		<pattern>/WEB-INF/pages/tpe/climate-params.*</pattern> 
+		<pattern>/WEB-INF/pages/tpe/soil-params.*</pattern> 
+		<pattern>/WEB-INF/pages/tpe/tpe-params.*</pattern> 
+		<pattern>/WEB-INF/pages/tpe/cultivars.*</pattern> 
 	</excludes>
 	<decorator name="layout" page="layout.jsp">
 		<pattern>/*</pattern>

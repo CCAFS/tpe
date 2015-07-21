@@ -52,7 +52,7 @@ function visualizeResults() {
 		// params
 
 		// The action url for the TPE map
-		actionJson = 'tpeGeoJson.geojson';
+		actionJson = 'json/tpeGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
 		loadJson(actionJson, 'TPE');
 		// initializeMap();
@@ -67,7 +67,7 @@ function visualizeResults() {
 		// params
 
 		// The action url for the Stability map
-		actionJson = 'stabilityGeoJson.geojson';
+		actionJson = 'json/stabilityGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
 		loadJson(actionJson, 'STABILITY');
 		// initializeMap();
@@ -78,7 +78,7 @@ function visualizeResults() {
 		legendTitle = 'Legend: Soil Texture';
 		hideShow('SOIL');
 		// The action url for the soil map
-		actionJson = 'soilGeoJson.geojson';
+		actionJson = 'json/soilGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
 		loadJson(actionJson, 'SOIL');
 
@@ -88,7 +88,7 @@ function visualizeResults() {
 		legendTitle = 'Legend: Climate';
 		hideShow('CLIMATE');
 		// The action url for the soil map
-		actionJson = 'climateGeoJson.geojson';
+		actionJson = 'json/climateGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
 		loadJson(actionJson, 'CLIMATE');
 		// initializeMap();

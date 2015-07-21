@@ -29,6 +29,7 @@ public class TagsAction extends BaseAction {
 
 	private static final long serialVersionUID = -3025365582429269300L;
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**

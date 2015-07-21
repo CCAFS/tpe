@@ -722,8 +722,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 						seriesMap.put(SERIES, seriesList);
 						seriesMap.put(TYPE, type.getName().toUpperCase());
 						seriesMap.put(ENVIRONMENT, environment.getCode());
-						seriesMap.put(TITLE, type.getDescription()
-								.toUpperCase());
+						seriesMap.put(TITLE, type.getDescription());
 						seriesMap.put(TITLE_SUB, environment.getDescription()
 								+ " (" + environment.getCode() + ")");
 						seriesMap.put(TITLE_Y, titleYaxis);

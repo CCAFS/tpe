@@ -59,7 +59,6 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 	private static final String WATER_CAPACITY_WILT_POINT = "waterCapacityWiltPoint";
 	// private static final String PLOT_CATEGORIES = "categories";
 	// private static final String PLOT_DATA = "data";
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	public SoilPropertyDao() {
