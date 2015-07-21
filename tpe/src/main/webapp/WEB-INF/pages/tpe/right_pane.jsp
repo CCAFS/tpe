@@ -8,7 +8,7 @@
 	<!-- Platform Tags -->
 	<div id="tags"></div>
 	<div id="tags-add">
-		<button class="button-add" id="send">Add Tag</button>
+		<!-- <button class="button-add" id="send">Add Tag</button> -->
 	</div>
 </div>
 <!-- Section for platform news -->
