@@ -6,14 +6,6 @@
 				<div id="head_logo"></div>
 			</a> -->
 	<div id="top_header">
-	<p>
-      Hello <b><c:out value="${pageContext.request.remoteUser}"/></b>
-    </p>
-	 <c:url var="logoutUrl" value="/"/>
-    <form class="form-inline" action="${logoutUrl}" method="post">
-      <input type="submit" value="Log out" />
-      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    </form>
 		<div id="platform_title">
 			<h1 id=platform_name>
 				<a href="https://ccafs.cgiar.org/">Target Population of
