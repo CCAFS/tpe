@@ -19,32 +19,32 @@ package org.cgiar.dapa.ccafs.tpe.exception;
  * @author NMATOVU
  *
  */
-public class TPEException extends Exception {
+public class PlatformException extends Exception {
 
 	private static final long serialVersionUID = 5164271948743765231L;
 
-	public TPEException() {
+	public PlatformException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TPEException(String message, Throwable cause,
+	public PlatformException(String message, Throwable cause,
 			boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
-	public TPEException(String message, Throwable cause) {
+	public PlatformException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public TPEException(String message) {
+	public PlatformException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public TPEException(Throwable cause) {
+	public PlatformException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}

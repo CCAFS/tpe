@@ -42,34 +42,35 @@ public class Tag extends BaseEntity {
 	/**
 	 * The name of the category
 	 */
-	private String tagName;
+	private String name;
 
 	/**
 	 * The url link associated with the platform tag
 	 */
-	private String tagUrl;
+	private String url;
 	/**
 	 * The tag count. Set the default weight to 16px;
 	 */
-	private Integer tagWeight = 16;
+	private Integer weight = 16;
 	/**
 	 * The number of tag clicks. Set the default clicks to zero.
 	 */
-	private Integer tagClicks = 0;
+	private Integer clicks = 0;
 	/**
 	 * The date on which the tag was created
 	 */
 	private Date createdOn = new Date();
 
 	/**
-	 * The boolean value that indicates whether the tag will be shown or not.
-	 * By default the tag is enabled.
+	 * The boolean value that indicates whether the tag will be shown or not. By
+	 * default the tag is enabled.
 	 */
 	private Boolean enabled = true;
+
 	/**
 	 * The list of url links for the particular tag
 	 */
-	private List<TagLink> links;
+	private List<Post> posts = new ArrayList<Post>();
 
 	public Tag() {
 		super();
@@ -78,57 +79,60 @@ public class Tag extends BaseEntity {
 
 	public Tag(String tagName, String tagUrl, Integer tagWeight, Boolean enabled) {
 		super();
-		this.tagName = tagName;
-		this.tagUrl = tagUrl;
-		this.tagWeight = tagWeight;
+		this.name = tagName;
+		this.url = tagUrl;
+		this.weight = tagWeight;
 		this.enabled = enabled;
-		this.links = new ArrayList<TagLink>();
+		this.posts = new ArrayList<Post>();
 	}
 
 	public Tag(String tagName, String tagUrl, Integer tagWeight,
-			Boolean enabled, List<TagLink> links) {
+			Boolean enabled, List<Post> posts) {
 		super();
-		this.tagName = tagName;
-		this.tagUrl = tagUrl;
-		this.tagWeight = tagWeight;
+		this.name = tagName;
+		this.url = tagUrl;
+		this.weight = tagWeight;
 		this.enabled = enabled;
-		this.links = links;
+		if (this.posts != null)
+			this.posts.addAll(posts);
+		else
+			this.posts = posts;
 	}
 
 	@Column(name = "tag_name")
-	public String getTagName() {
-		return tagName;
+	public String getName() {
+		return name;
 	}
 
-	public void setTagName(String tagName) {
-		this.tagName = tagName;
+	public void setName(String tagName) {
+		this.name = tagName;
 	}
 
 	@Column(name = "tag_url")
-	public String getTagUrl() {
-		return tagUrl;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setTagUrl(String tagUrl) {
-		this.tagUrl = tagUrl;
+	public void setUrl(String tagUrl) {
+		this.url = tagUrl;
 	}
 
 	@Column(name = "tag_weight")
-	public Integer getTagWeight() {
-		return tagWeight;
+	public Integer getWeight() {
+		return weight;
 	}
 
-	public void setTagWeight(Integer tagWeight) {
-		this.tagWeight = tagWeight;
+	public void setWeight(Integer tagWeight) {
+		this.weight = tagWeight;
 	}
 
 	@Column(name = "tag_clicks")
 	public Integer getTagClicks() {
-		return tagClicks;
+		return clicks;
 	}
 
 	public void setTagClicks(Integer tagClicks) {
-		this.tagClicks = tagClicks;
+		this.clicks = tagClicks;
 	}
 
 	@Column(name = "created_on")
@@ -141,12 +145,12 @@ public class Tag extends BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tag", cascade = CascadeType.ALL)
-	public List<TagLink> getLinks() {
-		return links;
+	public List<Post> getPosts() {
+		return posts;
 	}
 
-	public void setLinks(List<TagLink> links) {
-		this.links = links;
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	@Column(name = "enabled")

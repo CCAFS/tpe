@@ -21,7 +21,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.cgiar.dapa.ccafs.tpe.dao.IGenericDao;
-import org.cgiar.dapa.ccafs.tpe.exception.TPEException;
+import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 
 /**
  * Defines a Base Generic DAO that provides JPA implementation. This class keeps
@@ -91,7 +91,7 @@ public abstract class GenericDao<T, K extends Serializable> implements
 
 	}
 
-	public T addOrMerge(T entity) throws TPEException {
+	public T addOrMerge(T entity) throws PlatformException {
 
 		try {
 			if (this.entityManager.contains(entity))
@@ -99,7 +99,7 @@ public abstract class GenericDao<T, K extends Serializable> implements
 			else
 				this.entityManager.persist(entity);
 		} catch (Exception e) {
-			throw new TPEException("DB exception", e);
+			throw new PlatformException("DB exception", e);
 		}
 
 		return entity;

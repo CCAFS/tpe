@@ -16,7 +16,6 @@ package org.cgiar.dapa.ccafs.tpe.entity;
 
 import java.util.Date;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -30,9 +29,9 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "link")
-@AttributeOverride(name = "id", column = @Column(name = "link_id"))
-public class TagLink extends BaseEntity {
+@Table(name = "post")
+// @AttributeOverride(name = "id", column = @Column(name = "link_id"))
+public class Post extends BaseEntity {
 
 	private static final long serialVersionUID = 8231154063724326254L;
 
@@ -58,6 +57,18 @@ public class TagLink extends BaseEntity {
 	 * The tag associated with this link
 	 */
 	private Tag tag;
+
+	public Post() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Post(String title, String url, Tag tag) {
+		super();
+		this.title = title;
+		this.url = url;
+		this.tag = tag;
+	}
 
 	@Column(name = "created_on")
 	public Date getCreatedOn() {

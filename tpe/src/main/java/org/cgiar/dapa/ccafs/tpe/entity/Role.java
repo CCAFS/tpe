@@ -11,11 +11,39 @@
  * You should have received a copy of the GNU General Public License
  * along with CCAFS TPE Identification Platform. If not, see <http://www.gnu.org/licenses/>.
  *****************************************************************/
-package org.cgiar.dapa.ccafs.tpe.security;
+package org.cgiar.dapa.ccafs.tpe.entity;
 
-import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-public class SecurityWebInitializer extends
-		AbstractSecurityWebApplicationInitializer {
+@Entity
+@Table(name = "role")
+public class Role extends BaseEntity {
+
+	private static final long serialVersionUID = 765566153483807905L;
+	private User user;
+	private String name;
+
+	@ManyToOne(targetEntity = User.class)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@Column(name = "name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

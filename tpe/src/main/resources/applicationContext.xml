@@ -147,6 +147,7 @@
 	<bean id="phenologyGrowthDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.PhenologyGrowthDao" />
 	<bean id="environmentSoilDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.EnvironmentSoilDao" />
 	<bean id="tagDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.TagDao" />
+	<bean id="userDao" class="org.cgiar.dapa.ccafs.tpe.dao.impl.UserDao" />
 
 	<!-- ============================================================ -->
 	<!-- ========================== TPE Service ===================== -->
@@ -165,11 +166,17 @@
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 
+	<bean id="userService"
+		class="org.cgiar.dapa.ccafs.tpe.service.impl.PlatformUserService">
+		<property name="userDao" ref="userDao" />
+	</bean>
+
 
 	<!-- ============================================================ -->
 	<!-- ========================== TPE Web Security Beans===================== -->
 	<!-- ============================================================ -->
-	<!-- <bean id="webConfig" class="org.cgiar.dapa.ccafs.tpe.security.WebSecurityConfig" /> -->
+	<!-- <bean id="webConfig" class="org.cgiar.dapa.ccafs.tpe.security.WebSecurityConfig" 
+		/> -->
 
 	<!-- ======================================================================= -->
 	<!-- ============================ TPE Actions ============================== -->
@@ -218,6 +225,10 @@
 	<bean id="stabilityGeoJsonAction" class="org.cgiar.dapa.ccafs.tpe.action.StabilityGeoJsonAction"
 		scope="request">
 		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="loginAction" class="org.cgiar.dapa.ccafs.tpe.action.LoginAction"
+		scope="request">
+
 	</bean>
 
 

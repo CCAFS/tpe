@@ -13,7 +13,10 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.List;
+
 import org.cgiar.dapa.ccafs.tpe.entity.Tag;
+import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 
 /**
  * This interface defines platform tag dao methods
@@ -23,4 +26,40 @@ import org.cgiar.dapa.ccafs.tpe.entity.Tag;
  */
 public interface ITagDao extends IGenericDao<Tag, Integer> {
 
+	/**
+	 * Retrieves all the tags from the database with the specified enabled
+	 * value(true or false).;
+	 * 
+	 * @param enabled
+	 *            the boolean value; true if the tag is enabled and false if
+	 *            not.
+	 * @return tags
+	 */
+	List<Tag> getTags(boolean enabled);
+
+	/**
+	 * Adds a new tag with its associated posts (links) or updates an existing
+	 * tag or its post links.
+	 * 
+	 * @param name
+	 *            the name of the tag to add or update
+	 * @param url
+	 *            the url link of the tag to add or update.
+	 * @param weight
+	 *            the weight of the tag to add or update (The weight will be
+	 *            used in the html font size).
+	 * @param enabled
+	 *            boolean value, true for enabled and false for disabled one.
+	 */
+	void addTag(String name, String url, Integer weight, Boolean enabled)
+			throws PlatformException;
+
+	/**
+	 * Retrieves the tag from the database by the specified name.
+	 * 
+	 * @param name
+	 *            the name of the tag to look for
+	 * @return Tag
+	 */
+	Tag findTagByName(String name);
 }

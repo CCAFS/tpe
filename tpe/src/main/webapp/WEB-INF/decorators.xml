@@ -21,6 +21,7 @@
 		<pattern>/WEB-INF/pages/tpe/cultivars.*</pattern> 
 	</excludes>
 	<decorator name="layout" page="layout.jsp">
+		<pattern>/admin/*</pattern>
 		<pattern>/*</pattern>
 	</decorator>
 	<decorator name="plain" page="plain.jsp">

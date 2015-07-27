@@ -15,13 +15,12 @@ package org.cgiar.dapa.ccafs.tpe.action;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.entity.Post;
 import org.cgiar.dapa.ccafs.tpe.entity.Tag;
-import org.cgiar.dapa.ccafs.tpe.entity.TagLink;
-import org.cgiar.dapa.ccafs.tpe.exception.TPEException;
+import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -29,7 +28,6 @@ public class TagsAction extends BaseAction {
 
 	private static final long serialVersionUID = -3025365582429269300L;
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass());
 
 	/**
@@ -37,9 +35,9 @@ public class TagsAction extends BaseAction {
 	 */
 	private List<Tag> tags;
 	/**
-	 * The map of tags
+	 * The map of tags map<tagName,posts>
 	 */
-	private Map<String, Tag> tagMap;
+	// private Map<String, Tag> tagMap;
 	/**
 	 * The id of the tag used when editing the tag.
 	 */
@@ -63,14 +61,15 @@ public class TagsAction extends BaseAction {
 	/**
 	 * The list of tags
 	 */
-	private List<TagLink> links = new ArrayList<TagLink>();
+	private List<Post> links = new ArrayList<Post>();
 
 	public String execute() {
 
 		// Retrieve all the platform tags
 		// TODO Retrieve only the enabled tags
-		tags = tpeService.getAllTags();
+		tags = tpeService.getTags(true);
 
+		// log.info(tags.size());
 		return ActionSupport.SUCCESS;
 	}
 
@@ -83,16 +82,48 @@ public class TagsAction extends BaseAction {
 
 		// Create a new tag instance
 
-		if (name != null)
+		if (getName() != null && getUrl() != null)
 			try {
-				tpeService.addTag(new Tag(getName(), getUrl(), getWeight(),
-						getEnabled()));
-			} catch (TPEException e) {
+				tpeService.addTag(getName(), getUrl(), getWeight(),
+						getEnabled());
+			} catch (PlatformException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
+
+				log.error(e.getMessage());
+				return ActionSupport.INPUT;
 			}
-		else
-			return ActionSupport.INPUT;
+		// } catch (TPEException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// else
+		// return ActionSupport.INPUT;
+
+		return ActionSupport.SUCCESS;
+	}
+
+	public String edit() {
+
+		// Create a new tag instance
+
+		// if (getId() != null)
+		// try {
+
+		// tpeService.updateTag(getId(), getName(), getUrl(), getWeight(),
+		// getEnabled());
+		// } catch (PlatformException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+
+		// log.error(e.getMessage());
+		// }
+		// } catch (TPEException e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// else
+		// return ActionSupport.INPUT;
 
 		return ActionSupport.SUCCESS;
 	}
@@ -103,14 +134,6 @@ public class TagsAction extends BaseAction {
 
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
-	}
-
-	public Map<String, Tag> getTagMap() {
-		return tagMap;
-	}
-
-	public void setTagMap(Map<String, Tag> tagMap) {
-		this.tagMap = tagMap;
 	}
 
 	public Integer getId() {
@@ -153,11 +176,11 @@ public class TagsAction extends BaseAction {
 		this.enabled = enabled;
 	}
 
-	public List<TagLink> getLinks() {
+	public List<Post> getLinks() {
 		return links;
 	}
 
-	public void setLinks(List<TagLink> links) {
+	public void setLinks(List<Post> links) {
 		this.links = links;
 	}
 

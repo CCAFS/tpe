@@ -162,6 +162,20 @@ div#head_logo {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 }
+.nav-secondary{
+	text-align: right; 
+	font-size: 14px;
+	color: #656360;
+}
+.nav-secondary a{ 
+	color: #656360;
+}
+.nav-secondary a:HOVER{ 
+	color: #000000;
+}
+.nav-secondary a:ACTIVE,.nav-secondary a:LINK,.nav-secondary a:VISITED{
+	text-decoration: none;
+}
 
 /*================================ CONTENT ==============================*/
 .main_content {
@@ -1010,7 +1024,7 @@ div#documentation, div#contribute, div#workshops {
 }
 
 .doc-min h4 a {
-	font-size: 1.4em;
+	font-size: 1.3em;
 	line-height: 1.4em;
 	color: #444444;
 	font-weight: lighter;
@@ -1044,7 +1058,7 @@ div#documentation, div#contribute, div#workshops {
 
 .pane_right_sec h4, .flickr-stream h4, .platform-news h4, .post-tags h4
 	{
-	font-size: 1.4em;
+	font-size: 1.3em;
 	line-height: 1.4em;
 	color: #444444;
 	font-weight: lighter;
@@ -1069,8 +1083,8 @@ div#documentation, div#contribute, div#workshops {
 	{
 	color: #444444;
 	font-weight: bold;
-	font-size: 1.5em;
-	line-height: 1.5em;
+	font-size: 1.3em;
+	line-height: 1.4em;
 }
 
 .tpe_sec h4 a:HOVER, .navigation h4 a:HOVER {
@@ -1110,8 +1124,8 @@ div#documentation, div#contribute, div#workshops {
 .navigation, .navigation h4, .navigation a {
 	color: #444444;
 	font-weight: bold;
-	font-size: 1.4em;
-	line-height: 1.5em;
+	font-size: 1.3em;
+	line-height: 1.4em;
 	text-decoration: none;
 }
 

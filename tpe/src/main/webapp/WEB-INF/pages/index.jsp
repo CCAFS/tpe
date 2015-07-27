@@ -1,13 +1,13 @@
 <%@ include file="/common/taglibs.jsp"%>
-<!DOCTYPE html>
-<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>TPE Platform</title>
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/script/slider.js"></script> 
+<script src="https://code.google.com/apis/gears/gears_init.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
 		$('#panel-top').on("click", function() {

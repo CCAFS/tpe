@@ -145,36 +145,50 @@
 			<result name="success">/WEB-INF/pages/tpe/doc-tutorials.jsp</result>
 		</action>
 
-		<action name="addTag" class="tagsAction" method="add">
+		<action name="login" class="loginAction">
+			<result name="success">/WEB-INF/pages/admin/login.jsp</result>
+			<result name="error">/WEB-INF/pages/admin/login.jsp</result>
+			<result name="input">/WEB-INF/pages/admin/login.jsp</result>
 		</action>
-		<action name="login">
-			<result>/WEB-INF/pages/admin/login.jsp</result>
+		<action name="accessdenied" class="loginAction" method="denied">
+			<result name="denied">/WEB-INF/pages/admin/accessdenied.jsp</result>
 		</action>
+		<action name="logout">
+			<result name="success" type="redirect">/j_spring_security_logout</result>
+		</action>
+		<action name="tags" class="tagsAction" method="execute">
+			<result name="success">/WEB-INF/pages/tags.jsp</result>
+		</action>
+
 	</package>
-	
-		<!-- Configuration for the security actions -->
-<!-- 	<package name="tpe-login" extends="default">
-		<action name="login">
-			<result>/WEB-INF/pages/admin/login.jsp</result>
-		</action>
-		<action name="accessdenied">
-			<result>/WEB-INF/pages/admin/accessdenied.jsp</result>
-		</action>
-	</package> -->
+
+	<!-- Configuration for the security actions -->
+	<!-- <package name="tpe-login" extends="default"> <action name="login"> 
+		<result>/WEB-INF/pages/admin/login.jsp</result> </action> <action name="accessdenied"> 
+		<result>/WEB-INF/pages/admin/accessdenied.jsp</result> </action> </package> -->
 
 	<package name="tpe-admin" extends="default" namespace="/admin">
-		<action name="tags" class="tag" method="execute">
-			<result name="success">/WEB-INF/pages/admin/tags.jsp</result> 
+
+		<action name="tag/list" class="tagsAction" method="execute">
+			<result name="success">/WEB-INF/pages/admin/tag-list.jsp</result>
 		</action>
-		<action name="tag/add" class="tag" method="add">
+
+		<action name="tag/add" class="tagsAction" method="add">
 			<result name="success">/WEB-INF/pages/admin/add-tag.jsp</result>
 			<result name="error">/WEB-INF/pages/admin/add-tag.jsp</result>
 			<result name="input">/WEB-INF/pages/admin/add-tag.jsp</result>
 		</action>
+		
+		<action name="tag/edit" class="tagsAction" method="edit">
+			<result name="success">/WEB-INF/pages/admin/edit-tag.jsp</result>
+			<result name="error">/WEB-INF/pages/admin/edit-tag.jsp</result>
+			<result name="input">/WEB-INF/pages/admin/edit-tag.jsp</result>
+		</action>
 
 	</package>
-	 
-	<package name="tpe-json" extends="struts-default,json-default" namespace="/json">
+
+	<package name="tpe-json" extends="struts-default,json-default"
+		namespace="/json">
 		<result-types>
 			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
 		</result-types>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http pattern="/script/**" security="none" />
+	<http pattern="/css/**" security="none" />
+	<http pattern="/img/**" security="none" />
+
+	<http auto-config="true" use-expressions="true">
+		<!-- <intercept-url pattern="/login.jspx" access="isAnonymous()" /> -->
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<logout logout-success-url="/" logout-url="/j_spring_security_logout" />
+		<!-- <intercept-url pattern="/*" access="permitAll" /> -->
+		<!-- <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" 
+			/> -->
+		<csrf disabled="true" />
+		<!-- access denied page -->
+		<access-denied-handler error-page="/accessdenied.jspx?error=1" />
+
+		<form-login login-page="/login.jspx" default-target-url="/admin/tag/list.jspx"
+			authentication-failure-url="/login.jspx?error=1" username-parameter="username"
+			password-parameter="password" />
+
+
+	</http>
+
+
+	<authentication-manager>
+		<!-- <authentication-provider> <user-service> <user name="user" password="tpe" 
+			authorities="ROLE_USER" /> <user name="admin" password="tpe" authorities="ROLE_USER,ROLE_ADMIN" 
+			/> </user-service> </authentication-provider> -->
+
+		<authentication-provider user-service-ref="userService">
+			<!-- <password-encoder hash="sha" /> -->
+		</authentication-provider>
+	</authentication-manager>
+
+
+
+	<global-method-security pre-post-annotations="enabled" />
+
+
+</b:beans>

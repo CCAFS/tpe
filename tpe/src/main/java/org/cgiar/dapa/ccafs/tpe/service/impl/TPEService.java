@@ -38,7 +38,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.Tag;
-import org.cgiar.dapa.ccafs.tpe.exception.TPEException;
+import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 import org.springframework.transaction.annotation.Transactional;
@@ -249,9 +249,10 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
-			Integer countryId,Boolean continent) {
+			Integer countryId, Boolean continent) {
 
-		return soilPropertyDao.getSoilFeaturesByCountry(propertyId, countryId, continent);
+		return soilPropertyDao.getSoilFeaturesByCountry(propertyId, countryId,
+				continent);
 	}
 
 	@Override
@@ -317,7 +318,8 @@ public class TPEService implements ITPEService {
 	public Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
 			Integer countryId, Boolean continent) {
 
-		return soilPropertyDao.getSoilGeoJson(propertyIds, countryId,continent);
+		return soilPropertyDao
+				.getSoilGeoJson(propertyIds, countryId, continent);
 	}
 
 	@Override
@@ -374,7 +376,7 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public void addTag(Tag tag) throws TPEException {
+	public void addTag(Tag tag) throws PlatformException {
 		tagDao.addOrMerge(tag);
 
 	}
@@ -406,7 +408,26 @@ public class TPEService implements ITPEService {
 	@Override
 	public List<PhenologyGrowth> getTestSeries(Integer countryId,
 			Integer cultivarId) {
-		
+
 		return phenologyGrowthDao.getTestSeries(countryId, cultivarId);
+	}
+
+	@Override
+	public List<Tag> getTags(boolean enabled) {
+
+		return tagDao.getTags(enabled);
+	}
+
+	@Override
+	public void addTag(String name, String url, Integer weight,
+			Boolean enabled) throws PlatformException {
+		tagDao.addTag(name, url, weight, enabled);
+
+	}
+
+	@Override
+	public Tag findTagByName(String name) {
+
+		return tagDao.findTagByName(name);
 	}
 }
