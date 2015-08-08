@@ -1,35 +1,53 @@
 <%@ include file="/common/taglibs.jsp"%>
 <!DOCTYPE html>
-<%@ taglib prefix="s" uri="/struts-tags"%>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/script/flickr-tpe.js"></script>
-<script type="text/javascript" src="${ctx}/script/tpe-tags.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <title>TPE Documentation</title>
 <script type="text/javascript">
-	
+	$(document).ready(function() {
+
+		$(".doc-index a, a.doc-index").click(function() {
+			$('.pane_left').load("docs/docs.action");
+			return false
+		});
+		$(".project a,a.project").click(function() {
+			$('.pane_left').load("docs/project.action");
+			return false
+		});
+		$(".scientific a, a.scientific").click(function() {
+			$('.pane_left').load("docs/scientific.action");
+			return false
+		});
+		$(".brazilian a").click(function() {
+			$('.pane_left').load("docs/brazilian.action");
+			return false
+		});
+		$(".colombian a").click(function() {
+			$('.pane_left').load("docs/colombian.action");
+			return false
+		});
+	});
 </script>
 </head>
-
 <body>
 	<div id="documentation">
 		<h4 class="navigation">
-			<a href="#">Documentation</a>
+			<a class="doc-index" href="#">Documentation</a><a class="project" href="#">Project</a><a
+				class="scientific" href="#">Scientific</a><a class="case-studies"
+				href="#">Case Studies</a>
 		</h4>
 		<div>
 			<div class="pane_left">
 				<!--Documentation Area-->
-				<div class="doc-list">
+				<div class="doc-list project">
 					<div class="img">
-						<a href="project.jspx"><img src="img/tpe_map.jpg" alt="image" />
-						</a>
+						<a><img src="img/tpe_map.jpg" alt="image" /> </a>
 					</div>
-					<div class="doc-min">
+					<div class="doc-min project">
 						<h4>
-							<a href="project.jspx">Project</a>
+							<a>Project</a>
 						</h4>
 						<p>The Target Population Environment Platform is part of the
 							2years collaborative project between EMBRAPA and CIAT
@@ -45,48 +63,45 @@
 							for important crops, to understand their behavior under different
 							environmental conditions and to contribute to decision making in
 							breeding programs. The project will deliver the second objective
-							of Theme 1 on Adaptation to Progressive Change, “Develop
-							breeding strategies for addressing abiotic and biotic stresses
-							under future climate change, including changes in the mean and
-							variability of climate,” . The overall goal of TPE Platform is
-							to show the results of the identification and characterization of
+							of Theme 1 on Adaptation to Progressive Change, Develop breeding
+							strategies for addressing abiotic and biotic stresses under
+							future climate change, including changes in the mean and
+							variability of climate. The overall goal of TPE Platform is to
+							show the results of the identification and characterization of
 							TPE zones for rice and bean production areas in Colombia and
 							Brazil and provides a module for replicating the same kind of
 							analysis in other geographical areas.</p>
 					</div>
 				</div>
-				<div class="doc-list">
+				<div class="doc-list scientific">
 					<div class="img">
-						<a href="scientific.jspx"><img src="img/tpe_map.jpg"
-							alt="image" /> </a>
+						<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
 					</div>
-					<div class="doc-min">
+					<div class="doc-min scientific">
 						<h4>
-							<a href="scientific.jspx">Scientific Documentation</a>
+							<a href="#">Scientific Documentation</a>
 						</h4>
 						<p>This is about TPE Platform</p>
 					</div>
 				</div>
-				<div class="doc-list">
+				<div class="doc-list brazilian">
 					<div class="img">
-						<a href="brazilian.jspx"><img src="img/tpe_map.jpg"
-							alt="image" /> </a>
+						<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
 					</div>
-					<div class="doc-min">
+					<div class="doc-min brazilian">
 						<h4>
-							<a href="brazilian.jspx">Brazilian Case Study</a>
+							<a href="#">Brazilian Case Study</a>
 						</h4>
 						<p>Brazilian Case Study</p>
 					</div>
 				</div>
-				<div class="doc-list">
+				<div class="doc-list colombian">
 					<div class="img">
-							<a href="colombian.jspx"><img src="img/tpe_map.jpg"
-								alt="image" /> </a>
+						<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
 					</div>
-					<div class="doc-min">
+					<div class="doc-min colombian">
 						<h4>
-							<a href="colombian.jspx">Colombian Case Study</a>
+							<a href="#">Colombian Case Study</a>
 						</h4>
 						<p>Colombian Case Study</p>
 					</div>

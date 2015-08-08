@@ -15,6 +15,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 
 import java.util.List;
 
+import org.cgiar.dapa.ccafs.tpe.entity.Post;
 import org.cgiar.dapa.ccafs.tpe.entity.Tag;
 import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 
@@ -62,4 +63,13 @@ public interface ITagDao extends IGenericDao<Tag, Integer> {
 	 * @return Tag
 	 */
 	Tag findTagByName(String name);
+
+	/**
+	 * Retrieves all the posts or links associated with the specified tag name.
+	 * 
+	 * @param tag
+	 *            the name of the tag
+	 * @return tag posts
+	 */
+	List<Post> getTagPosts(String tag);
 }

@@ -51,8 +51,8 @@ public class TagDao extends GenericDao<Tag, Integer> implements ITagDao {
 	}
 
 	@Override
-	public void addTag(String name, String url, Integer weight,
-			Boolean enabled) throws PlatformException {
+	public void addTag(String name, String url, Integer weight, Boolean enabled)
+			throws PlatformException {
 		Tag tag;
 		try {
 			// First make sure if the tag with the specified name does not
@@ -82,5 +82,16 @@ public class TagDao extends GenericDao<Tag, Integer> implements ITagDao {
 		query.setParameter("name", name);
 
 		return (Tag) query.getSingleResult();
+	}
+
+	@Override
+	public List<Post> getTagPosts(String tag) {
+
+		StringBuffer q = new StringBuffer("from " + Post.class.getName())
+				.append(" r where r.tag.name =:tag");
+		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("tag", tag);
+
+		return query.getResultList();
 	}
 }

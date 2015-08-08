@@ -13,27 +13,48 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao.impl;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.dao.IUserDao;
 import org.cgiar.dapa.ccafs.tpe.entity.User;
-import org.cgiar.dapa.ccafs.tpe.exception.UserException;
 
 public class UserDao extends GenericDao<User, Integer> implements IUserDao {
+
+	private Log log = LogFactory.getLog(this.getClass());
 
 	public UserDao() {
 		super(User.class);
 	}
 
 	@Override
-	public User findUserByUsername(String username) throws UserException {
+	public User findUserByUsername(String username) {
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
 				.append(" r where r.username =:username").append(
 						" or r.email =:username");
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("username", username);
 
-		return (User) query.getSingleResult();
+		try {
+			Object result = query.getSingleResult();
+			if (result == null)
+				return null;
+			return (User) result;
+		} catch (NoResultException e) {
+			// e.printStackTrace();
+			log.error(e.getMessage());
+			return null;
+		}
+
+		// return null;
+	}
+
+	@Override
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

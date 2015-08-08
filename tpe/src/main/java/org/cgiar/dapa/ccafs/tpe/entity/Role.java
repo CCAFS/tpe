@@ -13,10 +13,13 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,18 +27,30 @@ import javax.persistence.Table;
 public class Role extends BaseEntity {
 
 	private static final long serialVersionUID = 765566153483807905L;
-	private User user;
+	// private User user;
 	private String name;
+	private List<User> users;
 
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	public User getUser() {
-		return user;
+	public Role() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public Role(String name) {
+		super();
+		// this.user = user;
+		this.name = name;
 	}
+
+	// @ManyToOne(targetEntity = User.class)
+	// @JoinColumn(name = "user_id", referencedColumnName = "id")
+	// public User getUser() {
+	// return user;
+	// }
+
+	// public void setUser(User user) {
+	// this.user = user;
+	// }
 
 	@Column(name = "name")
 	public String getName() {
@@ -44,6 +59,17 @@ public class Role extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "roles")
+	// @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name =
+	// "role_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }

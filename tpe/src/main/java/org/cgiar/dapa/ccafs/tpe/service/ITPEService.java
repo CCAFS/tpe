@@ -16,6 +16,8 @@ package org.cgiar.dapa.ccafs.tpe.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.PersistenceException;
+
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
@@ -23,11 +25,14 @@ import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
+import org.cgiar.dapa.ccafs.tpe.entity.Post;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.Tag;
+import org.cgiar.dapa.ccafs.tpe.entity.User;
 import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
+import org.cgiar.dapa.ccafs.tpe.exception.UserNotFoundException;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -566,5 +571,46 @@ public interface ITPEService {
 	 * @throws PlatformException
 	 */
 	void addTag(Tag tag) throws PlatformException;
+
+	/**
+	 * Retrieves all the posts or links associated with the specified tag name.
+	 * 
+	 * @param tag
+	 *            the name of the tag
+	 * @return tag posts
+	 */
+	List<Post> getTagPosts(String tag);
+
+	/**
+	 * Adds a new user to the database.
+	 * 
+	 * @param user
+	 *            the new user to add.
+	 */
+	void addUser(User user) throws PersistenceException;
+
+	/**
+	 * Retrieves all the users from the database.
+	 * 
+	 * @return users
+	 */
+	List<User> getUsers();
+
+	/**
+	 * Retrieves the platform user by the specified username from the database
+	 * 
+	 * @param username
+	 *            the username used to lookup the user from the database
+	 * @return user
+	 */
+	User findUserByUsername(String username) throws UserNotFoundException;
+
+	/**
+	 * Updates the specified user with the new changes.
+	 * 
+	 * @param user
+	 *            the user with the changes to update
+	 */
+	void updateUser(User user) throws PersistenceException;
 
 }

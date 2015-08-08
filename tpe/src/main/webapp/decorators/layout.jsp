@@ -15,26 +15,22 @@
 	<decorator:getProperty property="body.class" writeEntireProperty="true"/>>
 
 	<div style="" class="noprint">
-	 
-					<jsp:include page="/common/menu.jsp" /> 
-		 
+		<jsp:include page="/common/menu.jsp" />
 	</div>
-
 	<!--Main Content Area-->
 	<div class="main_content">
 		<div class="content">
-		<decorator:body />
-			</div>
+			<decorator:body />
+		</div>
 		<div class="clear_footer"></div>
 	</div>
-	
+
 	<jsp:include page="/common/footer.jsp" />
 
 	<%-- <jsp:include page="/common/footer.jsp" /> --%>
 	<script type="text/javascript"
 		src="<s:url value="/script/gears/gears_init.js" />"></script>
-	<%-- <s:action name="google/analytics" namespace="/" executeResult="true"
-		ignoreContextParams="true" /> --%>
-
+	<s:action name="google/analytics" namespace="/" executeResult="true"
+		ignoreContextParams="true" />
 </body>
 </html>

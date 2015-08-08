@@ -1,11 +1,8 @@
 <%@ include file="/common/taglibs.jsp"%>
-<!DOCTYPE html>
-<%@ taglib prefix="s" uri="/struts-tags"%>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/script/flickr-tpe.js"></script>
 <script type="text/javascript" src="${ctx}/script/tpe-tags.js"></script>
 <title>TPE Documentation</title>
@@ -46,4 +43,3 @@
 		</div>
 	</div>
 </body>
-</html>

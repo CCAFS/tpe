@@ -1,10 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <title>Contribute</title>
-
-
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script
@@ -83,20 +80,26 @@
 					<p>Please fill out the following form and then click Send.</p>
 					<table id="join_table">
 						<tr>
-							<td><s:label key="contact.name" cssClass="join-text-label" /></td>
+							<td>
+								<%-- <s:label key="contact.name" cssClass="join-text-label" /> --%>
+							</td>
 						<tr>
 							<td><input id="name" name="name" class="join-text"
 								type="text" placeholder="Your Name"></input></td>
 						<tr>
-							<td><s:label key="contact.organization"
-									cssClass="join-text-label" /></td>
+							<td>
+								<%-- <s:label key="contact.organization" 
+									cssClass="join-text-label" /> --%>
+							</td>
 						</tr>
 						<tr>
 							<td><input id="organization" name="organization"
 								class="join-text" type="text" placeholder="Organization Name"></input></td>
 						</tr>
 						<tr>
-							<td><s:label key="contact.email" cssClass="join-text-label" /></td>
+							<td>
+								<%-- <s:label key="contact.email" cssClass="join-text-label" /> --%>
+							</td>
 						</tr>
 						<tr>
 							<td><input id="email" name="email" class="join-text"
@@ -104,7 +107,9 @@
 						</tr>
 
 						<tr>
-							<td><s:label key="join.message" cssClass="join-text-label" /></td>
+							<td>
+								<%-- <s:label key="join.message" cssClass="join-text-label" /> --%>
+							</td>
 						</tr>
 						<tr>
 							<td><textarea name="details" rows="8" class="join-text-area"

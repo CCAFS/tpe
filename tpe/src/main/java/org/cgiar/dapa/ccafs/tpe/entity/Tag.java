@@ -144,7 +144,7 @@ public class Tag extends BaseEntity {
 		this.createdOn = createdOn;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tag", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tag", cascade = CascadeType.ALL)
 	public List<Post> getPosts() {
 		return posts;
 	}

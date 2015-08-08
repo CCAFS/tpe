@@ -1082,12 +1082,9 @@ div#documentation, div#contribute, div#workshops {
 .navigation h4 a:LINK, .navigation h4 a:VISITED, .navigation h4 a:ACTIVE
 	{
 	color: #444444;
-	font-weight: bold;
-	font-size: 1.3em;
-	line-height: 1.4em;
 }
 
-.tpe_sec h4 a:HOVER, .navigation h4 a:HOVER {
+.tpe_sec h4 a:HOVER,{
 	font-weight: bold;
 	text-decoration: underline;
 }
@@ -1122,15 +1119,23 @@ div#documentation, div#contribute, div#workshops {
 }
 
 .navigation, .navigation h4, .navigation a {
-	color: #444444;
-	font-weight: bold;
-	font-size: 1.3em;
+	color: #fff;
+	font-size: 1.1em;
 	line-height: 1.4em;
 	text-decoration: none;
 }
+h4.navigation {
+	background: #47939C;
+}
+
+.navigation a {
+	margin-right: 7px;
+	font-weight: lighter;
+}
 
 .navigation h4 a:HOVER, .navigation a:HOVER {
-	text-decoration: underline;
+	text-decoration: none;
+	color: #416A30;
 }
 
 .sec_details {
@@ -1369,7 +1374,7 @@ div#get-involved-info {
 }
 
 #join_form input[type=text], #contact_pane input[type=text], #join_form textarea,
-	#contact_pane textarea {
+	#contact_pane textarea,#user-main table input[type=text],#user-main table input[type=password],#user-main table input[type=select],#user-main table select {
 	width: 100%;
 	/* 	line-height: 1.6em;
 	font-size: 16px; */
@@ -1393,7 +1398,7 @@ div#get-involved-info {
 }
 
 #join_form input[type=text]:focus, #contact_pane input[type=text]:focus,
-	#join_form textarea:focus, #contact_pane textarea:focus {
+	#join_form textarea:focus, #contact_pane textarea:focus,#user-main table input[type=text]:focus {
 	outline: 0;
 	outline: thin dotted \9;
 	border-color: #129FEA;
@@ -1496,7 +1501,21 @@ table#join_table {
 	text-decoration: none;
 	border: 0;
 }
-
+.post h1,.post h1 a:HOVER{
+	color: #47939C;
+	text-decoration: underline;
+}
+div#posts .post h1{
+	font-size: 1.2em;
+	line-height: 1.4em;
+	font-weight: normal;
+}
+.post h1 a{
+	font-size: 1.2em;
+	line-height:1.4em;
+	font-style: normal;
+	font-weight: normal;
+}
 .button-send, .button-add {
 	background: rgb(28, 184, 65); /* this is a green */
 	color: white;
@@ -1785,8 +1804,30 @@ table.inputform input[type='submit'],table.inputform input[type='button'],table.
 }
 
 
+/**====================== User Page =================**/
+div#user-main{
+	position: relative;
+	margin: auto;
+	width: 800px;
+	height: auto;
+	margin-top: 20px;
+}
+#user-main #users{
+	margin: auto;
+	width: 100%;
+}
 
-
+#user-main #user{
+	margin: auto;
+	width: 50%;
+}
+#user-main table{
+	border-collapse:separate; 
+}
+#user-main #user-add{
+	margin: auto;
+	width: 50%;
+}
 
 
 

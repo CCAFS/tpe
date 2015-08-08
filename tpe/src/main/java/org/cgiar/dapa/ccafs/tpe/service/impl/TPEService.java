@@ -16,6 +16,11 @@ package org.cgiar.dapa.ccafs.tpe.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.PersistenceException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
@@ -29,16 +34,20 @@ import org.cgiar.dapa.ccafs.tpe.dao.ISoilDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IStationDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ITagDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IUserDao;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
 import org.cgiar.dapa.ccafs.tpe.entity.Crop;
 import org.cgiar.dapa.ccafs.tpe.entity.Cultivar;
 import org.cgiar.dapa.ccafs.tpe.entity.PhenologyGrowth;
+import org.cgiar.dapa.ccafs.tpe.entity.Post;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.entity.Tag;
+import org.cgiar.dapa.ccafs.tpe.entity.User;
 import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
+import org.cgiar.dapa.ccafs.tpe.exception.UserNotFoundException;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +69,12 @@ public class TPEService implements ITPEService {
 	private ISoilPropertyDao soilPropertyDao;
 	private IPhenologyGrowthDao phenologyGrowthDao;
 	private ITagDao tagDao;
+	private IUserDao userDao;
+	private Log LOG = LogFactory.getLog(this.getClass());
+
+	public void setUserDao(IUserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	public void setTagDao(ITagDao tagDao) {
 		this.tagDao = tagDao;
@@ -419,8 +434,8 @@ public class TPEService implements ITPEService {
 	}
 
 	@Override
-	public void addTag(String name, String url, Integer weight,
-			Boolean enabled) throws PlatformException {
+	public void addTag(String name, String url, Integer weight, Boolean enabled)
+			throws PlatformException {
 		tagDao.addTag(name, url, weight, enabled);
 
 	}
@@ -429,5 +444,42 @@ public class TPEService implements ITPEService {
 	public Tag findTagByName(String name) {
 
 		return tagDao.findTagByName(name);
+	}
+
+	@Override
+	public List<Post> getTagPosts(String tag) {
+
+		return tagDao.getTagPosts(tag);
+	}
+
+	@Override
+	public List<User> getUsers() {
+
+		return userDao.getAll();
+	}
+
+	@Override
+	public void addUser(User user) throws PersistenceException {
+		if (userDao.findUserByUsername(user.getUsername()) != null) {
+			LOG.error("User with the specified username already exists in the system");
+			throw new EntityExistsException("User with the specified username("
+					+ user.getUsername() + ") already exists in the system.");
+		} else
+			userDao.addOrMerge(user);
+
+	}
+
+	@Override
+	public User findUserByUsername(String username)
+			throws UserNotFoundException {
+
+		return userDao.findUserByUsername(username);
+	}
+
+	@Override
+	public void updateUser(User user) throws PersistenceException {
+		
+//		userDao.updateUser(user);
+		userDao.addOrMerge(user);
 	}
 }

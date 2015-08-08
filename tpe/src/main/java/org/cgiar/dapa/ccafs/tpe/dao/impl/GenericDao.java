@@ -18,10 +18,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.dao.IGenericDao;
-import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 
 /**
  * Defines a Base Generic DAO that provides JPA implementation. This class keeps
@@ -38,6 +40,7 @@ public abstract class GenericDao<T, K extends Serializable> implements
 		IGenericDao<T, K> {
 	protected Class<T> entityClass;
 	protected EntityManager entityManager;
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	/**
 	 * Constructor that takes in a class to see which type of entity to persist
@@ -91,15 +94,15 @@ public abstract class GenericDao<T, K extends Serializable> implements
 
 	}
 
-	public T addOrMerge(T entity) throws PlatformException {
+	public T addOrMerge(T entity) throws PersistenceException {
 
 		try {
 			if (this.entityManager.contains(entity))
 				this.entityManager.merge(entity);
 			else
 				this.entityManager.persist(entity);
-		} catch (Exception e) {
-			throw new PlatformException("DB exception", e);
+		} catch (PersistenceException e) {
+			throw new PersistenceException("DB exception", e);
 		}
 
 		return entity;
@@ -141,9 +144,12 @@ public abstract class GenericDao<T, K extends Serializable> implements
 		return entity;
 	}
 
-	public T update(T entity) {
-		return this.entityManager.merge(entity);
-
+	public T update(T entity) throws PersistenceException {
+		try {
+			return this.entityManager.merge(entity);
+		} catch (PersistenceException e) {
+			LOG.error(e.getMessage());
+			throw new PersistenceException(e.getMessage());
+		}
 	}
-
 }

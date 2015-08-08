@@ -1,3 +1,13 @@
+<%@ include file="/common/taglibs.jsp"%>
+<head>
+<!-- <script	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+<script type="text/javascript" src="${ctx}/script/flickr-tpe.js"></script>
+<script type="text/javascript" src="${ctx}/script/tpe-tags.js"></script>
+<script type="text/javascript">
+	
+</script>
+</head>
+
 <!-- Section for platform Flickr photos -->
 <div class="flickr-stream">
 	<h4>Flickr Photo Stream</h4>
@@ -6,10 +16,15 @@
 <div class="post-tags">
 	<h4>Post Tags</h4>
 	<!-- Platform Tags -->
-	<div id="tags"></div>
-	<div id="tags-add">
-		<!-- <button class="button-add" id="send">Add Tag</button> -->
+	<div id="tags">
+	
 	</div>
+	<security:authorize access="hasRole('ROLE_ADMIN')">
+		<div id="tags-add">
+			<button class="button-add" id="send">Add Tag</button>
+			<button class="button-list" id="list">View Tags</button>
+		</div>
+	</security:authorize>
 </div>
 <!-- Section for platform news -->
 <div class="platform-news">

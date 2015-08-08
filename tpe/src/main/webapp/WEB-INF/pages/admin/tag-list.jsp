@@ -19,12 +19,9 @@
 				<h1>
 					<a href="<s:property value='url' />"><s:property value="name" /></a>
 				</h1>
-				<ul>
-					<s:iterator value="posts">
-						<li><s:property value="title" />
-							<s:property value="url" /></li>
-					</s:iterator>
-				</ul>
+				<p>
+					<s:property value="weight" />
+				</p>
 			</div>
 		</s:iterator>
 	</div>

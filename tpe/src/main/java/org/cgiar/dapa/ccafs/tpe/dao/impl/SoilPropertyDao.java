@@ -213,7 +213,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 					.append(" r where r.region.parent.parent.parent.parent.id =:region");
 		else
 			q = new StringBuffer("from " + entityClass.getName())
-					.append(" r where r.region.parent.id =:region");
+					.append(" r where r.region.parent.id =:region").append(" or r.station.region.region.parent.id=:region");
 
 		q.append(" and r.continent =:continent");
 		// q = new StringBuffer("from " + entityClass.getName()).append(

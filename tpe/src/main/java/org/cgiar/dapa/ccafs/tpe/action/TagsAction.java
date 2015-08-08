@@ -61,7 +61,9 @@ public class TagsAction extends BaseAction {
 	/**
 	 * The list of tags
 	 */
-	private List<Post> links = new ArrayList<Post>();
+	private List<Post> posts = new ArrayList<Post>();
+
+	private String tag;
 
 	public String execute() {
 
@@ -70,6 +72,24 @@ public class TagsAction extends BaseAction {
 		tags = tpeService.getTags(true);
 
 		// log.info(tags.size());
+		return ActionSupport.SUCCESS;
+	}
+
+	/**
+	 * Retrieves all the posts associated with the specific tag name.
+	 * 
+	 * @return
+	 */
+	public String posts() {
+
+		// tags = tpeService.getTags(true);
+		if (tag != null)
+			posts = tpeService.getTagPosts(tag);
+		else
+			return ActionSupport.ERROR;
+
+//		log.info(tag);
+
 		return ActionSupport.SUCCESS;
 	}
 
@@ -176,12 +196,20 @@ public class TagsAction extends BaseAction {
 		this.enabled = enabled;
 	}
 
-	public List<Post> getLinks() {
-		return links;
+	public String getTag() {
+		return tag;
 	}
 
-	public void setLinks(List<Post> links) {
-		this.links = links;
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 }

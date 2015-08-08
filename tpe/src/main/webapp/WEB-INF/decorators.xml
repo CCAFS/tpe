@@ -14,11 +14,17 @@
 		<!-- <pattern>/subregions.*</pattern> -->
 		<pattern>/cultivars.*</pattern>
 		<!-- <pattern>/years.*</pattern> -->
-		<pattern>/map/options.*</pattern> 
-		<pattern>/WEB-INF/pages/tpe/climate-params.*</pattern> 
-		<pattern>/WEB-INF/pages/tpe/soil-params.*</pattern> 
-		<pattern>/WEB-INF/pages/tpe/tpe-params.*</pattern> 
-		<pattern>/WEB-INF/pages/tpe/cultivars.*</pattern> 
+		<pattern>/map/options.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/climate-params.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/soil-params.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/tpe-params.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/cultivars.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/doc-project.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/doc-scientific.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/brazilian.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/colombian.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/doc-index.*</pattern>
+		<pattern>/WEB-INF/pages/tpe/posts.*</pattern>
 	</excludes>
 	<decorator name="layout" page="layout.jsp">
 		<pattern>/admin/*</pattern>

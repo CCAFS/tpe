@@ -164,6 +164,7 @@
 		<property name="phenologyGrowthDao" ref="phenologyGrowthDao" />
 		<property name="environmentSoilDao" ref="environmentSoilDao" />
 		<property name="tagDao" ref="tagDao" />
+		<property name="userDao" ref="userDao" />
 	</bean>
 
 	<bean id="userService"
@@ -228,7 +229,18 @@
 	</bean>
 	<bean id="loginAction" class="org.cgiar.dapa.ccafs.tpe.action.LoginAction"
 		scope="request">
-
+		<!-- <property name="tpeService" ref="tpeService" /> -->
+	</bean>
+	<bean id="userAction" class="org.cgiar.dapa.ccafs.tpe.action.UserAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="adminAction" class="org.cgiar.dapa.ccafs.tpe.action.AdminAction"
+		scope="request">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="googleAnalyticsAction" class="org.cgiar.dapa.ccafs.tpe.action.GoogleAnalyticsAction">
+		<property name="siteId" value="${google.analytics.id}" />
 	</bean>
 
 

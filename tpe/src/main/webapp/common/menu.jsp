@@ -28,7 +28,8 @@
 						<%-- <input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" /> --%>
 						<h2 class="nav-secondary">
-							${pageContext.request.userPrincipal.name} | <a
+							<a href="<s:url namespace="/admin" action="users" />">Manage Users</a>
+							| ${pageContext.request.userPrincipal.name} | <a
 								href="javascript:formSubmit()"> Logout</a> | <a
 								href="<s:url namespace="/" action="contactUs" />">Contact Us</a>
 						</h2>
@@ -64,8 +65,7 @@
 			<li><a href="<s:url namespace="/" action="toolIndex" />">Visualization</a></li>
 			<li><a href="<s:url namespace="/" action="documentation" />">Documentation</a></li>
 			<li><a href="<s:url namespace="/" action="resources" />">Resources</a></li>
-			<li><a href="<s:url namespace="/" action="contactUs" />">Contact
-					Us</a></li>
+			<%-- <li><a href="<s:url namespace="/" action="contactUs" />">Contact Us</a></li> --%>
 		</ul>
 	</div>
 	<!-- </div> -->

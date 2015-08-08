@@ -1,12 +1,8 @@
 <%@ include file="/common/taglibs.jsp"%>
-<!DOCTYPE html>
-<%@ taglib prefix="s" uri="/struts-tags"%>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <title>Contact Us</title>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -242,14 +238,14 @@
 						</div>
 						<table id="contact_table">
 							<tr>
-								<td><s:label key="contact.name"
-										cssClass="contact-text-label" /></td>
+								<td><%-- <s:label key="contact.name"
+										cssClass="contact-text-label" /> --%></td>
 							<tr>
 								<td><input id="name" name="name" class="contact-text"
 									type="text" placeholder="Your Name"></input></td>
 							<tr>
-								<td><s:label key="contact.organization"
-										cssClass="contact-text-label" /></td>
+								<td><%-- <s:label key="contact.organization"
+										cssClass="contact-text-label" /> --%></td>
 							</tr>
 							<tr>
 								<td><input id="organization" name="organization"
@@ -257,16 +253,16 @@
 									placeholder="Organization Name"></input></td>
 							</tr>
 							<tr>
-								<td><s:label key="contact.email"
-										cssClass="contact-text-label" /></td>
+								<td><%-- <s:label key="contact.email"
+										cssClass="contact-text-label" /> --%></td>
 							</tr>
 							<tr>
 								<td><input id="email" name="email" class="contact-text"
 									type="text" placeholder="Your email"></input></td>
 							</tr>
 							<tr>
-								<td><s:label key="contact.message"
-										cssClass="contact-text-label" /></td>
+								<td><%-- <s:label key="contact.message"
+										cssClass="contact-text-label" /> --%></td>
 							</tr>
 							<tr>
 								<td><textarea name="details" rows="10" id="details"

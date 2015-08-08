@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
+import org.cgiar.dapa.ccafs.tpe.entity.Role;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.json.simple.parser.JSONParser;
@@ -44,6 +46,8 @@ public class Utils implements Constants {
 	 * The size of the tile
 	 */
 	private static final Double TILE_SIZE_64 = 20.0;
+	private static final String ROLE_ADMIN = "ROLE_ADMIN";
+	private static final String ROLE_USER = "ROLE_USER";
 	private static Log log = LogFactory.getLog(Utils.class.getClass());
 
 	/**
@@ -401,5 +405,26 @@ public class Utils implements Constants {
 			path = "/opt/resources/" + region + "_" + map + ".json";
 		}
 		return readJSON(path);
+	}
+
+	/**
+	 * Creates the hard coded user roles
+	 * 
+	 * @return user roles
+	 */
+	public static List<String> getUserRoles() {
+		List<String> roles = new LinkedList<String>(Arrays.asList(ROLE_ADMIN,
+				ROLE_USER));
+
+		return roles;
+	}
+
+	public static List<Role> createRoles(List<String> roleNames) {
+		List<Role> roles = new ArrayList<Role>();
+
+		if (roleNames != null && !roleNames.isEmpty())
+			for (String role : roleNames)
+				roles.add(new Role(role));
+		return roles;
 	}
 }

@@ -4,13 +4,12 @@
 <html>
 <head>
 <title>Login</title>
-<script src="https://code.google.com/apis/gears/gears_init.js"
-	type="text/javascript"></script>
 </head>
 <body>
 	<div style="margin: auto; width: 450px; padding-top: 5%;">
+
 		<c:url value="/login.jspx" var="loginUrl" />
-		<form id="loginForm" action="${ctx}/login" method="post">
+		<s:form id="loginForm" action="%{ctx}/login" method="post">
 			<table class="inputform">
 				<%-- 	<c:if test="${not empty error}">
 					<span class="actionError"> Your login attempt was not
@@ -38,13 +37,12 @@
 				</colgroup>
 				<tbody>
 					<tr>
-						<td>Username:</td>
-						<td><s:textfield name="username" label="User" id="username" /></td>
+						<td><s:text name="user.username" />:</td>
+						<td><s:textfield name="username" id="username" /></td>
 					</tr>
 					<tr>
-						<td>Password:</td>
-						<td><s:password name="password" label="Password"
-								id="password" /></td>
+						<td><s:text name="user.password" />:</td>
+						<td><s:password name="password" id="password" /></td>
 					</tr>
 					<%--
 		<tr>
@@ -54,13 +52,13 @@
 --%>
 					<tr>
 						<td />
-						<td><button type="submit" class="btn">Log in</button></td>
+						<td><s:submit key="button.login" name="submit" class="btn" /></td>
 					</tr>
 				</tbody>
 			</table>
 			<%-- <input type="hidden" 
                      name="${_csrf.parameterName}" value="${_csrf.token}" />  --%>
-		</form>
+		</s:form>
 		<br />
 		<p>
 			Contact <a href="mailto:software@ccafs-tpe.org"

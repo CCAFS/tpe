@@ -16,7 +16,7 @@ package org.cgiar.dapa.ccafs.tpe.dao;
 import org.cgiar.dapa.ccafs.tpe.entity.User;
 import org.cgiar.dapa.ccafs.tpe.exception.UserException;
 
-public interface IUserDao extends IGenericDao<User, java.lang.Integer> {
+public interface IUserDao extends IGenericDao<User, Integer> {
 	/**
 	 * Retrieves the platform user by the specified username from the database
 	 * 
@@ -25,5 +25,13 @@ public interface IUserDao extends IGenericDao<User, java.lang.Integer> {
 	 * @return user
 	 */
 	User findUserByUsername(String username) throws UserException;
+
+	/**
+	 * Updates the specified user with the new changes
+	 * 
+	 * @param user
+	 *            the user with the changes to update
+	 */
+	void updateUser(User user);
 
 }

@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "user")
@@ -36,6 +40,29 @@ public class User extends BaseEntity {
 	private Date signupDate;
 	private List<Role> roles;
 	private String email;
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(String username) {
+		super();
+		this.username = username;
+	}
+
+	public User(String firstName, String lastName, String username,
+			String password, Boolean enabled, List<Role> roles, String email) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.signupDate = new Date();// Now
+		this.roles = roles;
+		this.email = email;
+	}
 
 	@Column(name = "first_name")
 	public String getFirstName() {
@@ -91,7 +118,8 @@ public class User extends BaseEntity {
 		this.signupDate = signupDate;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	public List<Role> getRoles() {
 		return roles;
 	}
@@ -108,4 +136,50 @@ public class User extends BaseEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		User other = (User) obj;
+//		if (username == null) {
+//			if (other.username != null)
+//				return false;
+//		} else if (!username.equals(other.username))
+//			return false;
+//		return true;
+//	}
+
+	@Transient
+	public String getName() {
+
+		return getFirstName() + " " + getLastName();
+	}
+
+	@Transient
+	public String getStatus() {
+
+		return getEnabled() == true ? "Yes" : "No";
+	}
+
+	@Transient
+	public List<String> getAuthorities() {
+		List<String> authorities = new ArrayList<String>();
+		if (getRoles() != null && !getRoles().isEmpty())
+			for (Role role : getRoles())
+				authorities.add(role.getName());
+		return authorities;
+	}
+
+	@Override
+	public String toString() {
+
+		return "Username: " + getUsername() + " Name: " + getName()
+				+ " Email: " + getEmail() + " Enabled: " + getEnabled();
+	}
+
 }
