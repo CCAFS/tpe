@@ -28,8 +28,8 @@
 						<%-- <input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" /> --%>
 						<h2 class="nav-secondary">
-							<a href="<s:url namespace="/admin" action="users" />">Manage Users</a>
-							| ${pageContext.request.userPrincipal.name} | <a
+							<a href="<s:url namespace="/admin" action="users" />">Manage
+								Users</a> | ${pageContext.request.userPrincipal.name} | <a
 								href="javascript:formSubmit()"> Logout</a> | <a
 								href="<s:url namespace="/" action="contactUs" />">Contact Us</a>
 						</h2>
@@ -50,10 +50,10 @@
 		</c:choose>
 
 		<div id="platform_title">
-			<h1 id=platform_name>
-				<a href="https://ccafs.cgiar.org/">Target Population of
-					Environments</a>
-			</h1>
+			<!-- <h1 id=platform_name> -->
+			<a href="https://ccafs.cgiar.org/"><img
+				src="img/platform-logo.png" height="106" width="550" /></a>
+			<!-- </h1> -->
 		</div>
 		<div id="ccafs_logo">
 			<a href="https://ccafs.cgiar.org/"></a>

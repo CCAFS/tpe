@@ -13,7 +13,10 @@ html, body {
 	-webkit-text-size-adjust: 100%;
 	min-width: 1016px;
 }
-
+* {
+	margin: 0;
+	padding: 0;
+}
 button, input, select, textarea {
 	font-size: 100%;
 	margin: 0;
@@ -65,11 +68,18 @@ div#center-head {
 
 #main_header #platform_title{
 	display: block;
-	width: 600px;
+	width: 550px;
 	height: 106px;
-	float: left;
+	float: right;
 	margin-top: 40px;
+	margin-left:50px
 	min-width: 600px;
+	/* background: url(../img/platform-logo.png) center no-repeat; */
+}
+#main_header #platform_title img{
+	display: block;
+   width: 100% !important;
+    height: auto !important;
 }
 #main_header #platform_title a{
 	text-decoration:  none;
@@ -89,7 +99,7 @@ div#center-head {
 	display: block;
 	width: 350px;
 	height: 106px;
-	float: right;
+	float: left;
 	margin-top: 40px;
 }
 #main_header #ccafs_logo a{
@@ -185,7 +195,7 @@ div#head_logo {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
-	margin: 0 auto -180px auto;
+	margin: 0 auto -280px auto;
 	color: #000;
 }
 
@@ -195,7 +205,7 @@ div#head_logo {
 }
 
 .clear_footer {
-	height: 180px;
+	height: 280px;
 	clear: both;
 }
 
@@ -331,7 +341,7 @@ div#tpe_section {
 	/* background: #e2e2e2; */
 	background: #fff;
 	overflow: hidden;
-	height: 180px;
+	height: 280px;
 	clear: both;
 	position: relative;
 	color: #656360;
@@ -341,7 +351,35 @@ div#tpe_section {
 	min-width: 1016px;
 	padding-bottom: 20px;
 }
-
+div#where-work-main{
+	height: 100px;
+	width: 100%;
+	margin: auto;
+	background: #47939c;
+}
+div#where-work{
+	height: 100px;
+	width: 1000px;
+	margin: auto;
+}
+#where-work table tr td .col-left, #where-work table tr td .col-right{
+	float: left;
+} 
+#where-work table tr td .col-right{
+	padding:2px;
+	padding-top: 20px;
+	padding-left: 20px;
+}
+#where-work table tr td .col-right a{
+	text-decoration: none;
+	color: #fff;
+	text-align: left;
+	font-weight: normal; 
+	font-size: 20px;
+}
+#where-work table tr td .col-right a:HOVER{
+color: red;
+}
 .footer_contents {
 	width: 1000px;
 	margin: auto;
@@ -1260,31 +1298,54 @@ div#get-involved-home,div#home_container{
 	position: relative;
 	padding: 20px;
 }
+#home_container{
+	background: #ffffff url(../img/home-background.png) center no-repeat;
+}
 
 div#get-involved-container,div#home_panel {
 	position: relative;
-	width: 500px; 
-	height: 500px;
+	width: 790px; 
+	height: 790px;
 	margin: auto;
 }
+#home_panel {
+	/*  background: gray; */
+	 background: url(../img/home-mid.png) center no-repeat;
+}
+#home_panel:HOVER {
+	/*  background: gray; */
+	 background: url(../img/home-mid-hover.png) center no-repeat;
+}
 div#get-involved-top,div#panel-top {
-	 left: 125px;
+	left:250px;
 }
 div#get-involved-left,div#panel-left {
-	 left: 0;top: 125px;
+	left: 0;
+	top: 80px;
 }
 div#get-involved-right,div#panel-right {
-	 right: 0;top: 125px;
+	right: 0;
+	top:255px;
 }
 div#get-involved-bottom,div#panel-bottom {
-	 bottom: 0;left: 125px;
+	bottom: 0;
+	left: 80px;
 }
 .get-involved-box,.panel-box {
 	 width: 250px; height: 250px; position: absolute;
 	 cursor: pointer;
 }
-#get-involved-top:HOVER,#get-involved-left:HOVER,#get-involved-right:HOVER,#get-involved-bottom:HOVER,
-#panel-top:HOVER,#panel-left:HOVER,#panel-right:HOVER,#panel-bottom:HOVER {
+.panel-box-small {
+	 width: 294px; height: 462px; 
+	position: absolute;
+	 cursor: pointer;
+}
+.panel-box-big {
+	 width: 462px; height: 294px; 
+	position: absolute;
+	 cursor: pointer;
+}
+#get-involved-top:HOVER,#get-involved-left:HOVER,#get-involved-right:HOVER,#get-involved-bottom:HOVER{
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
   box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */

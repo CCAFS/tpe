@@ -1,7 +1,73 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+
+		//Footer Items
+		$('.colombia').hover(function() {
+			$("img", this).attr("src", "img/work-colombia-hover.png");
+		}, function() {
+			$("img", this).attr("src", "img/work-colombia.png");
+		});
+
+		$('.brazil').hover(function() {
+			$("img", this).attr("src", "img/work-brazil-hover.png");
+		}, function() {
+			$("img", this).attr("src", "img/work-brazil.png");
+		});
+
+		$('.lamerica').hover(function() {
+			$("img", this).attr("src", "img/work-lamerica-hover.png");
+		}, function() {
+			$("img", this).attr("src", "img/work-lamerica.png");
+		});
+
+	});
+</script>
+
 
 <!--Footer section-->
 <div class="footer">
+	<div id="where-work-main">
+	<div style="float: left;"><h5 style="clear: right;width: 150px;color: #fff;">Where we work</h5></div>
+		<div id="where-work" style="clear: right;">
+			<table style="width: 100%;">
+				<colgroup>
+					<col width="33%" />
+					<col width="33%" />
+					<col />
+				</colgroup>
+				<tr>
+					<td><div class="col-left colombia">
+							<a href="#"><img src="img/work-colombia.png" alt="Colombia" />
+							</a>
+						</div>
+						<div class="col-right">
+							<a href="#">Colombia <br />Lowland Rice
+							</a>
+						</div></td>
+					<td>
+						<div class="col-left brazil">
+							<a href="#"><img src="img/work-brazil.png" alt="Brazil" /> </a>
+						</div>
+						<div class="col-right">
+							<a href="#">Brazil <br />Upland Rice
+							</a>
+						</div>
+					</td>
+					<td><div class="col-left lamerica">
+							<a href="#"><img src="img/work-lamerica.png"
+								alt="Latin-America" /> </a>
+						</div>
+						<div class="col-right">
+							<a href="#">Latin America <br />Rice
+							</a>
+						</div></td>
+				</tr>
+			</table>
+		</div>
+	</div>
 	<div class="footer_contents">
 		<table>
 			<tr>

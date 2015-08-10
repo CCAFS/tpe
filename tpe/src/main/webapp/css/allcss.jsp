@@ -3,4 +3,4 @@
 @import url('http://www.google.com/fonts#UsePlace:use/Collection:Open+Sans');
 <%@ include file="/css/styles.css" %>
 <%@ include file="/css/tpe.css" %>
-<%@ include file="/css/slider.css" %>
+<%@ include file="/css/overlay-dialog.css" %> 
