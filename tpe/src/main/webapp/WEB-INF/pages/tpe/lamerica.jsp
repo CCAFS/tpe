@@ -4,7 +4,7 @@
 <head>
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<title>Colombia Case Study</title>
+<title>Latin America</title>
 <script type="text/javascript">
 	
 </script>
@@ -13,18 +13,17 @@
 	<div id="documentation">
 		<h4 class="navigation">
 			<a class="doc-index" href="${ctx}/casestudy/index.jspx">Case
-				Studies</a><a class="colombian" href="#"> / Where we work / Colombia
-				Case Study</a>
+				Studies</a><a class="brazilian" href="#">Laitin America Case Study</a>
 		</h4>
 		<div>
 			<div class="pane_left">
 				<!--Documentation Area-->
-				<div class="doc-list colombian">
-					<div class="doc-min colombian">
+				<div class="doc-list brazilian">
+					<div class="doc-min brazilian">
 						<h4>
-							<a href="#">Colombian Case Study</a>
+							<a href="#">Latin America Case Study</a>
 						</h4>
-						<p>Colombian Case Study</p>
+						<p>Latin America Case Study</p>
 					</div>
 				</div>
 			</div>

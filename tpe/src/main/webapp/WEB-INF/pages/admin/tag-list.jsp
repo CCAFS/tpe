@@ -16,9 +16,9 @@
 	<div id="tags">
 		<s:iterator value="tags">
 			<div class="tg">
-				<h1>
+				<h5>
 					<a href="<s:property value='url' />"><s:property value="name" /></a>
-				</h1>
+				</h5>
 				<p>
 					<s:property value="weight" />
 				</p>

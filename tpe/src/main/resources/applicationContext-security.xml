@@ -21,7 +21,7 @@
 		<!-- access denied page -->
 		<access-denied-handler error-page="/accessdenied.jspx?error=1" />
 
-		<form-login login-page="/login.jspx" default-target-url="/admin/tag/list.jspx"
+		<form-login login-page="/login.jspx" default-target-url="/admin/users.jspx"
 			authentication-failure-url="/login.jspx?error=1" username-parameter="username"
 			password-parameter="password" />
 

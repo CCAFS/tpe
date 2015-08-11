@@ -20,7 +20,7 @@ errors {
 <body>
 	<div id="user-main">
 		<div id="user-add">
-			<h4 style="margin-bottom: 5px; color: #000000;">Edit New Admin</h4>
+			<h4 style="margin-bottom: 5px; color: #000000;">Edit Admin</h4>
 			<s:form action="updateUser.jspx" id="adminForm" name="adminForm"
 				method="post" validate="true">
 				<table>

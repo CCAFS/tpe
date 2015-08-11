@@ -117,12 +117,12 @@ $(document)
 								$("#home-panel-infos").hide();
 							});
 
-					$("#panel-left,#panel-bottom,#panel-top,#panel-right")
+				/*	$("#panel-left,#panel-bottom,#panel-top,#panel-right")
 							.hover(
 									function() {
 										$($(this)).find('img').attr('src',
 												'img/left-home.png');
-									});
+									});*/
 
 					$("#panel-left").hover(function() {
 						$("img", this).attr("src", "img/left-hover.png");

@@ -16,13 +16,12 @@
 	<div id="tags">
 		<s:iterator value="tags">
 			<div class="tg">
-				<h1>
+				<h4>
 					<a href="<s:property value='url' />"><s:property value="name" /></a>
-				</h1>
+				</h4>
 				<ul>
 					<s:iterator value="posts">
-						<li><s:property value="title" />
-							<s:property value="url" /></li>
+						<li><s:property value="title" /> <s:property value="url" /></li>
 					</s:iterator>
 				</ul>
 			</div>

@@ -52,7 +52,7 @@
 		<div id="platform_title">
 			<!-- <h1 id=platform_name> -->
 			<a href="https://ccafs.cgiar.org/"><img
-				src="img/platform-logo.png" height="106" width="550" /></a>
+				src="${ctx}/img/platform-logo.png" height="106" width="550" /></a>
 			<!-- </h1> -->
 		</div>
 		<div id="ccafs_logo">
@@ -65,7 +65,7 @@
 			<li><a href="<s:url namespace="/" action="toolIndex" />">Visualization</a></li>
 			<li><a href="<s:url namespace="/" action="documentation" />">Documentation</a></li>
 			<li><a href="<s:url namespace="/" action="resources" />">Resources</a></li>
-			<%-- <li><a href="<s:url namespace="/" action="contactUs" />">Contact Us</a></li> --%>
+		    <li><a href="<s:url namespace="/" action="contactUs" />">Contact Us</a></li> 
 		</ul>
 	</div>
 	<!-- </div> -->

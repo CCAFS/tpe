@@ -144,22 +144,31 @@
 
 	</package>
 
+	<package name="case-studies" extends="default" namespace="/casestudy">
+		<action name="index">
+			<result>/WEB-INF/pages/tpe/case-studies.jsp</result>
+		</action>
+		<action name="brazilian">
+			<result>/WEB-INF/pages/tpe/brazilian.jsp</result>
+		</action>
+		<action name="colombian">
+			<result>/WEB-INF/pages/tpe/colombian.jsp</result>
+		</action>
+		<action name="lamerica">
+			<result>/WEB-INF/pages/tpe/lamerica.jsp</result>
+		</action>
+	</package>
+
 	<package name="tpe-docs" extends="default" namespace="/docs">
-		<action name="project" class="indexAction" method="project">
-			<result name="success">/WEB-INF/pages/tpe/doc-project.jsp</result>
+		<action name="project">
+			<result>/WEB-INF/pages/tpe/doc-project.jsp</result>
 		</action>
 
-		<action name="scientific" class="indexAction" method="scientific">
-			<result name="success">/WEB-INF/pages/tpe/doc-scientific.jsp</result>
+		<action name="scientific">
+			<result>/WEB-INF/pages/tpe/doc-scientific.jsp</result>
 		</action>
-		<action name="brazilian" class="indexAction" method="scientific">
-			<result name="success">/WEB-INF/pages/tpe/brazilian.jsp</result>
-		</action>
-		<action name="colombian" class="indexAction" method="scientific">
-			<result name="success">/WEB-INF/pages/tpe/colombian.jsp</result>
-		</action>
-		<action name="docs" class="indexAction" method="scientific">
-			<result name="success">/WEB-INF/pages/tpe/doc-index.jsp</result>
+		<action name="docs">
+			<result>/WEB-INF/pages/tpe/doc-index.jsp</result>
 		</action>
 	</package>
 

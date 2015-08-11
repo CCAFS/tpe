@@ -21,8 +21,6 @@
 		<pattern>/WEB-INF/pages/tpe/cultivars.*</pattern>
 		<pattern>/WEB-INF/pages/tpe/doc-project.*</pattern>
 		<pattern>/WEB-INF/pages/tpe/doc-scientific.*</pattern>
-		<pattern>/WEB-INF/pages/tpe/brazilian.*</pattern>
-		<pattern>/WEB-INF/pages/tpe/colombian.*</pattern>
 		<pattern>/WEB-INF/pages/tpe/doc-index.*</pattern>
 		<pattern>/WEB-INF/pages/tpe/posts.*</pattern>
 	</excludes>
