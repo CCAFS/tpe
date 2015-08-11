@@ -5,13 +5,13 @@ $(document)
 						window.location = "documentation.jspx";
 					});
 					$('#panel-bottom').on("click", function() {
-						window.location = "contribute.jspx";
+						window.location = "casestudy/index.jspx";
 					});
 					$('#panel-left').on("click", function() {
-						window.location = "visualization.jspx";
+						window.location = "contribute.jspx";
 					});
 					$('#panel-right').on("click", function() {
-						window.location = "resources.jspx";
+						window.location = "visualization.jspx";
 					});
 					// Panel info events
 					// Left panel (Visualization)

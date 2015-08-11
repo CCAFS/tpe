@@ -1,4 +1,8 @@
 <%@ include file="/common/taglibs.jsp"%>
+
+<head>
+
+</head>
 <div id="main_header">
 	<!-- <div id="header_content"> -->
 	<!-- <div id="center-head"> -->

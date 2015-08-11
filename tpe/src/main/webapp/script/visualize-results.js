@@ -33,10 +33,10 @@ function visualizeResults() {
 
 	// console.log('Out put: ' + selectedOutput.toUpperCase());
 	// The actions
-	var soilGeoJsonAction = 'soilGeoJson.geojson';
-	var tpeGeoJsonAction = 'tpeGeoJson.geojson';
-	var climateGeoJsonAction = 'climateGeoJson.geojson';
-	var stabilityGeoJsonAction = 'stabilityGeoJson.geojson';
+	var soilGeoJsonAction = 'json/soilGeoJson.geojson';
+	var tpeGeoJsonAction = 'json/tpeGeoJson.geojson';
+	var climateGeoJsonAction = 'json/climateGeoJson.geojson';
+	var stabilityGeoJsonAction = 'json/stabilityGeoJson.geojson';
 	var params, actionJson;
 	// Use the switch statement to determine the selected output, from the first
 	// select drop down box

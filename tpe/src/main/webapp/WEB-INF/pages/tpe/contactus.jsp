@@ -24,7 +24,7 @@
 				$('#send').attr("disabled", true);
 				$.ajax({
 					global : false,
-					url : "contact_us.action",
+					url : "${ctx}/contact_us.action",
 					type : "POST",
 					data : data,
 					//async : false,
@@ -133,7 +133,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="img/bcamilo.png" />
+							<img src="${ctx}/img/bcamilo.png" />
 						</div>
 						<div class="member_infos">
 							<h5>Camilo Barrios Perez - Agricultural Engineer</h5>
@@ -176,7 +176,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="img/david.jpg" />
+							<img src="${ctx}/img/david.jpg" />
 						</div>
 						<div class="member_infos">
 							<h5>David Arango Londono - Statistical analyst</h5>
@@ -205,7 +205,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="img/Carlitos.jpg" />
+							<img src="${ctx}/img/Carlitos.jpg" />
 						</div>
 						<div class="member_infos">
 							<h5>Carlos Eduardo Navarro - Research assistant</h5>
@@ -216,7 +216,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="img/team.png" />
+							<img src="${ctx}/img/team.png" />
 						</div>
 						<div class="member_infos">
 							<h5>Noah Matovu - Systems Engineer</h5>

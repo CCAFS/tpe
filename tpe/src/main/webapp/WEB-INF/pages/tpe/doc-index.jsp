@@ -2,7 +2,7 @@
 <!--Documentation Area-->
 <div class="doc-list project">
 	<div class="img">
-		<a><img src="img/tpe_map.jpg" alt="image" /> </a>
+		<a><img src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
 	</div>
 	<div class="doc-min project">
 		<h4>
@@ -33,7 +33,7 @@
 </div>
 <div class="doc-list scientific">
 	<div class="img">
-		<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
+		<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
 	</div>
 	<div class="doc-min scientific">
 		<h4>
@@ -44,7 +44,7 @@
 </div>
 <div class="doc-list brazilian">
 	<div class="img">
-		<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
+		<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
 	</div>
 	<div class="doc-min brazilian">
 		<h4>
@@ -55,7 +55,7 @@
 </div>
 <div class="doc-list colombian">
 	<div class="img">
-		<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
+		<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
 	</div>
 	<div class="doc-min colombian">
 		<h4>

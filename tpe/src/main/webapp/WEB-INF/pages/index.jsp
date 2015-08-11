@@ -4,33 +4,27 @@
 <head>
 <meta charset="utf-8">
 <title>TPE Platform</title>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/script/home-overlay-dialog.js"></script>
-<script>
-	$(document).ready(function() {
 
-	});
-</script>
+<script type="text/javascript" src="${ctx}/script/home-overlay-dialog.js"></script>
 </head>
 
 <body>
 	<div id="home_container">
 		<div id="home_panel">
 			<div id="panel-left" class="panel-box-small">
-				<img class="middle-img" src="img/left-home.png" height="462"
+				<img class="middle-img" src="${ctx}/img/left-home.png" height="462"
 					width="294" />
 			</div>
 			<div id="panel-top" class="panel-box-big">
-				<img class="middle-img" src="img/top-home.png" height="294"
+				<img class="middle-img" src="${ctx}/img/top-home.png" height="294"
 					width="462" />
 			</div>
 			<div id="panel-bottom" class="panel-box-big">
-				<img class="middle-img" src="img/bottom-home.png" height="294"
+				<img class="middle-img" src="${ctx}/img/bottom-home.png" height="294"
 					width="462" />
 			</div>
 			<div id="panel-right" class="panel-box-small">
-				<img class="middle-img" src="img/right-home.png" height="462"
+				<img class="middle-img" src="${ctx}/img/right-home.png" height="462"
 					width="294" />
 			</div>
 		</div>

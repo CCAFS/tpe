@@ -3,6 +3,8 @@
  * function.
  */
 function loadJson(action, map) {
+	console.log(action);
+	console.log(map);
 	$.ajax({
 		type : "GET",
 		async : false,// thats the trick

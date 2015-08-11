@@ -37,7 +37,7 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = -2150409370455878988L;
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	/**
 	 * The soil properties from the selection pane
@@ -141,7 +141,7 @@ public class SoilGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
 
 			// Load the corresponding country states
@@ -172,7 +172,7 @@ public class SoilGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
 
 			try {
@@ -181,7 +181,7 @@ public class SoilGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
 
 			// Load the crop growing areas json file for the selected region.
@@ -193,7 +193,7 @@ public class SoilGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
 
 		}

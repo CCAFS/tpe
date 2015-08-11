@@ -26,7 +26,7 @@
 				$('#send').attr("disabled", true);
 				$.ajax({
 					global : false,
-					url : "contactInfo.action",
+					url : "${ctx}/contactInfo.action",
 					type : "POST",
 					data : data,
 					//async : false,

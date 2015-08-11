@@ -9,23 +9,15 @@
 	$(document).ready(function() {
 
 		$(".doc-index a, a.doc-index").click(function() {
-			$('.pane_left').load("docs/docs.action");
+			$('.pane_left').load("${ctx}/docs/docs.action");
 			return false
 		});
 		$(".project a,a.project").click(function() {
-			$('.pane_left').load("docs/project.action");
+			$('.pane_left').load("${ctx}/docs/project.action");
 			return false
 		});
 		$(".scientific a, a.scientific").click(function() {
-			$('.pane_left').load("docs/scientific.action");
-			return false
-		});
-		$(".brazilian a").click(function() {
-			$('.pane_left').load("docs/brazilian.action");
-			return false
-		});
-		$(".colombian a").click(function() {
-			$('.pane_left').load("docs/colombian.action");
+			$('.pane_left').load("${ctx}/docs/scientific.action");
 			return false
 		});
 	});
@@ -34,16 +26,15 @@
 <body>
 	<div id="documentation">
 		<h4 class="navigation">
-			<a class="doc-index" href="#">Documentation</a><a class="project" href="#">Project</a><a
-				class="scientific" href="#">Scientific</a><a class="case-studies"
-				href="#">Case Studies</a>
+			<a class="doc-index" href="#">Documentation</a><a class="project"
+				href="#">Project</a><a class="scientific" href="#">Scientific</a>
 		</h4>
 		<div>
 			<div class="pane_left">
 				<!--Documentation Area-->
 				<div class="doc-list project">
 					<div class="img">
-						<a><img src="img/tpe_map.jpg" alt="image" /> </a>
+						<a><img src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
 					</div>
 					<div class="doc-min project">
 						<h4>
@@ -75,7 +66,8 @@
 				</div>
 				<div class="doc-list scientific">
 					<div class="img">
-						<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
+						<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" />
+						</a>
 					</div>
 					<div class="doc-min scientific">
 						<h4>
@@ -86,7 +78,8 @@
 				</div>
 				<div class="doc-list brazilian">
 					<div class="img">
-						<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
+						<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" />
+						</a>
 					</div>
 					<div class="doc-min brazilian">
 						<h4>
@@ -97,7 +90,8 @@
 				</div>
 				<div class="doc-list colombian">
 					<div class="img">
-						<a href="#"><img src="img/tpe_map.jpg" alt="image" /> </a>
+						<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" />
+						</a>
 					</div>
 					<div class="doc-min colombian">
 						<h4>

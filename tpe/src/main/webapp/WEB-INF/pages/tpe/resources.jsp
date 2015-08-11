@@ -18,13 +18,13 @@
 				<div class="tpe_sec">
 					<div class="tpe_sec_img">
 						<div class="img_box">
-							<a href="tutorials.jspx"><img src="img/tpe_map.jpg"
+							<a href="${ctx}/tutorials.jspx"><img src="${ctx}/img/tpe_map.jpg"
 								alt="image" /> </a>
 						</div>
 					</div>
 					<div class="doc-min">
 						<h4>
-							<a href="tutorials.jspx">Tutorials</a>
+							<a href="${ctx}/tutorials.jspx">Tutorials</a>
 						</h4>
 						<p>Target Population of Environments (TPE) Platform is an
 							online tool for the identification of target population

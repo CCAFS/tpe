@@ -36,7 +36,7 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 	// private static final Object COUNTRY_COLOMBIA = "COLOMBIA";
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	/**
 	 * The selected weather stations from the jsp page
@@ -114,20 +114,20 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 		// Retrieve the soil GeoJson data from the database
 		if (getSelectedCountry() != null) {
-			 log.info("COUNTRY: " + selectedCountry);
+			// log.info("COUNTRY: " + selectedCountry);
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 			this.setZoom(this.getRegion().getZoom());
-			 log.info("Loaded Region, Now loading GeoJson");
+			// log.info("Loaded Region, Now loading GeoJson");
 			boolean continent = false;
 			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
 				continent = true;
-			 log.info("Region is a continent: "+continent);
+			// log.info("Region is a continent: "+continent);
 			// TODO Initially dont consider selection of climate indicators
 			this.setFeaturesJson(tpeService.getClimateGeoJSON(
 					this.getSelectedCountry(), null, continent));
-			 log.info("Loaded features json");
+			// log.info("Loaded features json");
 			// Get the climate series data from the database
 			// TODO Get series separately for each hovered station
 			// seriesJson =
@@ -145,10 +145,10 @@ public class ClimateGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
 
-			 log.info("Loaded growing regions");
+			// log.info("Loaded growing regions");
 			// Add or load the country Json data
 			try {
 				regionJson = Utils.loadGeoJSON(getRegion().getName()
@@ -156,9 +156,9 @@ public class ClimateGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
-			 log.info("Loaded country json");
+			// log.info("Loaded country json");
 			// Add municipalities JSON
 			try {
 				setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
@@ -166,10 +166,10 @@ public class ClimateGeoJsonAction extends BaseAction {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 			}
 
-			 log.info("Added municipios");
+			// log.info("Added municipios");
 		}
 
 		// setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/" +

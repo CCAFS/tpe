@@ -6,7 +6,7 @@
 <body>
 	<div id="documentation">
 		<h4 class="navigation">
-			<a href="documentation.jspx">Documentation</a> > <a href="#">Tutorials</a>
+			<a href="${ctx}/documentation.jspx">Documentation</a> > <a href="#">Tutorials</a>
 		</h4>
 		<div>
 			<div class="pane_left">
@@ -107,7 +107,7 @@
 							currently hovered or clicked region.</li>
 					</ul>
 					<div class="guide-big">
-						<img alt="tpe-tool" src="img/guide/tpe-tool.png">
+						<img alt="tpe-tool" src="${ctx}/img/guide/tpe-tool.png">
 					</div>
 					<!-- Viewing TPE Graphics -->
 					<h1>Viewing and Downloading TPE Graphics</h1>
@@ -120,16 +120,16 @@
 							info window as well. The info window shows the details about the
 							currently hovered or clicked region.</li>
 						<li>Click on the search icon to view a detailed graphic. <img
-							alt="tpe-tool" src="img/zoom-in.png"></li>
+							alt="tpe-tool" src="${ctx}/img/zoom-in.png"></li>
 						<li>Click on the download icon to download or export the
 							graphic in different formats (PNG, JPG, PDF and SVG vetcor
-							image).<img alt="tpe-tool" src="img/download_32.png">
+							image).<img alt="tpe-tool" src="${ctx}/img/download_32.png">
 						</li>
 						<li></li>
 					</ul>
 
 					<div class="guide-big">
-						<img alt="tpe-tool" src="img/guide/export.jpg">
+						<img alt="tpe-tool" src="${ctx}/img/guide/export.jpg">
 					</div>
 				</div>
 				<div class="sec_details">

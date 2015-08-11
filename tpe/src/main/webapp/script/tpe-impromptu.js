@@ -1,9 +1,10 @@
 /**
  * The implementation of the TPE Tool welcome impromptu dialog form
  */
-$(document)
+jQuery(document).ready(function($){
+/*$(document)
 		.ready(
-				function() {
+				function() {*/
 
 					var tourSubmitFunc = function(e, v, m, f) {
 						if (v === -1) {
@@ -193,7 +194,7 @@ $(document)
 					// Return to the top of the page when the Done button is
 					// clicked
 					$('[name="jqi_5_buttonDone"]').click(function() {
-						console.log('####################################');
+						 
 						$("html, body").animate({
 							scrollTop : 0
 						}, "slow");
@@ -202,7 +203,7 @@ $(document)
 					// Return to the top of the page when the close button is
 					// clicked
 					$('.jqiclose').click(function() {
-						console.log('####################################');
+						 
 						$("html, body").animate({
 							scrollTop : 0
 						}, "slow");
