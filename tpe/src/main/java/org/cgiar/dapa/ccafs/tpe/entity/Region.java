@@ -274,7 +274,7 @@ public class Region extends BaseEntity implements Coordinate {
 		this.region = region;
 	}
 
-	@Column(name = "select")
+	@Column(name = "selected")
 	public Boolean getSelect() {
 		return select;
 	}

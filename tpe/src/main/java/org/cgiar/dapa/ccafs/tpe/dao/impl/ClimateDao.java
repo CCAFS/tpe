@@ -106,7 +106,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		StringBuffer q = null;
 		if (continent) {
 			q = new StringBuffer(
-					"select distinct r.region.name,r.region.parent.name,r.region.parent.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.longitude, r.latitude,r.region.parent.parent.parent.name,r.monthPlantingDate from "
+					"select distinct r.region.name,r.region.parent.name,r.region.parent.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.longitude, r.latitude,r.region.parent.parent.parent.name,r.monthPlantingDate,group_concat(r.radiation,r.month) from "
 							+ entityClass.getName())
 					.append(" r where r.region.parent.parent.parent.parent.id =:id")
 					.append(" group by r.region.id, r.longitude, r.latitude")
@@ -124,7 +124,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		} else {
 
 			q = new StringBuffer(
-					"select distinct r.station.name,r.station.region.name,r.station.region.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.station.longitude, r.station.latitude from "
+					"select distinct r.station.name,r.station.region.name,r.station.region.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.station.longitude, r.station.latitude,r.longitude,r.latitude,group_concat(r.radiation,r.month) from "
 							+ entityClass.getName())
 					.append(" r where r.station.region.parent.id =:id")
 					.append(" or r.station.region.parent.parent.id =:id")
@@ -137,7 +137,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		query.setParameter("id", countryId);
 		results = query.getResultList();
 
-		log.info(results.size());
+		// log.info(results.size());
 		// results = results != null ? results : new ArrayList<Object[]>();
 
 		if ((results == null) || (results.size() == 0))
@@ -187,12 +187,26 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			else {
 				properties.put(FEATURE_ICON, false);
 			}
+
+			// if(){
+			//
+			// }
+
 			climateGeometry = new GeometryPoint(new LinkedList<Double>(
 
-			Arrays.asList(Double.parseDouble(row[6] != null ? row[6].toString()
-					: String.valueOf(0)), Double
-					.parseDouble(row[7] != null ? row[7].toString() : String
-							.valueOf(0)))));
+			Arrays.asList(
+					Double.parseDouble(row[6] != null ? row[6].toString() :
+
+					(row[8] != null ? row[8].toString() : String.valueOf(0)))
+					// String.valueOf(0))
+					, Double.parseDouble(row[7] != null ? row[7].toString()
+
+					: (row[9] != null ? row[9].toString() : String.valueOf(0))
+
+					// String
+					// .valueOf(0)
+
+					))));
 			properties.put(COUNTRY_NAME, row[2]);// Country
 			properties.put("country", row[2]);
 			// Municipality/State
@@ -208,10 +222,22 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 				// Municipality/State/Country/Continent
 				properties.put(REGION_NAME, row[8]);
 			// TODO Refactor the feature ID
-			properties.put(STATION_ID,
-					(row[6]!=null?row[6].toString():0) + "_" + (row[7]!=null?row[7].toString():0));
-			properties.put(FEATURE_ID,
-					(row[6]!=null?row[6].toString():0) + "_" + (row[7]!=null?row[7].toString():0));
+			properties.put(STATION_ID, (row[6] != null ? row[6].toString()
+					: (row[8] != null ? row[8].toString() : String.valueOf(0)))
+
+			+ "_" + (row[7] != null ? row[7].toString()
+
+			: (row[9] != null ? row[9].toString() : String.valueOf(0))));
+
+			properties.put(FEATURE_ID, (row[6] != null ? row[6].toString()
+
+			: (row[8] != null ? row[8].toString() : String.valueOf(0)))
+
+			+ "_" + (row[7] != null ? row[7].toString()
+
+			:
+
+			(row[9] != null ? row[9].toString() : String.valueOf(0))));
 
 			Map<String, List<Object>> infoSeries = new LinkedHashMap<String, List<Object>>();
 
@@ -230,23 +256,37 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 					new LinkedList<Object>(Arrays.asList(row[5].toString()
 							.split(","))));
 
+			// infoSeries.put(
+			// "radi",
+			// new LinkedList<Object>(Arrays
+			// .asList(row[10] != null ? row[10].toString().split(
+			// ",") : null)));
+
 			// infoSeries = getInfoSeries(climate, continent);
 			properties.put(INFO_SERIES, infoSeries);
 			properties.put(FEATURE_COLOR, STATION_COLOR_RED);
 			properties.put(FEATURE_TYPE, FeatureType.CLIMATE.toString());
 
 			// Add data series for creating the graphics plot
-			properties.put(
-					"dataSeries",
-					createDataSeries(Lists.transform(new LinkedList<String>(
-							Arrays.asList(row[3].toString().split(","))), fn),
-							Lists.transform(
-									new LinkedList<String>(Arrays.asList(row[4]
-											.toString().split(","))), fn),
-							Lists.transform(
-									new LinkedList<String>(Arrays.asList(row[5]
-											.toString().split(","))), fn),
-											(row[6]!=null?row[6].toString():0)+ "_" + (row[7]!=null?row[7].toString():0)));
+			properties
+					.put("dataSeries",
+							createDataSeries(
+									Lists.transform(
+											new LinkedList<String>(Arrays
+													.asList(row[3].toString()
+															.split(","))), fn),
+									Lists.transform(
+											new LinkedList<String>(Arrays
+													.asList(row[4].toString()
+															.split(","))), fn),
+									Lists.transform(
+											new LinkedList<String>(Arrays
+													.asList(row[5].toString()
+															.split(","))), fn),
+									(row[6] != null ? row[6].toString() : 0)
+											+ "_"
+											+ (row[7] != null ? row[7]
+													.toString() : 0)));
 
 			features.add(new FeaturePoint(FEATURES_TYPE, climateGeometry,
 					properties));

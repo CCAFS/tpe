@@ -134,7 +134,6 @@ public class SoilGeoJsonAction extends BaseAction {
 			 * setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/" +
 			 * getRegion().getName().toUpperCase() + ".geo.json"));
 			 */
-
 			try {
 				setRegionJson(Utils.loadGeoJSON(getRegion().getName(),
 						JSON_REGION));
@@ -149,16 +148,19 @@ public class SoilGeoJsonAction extends BaseAction {
 			// this.statesGeoJson = Utils.loadJSONData(this.getPath() +
 			// "script/"
 			// + getRegion().getName().toUpperCase() + ".STATES.geo.json");
-
 			categoriesJson = tpeService.getEnvSowingDates(getSelectedCountry());
+
 			setSeriesJson(tpeService
 					.getEnvSoilProbabilities(getSelectedCountry()));
 			// log.info("About to query data.");
 			boolean continent = false;
 			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
 				continent = true;
-			this.setFeaturesJson(this.tpeService.getSoilGeoJson(null,
-					getSelectedCountry(), continent));
+
+			if (this.getSelectedCountry() != 2)
+				this.setFeaturesJson(this.tpeService.getSoilGeoJson(null,
+						getSelectedCountry(), continent));
+
 			// TODO Add cultivar parameter
 			/*
 			 * this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath() +

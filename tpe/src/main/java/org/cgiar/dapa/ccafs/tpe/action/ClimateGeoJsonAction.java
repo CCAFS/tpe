@@ -125,6 +125,7 @@ public class ClimateGeoJsonAction extends BaseAction {
 				continent = true;
 			// log.info("Region is a continent: "+continent);
 			// TODO Initially dont consider selection of climate indicators
+
 			this.setFeaturesJson(tpeService.getClimateGeoJSON(
 					this.getSelectedCountry(), null, continent));
 			// log.info("Loaded features json");

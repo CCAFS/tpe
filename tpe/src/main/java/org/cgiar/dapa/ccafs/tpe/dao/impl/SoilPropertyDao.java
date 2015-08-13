@@ -59,7 +59,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 	private static final String WATER_CAPACITY_WILT_POINT = "waterCapacityWiltPoint";
 	// private static final String PLOT_CATEGORIES = "categories";
 	// private static final String PLOT_DATA = "data";
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	public SoilPropertyDao() {
 		super(SoilProperty.class);
@@ -211,9 +211,18 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		if (continent)
 			q = new StringBuffer("from " + entityClass.getName())
 					.append(" r where r.region.parent.parent.parent.parent.id =:region");
-		else
-			q = new StringBuffer("from " + entityClass.getName())
-					.append(" r where r.region.parent.id =:region").append(" or r.station.region.region.parent.id=:region");
+		else {
+
+			if (countryId == 1)
+				q = new StringBuffer("from " + entityClass.getName())
+						.append(" r where r.region.parent.id=:region");
+			else
+				q = new StringBuffer("from " + entityClass.getName())
+						.append(" r where r.region.parent.id=:region")
+						.append(" or r.region.parent.parent.id=:region")
+						.append(" or r.station.region.parent.parent.id=:region");
+
+		}
 
 		q.append(" and r.continent =:continent");
 		// q = new StringBuffer("from " + entityClass.getName()).append(
@@ -238,7 +247,7 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		// Create a decimal format
 		DecimalFormat df = new DecimalFormat("#.##");
 		if (results != null) {
-			log.info(results.size());
+			LOG.info(results.size());
 			for (Iterator<SoilProperty> iteratorProperty = results.iterator(); iteratorProperty
 					.hasNext();) {
 				soilProperty = iteratorProperty.next();
@@ -267,9 +276,10 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 				properties.put(SOIL_TEXTURE_SILT, soilProperty.getSilt());
 
 				properties.put(SOIL_TEXTURE_SAND, soilProperty.getSand());
-			
-				properties.put(SOIL_LAT,df.format( soilProperty.getLatitude()));
-				properties.put(SOIL_LNG, df.format(soilProperty.getLongitude()));
+
+				properties.put(SOIL_LAT, df.format(soilProperty.getLatitude()));
+				properties
+						.put(SOIL_LNG, df.format(soilProperty.getLongitude()));
 
 				if (continent) {
 
@@ -284,8 +294,10 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 					properties.put(STATION_NAME, soilProperty.getRegion()
 							.getName());
 				} else {
-					properties.put(COUNTRY_NAME, soilProperty.getRegion().getParent().getName());
-					properties.put(STATION_NAME, soilProperty.getRegion().getName());
+					properties.put(COUNTRY_NAME, soilProperty.getRegion()
+							.getParent().getName());
+					properties.put(STATION_NAME, soilProperty.getRegion()
+							.getName());
 
 				}
 

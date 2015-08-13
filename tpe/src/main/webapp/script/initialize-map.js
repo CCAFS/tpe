@@ -175,6 +175,8 @@ function createClimateFeatures(map, data) {
 		map.data.addGeoJson(data.featuresJson, {
 			idPropertyName : "id"
 		});
+
+	// console.log(data.featuresJson);
 }
 /**
  * Creates climate graphics
@@ -526,7 +528,8 @@ function addStyle(map) {
 				fillOpacity : 0,
 				fillColor : "#ffffff"
 			};
-		} else if (feature.getProperty('name') == 'municipality') {
+		} else if ((feature.getProperty('name') == 'municipality')
+				|| (feature.getProperty('regionType') == 'municipality')) {
 			return {
 				visible : true,
 				clickable : true,
@@ -1071,10 +1074,12 @@ function addClickListener(map) {
 			// console.log(clickedFeatureName);
 
 			// Add title to the infos
-			//TODO Uncomment it to add the static info window
-			/*$('#info-static').show();
-			$('#info-static h2').text(e.feature.getProperty('name'));
-			$('#info-static span').html(featureInfoStatic(e));*/
+			// TODO Uncomment it to add the static info window
+			/*
+			 * $('#info-static').show(); $('#info-static
+			 * h2').text(e.feature.getProperty('name')); $('#info-static
+			 * span').html(featureInfoStatic(e));
+			 */
 
 			//
 		}
@@ -1083,6 +1088,11 @@ function addClickListener(map) {
 
 function addMouseOverListener(map) {
 	/* Add mouse events to trigger the TPE feature info */
+	// Clear the infor window first
+	// Hide the Info window
+	// $('#info h2').text('');
+	// $('#info span').html('');
+	// $('#info').hide();
 	map.data
 			.addListener(
 					'mouseover',
@@ -1133,20 +1143,41 @@ function addMouseOverListener(map) {
 																.getProperty('ADM1_NAME'));
 
 							}
-							if (e.feature.getProperty('featureType') == OUTPUT_TPE) {
-								//Remove the background image from h2
+
+							if (e.feature.getProperty('regionType') == 'municipality') {
+
+								map.data.overrideStyle(e.feature, {
+									strokeColor : '#000',
+									fillOpacity : 0,
+									fillColor : '#989898'
+								});
+								// $('#info').show();
 								$('#info h2')
-								.css(
-										{
-											'background-image' : 'none',
-											'background-repeat' : 'no-repeat',
-											'background-position' : 'right'
-										});
-								
-//								$('#info h2').text('TPE: '+ e.feature.getProperty('name'));
-								$('#info h2').css('color',e.feature.getProperty('colour'))
-								.text(e.feature.getProperty('description'));
-								
+										.text(
+												'Admin Name: '
+														+ e.feature
+																.getProperty('name'));
+								$('#info span')
+										.html(
+												'Admin Name: '
+														+ e.feature
+																.getProperty('name'));
+							}
+
+							if (e.feature.getProperty('featureType') == OUTPUT_TPE) {
+								// Remove the background image from h2
+								$('#info h2').css({
+									'background-image' : 'none',
+									'background-repeat' : 'no-repeat',
+									'background-position' : 'right'
+								});
+
+								// $('#info h2').text('TPE: '+
+								// e.feature.getProperty('name'));
+								$('#info h2').css('color',
+										e.feature.getProperty('colour')).text(
+										e.feature.getProperty('description'));
+
 								// $('#info
 								// h2').text(e.feature.getProperty('name'));
 
@@ -1333,10 +1364,15 @@ function addMouseOverListener(map) {
 /**
  * This hides the info window
  */
-function hideInfoWindow(){
+function hideInfoWindow() {
 	// Hide the Info window
 	$('#info h2').text('');
 	$('#info span').html('');
+	$('#info h2').css({
+		'background-image' : 'none',
+		'background-repeat' : 'no-repeat',
+		'background-position' : 'right'
+	});
 	$('#info').hide();
 
 }
@@ -1349,7 +1385,7 @@ function hideInfoWindow(){
 function addMouseOutListener(map) {
 	map.data.addListener('mouseout', function(e) {
 		e.feature.setProperty('selected', false);
-		
+
 		/*
 		 * map.data.overrideStyle(e.feature, { strokeColor : '#990000',
 		 * fillColor : '#009900' });
@@ -1366,8 +1402,9 @@ function addMouseOutListener(map) {
 				fillOpacity : 0.4,// 1,// 0.20//0,
 				fillColor : e.feature.getProperty('colour')
 			});
-			
-		} else if (e.feature.getProperty('name') == 'municipality') {
+
+		} else if ((e.feature.getProperty('name') == 'municipality')
+				|| (e.feature.getProperty('regionType') == 'municipality')) {
 			map.data.overrideStyle(e.feature, {
 				strokeColor : '#989898',
 				fillOpacity : 0.4,// 1,
@@ -1483,10 +1520,18 @@ function featureInfoStatic(event) {
 				var unit = (key == 'tmax') || (key == 'tmin') ? ' (°C)'
 						: ' (mm)';
 				$htmlText = $htmlText + '<tr><td>' + key + unit + '</td>';
+				// if (listOfValues != null&&(listOfValues.length==12))
 				$.each(listOfValues, function(index, value) {
 					$htmlText = $htmlText + '<td>'
 							+ parseFloat(value).toFixed(2) + '</td>';
 				});
+				// else {
+				// var i;
+				// for (i = 0; i < 12; ++i) {
+				// $htmlText = $htmlText + '<td>-</td>';
+				// }
+				// }
+
 				$htmlText = $htmlText + '</tr>'
 			});
 			$htmlText = $htmlText + '</table></div>';
@@ -1632,10 +1677,19 @@ function featureInfo(event) {
 				var unit = (key == 'tmax') || (key == 'tmin') ? ' (°C)'
 						: ' (mm)';
 				$htmlText = $htmlText + '<tr><td>' + key + unit + '</td>';
+
+				// if (listOfValues != null)
 				$.each(listOfValues, function(index, value) {
 					$htmlText = $htmlText + '<td>'
 							+ parseFloat(value).toFixed(2) + '</td>';
 				});
+				// else {
+				// var i;
+				// for (i = 0; i < 12; ++i) {
+				// $htmlText = $htmlText + '<td>-</td>';
+				// }
+				// }
+
 				$htmlText = $htmlText + '</tr>'
 			});
 			$htmlText = $htmlText + '</table></div>';

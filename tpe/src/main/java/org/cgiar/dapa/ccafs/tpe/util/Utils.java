@@ -48,7 +48,7 @@ public class Utils implements Constants {
 	private static final Double TILE_SIZE_64 = 20.0;
 	private static final String ROLE_ADMIN = "ROLE_ADMIN";
 	private static final String ROLE_USER = "ROLE_USER";
-	private static Log log = LogFactory.getLog(Utils.class.getClass());
+	private static Log LOG = LogFactory.getLog(Utils.class.getClass());
 
 	/**
 	 * Creates the marker symbol map for the highcharts spline chart
@@ -270,7 +270,7 @@ public class Utils implements Constants {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
 				e.getMessage();
-				log.info("File does not exist [" + fileName + "]");
+				LOG.warn("File does not exist [" + fileName + "]");
 				// throw new RuntimeException("The file [" + fileName
 				// + "] does not exist", e);
 				// return null;
@@ -311,19 +311,19 @@ public class Utils implements Constants {
 
 			if (type.equals(JSON_REGION))
 				// Loads the country border json data
-				// path = "/resources/" + file + ".json";
+//				 path = "/resources/" + file + ".json";
 				path = "/opt/resources/" + file + ".json";
 			else if (type.equals(JSON_STATES))
 				// Loads the country states json data
-				// path = "/resources/" + region + "_states.json";
+//				 path = "/resources/" + region + "_states.json";
 				path = "/opt/resources/" + region + "_states.json";
 			else if (type.equals(JSON_MUNICIPIOS))
 				// Loads the municipios json data
-				// path = "/resources/" + region + "_municipios.json";
+//				 path = "/resources/" + region + "_municipios.json";
 				path = "/opt/resources/" + region + "_municipios.json";
 			else if (type.equals(JSON_BOUNDARY))
 				// Loads the TPE boundary json data
-				// path = "/resources/" + region + "_boundary.json";
+//				 path = "/resources/" + region + "_boundary.json";
 				path = "/opt/resources/" + region + "_boundary.json";
 		}
 		return readJSON(path);
@@ -350,10 +350,9 @@ public class Utils implements Constants {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
 			cultivar = cultivar.toLowerCase();
-			// path = "/resources/" + region + "_" + crop + "_" + cultivar + "_"
-			// + map + ".json";
-			path = "/opt/resources/" + region + "_" + crop + "_" + cultivar
-					+ "_" + map + ".json";
+//			 path = "/resources/" + region + "_" + crop + "_" + cultivar + "_"
+//			 + map + ".json";
+			path = "/opt/resources/" + region + "_" + crop + "_" + cultivar+ "_" + map + ".json";
 			// log.info(path);
 		}
 		return readJSON(path);
@@ -378,9 +377,8 @@ public class Utils implements Constants {
 		if (region != null && crop != null) {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
-			// path = "/resources/" + region + "_" + crop + "_" + map + ".json";
-			path = "/opt/resources/" + region + "_" + crop + "_" + map
-					+ ".json";
+//			 path = "/resources/" + region + "_" + crop + "_" + map + ".json";
+			path = "/opt/resources/" + region + "_" + crop + "_" + map+ ".json";
 			// log.info(path);
 		}
 		return readJSON(path);
@@ -401,7 +399,7 @@ public class Utils implements Constants {
 		if (region != null && map != null) {
 			region = region.toLowerCase();
 			map = map.toLowerCase();
-			// path = "/resources/" + region + "_" + map + ".json";
+//			 path = "/resources/" + region + "_" + map + ".json";
 			path = "/opt/resources/" + region + "_" + map + ".json";
 		}
 		return readJSON(path);
