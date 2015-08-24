@@ -30,6 +30,8 @@ import org.cgiar.dapa.ccafs.tpe.dao.ISoilPropertyDao;
 import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePoint;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.Grid;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.SoilGrid;
 import org.cgiar.dapa.ccafs.tpe.util.FeatureType;
 
 /**
@@ -213,17 +215,18 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 					.append(" r where r.region.parent.parent.parent.parent.id =:region");
 		else {
 
-			if (countryId == 1)
-				q = new StringBuffer("from " + entityClass.getName())
-						.append(" r where r.region.parent.id=:region");
-			else
-				q = new StringBuffer("from " + entityClass.getName())
-						.append(" r where r.region.parent.id=:region")
-						.append(" or r.region.parent.parent.id=:region")
-						.append(" or r.station.region.parent.parent.id=:region");
+			// if (countryId == 1)
+			q = new StringBuffer("from " + entityClass.getName()).append(
+					" r where r.region.parent.id=:region").append(
+					" or r.region.parent.parent.id=:region");
+			/*
+			 * else q = new StringBuffer("from " + entityClass.getName())
+			 * .append(" r where r.region.parent.parent.id=:region");
+			 */
+			// .append(" or r.region.parent.parent.id=:region")
+			// .append(" or r.station.region.parent.parent.id=:region");
 
 		}
-
 		q.append(" and r.continent =:continent");
 		// q = new StringBuffer("from " + entityClass.getName()).append(
 		// " r where r.station.region.parent.id =:region").append(
@@ -294,11 +297,31 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 					properties.put(STATION_NAME, soilProperty.getRegion()
 							.getName());
 				} else {
-					properties.put(COUNTRY_NAME, soilProperty.getRegion()
-							.getParent().getName());
-					properties.put(STATION_NAME, soilProperty.getRegion()
-							.getName());
-
+					String count, state, mun, statn;
+					if (soilProperty.getStation() == null) {
+						// Country
+						count = soilProperty.getRegion().getParent().getName();
+						// Station
+						statn = soilProperty.getRegion().getName();
+						// Municipality
+						mun = "";
+						// State
+						state = soilProperty.getRegion().getName();
+					} else {
+						// country
+						count = soilProperty.getRegion().getParent()
+								.getParent().getName();
+						// station
+						statn = soilProperty.getStation().getName();
+						// municipality
+						mun = soilProperty.getRegion().getName();
+						// State
+						state = soilProperty.getRegion().getParent().getName();
+					}
+					properties.put(COUNTRY_NAME, count);
+					properties.put(STATION_NAME, statn);
+					properties.put(STATE_NAME, state);
+					properties.put(MUNICIPALITY_NAME, mun);
 				}
 
 				if (soilProperty.getSoil() != null) {
@@ -346,5 +369,82 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 		// Add the feature to the feature collection
 		soilFeatures.put(GEOJSON_KEY_FEATURES, features);
 		return soilFeatures;
+	}
+
+	@Override
+	public List<? extends Grid> listSoil(Integer country, boolean level,
+			ArrayList<Integer> params, int page, int rows) {
+		StringBuffer q;
+		if (level)
+			q = new StringBuffer("from " + entityClass.getName())
+					.append(" r where r.region.parent.parent.parent.parent.id =:region");
+		else {
+
+			// if (country == 1)
+			q = new StringBuffer("from " + entityClass.getName()).append(
+					" r where r.region.parent.id=:region").append(
+					" or r.region.parent.parent.id=:region");
+			/*
+			 * else q = new StringBuffer("from " + entityClass.getName())
+			 * .append(" r where r.region.parent.parent.id=:region");
+			 */
+			// .append(" or r.region.parent.parent.id=:region")
+			// .append(" or r.station.region.parent.parent.id=:region");
+
+		}
+
+		q.append(" and r.continent =:continent");
+		// q = new StringBuffer("from " + entityClass.getName()).append(
+		// " r where r.station.region.parent.id =:region").append(
+		// " or r.station.region.parent.parent.id =:region");
+		// }
+
+		Query query = entityManager.createQuery(q.toString())
+				.setFirstResult(page).setMaxResults(rows);
+
+		query.setParameter("continent", level);
+		query.setParameter("region", country);
+		// TODO Remove the station id
+		// query.setParameter("station", 1);
+
+		List<SoilProperty> results = query.getResultList();
+		// log.info("# of soil properties: " + results.size());
+
+		if (results == null)
+			return new ArrayList<Grid>();
+		LOG.info(results.size());
+		List<SoilGrid> soi = new LinkedList<SoilGrid>();
+		SoilProperty property;
+		for (Iterator<SoilProperty> iteratorProperty = results.iterator(); iteratorProperty
+				.hasNext();) {
+			property = iteratorProperty.next();
+			soi.add(new SoilGrid(level == true ? property.getRegion()
+					.getParent().getParent().getName()
+					: (property.getStation() == null ? property.getRegion()
+							.getParent().getName() : property.getRegion()
+							.getParent().getParent().getName()),
+
+			level == true ? property.getRegion().getParent().getName()
+					: (property.getStation() == null ? property.getRegion()
+							.getName() : property.getRegion().getParent()
+							.getName()),
+
+			level == true ? property.getRegion().getName()
+					: (property.getStation() == null ? "" : property
+							.getRegion().getName()),
+
+			level == true ? property.getRegion().getName() : property
+					.getRegion().getName(),
+
+			property.getPh(), property.getClay(), property.getSand(), property
+					.getSilt(), property.getBulkDensity(), property
+					.getAvailableSoilWater(), property.getWaterCWpoint(),
+					property.getWaterCFCapacity(), property.getOrganicCarbon(),
+					property.getDepth(), property.getTaxnomy(), property
+							.getCationExchange(), property.getLongitude(),
+					property.getLatitude()));
+		}
+
+		return soi;
 	}
 }

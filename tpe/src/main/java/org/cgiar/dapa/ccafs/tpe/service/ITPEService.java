@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ import org.cgiar.dapa.ccafs.tpe.entity.Tag;
 import org.cgiar.dapa.ccafs.tpe.entity.User;
 import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 import org.cgiar.dapa.ccafs.tpe.exception.UserNotFoundException;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.ClimateGrid;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.Grid;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 
 /**
@@ -612,5 +615,42 @@ public interface ITPEService {
 	 *            the user with the changes to update
 	 */
 	void updateUser(User user) throws PersistenceException;
+
+	/**
+	 * Lists the climate records for the specified country and administrative
+	 * level
+	 * 
+	 * @param country
+	 *            the country id
+	 * @param level
+	 *            the administrative level
+	 * @param param
+	 *            the climate parameter (tmax, tmin,precipitation or radiation)
+	 * @param start
+	 *            the start row
+	 * @param rows
+	 *            the number of rows to retrieve
+	 * @return climate list
+	 */
+	List<ClimateGrid> listClimate(Integer country, Boolean level, String param,
+			int start, int rows);
+
+	/**
+	 * Lists soil data for generating the jqgrid table .
+	 * 
+	 * @param country
+	 *            the country id
+	 * @param level
+	 *            the administrative level
+	 * @param params
+	 *            soil parameters
+	 * @param page
+	 *            the start page
+	 * @param rows
+	 *            the number of record to retrieve
+	 * @return soil data
+	 */
+	List<? extends Grid> listSoil(Integer country, boolean level,
+			ArrayList<Integer> params, int page, int rows);
 
 }

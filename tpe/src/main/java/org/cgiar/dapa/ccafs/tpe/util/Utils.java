@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.cgiar.dapa.ccafs.tpe.entity.Category;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Role;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
@@ -48,6 +49,16 @@ public class Utils implements Constants {
 	private static final Double TILE_SIZE_64 = 20.0;
 	private static final String ROLE_ADMIN = "ROLE_ADMIN";
 	private static final String ROLE_USER = "ROLE_USER";
+	private static final String CLIMATE = "Climate";
+	private static final String SOIL = "Soil";
+	private static final String TMAX = "Max Temperature";
+	private static final String PRECIPITATION = "Precipitation";
+	private static final String RADIATION = "Radiation";
+	private static final String TMIN = "Min Temperature";
+	private static final String PARAM_TMIN = "tmin";
+	private static final String PARAM_TMAX = "tmax";
+	private static final String PARAM_PREC = "precipiation";
+	private static final String PARAM_RAD = "radiation";
 	private static Log LOG = LogFactory.getLog(Utils.class.getClass());
 
 	/**
@@ -311,19 +322,19 @@ public class Utils implements Constants {
 
 			if (type.equals(JSON_REGION))
 				// Loads the country border json data
-//				 path = "/resources/" + file + ".json";
+				// path = "/resources/" + file + ".json";
 				path = "/opt/resources/" + file + ".json";
 			else if (type.equals(JSON_STATES))
 				// Loads the country states json data
-//				 path = "/resources/" + region + "_states.json";
+				// path = "/resources/" + region + "_states.json";
 				path = "/opt/resources/" + region + "_states.json";
 			else if (type.equals(JSON_MUNICIPIOS))
 				// Loads the municipios json data
-//				 path = "/resources/" + region + "_municipios.json";
+				// path = "/resources/" + region + "_municipios.json";
 				path = "/opt/resources/" + region + "_municipios.json";
 			else if (type.equals(JSON_BOUNDARY))
 				// Loads the TPE boundary json data
-//				 path = "/resources/" + region + "_boundary.json";
+				// path = "/resources/" + region + "_boundary.json";
 				path = "/opt/resources/" + region + "_boundary.json";
 		}
 		return readJSON(path);
@@ -350,9 +361,10 @@ public class Utils implements Constants {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
 			cultivar = cultivar.toLowerCase();
-//			 path = "/resources/" + region + "_" + crop + "_" + cultivar + "_"
-//			 + map + ".json";
-			path = "/opt/resources/" + region + "_" + crop + "_" + cultivar+ "_" + map + ".json";
+			// path = "/resources/" + region + "_" + crop + "_" + cultivar + "_"
+			// + map + ".json";
+			path = "/opt/resources/" + region + "_" + crop + "_" + cultivar
+					+ "_" + map + ".json";
 			// log.info(path);
 		}
 		return readJSON(path);
@@ -377,8 +389,9 @@ public class Utils implements Constants {
 		if (region != null && crop != null) {
 			region = region.toLowerCase();
 			crop = crop.toLowerCase();
-//			 path = "/resources/" + region + "_" + crop + "_" + map + ".json";
-			path = "/opt/resources/" + region + "_" + crop + "_" + map+ ".json";
+			// path = "/resources/" + region + "_" + crop + "_" + map + ".json";
+			path = "/opt/resources/" + region + "_" + crop + "_" + map
+					+ ".json";
 			// log.info(path);
 		}
 		return readJSON(path);
@@ -399,7 +412,7 @@ public class Utils implements Constants {
 		if (region != null && map != null) {
 			region = region.toLowerCase();
 			map = map.toLowerCase();
-//			 path = "/resources/" + region + "_" + map + ".json";
+			// path = "/resources/" + region + "_" + map + ".json";
 			path = "/opt/resources/" + region + "_" + map + ".json";
 		}
 		return readJSON(path);
@@ -424,5 +437,43 @@ public class Utils implements Constants {
 			for (String role : roleNames)
 				roles.add(new Role(role));
 		return roles;
+	}
+
+	public static List<Category> queryOptions() {
+
+		return new LinkedList<Category>(Arrays.asList(new Category(1, CLIMATE),
+				new Category(2, SOIL)));
+	}
+
+	public static List<Param> queryParams() {
+
+		return new LinkedList<Param>(Arrays.asList(new Param(1, TMIN),
+				new Param(2, TMAX), new Param(3, PRECIPITATION), new Param(4,
+						RADIATION)));
+	}
+
+	public static String climateParam(Integer paramId) {
+		String param = null;
+		switch (paramId) {
+		case 1:// tmin
+			param = PARAM_TMIN;
+			break;
+
+		case 2:// tmax
+			param = PARAM_TMAX;
+			break;
+
+		case 3:// precipitation
+			param = PARAM_PREC;
+			break;
+
+		case 4:// radiation
+			param = PARAM_RAD;
+			break;
+
+		default:
+			break;
+		}
+		return param;
 	}
 }

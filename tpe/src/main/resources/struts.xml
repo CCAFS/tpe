@@ -261,6 +261,32 @@
 				<param name="includeProperties">featuresJson.*,regionJson.*,municipalitiesJson.*.*,zoom,lat,lng,tpeBoundaryJson.*,boxJson.*,categoriesJson.*,seriesJson.*</param>
 			</result>
 		</action>
+
+
+		<action name="climateGrid" class="jqgridAction">
+			<result type="json">
+				<param name="includeProperties">gridModel\[\d+\]\.(country|state|municipality|station|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|lon|lat),colModel\[\d+\]\.(index|name|align|editable|hidden|key|resizable|width|sortable|search),colNames\[\d+\],page,records,rows,searchField,searchOper,searchString,sidx,sord,total,captionTitle</param>
+			</result>
+		</action>
+		<action name="soilGrid" class="jqgridAction">
+			<result type="json">
+				<param name="includeProperties">gridModel\[\d+\]\.(country|state|municipality|station|texture|organicCarbon|ph|clay|sand|silt|bulkyDensity|asm|asmWiltPoit|asmFieldCapacity|depth|taxonomy|cationExchange|longitude|latitude),colModel\[\d+\]\.(index|name|align|editable|hidden|key|resizable|width|sortable|search),colNames\[\d+\],page,records,rows,searchField,searchOper,searchString,sidx,sord,total,captionTitle</param>
+			</result>
+		</action>
+		<action name="queryClimate">
+			<result>/WEB-INF/pages/tpe/climate-jqgrid.jsp
+			</result>
+		</action>
+		<action name="querySoil">
+			<result>/WEB-INF/pages/tpe/soil-jqgrid.jsp
+			</result>
+		</action>
+		<action name="queryParams" class="queryAction">
+			<result name="success">/WEB-INF/pages/tpe/climate-index.jsp
+			</result>
+		</action>
+
+
 	</package>
 
 

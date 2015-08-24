@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.cgiar.dapa.ccafs.tpe.jqgrid.Grid;
+
 /**
  * This class represents the soil properties in the simulation model. Each soil
  * property is categorized as physical, chemical or hydraulic property. Each
@@ -45,7 +47,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "soil_property")
 @AttributeOverride(name = "id", column = @Column(name = "property_id"))
-public class SoilProperty extends BaseResult {
+public class SoilProperty extends BaseResult implements Grid{
 
 	/**
 	 * 

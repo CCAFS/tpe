@@ -13,6 +13,7 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,8 @@ import org.cgiar.dapa.ccafs.tpe.entity.Tag;
 import org.cgiar.dapa.ccafs.tpe.entity.User;
 import org.cgiar.dapa.ccafs.tpe.exception.PlatformException;
 import org.cgiar.dapa.ccafs.tpe.exception.UserNotFoundException;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.ClimateGrid;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.Grid;
 import org.cgiar.dapa.ccafs.tpe.projection.LatLng;
 import org.cgiar.dapa.ccafs.tpe.service.ITPEService;
 import org.springframework.transaction.annotation.Transactional;
@@ -478,8 +481,22 @@ public class TPEService implements ITPEService {
 
 	@Override
 	public void updateUser(User user) throws PersistenceException {
-		
-//		userDao.updateUser(user);
+
+		// userDao.updateUser(user);
 		userDao.addOrMerge(user);
+	}
+
+	@Override
+	public List<ClimateGrid> listClimate(Integer country, Boolean level,
+			String param, int start, int rows) {
+
+		return climateDao.listClimate(country, level, param, start, rows);
+	}
+
+	@Override
+	public List<? extends Grid> listSoil(Integer country, boolean level,
+			ArrayList<Integer> params, int page, int rows) {
+
+		return soilPropertyDao.listSoil(country, level, params, page, rows);
 	}
 }

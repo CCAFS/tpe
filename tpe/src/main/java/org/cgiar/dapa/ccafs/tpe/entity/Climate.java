@@ -122,6 +122,7 @@ public class Climate extends BaseResult {
 	 * The region where the weather station is located or found
 	 */
 	private Region region;
+	private Boolean continent;
 
 	@ManyToOne(targetEntity = Category.class)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -267,4 +268,21 @@ public class Climate extends BaseResult {
 				this.getLatitude()));
 
 	}
+
+	@Override
+	public String toString() {
+
+		return "Id: " + getId() + ", Tmax: " + getTmax() + ", Tmin: "
+				+ getTmin() + ", Month: " + getMonth();
+	}
+
+	@Column(name = "continent")
+	public Boolean getContinent() {
+		return continent;
+	}
+
+	public void setContinent(Boolean continent) {
+		this.continent = continent;
+	}
+
 }

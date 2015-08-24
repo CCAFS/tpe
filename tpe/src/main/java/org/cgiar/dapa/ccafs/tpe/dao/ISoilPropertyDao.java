@@ -13,10 +13,12 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.SoilProperty;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.Grid;
 
 /**
  * The interface that defines the soil property DAO methods
@@ -66,7 +68,7 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 * @return soil features
 	 */
 	Map<String, Object> getSoilFeaturesByCountry(Integer propertyId,
-			Integer countryId,Boolean continent);
+			Integer countryId, Boolean continent);
 
 	/**
 	 * Retrieves the soil features for the specified soil property category id
@@ -105,4 +107,22 @@ public interface ISoilPropertyDao extends IGenericDao<SoilProperty, Long> {
 	 */
 	Map<String, Object> getSoilGeoJson(List<Integer> propertyIds,
 			Integer countryId, Boolean continent);
+
+	/**
+	 * Lists soil data for generating the jqgrid table .
+	 * 
+	 * @param country
+	 *            the country id
+	 * @param level
+	 *            the administrative level
+	 * @param params
+	 *            soil parameters
+	 * @param page
+	 *            the start page
+	 * @param rows
+	 *            the number of record to retrieve
+	 * @return soil data
+	 */
+	List<? extends Grid> listSoil(Integer country, boolean level,
+			ArrayList<Integer> params, int page, int rows);
 }

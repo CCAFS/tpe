@@ -242,6 +242,12 @@
 	<bean id="googleAnalyticsAction" class="org.cgiar.dapa.ccafs.tpe.action.GoogleAnalyticsAction">
 		<property name="siteId" value="${google.analytics.id}" />
 	</bean>
+	<bean id="jqgridAction" class="org.cgiar.dapa.ccafs.tpe.action.JQGridAction">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
+	<bean id="queryAction" class="org.cgiar.dapa.ccafs.tpe.action.QueryAction">
+		<property name="tpeService" ref="tpeService" />
+	</bean>
 
 
 </beans>

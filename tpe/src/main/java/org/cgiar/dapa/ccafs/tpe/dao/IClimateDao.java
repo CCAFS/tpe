@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cgiar.dapa.ccafs.tpe.entity.Climate;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.ClimateGrid;
 
 /**
  * This interface defines the DAO methods for the climate in the model
@@ -52,7 +53,6 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 */
 	List<String> getClimateYears(Integer countryId);
 
-
 	/**
 	 * Retrieves the climate series data from the database
 	 * 
@@ -81,6 +81,25 @@ public interface IClimateDao extends IGenericDao<Climate, Long> {
 	 * @return climate
 	 */
 	List<Climate> getClimateByRegions(List<Integer> regionIds);
-	
-	List<Object[]>getClimateData(Integer countryId);
+
+	List<Object[]> getClimateData(Integer countryId);
+
+	/**
+	 * Lists the climate records for the specified country and administrative
+	 * level
+	 * 
+	 * @param country
+	 *            the country id
+	 * @param level
+	 *            the administrative level
+	 * @param param
+	 *            the climate parameter (tmax, tmin,precipitation or radiation)
+	 * @param start
+	 *            the start row
+	 * @param rows
+	 *            the number of rows to retrieve
+	 * @return climate list
+	 */
+	List<ClimateGrid> listClimate(Integer country, Boolean level, String param,
+			int start, int rows);
 }

@@ -70,6 +70,7 @@
 			<li><a href="<s:url namespace="/" action="documentation" />">Documentation</a></li>
 			<li><a href="<s:url namespace="/" action="resources" />">Resources</a></li>
 		    <li><a href="<s:url namespace="/" action="contactUs" />">Contact Us</a></li> 
+		     <li><a href="<s:url namespace="/json" action="queryParams" />">Query Data</a></li> 
 		</ul>
 	</div>
 	<!-- </div> -->

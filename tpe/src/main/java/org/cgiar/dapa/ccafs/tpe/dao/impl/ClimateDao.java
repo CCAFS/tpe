@@ -37,6 +37,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePoint;
 import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPoint;
+import org.cgiar.dapa.ccafs.tpe.jqgrid.ClimateGrid;
 import org.cgiar.dapa.ccafs.tpe.util.FeatureType;
 
 import com.google.common.base.Function;
@@ -51,7 +52,7 @@ import com.google.common.collect.Lists;
 @SuppressWarnings({ "unchecked", "unused" })
 public class ClimateDao extends GenericDao<Climate, Long> implements
 		IClimateDao {
-	private Logger log = Logger.getLogger(this.getClass());
+	private Logger LOG = Logger.getLogger(this.getClass());
 	private static final String TMIN = "minT";
 	private static final String TMAX = "maxT";
 	private static final String RADIATION = "radiation";
@@ -109,6 +110,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 					"select distinct r.region.name,r.region.parent.name,r.region.parent.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.longitude, r.latitude,r.region.parent.parent.parent.name,r.monthPlantingDate,group_concat(r.radiation,r.month) from "
 							+ entityClass.getName())
 					.append(" r where r.region.parent.parent.parent.parent.id =:id")
+					.append(" and r.continent =:continent")
 					.append(" group by r.region.id, r.longitude, r.latitude")
 					.append(" order by r.region.id, r.longitude, r.latitude, r.month asc");
 
@@ -124,9 +126,10 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		} else {
 
 			q = new StringBuffer(
-					"select distinct r.station.name,r.station.region.name,r.station.region.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.station.longitude, r.station.latitude,r.longitude,r.latitude,group_concat(r.radiation,r.month) from "
+					"select distinct r.station.name,r.station.region.name,r.station.region.parent.name,group_concat(r.tmin,r.month),group_concat(r.tmax,r.month),group_concat(r.precipitation,r.month),r.station.longitude, r.station.latitude,r.longitude,r.latitude,group_concat(r.radiation,r.month),r.station.region.parent.parent.name,r.region.id from "
 							+ entityClass.getName())
 					.append(" r where r.station.region.parent.id =:id")
+					.append(" and r.continent =:continent")
 					.append(" or r.station.region.parent.parent.id =:id")
 					.append(" group by r.station.id, r.longitude, r.latitude")
 					.append(" order by r.station.id, r.longitude, r.latitude, r.month asc");
@@ -135,15 +138,18 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 		query = entityManager.createQuery(q.toString());
 		query.setParameter("id", countryId);
+		query.setParameter("continent", continent);
 		results = query.getResultList();
 
 		// log.info(results.size());
 		// results = results != null ? results : new ArrayList<Object[]>();
 
-		if ((results == null) || (results.size() == 0))
+		if ((results == null) || (results.size() == 0)) {
+			LOG.warn("No results returned.");
 			return new LinkedHashMap<String, Object>();
+		}
 
-		log.info(results.size());
+		LOG.info(results.size());
 
 		climateFeatures.addAll(createFeatures(results, continent));
 		// }
@@ -175,17 +181,44 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 		for (Object[] row : results) {
 			properties = new LinkedHashMap<String, Object>();
+			String municipio, state, countr;
+			Double lon, lat;
 			if (continent) {
-
 				// Municipality/State/Country/Continent
 				// properties.put(REGION_NAME, row[9]);
 				properties.put(PLANTING_DATE, row[9]);
 				properties.put(FEATURE_ICON, true);
-
-			}
-
-			else {
+				// For 3 Admin Levels
+				// Municipality/State/Country
+				countr = row[2].toString();
+				state = row[1].toString();
+				municipio = row[0].toString();
+				lon = Double.valueOf(row[6] != null ? row[6].toString()
+						: String.valueOf(0));
+				lat = Double.valueOf(row[7] != null ? row[7].toString()
+						: String.valueOf(0));
+			} else {
 				properties.put(FEATURE_ICON, false);
+				if (row[12] != null) {
+					// For 3 Admin Levels
+					// Municipality/State/Country
+					countr = row[11].toString();
+					state = row[2].toString();
+					municipio = row[1].toString();
+				} else {
+					// For2 admin levels
+					// State/Country
+					countr = row[2].toString();
+					state = row[1].toString();
+					municipio = "";
+				}
+
+				lon = Double.valueOf(row[8] != null ? row[8].toString()
+						: (row[6] != null ? row[6].toString() : String
+								.valueOf(0)));
+				lat = Double.valueOf(row[9] != null ? row[9].toString()
+						: (row[7] != null ? row[7].toString() : String
+								.valueOf(0)));
 			}
 
 			// if(){
@@ -194,28 +227,32 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 
 			climateGeometry = new GeometryPoint(new LinkedList<Double>(
 
-			Arrays.asList(
-					Double.parseDouble(row[6] != null ? row[6].toString() :
-
-					(row[8] != null ? row[8].toString() : String.valueOf(0)))
-					// String.valueOf(0))
-					, Double.parseDouble(row[7] != null ? row[7].toString()
-
-					: (row[9] != null ? row[9].toString() : String.valueOf(0))
-
-					// String
-					// .valueOf(0)
-
-					))));
-			properties.put(COUNTRY_NAME, row[2]);// Country
-			properties.put("country", row[2]);
+			Arrays.asList(lon, lat
+			// Double.parseDouble(
+			// row[6] != null ? row[6].toString()
+			// : (row[8] != null ? row[8].toString() : String.valueOf(0)))
+			// ,
+			// Double.parseDouble(row[7] != null ? row[7].toString()
+			// : (row[9] != null ? row[9].toString() :
+			// String.valueOf(0))
+			// )
+			)));
+			properties.put(COUNTRY_NAME, countr// row[2]
+					);// Country
+			properties.put("country", countr
+			// row[2]
+					);
 			// Municipality/State
-			properties.put(STATE_NAME, row[1]);
+			properties.put(STATE_NAME, state
+			// row[1]
+					);
 			// properties.put(STATION_NUMBER,
 			// climate.getStation().getNumber());
 			properties.put(STATION_NAME, row[0]);
 			// Municipality
-			properties.put(MUNICIPALITY_NAME, row[0]);
+			properties.put(MUNICIPALITY_NAME, municipio
+			// row[0]
+					);
 			properties.put(FEATURE_NAME, row[0]);// Municipality or station
 
 			if (continent)
@@ -736,5 +773,112 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		// results = query.getResultList();
 		//
 		// return results != null ? results : new ArrayList<Object[]>();
+	}
+
+	@Override
+	public List<ClimateGrid> listClimate(Integer country, Boolean level,
+			String param, int start, int rows) {
+		List<ClimateGrid> climate = new LinkedList<ClimateGrid>();
+		Query query = null;
+		// List<Climate> results = new LinkedList<Climate>();
+		List<Object[]> results = new LinkedList<Object[]>();
+		StringBuffer q = null;
+		if (level) {
+			// q = new StringBuffer("from " + entityClass.getName())
+			// .append(" r where r.region.parent.parent.parent.parent.id =:id")
+			// .append(" order by r.region.id, r.longitude, r.latitude, r.month asc");
+			// param should be tmin, tmax, precipitation or radiation
+			q = new StringBuffer(
+			// "select distinct r.region.name,r.region.parent.name,r.region.parent.parent.name,group_concat(r.tmin,r.month),r.month,r.longitude, r.latitude,r.region.parent.parent.parent.name from "
+					"select distinct r.region.name,r.region.parent.name,r.region.parent.parent.name,group_concat(r."
+							+ param
+							+ ",r.month),r.month,r.longitude, r.latitude,r.region.parent.parent.parent.name,r.region.id from "
+							+ entityClass.getName())
+					.append(" r where r.region.parent.parent.parent.parent.id =:id")
+					.append(" and r.continent =:continent")
+					.append(" group by r.region.id, r.longitude, r.latitude")
+					.append(" order by r.region.id, r.longitude, r.latitude, r.month asc");
+		} else {
+
+			// q = new StringBuffer("from " + entityClass.getName())
+			// .append(" r where r.station.region.parent.id =:id")
+			// .append(" or r.station.region.parent.parent.id =:id")
+			// .append(" order by r.station.id, r.longitude, r.latitude, r.month asc");
+			// param should be tmin, tmax, precipitation or radiation
+			q = new StringBuffer(
+			// "select distinct r.station.name,r.station.region.name,r.station.region.parent.name,group_concat(r.tmin,r.month),r.month,r.station.longitude, r.station.latitude,r.longitude,r.latitude from "
+					"select distinct r.station.name,r.station.region.name,r.station.region.parent.name,group_concat(r."
+							+ param
+							+ ",r.month),r.month,r.station.longitude, r.station.latitude,r.longitude,r.latitude,r.station.region.parent.parent.name,r.region.id from "
+							+ entityClass.getName())
+					.append(" r where r.station.region.parent.id =:id")
+					.append(" or r.station.region.parent.parent.id =:id")
+					.append(" and r.continent =:continent")
+					.append(" group by r.station.id, r.longitude, r.latitude")
+					.append(" order by r.station.id, r.longitude, r.latitude, r.month asc");
+
+		}
+
+		query = entityManager.createQuery(q.toString());
+		query.setParameter("id", country);
+		query.setParameter("continent", level);
+		query.setMaxResults(rows);
+		query.setFirstResult(start);
+		results = query.getResultList();
+
+		// log.info(results.size());
+		// results = results != null ? results : new ArrayList<Object[]>();
+
+		if ((results == null) || (results.size() == 0)) {
+			LOG.warn("No results retrieved");
+			return new ArrayList<ClimateGrid>();
+		}
+		LOG.info(results.size());
+		for (Object[] row : results) {
+			List<Object> res = new LinkedList<Object>(Arrays.asList(row[3]
+					.toString().split(",")));
+			String municipio, state, countr;
+			Double lon, lat;
+			if (level) {
+				// For 3 Admin Levels
+				// Municipality/State/Country
+				countr = row[2].toString();
+				state = row[1].toString();
+				municipio = row[0].toString();
+				lon = Double.valueOf(row[5].toString());
+				lat = Double.valueOf(row[6].toString());
+			} else {
+
+				if (row[10] != null) {
+					// For 3 Admin Levels
+					// Municipality/State/Country
+					countr = row[9].toString();
+					state = row[2].toString();
+					municipio = row[1].toString();
+				} else {
+					// For2 admin levels
+					// State/Country
+					countr = row[2].toString();
+					state = row[1].toString();
+					municipio = "";
+				}
+
+				lon = Double.valueOf(row[7] != null ? row[7].toString()
+						: row[5].toString());
+				lat = Double.valueOf(row[8] != null ? row[8].toString()
+						: row[6].toString());
+			}
+			climate.add(new ClimateGrid(countr, state, municipio, row[0]
+					.toString(), Float.valueOf(res.get(0).toString()), Float
+					.valueOf(res.get(1).toString()), Float.valueOf(res.get(2)
+					.toString()), Float.valueOf(res.get(3).toString()), Float
+					.valueOf(res.get(4).toString()), Float.valueOf(res.get(5)
+					.toString()), Float.valueOf(res.get(6).toString()), Float
+					.valueOf(res.get(7).toString()), Float.valueOf(res.get(8)
+					.toString()), Float.valueOf(res.get(9).toString()), Float
+					.valueOf(res.get(10).toString()), Float.valueOf(res.get(11)
+					.toString()), lon, lat));
+		}
+		return climate;
 	}
 }
