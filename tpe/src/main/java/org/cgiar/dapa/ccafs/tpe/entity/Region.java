@@ -16,6 +16,7 @@ package org.cgiar.dapa.ccafs.tpe.entity;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -117,7 +118,10 @@ public class Region extends BaseEntity implements Coordinate {
 
 	@Column(name = "name")
 	public String getName() {
-		return name;
+		// return name;
+		if (name != null)
+			return name.replaceAll(Pattern.quote("_"), " ");
+		return null;
 	}
 
 	public void setName(String name) {

@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.jqgrid;
 
+import java.util.regex.Pattern;
+
 public class ClimateGrid implements Grid {
 	private String country;
 	private String state;
@@ -90,7 +92,9 @@ public class ClimateGrid implements Grid {
 	}
 
 	public String getStation() {
-		return station;
+		if (station != null)
+			return station.replaceAll(Pattern.quote("_"), " ");
+		return null;
 	}
 
 	public void setStation(String station) {
@@ -212,13 +216,13 @@ public class ClimateGrid implements Grid {
 	@Override
 	public String toString() {
 
-		return "Country: " + getCountry() + ", State: " + getState() + ", Mun: "
-				+ getMunicipality() + ", Station: " + getStation() + ", Jan: "
-				+ getJan() + ", Feb: " + getFeb() + ", Mar: " + getMar()
-				+ ", Apr: " + getApr() + ", May: " + getMay() + ", Jun: "
-				+ getJun() + ", Jul: " + getJul() + ", Aug: " + getAug()
-				+ ", Sep: " + getSep() + ", Oct: " + getOct() + ", Nov: "
-				+ getNov() + ", Dec: " + getDec();
+		return "Country: " + getCountry() + ", State: " + getState()
+				+ ", Mun: " + getMunicipality() + ", Station: " + getStation()
+				+ ", Jan: " + getJan() + ", Feb: " + getFeb() + ", Mar: "
+				+ getMar() + ", Apr: " + getApr() + ", May: " + getMay()
+				+ ", Jun: " + getJun() + ", Jul: " + getJul() + ", Aug: "
+				+ getAug() + ", Sep: " + getSep() + ", Oct: " + getOct()
+				+ ", Nov: " + getNov() + ", Dec: " + getDec();
 	}
 
 }

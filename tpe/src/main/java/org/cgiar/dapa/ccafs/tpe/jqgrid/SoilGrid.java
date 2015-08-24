@@ -13,6 +13,8 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.jqgrid;
 
+import java.util.regex.Pattern;
+
 public class SoilGrid implements Grid {
 	private String country;
 	private String state;
@@ -101,7 +103,9 @@ public class SoilGrid implements Grid {
 	}
 
 	public String getStation() {
-		return station;
+		if (station != null)
+			return station.replaceAll(Pattern.quote("_"), " ");
+		return null;
 	}
 
 	public void setStation(String station) {
@@ -224,8 +228,8 @@ public class SoilGrid implements Grid {
 	public String toString() {
 
 		return "Country: " + getCountry() + ", State: " + getState()
-				+ ", Municipio: " + getMunicipality() + ", Station: " + getStation()
-				+ ", Sand: " + getSand() + ", PH: " + getPh()
+				+ ", Municipio: " + getMunicipality() + ", Station: "
+				+ getStation() + ", Sand: " + getSand() + ", PH: " + getPh()
 				+ ", Bulky Density: " + getBulkyDensity() + ", Silt: "
 				+ getSilt() + ", Clay: " + getClay() + ", Caation Exchange: "
 				+ getCationExchange() + ", Taxonomy: " + getTaxonomy()
