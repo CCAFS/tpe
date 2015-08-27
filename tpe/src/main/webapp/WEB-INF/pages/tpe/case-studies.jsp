@@ -5,33 +5,6 @@
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <title>TPE Documentation</title>
-<script type="text/javascript">
-	$(document).ready(function() {
-
-		/* $("a.doc-index").click(function() {
-			$('.pane_left').load("${ctx}/casestudy/index.jspx");
-			return false
-		});
-		$(".brazilian a").click(function() {
-			$('.pane_left').load("${ctx}/casestudy/brazilian.jspx");
-			if ($('.navigation').has('.brazilian').length) {
-				// It has that class. Do nothing
-			} else {
-				//Append it
-				$('h4.navigation a.doc-index').append('<a class="brazilian" href="#">Brazilian</a>');
-			}
-			return false
-		});
-		$(".colombian a").click(function() {
-			$('.pane_left').load("${ctx}/casestudy/colombian.jspx");
-			return false
-		});
-		$(".lamerica a").click(function() {
-			$('.pane_left').load("${ctx}/casestudy/lamerica.jspx");
-			return false
-		}); */
-	});
-</script>
 </head>
 <body>
 	<div id="documentation">
@@ -40,44 +13,49 @@
 		</h4>
 		<div>
 			<div class="pane_left">
-				<!--Documentation Area-->
-				<div class="doc-list brazilian">
-					<div class="img">
-						<a href="${ctx}/casestudy/brazilian.jspx"><img
-							src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
-					</div>
-					<div class="doc-min brazilian">
-						<h4>
-							<a href="${ctx}/casestudy/brazilian.jspx">Brazilian Case
-								Study</a>
-						</h4>
-						<p>Brazilian Case Study</p>
-					</div>
-				</div>
+				<!--Where we work Area-->
 				<div class="doc-list colombian">
 					<div class="img">
 						<a href="${ctx}/casestudy/colombian.jspx"><img
-							src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
+							src="${ctx}/img/case-colombia.jpg" alt="image" /> </a>
 					</div>
 					<div class="doc-min colombian">
 						<h4>
-							<a href="${ctx}/casestudy/colombian.jspx">Colombian Case
-								Study</a>
+							<a href="${ctx}/casestudy/colombian.jspx">Colombia - Lowlands</a>
 						</h4>
-						<p>Colombian Case Study</p>
+						<p>Researchers from the University of Oxford arrived in Beora,
+							Nepal on a hot, humid day in May of this year. It was here,
+							between the mid-hills region of Nepal and the border of India..</p>
 					</div>
 				</div>
+				<div class="doc-list brazilian">
+					<div class="img">
+						<a href="${ctx}/casestudy/brazilian.jspx"><img
+							src="${ctx}/img/case-brazil.jpg" alt="image" /> </a>
+					</div>
+					<div class="doc-min brazilian">
+						<h4>
+							<a href="${ctx}/casestudy/brazilian.jspx">Brazil - Uplands</a>
+						</h4>
+						<p>Fifty-five year old Rosalia Shemdoe feels empowered. She
+							lives and works in Yamba village in the Lushoto district of
+							northern Tanzania, but she just got back from what..</p>
+					</div>
+				</div>
+
 				<div class="doc-list lamerica">
 					<div class="img">
 						<a href="${ctx}/casestudy/lamerica.jspx"><img
-							src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
+							src="${ctx}/img/case-latin.jpg" alt="image" /> </a>
 					</div>
 					<div class="doc-min lamerica">
 						<h4>
-							<a href="${ctx}/casestudy/lamerica.jspx">Latin America Case
-								Study</a>
+							<a href="${ctx}/casestudy/lamerica.jspx">CCAFS in Nepal:
+								Finding the future of Beora - Part I </a>
 						</h4>
-						<p>Latin America Case Study</p>
+						<p>Around 120 km west of the capital Kathmandu, this is a
+							hazy, sweltering, lowland plain, where daytime temperatures hover
+							around 45 degrees Celsius, with little respite after dark.</p>
 					</div>
 				</div>
 			</div>

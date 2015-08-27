@@ -67,8 +67,6 @@ function initializeMap(data) {
 	var productionLayer = new google.maps.Data();
 	// The features layer
 	var featuresLayer = new google.maps.Data();
-
-	// console.log('Selected Output: ' + selectedOutput);
 	// Create the new map and make sure the tpe_map div
 	// exists
 	map = new google.maps.Map(document.getElementById('tpe_map'), mapOptions);
@@ -96,8 +94,6 @@ function initializeMap(data) {
 		createSoilGraphics(seriesJSON['C']);
 
 	} else if (selectedOutput.toUpperCase() == OUTPUT_CLIMATE) {
-
-		// console.log('Initializing climate');
 		// Load admin regions
 		loadAdminRegions(map, data);
 
@@ -109,7 +105,6 @@ function initializeMap(data) {
 
 		// Add climate graphics
 		createClimateGraphics(null, null);
-		// console.log('Initialization completed');
 	}
 
 	else if (selectedOutput.toUpperCase() == OUTPUT_STABILITY) {
@@ -160,23 +155,17 @@ function createClimateFeatures(map, data) {
 		map.data.addGeoJson(data.growingRegionsJson, {
 			idPropertyName : "id"
 		});
-		// console.log('regionJson is not null');
 	}
 	// if (data.growingRegionsJson != null) {
 	// map.data.addGeoJson(data.growingRegionsJson, {
 	// idPropertyName : "id"
 	// });
-	// // console.log('regionJson is not null');
 	// }
-	// console.log('regionJson is null');
-
 	// Add the GeoJson features to the map, stations
 	if (data.featuresJson != null)
 		map.data.addGeoJson(data.featuresJson, {
 			idPropertyName : "id"
 		});
-
-	// console.log(data.featuresJson);
 }
 /**
  * Creates climate graphics
@@ -188,7 +177,6 @@ function createClimateGraphics(dataSeries, stationName) {
 	// TODO Get default station id and name from the database
 	if (dataSeries != null && stationName != null)
 		rainfallRadiationPlot(dataSeries, true, stationName);
-	// console.log(dataSeries);
 }
 
 /**
@@ -197,10 +185,11 @@ function createClimateGraphics(dataSeries, stationName) {
 function createLegend(map) {
 	// get the legend container, create a legend, add a legend renderer fn
 	// var $legendContainer = $('#legend-container')
-	var $legendContainer = $('<div id="legend-container"><h3>' + legendTitle
-			+ '</h3></div>'), $legend = $('<div id="legend">').appendTo(
-			$legendContainer), renderLegend = function(colorValuesArray) {
+	var $legendContainer = $('<div id="legend-container">'), $legend = $(
+			'<div id="legend">').appendTo($legendContainer), renderLegend = function(
+			colorValuesArray) {
 		$legend.empty();
+		$legend.append($('<h3>' + legendTitle + '</h3>'));
 
 		if (selectedOutput.toUpperCase() == OUTPUT_SOIL) {
 			$.each(colorValuesArray, function(index, val) {
@@ -416,19 +405,10 @@ function createTPEGraphics(series) {
 				plotPCEW(seriesMap, 'PCEW', true);
 			} else if (seriesMap.type == 'WAGT') {
 				plotWAGT(seriesMap, 'WAGT', true);
-				// console.log('=============== RAIN WAGT DONE==============');
-				// console.log(seriesMap);
 			} else if (seriesMap.type == 'RAINSUM') {
-				// console.log('=============== RAIN SUM ==============');
 				plotRAIN(seriesMap, 'RAINSUM', true);
-				// console.log('=============== RAIN SUM DONE==============');
-				// console.log(seriesMap);
 			} else if (seriesMap.type == 'RAINCUM') {
-				// console.log('=============== RAIN CUM==============');
 				plotRAINCUM(seriesMap, 'RAINCUM', true);
-				// console.log('=============== RAIN CUM DONE==============');
-				// console.log(seriesMap);
-
 			}
 		});
 }
@@ -440,8 +420,6 @@ function createTPEGraphics(series) {
  * @param data
  */
 function loadAdminRegions(map, data) {
-	// console.log('Municipios, regions, boundary and states are available!!!');
-
 	if (data.regionJson != null)
 		// Add the selected country polygon feature to the map.
 		map.data.addGeoJson(data.regionJson, {
@@ -630,8 +608,6 @@ function createSoilFeatures(map, data, featLayer, prodLayer) {
 		prodLayer.addGeoJson(data.growingRegionsJson, {
 			idPropertyName : "id"
 		});
-		// console.log('regionJson is not null');
-
 		prodLayer.setMap(map);
 		// Set the style for the production layer
 		prodLayer.setStyle(function(feature) {
@@ -699,14 +675,11 @@ function createSoilFeatures(map, data, featLayer, prodLayer) {
 		});
 	}
 	// if (data.growingRegionsJson != null) {
-	// console.log('Added production regions in soil module')
 	// map.data.addGeoJson(data.growingRegionsJson, {
 	// idPropertyName : "id"
 	// });
 	// }
 	// else
-	// console.log('Production region is null')
-
 	var markerClusterer = new MarkerClusterer(
 			map,
 			null,
@@ -791,13 +764,7 @@ function createSoilFeatures(map, data, featLayer, prodLayer) {
 			google.maps.event.addListener(marker, 'mouseover', function(marker,
 					e) {
 
-				// console.log("mouseover: ");
-
 				return function() {
-					// console.log("Center of cluster: " + e.feature());
-					// console.log("Number of managed markers in cluster: " +
-					// marker);
-
 					e.feature.setProperty('selected', true);
 					$('#info').show();
 					$('#info h2').text(e.feature.getProperty('name'));
@@ -845,11 +812,6 @@ function createSoilFeatures(map, data, featLayer, prodLayer) {
 					markerClusterer,
 					"mouseover",
 					function(cluster) {
-						// console.log("mouseover: ");
-						// console.log("Center of cluster: " +
-						// cluster.getCenter());
-						// console.log("Number of managed markers in cluster: "+
-						// cluster.getSize());
 
 						$('#info').show();
 
@@ -1068,10 +1030,6 @@ function addClickListener(map) {
 
 			clickedFeature = e.feature.getProperty('dataSeries');
 			clickedFeatureName = e.feature.getProperty('name');
-			// console.log('clicked feature');
-			// console.log(clickedFeature);
-			// console.log('feature name');
-			// console.log(clickedFeatureName);
 
 			// Add title to the infos
 			// TODO Uncomment it to add the static info window
@@ -1104,7 +1062,6 @@ function addMouseOverListener(map) {
 
 						if (e.feature.getProperty('name') == 'TPE_BOUNDARY') {
 							// TODO: If feature is boundary, then Do nothing
-							// console.log(e.feature.getProperty('name'));
 							map.data.overrideStyle(e.feature, {
 								strokeColor : '#000',
 								fillOpacity : 0,
@@ -1114,17 +1071,14 @@ function addMouseOverListener(map) {
 
 						// else if (e.feature.getProperty('name') == 'Brazil') {
 						// TODO: If feature is country, then Do nothing
-						// console.log(e.feature.getProperty('name'));
 						// } else if (e.feature.getProperty('name') ==
 						// 'Colombia') {
 
-						// console.log(e.feature.getProperty('name'));
 						// }
 						else {
 							$('#info').show();
 							if (e.feature.getProperty('name') == 'municipality') {
 								// TODO: If feature is boundary, then Do nothing
-								// console.log(e.feature.getProperty('name'));
 								map.data.overrideStyle(e.feature, {
 									strokeColor : '#000',
 									fillOpacity : 0,
@@ -1190,9 +1144,6 @@ function addMouseOverListener(map) {
 
 									strokeColor = COLOR_HFE;// #00ff00
 									fillColor = COLOR_HFE;// #00ff00
-
-									// console.log(hfeSeries);
-
 								} else if (e.feature.getProperty('name') == ENV_LFE) {
 									// Create graphics
 									createTPEGraphics(lfeSeries)
@@ -1204,7 +1155,6 @@ function addMouseOverListener(map) {
 
 									// Create feature graphics
 									createTPEGraphics(feSeries)
-									// console.log(feSeries);
 
 									strokeColor = COLOR_FE;// #0041a0
 									fillColor = COLOR_FE;// #0041a0
@@ -1248,15 +1198,10 @@ function addMouseOverListener(map) {
 
 									strokeColor = '#009900';// #009900
 									fillColor = '#009900';// #009900
-
-									// console.log(hfeSeries);
-
 								} else if (e.feature.getProperty('name') == STABILITY_MIDDLE) {
 
 									// Create feature graphics
 									createTPEGraphics(feSeries)
-									// console.log(feSeries);
-
 									strokeColor = '#000099';
 									fillColor = '#000099';
 
@@ -1450,10 +1395,6 @@ function addMouseOutListener(map) {
 
 			// rainfallRadiationPlot(climateSeriesJSON, true,
 			// clickedFeature,clickedFeatureName);
-			// console.log('last clicked feature');
-			// console.log(clickedFeature);
-			// console.log('last feature name');
-			// console.log(clickedFeatureName);
 			createClimateGraphics(clickedFeature, clickedFeatureName);
 
 		} else if (e.feature.getProperty('featureType') == 'REGION') {
@@ -1671,27 +1612,36 @@ function featureInfo(event) {
 			// Add a table for tmin, tmax and precipitation.
 			$htmlText = $htmlText
 					+ '<div><table id="monthly-series">'
-					+ '<tr><td>Month:</td><td>J</td><td>F</td><td>M</td><td>A</td><td>M</td><td>J</td>'
+					+ '<tr style="text-align: center;"><td style="text-align: left;">Month:</td><td>J</td><td>F</td><td>M</td><td>A</td><td>M</td><td>J</td>'
 					+ '<td>J</td><td>A</td><td>S</td><td>O</td><td>N</td><td>D</td></tr>';
-			$.each(infoSeries, function(key, listOfValues) {
-				var unit = (key == 'tmax') || (key == 'tmin') ? ' (°C)'
-						: ' (mm)';
-				$htmlText = $htmlText + '<tr><td>' + key + unit + '</td>';
+			$
+					.each(
+							infoSeries,
+							function(key, listOfValues) {
+								var unit = (key == 'tmax') || (key == 'tmin') ? '(°C)'
+										: ((key == 'prec') ? '(mm)':'(MJ/m2.day)');//(kJm-2d-1)
+								$htmlText = $htmlText
+										+ '<tr style="text-align: center;"><td style="text-align: left;text-transform: capitalize;">'
+										+ key + unit + '</td>';
+								// text-transform: capitalize;
+								if (listOfValues != null)
+									$.each(listOfValues,
+											function(index, value) {
+												$htmlText = $htmlText
+														+ '<td>'
+														+ parseFloat(value)
+																.toFixed(1)
+														+ '</td>';
+											});
+								else {
+									var i;
+									for (i = 0; i < 12; ++i) {
+										$htmlText = $htmlText + '<td>-</td>';
+									}
+								}
 
-				// if (listOfValues != null)
-				$.each(listOfValues, function(index, value) {
-					$htmlText = $htmlText + '<td>'
-							+ parseFloat(value).toFixed(2) + '</td>';
-				});
-				// else {
-				// var i;
-				// for (i = 0; i < 12; ++i) {
-				// $htmlText = $htmlText + '<td>-</td>';
-				// }
-				// }
-
-				$htmlText = $htmlText + '</tr>'
-			});
+								$htmlText = $htmlText + '</tr>'
+							});
 			$htmlText = $htmlText + '</table></div>';
 		}
 
@@ -2201,10 +2151,6 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 
 // Create Box Plot
 function createTPEBoxPlot(categories, series, smallPlot) {
-	// console.log('These are categories');
-	// console.log(categories);
-	// console.log('These are series');
-	// console.log(series);
 	// $('#plot_box').show();
 	var renderTo = 'plot_box';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -2491,9 +2437,6 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 }
 
 function plotLAI(seriesMap, environment, smallPlot) {
-
-	// console.log(seriesMap);
-
 	// $('#plot_lai').show();
 	var renderTo = 'plot_lai';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -2770,11 +2713,8 @@ function plotLAI(seriesMap, environment, smallPlot) {
 }
 
 function plotPCEW(seriesMap, environment, smallPlot) {
-	// console.log(seriesMap.series);
-	// console.log(seriesMap.categories);
 	// $('#plot_pcew').show();
 	var renderTo = 'plot_pcew';// Default div
-	// console.log($('#' + renderTo).height());
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
 	var titleFontSize = '10px;'
@@ -2988,8 +2928,6 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 
 function plotRAIN(seriesMap, environment, smallPlot) {
 	// $('#plot_rainsum').show();
-
-	// console.log(seriesMap.plotBands);
 	var renderTo = 'plot_rainsum';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
@@ -3241,10 +3179,6 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		categories = dataSeries['categories'];
 		series = dataSeries['series'];
 	}
-	// console.log(stationName);
-	// console.log(series);
-	// console.log(categories);
-
 	// $('#rain_radiation').show();
 	var renderTo = 'rain_radiation';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -3290,7 +3224,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 		// Create the graphic description for the zoomed plot.
 		// Grab the dialog div
 		$('#dialog-infos').html(
-				'Average Monthly Rainfall and Precipitation from '
+				'Average Monthly Precipitation, Temperature and Radiation from '
 						+ stationName);
 	}
 
@@ -3392,7 +3326,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					}
 				},
 				title : {
-					text : 'Average Monthly Rainfall and Precipitation',
+					text : 'Average Monthly Precipitation, Temperature and Radiation',
 					style : {
 						color : '#4e2700',
 						// fontWeight : 'bold',
@@ -3426,15 +3360,6 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 
 				},
 				yAxis : [
-
-				/*
-				 * { // Primary yAxis labels : { enabled : labelsEnabled, //
-				 * format : '{value}°C', style : { color : '#4572A7', fontSize :
-				 * fontSize }, format : '{value:.1f}' // format : '{value:.2f}' },
-				 * min : 0, title : { text : 'Radation (MJ/m2.day)', style : {
-				 * color : '#4572A7' } } },
-				 */
-
 				{ // Secondary yAxis
 					title : {
 						text : 'Rainfall (mm)',
@@ -3483,6 +3408,25 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 					opposite : true
 				// linkedTo:0
 				}
+				, { // Tertially yAxis 
+					  labels : { 
+							 enabled : labelsEnabled,
+							 // format : '{value}(MJ/m2.day)',
+							  style : { color : '#4572A7',
+							  fontSize : fontSize }, 
+							  //format : '{value:.1f}' 
+							  format : '{value:.1f}' },
+							  // format : '{value:.1f}(MJ/m2.day)' },
+							 // min : 0, 
+							  title : { 
+								  text : 'Radiation (MJ/m2.day)', 
+								  style : {
+							      color : '#4572A7' } ,
+							      rotation : -90,
+									x : 5
+							  } ,
+							  opposite : true
+							  },
 				/*
 				 * , { // Tertially yAxis, Max Temperature title : { text : 'Max
 				 * Temperature (°C)', rotation : -90, x : 10, style : { color :
@@ -3541,8 +3485,6 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 
 function plotRAINCUM(seriesMap, environment, smallPlot) {
 	// $('#plot_rainsum').show();
-
-	// console.log(seriesMap.plotBands);
 	var renderTo = 'plot_raincum';// Default div
 	var dialogDiv = 'dialog-chart';
 	var fontSize = '8px';
@@ -3796,8 +3738,6 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 }
 
 function plotWAGT(seriesMap, environment, smallPlot) {
-	// console.log(seriesMap.series);
-	// console.log(seriesMap.categories);
 	// $('#plot_pcew').show();
 	var renderTo = 'plot_wagt';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -4052,7 +3992,6 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 	// $('#' + renderTo).parent().prev('h3').click(function() {
 	// // chart.redraw();
 	// chart.setSize($(document).width(), $(document).height() / 2, false);
-	// console.log('Redrawing the plot...');
 	// });
 
 }

@@ -32,14 +32,11 @@
 								.getElementById('select_output');
 						var outputText = outputControl.options[outputControl.selectedIndex].text;
 
-						/* $("#params_out").load(href_output, {
-							selectedOutput : 1
-						}, function() {
-							// Initialize or preload the variables
-							loadVariables(outputText);
-						
-						}); */
+						//By default preload the page with data
+						$("#sections").load(href_query_climate, {}, function() {
 
+						});
+						//Load the page when the variables change
 						$(
 								"select#select_output,select#select_country,select#select_param")
 								.change(
@@ -73,13 +70,13 @@
 						/* $('#select_output'). */
 
 						/* $('#climate-params') */
-						
+
 						$("#select_params").draggable({
 							containment : "#sections",
 							cursor : 'move',
 							snap : '#sections'
 						});
-						
+
 					});
 </script>
 <style type="text/css">

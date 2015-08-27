@@ -5,13 +5,13 @@ $(document)
 						window.location = "documentation.jspx";
 					});
 					$('#panel-bottom').on("click", function() {
-						window.location = "casestudy/index.jspx";
+						window.location = "visualization.jspx";
 					});
 					$('#panel-left').on("click", function() {
 						window.location = "contribute.jspx";
 					});
 					$('#panel-right').on("click", function() {
-						window.location = "visualization.jspx";
+						window.location = "casestudy/index.jspx";
 					});
 					// Panel info events
 					// Left panel (Visualization)
@@ -33,16 +33,6 @@ $(document)
 										// If left panel
 										if ($(this).is('#panel-left')) {
 											$('#home-panel-infos h2').css(
-													'color', '#ef2d38').text(
-													'Visualization');
-											$('#home-panel-infos span')
-													.html(
-															'Click to visualize TPE results (Climate, Soil, Stability and TPE)');
-											$("#panel-img")
-													.html(
-															'<img class="panel-img" src="img/visualization.png" />');
-										} else if ($(this).is('#panel-bottom')) {
-											$('#home-panel-infos h2').css(
 													'color', '#a6d832').text(
 													'Get Involved');
 											$('#home-panel-infos span')
@@ -51,13 +41,23 @@ $(document)
 											$("#panel-img")
 													.html(
 															'<img class="panel-img" src="img/getinvolved.png" />');
+										} else if ($(this).is('#panel-bottom')) {
+											$('#home-panel-infos h2').css(
+													'color', '#ef2d38').text(
+													'Visualization');
+											$('#home-panel-infos span')
+													.html(
+															'Click to visualize TPE results (Climate, Soil, Stability and TPE)');
+											$("#panel-img")
+													.html(
+															'<img class="panel-img" src="img/visualization.png" />');
 										} else if ($(this).is('#panel-right')) {
 											$('#home-panel-infos h2').css(
 													'color', '#6ba2dc').text(
-													'Resources');
+													'Methodology');
 											$('#home-panel-infos span')
 													.html(
-															'Click to access more resources.');
+															'Click to learn more about this methology and case studies.');
 										} else if ($(this).is('#panel-top')) {
 											$('#home-panel-infos h2').css(
 													'color', '#f47216').text(

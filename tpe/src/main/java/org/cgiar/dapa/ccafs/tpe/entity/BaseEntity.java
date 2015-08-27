@@ -42,6 +42,16 @@ public abstract class BaseEntity implements Serializable {
 	 */
 	private Integer id;
 
+	public BaseEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public BaseEntity(Integer id) {
+		super();
+		this.id = id;
+	}
+
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

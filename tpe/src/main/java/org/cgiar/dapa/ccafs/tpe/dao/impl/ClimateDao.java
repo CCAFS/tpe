@@ -277,7 +277,10 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			(row[9] != null ? row[9].toString() : String.valueOf(0))));
 
 			Map<String, List<Object>> infoSeries = new LinkedHashMap<String, List<Object>>();
+			// Create a dummy 12 points for a null series
 
+//			List<Object> dummy12 = new LinkedList<Object>(Arrays.asList("", "",
+//					"", "", "", "", "", "", "", "", "", ""));
 			// Create series for tmin, tmax and precipitation
 			// The results are ordered by month 1-12 (Jan-Dec)
 			infoSeries.put(
@@ -293,11 +296,17 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 					new LinkedList<Object>(Arrays.asList(row[5].toString()
 							.split(","))));
 
+			if (row[10] != null)
+				infoSeries.put(
+						"radi",
+						new LinkedList<Object>(Arrays.asList(row[10].toString()
+								.split(","))));
+			else
+				infoSeries.put("radi", null);
 			// infoSeries.put(
 			// "radi",
-			// new LinkedList<Object>(Arrays
-			// .asList(row[10] != null ? row[10].toString().split(
-			// ",") : null)));
+			// new LinkedList<Object>(Arrays.asList("", "", "", "",
+			// "", "", "", "", "", "", "", "")));
 
 			// infoSeries = getInfoSeries(climate, continent);
 			properties.put(INFO_SERIES, infoSeries);
@@ -320,6 +329,12 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 											new LinkedList<String>(Arrays
 													.asList(row[5].toString()
 															.split(","))), fn),
+
+									row[10] != null ? Lists.transform(
+											new LinkedList<String>(Arrays
+													.asList(row[10].toString()
+															.split(","))), fn)
+											: null,
 									(row[6] != null ? row[6].toString() : 0)
 											+ "_"
 											+ (row[7] != null ? row[7]
@@ -368,7 +383,7 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 	}
 
 	private Map<String, Object> createDataSeries(List<Double> tmin,
-			List<Double> tmax, List<Double> prec, String pointId) {
+			List<Double> tmax, List<Double> prec, List<Double> radi,String pointId) {
 		Map<String, Object> seriesData = new LinkedHashMap<String, Object>();
 
 		Map<String, Object> stationsSeriesMap = new LinkedHashMap<String, Object>();
@@ -387,27 +402,6 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		// The marker options. Only for the lines. Bars (rainfall will not have
 		// these options)
 		Map<String, Object> markerMap = new LinkedHashMap<String, Object>();
-
-		// Add radiation series
-		// seriesMap = new LinkedHashMap<String, Object>();
-		// seriesMap.put(TYPE, TYPE_SPLINE);
-		// seriesMap.put(NAME, "Radiation");
-		// seriesMap.put(AXIS_Y, 0);
-		// seriesMap.put(COLOR, "#89A54E");
-		// seriesMap.put(DATA, radiation);
-		// toolTipMap = new LinkedHashMap<String, Object>();
-		// toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
-		// seriesMap.put(TOOL_TIP, toolTipMap);
-		// // Add marker options
-		// // Add marker options
-		// markerMap = new LinkedHashMap<String, Object>();
-		// markerMap.put(LINE_WIDTH, 2);
-		// // markerMap.put(LINE_COLOR, clusterColor);
-		// // markerMap.put(FILL_COLOR, clusterColor);
-		// markerMap.put(ENABLED, false);
-		// seriesMap.put(MARKER, markerMap);
-		//
-		// seriesMapList.add(seriesMap);
 
 		// Add rainfall column series data
 		seriesMap = new LinkedHashMap<String, Object>();
@@ -462,6 +456,35 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		markerMap.put(ENABLED, false);
 		seriesMap.put(MARKER, markerMap);
 		seriesMapList.add(seriesMap);
+		
+		// Add radiation series
+				if(radi!=null){
+				 seriesMap = new LinkedHashMap<String, Object>();
+				 seriesMap.put(TYPE, TYPE_SPLINE);
+				 seriesMap.put(NAME, "Radiation");
+				 seriesMap.put(AXIS_Y, 2);
+				 seriesMap.put(COLOR, "#89A54E");
+				 seriesMap.put(DATA, radi);
+				 toolTipMap = new LinkedHashMap<String, Object>();
+				 toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
+				 seriesMap.put(TOOL_TIP, toolTipMap);
+				 // Add marker options
+				 // Add marker options
+				 markerMap = new LinkedHashMap<String, Object>();
+				 markerMap.put(LINE_WIDTH, 2);
+				 // markerMap.put(LINE_COLOR, clusterColor);
+				 // markerMap.put(FILL_COLOR, clusterColor);
+				 markerMap.put(ENABLED, false);
+				 seriesMap.put(MARKER, markerMap);
+				
+				 seriesMapList.add(seriesMap);
+					
+				}
+		
+		
+		
+		
+		
 
 		// Add the station id and its series data
 		stationsSeriesMap.put(pointId, seriesMapList);

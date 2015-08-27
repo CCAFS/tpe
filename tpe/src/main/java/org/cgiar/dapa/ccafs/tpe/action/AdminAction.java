@@ -50,6 +50,7 @@ public class AdminAction extends BaseAction {
 	private List<String> status;
 	private String selectedStatus;
 	private List<String> selectedRoles;
+	@SuppressWarnings("unused")
 	private String defaultStatus;
 
 	@Override

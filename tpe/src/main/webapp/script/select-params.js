@@ -12,10 +12,6 @@ jQuery(document).ready(function($){
 			snap : '#tpe_main'
 		});
 	/*});*/
-	
-	
-
-	// ////////////////
 
 	// For the graphics dialog window
 	$(window).resize(function() {
@@ -57,14 +53,6 @@ jQuery(document).ready(function($){
 	var outputControl = document.getElementById('select_output');
 	var outputText = outputControl.options[outputControl.selectedIndex].text;
 
-	// console.log("Output VALUE: " + outputValue);
-	// console.log("Output Text: " + outputText);
-	// Initialize the sub regions
-
-	// console.log('preselected tpe item value: ' +
-	// outputValue);
-	// console.log('preselected tpe item text: ' + outputText);
-
 	$("#params_out").load(href_output, {
 		// Pass the selected param to the server before loading
 		// the
@@ -79,21 +67,9 @@ jQuery(document).ready(function($){
 		loadVariables(outputText);
 		// Initialize or load the Google Map when all the
 		// variables are loaded
-		// visualizeResults();
-		// /////////////////////////////////////////////////////////////initializeGoogleMap();
 		$('#TourLink').trigger('click');
 	});
 
-	// Automatically reload the corresponding output params div
-	// when the output
-	// item is selected
-	/*
-	 * $("select#select_output").click(function() { // Get the selected output
-	 * id or text out = $(this).val(); console.log('Selected out: ' + out);
-	 * $("#params_out").load(href_output, { // Pass the parameters to the action
-	 * to return the params div selectedOutput : out }, function() {
-	 * $(this).slideUp(0).slideDown(1000); }); });
-	 */
 	// Automatically reload the sub regions when the country
 	// change
 	$("select#select_output").change(function() {

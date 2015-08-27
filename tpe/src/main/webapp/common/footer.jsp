@@ -29,13 +29,13 @@ jQuery(document).ready(function($){
 
 		//Footer Items
 		$('.colombia').hover(function() {
-			$("img", this).attr("src", "${ctx}/img/work-colombia-hover.png");
+			$("img", this).attr("src", "${ctx}/img/work-colombia.png");
 		}, function() {
 			$("img", this).attr("src", "${ctx}/img/work-colombia.png");
 		});
 
 		$('.brazil').hover(function() {
-			$("img", this).attr("src", "${ctx}/img/work-brazil-hover.png");
+			$("img", this).attr("src", "${ctx}/img/work-brazil.png");
 		}, function() {
 			$("img", this).attr("src", "${ctx}/img/work-brazil.png");
 		});
@@ -52,7 +52,7 @@ jQuery(document).ready(function($){
 
 <!--Footer section-->
 <div class="footer">
-	<div id="where-work-main">
+<%-- 	<div id="where-work-main">
 		<div style="float: left;">
 			<h5 style="clear: right; width: 150px; color: #fff;">Where we
 				work</h5>
@@ -96,7 +96,7 @@ jQuery(document).ready(function($){
 				</tr>
 			</table>
 		</div>
-	</div>
+	</div> --%>
 	<div class="footer_contents">
 		<table>
 			<tr>

@@ -5,11 +5,6 @@
 <title>Tags</title>
 <style>
 </style>
-<script>
-	$(document).ready(function() {
-
-	});
-</script>
 </head>
 
 <body>

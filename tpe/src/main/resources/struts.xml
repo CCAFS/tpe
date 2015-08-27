@@ -78,6 +78,9 @@
 			<result name="success">/WEB-INF/pages/tpe/contactus.jsp</result>
 			<!-- <result name="error">/WEB-INF/pages/tpe/error.jsp</result> -->
 		</action>
+		<action name="aboutUs" class="contactAction">
+			<result name="success">/WEB-INF/pages/tpe/aboutus.jsp</result>
+		</action>
 		<action name="contact_us" class="contactAction" method="contactus">
 			<!-- <result name="success">/WEB-INF/pages/tpe/contactus.jsp</result> -->
 			<!-- <result name="error">/WEB-INF/pages/tpe/error.jsp</result> -->

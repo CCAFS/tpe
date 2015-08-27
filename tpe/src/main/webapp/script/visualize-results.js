@@ -1,4 +1,4 @@
-var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics', legendTitle;
+var dataJSON, categoriesJSON, seriesTempRain, categoriesTempRain, tpeDialogTitle = 'CCAFS TPE Graphics', legendTitle='Legend:';
 var hfeSeries, lfeSeries, feSeries, boxJSON, clickedFeature, currentOutput, clickedFeatureName, selectedFeature, selectedOutput;
 var OUTPUT_SOIL = 'SOIL', OUTPUT_CLIMATE = 'CLIMATE', OUTPUT_TPE = 'TPE', OUTPUT_STABILITY = 'STABILITY';
 var ENV_HFE = 'HFE', ENV_LFE = 'LFE', ENV_FE = 'FE', seriesJSON;
@@ -45,7 +45,7 @@ function visualizeResults() {
 	switch (selectedOutput.toUpperCase()) {
 	case 'TPE':
 		// Set the legend title for TPE
-		legendTitle = 'Legend: TPE Environments';
+		//legendTitle = 'Legend: TPE Environments';
 		hideShow('TPE');
 		// Selected TPE. The get the
 		// corresponding selected TPE
@@ -60,7 +60,7 @@ function visualizeResults() {
 		break;
 	case 'STABILITY':
 		// Set the legend title for STABILITY Map
-		legendTitle = 'Legend: TPE Environment Stability';
+		//legendTitle = 'Legend: TPE Environment Stability';
 		hideShow('STABILITY');
 		// Selected STABILITY. The get the
 		// corresponding selected STABILITY
@@ -75,7 +75,7 @@ function visualizeResults() {
 		break;
 
 	case 'SOIL':
-		legendTitle = 'Legend: Soil Texture';
+		//legendTitle = 'Legend: Soil Texture';
 		hideShow('SOIL');
 		// The action url for the soil map
 		actionJson = 'json/soilGeoJson.geojson';
@@ -85,7 +85,7 @@ function visualizeResults() {
 		break;
 
 	case 'CLIMATE':
-		legendTitle = 'Legend: Climate';
+		//legendTitle = 'Legend: Climate';
 		hideShow('CLIMATE');
 		// The action url for the soil map
 		actionJson = 'json/climateGeoJson.geojson';

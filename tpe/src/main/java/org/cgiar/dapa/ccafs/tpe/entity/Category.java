@@ -27,7 +27,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "category")
-//@AttributeOverride(name = "id", column = @Column(name = "category_id"))
+// @AttributeOverride(name = "id", column = @Column(name = "category_id"))
 public class Category extends BaseEntity {
 
 	/**
@@ -48,6 +48,16 @@ public class Category extends BaseEntity {
 	 * The description of the category
 	 */
 	private String description;
+
+	public Category() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Category(Integer id, String name) {
+		super(id);
+		this.name = name;
+	}
 
 	@Column(name = "name")
 	public String getName() {

@@ -73,7 +73,7 @@ public class JQGridAction extends BaseAction {
 	// private Integer country;
 	private Boolean level = true;
 	// private List<Integer> params;
-	private Integer selectedOutput;
+	private Integer selectedOutput = 0;
 	private Integer selectedCountry;
 	private Integer selectedParam;
 	private String captionTitle;
@@ -89,33 +89,37 @@ public class JQGridAction extends BaseAction {
 
 		}
 
-		if (selectedOutput != null)
-			switch (selectedOutput) {
-			case 1:// Climate
-				gridModel = new ArrayList<ClimateGrid>();
-				colNames = ColNames.climateNames();
-				colModel = ModelUtils.climateModel();
-				gridModel = tpeService.listClimate(selectedCountry, level,
-						Utils.climateParam(selectedParam), page, rows);
-				captionTitle = "Monthly "
-						+ (selectedParam == 1 ? TMIN
-								: (selectedParam == 2 ? TMAX
-										: (selectedParam == 3 ? PREC : RADI)))
-						+ " Data from " + getRegion().getName();
-				break;
+		// if (selectedOutput != null)
+		switch (selectedOutput) {
+		case 1:// Climate
+			gridModel = new ArrayList<ClimateGrid>();
+			colNames = ColNames.climateNames();
+			colModel = ModelUtils.climateModel();
+			gridModel = tpeService.listClimate(selectedCountry, level,
+					Utils.climateParam(selectedParam), page, rows);
+			captionTitle = "Monthly "
+					+ (selectedParam == 1 ? TMIN : (selectedParam == 2 ? TMAX
+							: (selectedParam == 3 ? PREC : RADI)))
+					+ " Data from " + getRegion().getName();
+			break;
 
-			case 2:// Soil
-				gridModel = new ArrayList<SoilGrid>();
-				colNames = ColNames.soilNames();
-				colModel = ModelUtils.soilModel();
-				gridModel = tpeService.listSoil(selectedCountry, level,
-						new ArrayList<Integer>(), page, rows);
-				captionTitle = "Soil Data from " + getRegion().getName();
-				break;
+		case 2:// Soil
+			gridModel = new ArrayList<SoilGrid>();
+			colNames = ColNames.soilNames();
+			colModel = ModelUtils.soilModel();
+			gridModel = tpeService.listSoil(selectedCountry, level,
+					new ArrayList<Integer>(), page, rows);
+			captionTitle = "Soil Data from " + getRegion().getName();
+			break;
 
-			default:
-				break;
-			}
+		default:
+//			gridModel = new ArrayList<ClimateGrid>();
+//			colNames = ColNames.climateNames();
+//			colModel = ModelUtils.climateModel();
+//			gridModel = tpeService.listClimate(1, false, "tmin", page, rows);
+//			captionTitle = "Monthly Minimum Temperature Data from Brazil";
+			break;
+		}
 
 		// log.info("# of variety records: " + gridModel.size())
 		// total = varieties.size(); records =
@@ -252,7 +256,9 @@ public class JQGridAction extends BaseAction {
 	}
 
 	public Integer getSelectedOutput() {
-		return selectedOutput;
+		if (selectedOutput != 0 && selectedOutput != null)
+			return selectedOutput;
+		return 1;
 	}
 
 	public void setSelectedOutput(Integer selectedOutput) {

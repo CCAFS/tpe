@@ -39,7 +39,7 @@ $(document).ready(
 
 				},
 				error : function(xhr, desc, err) {
-					console.log("error");
+					/*console.log("error");*/
 
 				}
 			});

@@ -12,20 +12,23 @@
 <body>
 	<div id="documentation">
 		<h4 class="navigation">
-			<a class="doc-index" href="${ctx}/casestudy/index.jspx">Case
-				Studies</a><a class="brazilian" href="#">/ Wherewe work / Brazil
-				Case Study</a>
+			<a class="doc-index" href="${ctx}/casestudy/index.jspx">Home</a><a
+				class="brazilian" href="#">/ Wherewe work/ Brazil</a>
 		</h4>
 		<div>
 			<div class="pane_left">
 				<!--Documentation Area-->
-				<div class="case-study">
-					<div class="doc-min brazilian">
-						<h4>
-							<a href="#">Brazilian Case Study</a>
-						</h4>
-						<p>Brazilian Case Study</p>
-					</div>
+				<div class="study">
+					<h4>
+						<a href="#">Brazil - Lowlands</a>
+					</h4>
+					<%-- <div class="study-img">
+						<h5>In Bajo Cauca and central regions...</h5>
+						<img src="${ctx}/img/case-colombia-big.jpg" height="100"
+							width="100" />
+						<h5>Rice</h5>
+					</div> --%>
+					<p>Brazil Uplands</p>
 				</div>
 			</div>
 			<div class="pane_right">

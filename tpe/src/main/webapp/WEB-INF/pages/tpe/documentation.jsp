@@ -76,30 +76,7 @@
 						<p>This is about TPE Platform</p>
 					</div>
 				</div>
-				<div class="doc-list brazilian">
-					<div class="img">
-						<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" />
-						</a>
-					</div>
-					<div class="doc-min brazilian">
-						<h4>
-							<a href="#">Brazilian Case Study</a>
-						</h4>
-						<p>Brazilian Case Study</p>
-					</div>
-				</div>
-				<div class="doc-list colombian">
-					<div class="img">
-						<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" />
-						</a>
-					</div>
-					<div class="doc-min colombian">
-						<h4>
-							<a href="#">Colombian Case Study</a>
-						</h4>
-						<p>Colombian Case Study</p>
-					</div>
-				</div>
+
 			</div>
 			<div class="pane_right">
 				<jsp:include page="right_pane.jsp" />
