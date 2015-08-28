@@ -12,23 +12,7 @@ function initializeMap(data) {
 		content : ""
 	});
 
-	/*
-	 * $('#zoomImage').hide(); $('#container').mouseenter(function(e) {
-	 * $('#zoomImage').show(); }).mouseleave(function(e) {
-	 * $('#zoomImage').hide(); });
-	 */
-
 	viewPlot();
-	// var mapStyle = [ ];
-
-	// Default map properties (BRAZIL)
-	// var defaultLatLng = new google.maps.LatLng(-14.235004, -51.92528);
-
-	// Default properties for Colombia
-	// new google.maps.LatLng(4.214943141390651, -73.828125)
-	// var defaultLatLng = new
-	// google.maps.LatLng(4.214943141390651, -73.828125);
-
 	// Initialise the map using the selected country coordinates
 	var defaultLatLng = new google.maps.LatLng(data.lat, data.lng);
 
@@ -1619,7 +1603,8 @@ function featureInfo(event) {
 							infoSeries,
 							function(key, listOfValues) {
 								var unit = (key == 'tmax') || (key == 'tmin') ? '(°C)'
-										: ((key == 'prec') ? '(mm)':'(MJ/m2.day)');//(kJm-2d-1)
+										: ((key == 'prec') ? '(mm)'
+												: '(MJ/m2.day)');// (kJm-2d-1)
 								$htmlText = $htmlText
 										+ '<tr style="text-align: center;"><td style="text-align: left;text-transform: capitalize;">'
 										+ key + unit + '</td>';
@@ -3174,6 +3159,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 }
 
 function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
+
 	var categories, series;
 	if (dataSeries != null) {
 		categories = dataSeries['categories'];
@@ -3228,259 +3214,376 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 						+ stationName);
 	}
 
-	$('#' + renderTo).highcharts(
-			{
-				credits : {
-					enabled : credits,
-					// This hides highcharts.com from the legend
-					// enabled : false
-					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
-					href : 'http://www.ccafs-tpe.org',
-					// href: null
-					// style : {
-					// width : 300
-					// },
-					position : {
-						align : 'right'
-					// x : 10
-					},
-					style : {
-						color : '#4e2700',
-						fontWeight : 'bold',
-						fontSize : fontSize
-					}
-				},
-				chart : {
-					width : width,
-					height : height,
-					zoomType : 'xy',
-					style : {
-						fontFamily : 'serif',
-						fontSize : fontSize
-					},
-					plotBorderWidth : 1,
-					// spacingTop:2,
-					// spacingRight:5,
-					spacingBottom : spacingBottom,
-					// spacingLeft:2,
-					borderWidth : 1,
-					// borderRadius : 5,
-					borderColor : '#999',
-					// margin: [15,6,15,15],
-					/*
-					 * , marginBottom : 60, marginTop : 25, marginLeft : 60,
-					 * marginRight : 10
-					 */
-					events : {
-						load : function() {
-							if (smallPlot) {
-								this.renderer.image('img/zoom-in.png', 10, 2,
-										20, 20).on(
-										'click',
-										function() {
-											rainfallRadiationPlot(dataSeries,
-													false, stationName);
-											$('#dialog-plot').dialog('open');
+	$('#' + renderTo)
+			.highcharts(
+					{
+						credits : {
+							enabled : credits,
+							// This hides highcharts.com from the legend
+							// enabled : false
+							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
+							href : 'http://www.ccafs-tpe.org',
+							// href: null
+							// style : {
+							// width : 300
+							// },
+							position : {
+								align : 'right'
+							// x : 10
+							},
+							style : {
+								color : '#4e2700',
+								fontWeight : 'bold',
+								fontSize : fontSize
+							}
+						},
+						chart : {
+							width : width,
+							height : height,
+							zoomType : 'xy',
+							style : {
+								fontFamily : 'serif',
+								fontSize : fontSize
+							},
+							plotBorderWidth : 1,
+							// spacingTop:2,
+							// spacingRight:5,
+							spacingBottom : spacingBottom,
+							// spacingLeft:2,
+							borderWidth : 1,
+							// borderRadius : 5,
+							borderColor : '#999',
+							// margin: [15,6,15,15],
+							/*
+							 * , marginBottom : 60, marginTop : 25, marginLeft :
+							 * 60, marginRight : 10
+							 */
+							events : {
+								load : function() {
+									if (smallPlot) {
+										this.renderer.image('img/zoom-in.png',
+												10, 2, 20, 20).on(
+												'click',
+												function() {
+													rainfallRadiationPlot(
+															dataSeries, false,
+															stationName);
+													$('#dialog-plot').dialog(
+															'open');
+												}).css({
+											cursor : 'Pointer'
 										}).css({
-									cursor : 'Pointer'
-								}).css({
-									position : 'relative',
-									"margin-left" : "-90px"
-								// opacity : 0.75
-								}).attr({
-									zIndex : 300,
-									id : 'zoomImage'
-								}).add();
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 300,
+											id : 'zoomImage'
+										}).add();
 
-								// $('.highcharts-legend-item
-								// rect').attr('r',
-								// '0');
-								$('.highcharts-legend-item rect').attr(
-										'height', '8').attr('width', '8');
+										// $('.highcharts-legend-item
+										// rect').attr('r',
+										// '0');
+										$('.highcharts-legend-item rect').attr(
+												'height', '8').attr('width',
+												'8');
 
-							} else {
-								this.renderer.image('img/ccafs_logo.png', 90,
-										0, 120, 50).on('click', function() {
-									// Add CCAFS Link
-									// location.href =
-									// 'http://www.ccafs-tpe.org'
-								}).css({
-									cursor : 'Pointer'
-								}).css({
-									position : 'relative',
-									"margin-left" : "-90px"
-								// opacity : 0.75
-								}).attr({
-									zIndex : 100
-								}).add();
+									} else {
+										this.renderer.image(
+												'img/ccafs_logo.png', 90, 0,
+												120, 50).on('click',
+												function() {
+													// Add CCAFS Link
+													// location.href =
+													// 'http://www.ccafs-tpe.org'
+												}).css({
+											cursor : 'Pointer'
+										}).css({
+											position : 'relative',
+											"margin-left" : "-90px"
+										// opacity : 0.75
+										}).attr({
+											zIndex : 100
+										}).add();
+									}
+								},
+								click : function() {
+									if (smallPlot) {
+										rainfallRadiationPlot(dataSeries,
+												false, stationName);
+										// $('#report').html('click on title');
+										$('#dialog-plot').dialog('open');
+									}
+								}
 							}
 						},
-						click : function() {
-							if (smallPlot) {
-								rainfallRadiationPlot(dataSeries, false,
-										stationName);
-								// $('#report').html('click on title');
-								$('#dialog-plot').dialog('open');
+						title : {
+							text : 'Average Monthly Precipitation, Temperature and Radiation',
+							style : {
+								color : '#4e2700',
+								// fontWeight : 'bold',
+								fontSize : titleFontSize
+							}
+						},
+						subtitle : {
+							text : stationName,
+							style : {
+								color : '#4e2700'
+							// fontWeight : 'bold',
+							// fontSize : '10px',
+							}
+						},
+						xAxis : {
+							categories : categories,
+							labels : {
+								enabled : labelsEnabled,
+								rotation : -45,
+								style : {
+									fontSize : fontSize,
+									fontFamily : 'Verdana, sans-serif'
+								}
+							},
+							title : {
+								text : xAxisTitle,
+								zIndex : 10
+							},
+							zIndex : 10,
+							crosshair : true
+
+						},
+						yAxis : [ { // Secondary yAxis
+							title : {
+								text : 'Rainfall (mm)',
+								rotation : -90,
+								x : 5,
+								style : {
+									color : '#4572A7'
+								}
+							},
+							labels : {
+								enabled : labelsEnabled,
+								// format : '{value} mm',
+								// rotation: -45,
+								style : {
+									color : '#4572A7',
+									fontSize : fontSize
+								},
+								format : '{value:.1f}'
+							// format : '{value:.2f}'
+							}
+						// ,
+						// opposite : true
+						},
+
+						{ // Primary yAxis
+							labels : {
+								enabled : labelsEnabled,
+								// format : '{value}°C',
+								style : {
+									color : '#4572A7',
+									fontSize : fontSize
+								},
+								format : '{value:.1f}'
+							// format : '{value:.2f}'
+							},
+							title : {
+								text : 'Temperature (°C)',
+								style : {
+									color : '#4572A7'
+								},
+								rotation : -90,
+								x : 5
+							},
+							opposite : true
+						// linkedTo:0
+						}, { // Tertially yAxis
+							labels : {
+								enabled : labelsEnabled,
+								// format : '{value}(MJ/m2.day)',
+								style : {
+									color : '#4572A7',
+									fontSize : fontSize
+								},
+								// format : '{value:.1f}'
+								format : '{value:.1f}'
+							},
+							// format : '{value:.1f}(MJ/m2.day)' },
+							// min : 0,
+							title : {
+								text : 'Radiation (MJ/m2.day)',
+								style : {
+									color : '#4572A7'
+								},
+								rotation : -90,
+								x : 5
+							},
+							opposite : true
+						},
+						/*
+						 * , { // Tertially yAxis, Max Temperature title : {
+						 * text : 'Max Temperature (°C)', rotation : -90, x :
+						 * 10, style : { color : '#4572A7' } }, //
+						 * //////////////////////////////////////////// min : 0,
+						 * labels : { enabled : labelsEnabled, // format :
+						 * '{value} mm', // rotation: -45, style : { color :
+						 * '#4572A7', fontSize : fontSize }, format :
+						 * '{value:.1f}' // format : '{value:.2f}' }, opposite :
+						 * true }
+						 */
+						],
+						tooltip : {
+							shared : true
+						},
+						legend : {
+							enabled : legend,
+							layout : 'horizontal',
+							align : 'left',
+							x : legendX,
+							verticalAlign : 'bottom',
+							y : legendY,
+							floating : true,
+							backgroundColor : '#FFFFFF',
+							// itemWidth : itemWidth,
+							itemStyle : {
+								color : '#000',
+								fontFamily : 'MuseoS500',
+								// fontWeight : 'bold',
+								fontSize : fontSize
+							// width : itemWidth
+							},
+							// title : {
+							// text : ':: Drag'
+							// },
+							floating : true,
+							draggable : true,
+							zIndex : 1
+						},
+						series : series,
+						exporting : {
+							enabled : exporting,
+							buttons : {
+								contextButton : {
+									// symbol: 'circle',
+									symbol : 'url(img/download_32.png)',
+								// symbolStrokeWidth : 1,
+								// symbolFill : '#bada55',
+								// symbolStroke : '#330033',
+								// symbolX : 6,
+								// symbolY : 6
+								}
+							}
+						},
+
+						plotOptions : {
+							series : {
+								events : {
+									legendItemClick : function(event) {
+										var visibility = this.visible ? 'visible'
+												: 'hidden';
+										// var chart;
+										// index=3 (radiation)
+										if (this.index == 3) {
+											if (this.visible) {
+												this.chart.series[1].show();
+												this.chart.series[2].show();
+												this.chart.yAxis[2].setTitle({
+													text : null
+												});
+												this.chart.yAxis[1].setTitle({
+													text : 'Temperature (°C)'
+												});
+
+											} else {
+												this.chart.series[1].hide();
+												this.chart.series[2].hide();
+												this.chart.yAxis[1].setTitle({
+													text : null
+												});
+												this.chart.yAxis[2]
+														.setTitle({
+															text : 'Radiation (MJ/m2.day)'
+														});
+											}
+										} else if (this.index == 1) {// index=1
+											// (min
+											// temperature)
+											if (this.visible) {
+												this.chart.series[3].show();
+												this.chart.series[2].hide();
+												this.chart.yAxis[1].setTitle({
+													text : null
+												});
+												this.chart.yAxis[2]
+														.setTitle({
+															text : 'Radiation (MJ/m2.day)'
+														});
+
+											} else {
+												this.chart.series[3].hide();
+												this.chart.series[2].show();
+												this.chart.yAxis[1].setTitle({
+													text : 'Temperature (°C)'
+												});
+												this.chart.yAxis[2].setTitle({
+													text : null
+												});
+											}
+										} else if (this.index == 2) {// index=2
+											// (max
+											// temperature)
+											if (this.visible) {
+												this.chart.series[3].show();
+												this.chart.series[1].hide();
+												this.chart.yAxis[1].setTitle({
+													text : null
+												});
+												this.chart.yAxis[2]
+														.setTitle({
+															text : 'Radiation (MJ/m2.day)'
+														});
+											} else {
+												this.chart.series[3].hide();
+												this.chart.series[1].show();
+												this.chart.yAxis[1].setTitle({
+													text : 'Temperature (°C)'
+												});
+												this.chart.yAxis[2].setTitle({
+													text : null
+												});
+											}
+										}
+
+										// var seriesIndex = this.index;
+										// var series = this.chart.series;
+										//					                    
+										// for (var i = 0; i < series.length;
+										// i++)
+										// {
+										// if (series[i].index != seriesIndex)
+										// {
+										//					                            
+										// series[i].visible ? series[i].hide()
+										// : series[i].show();
+										// }
+										// }
+
+										return true;
+									}
+								}
 							}
 						}
-					}
-				},
-				title : {
-					text : 'Average Monthly Precipitation, Temperature and Radiation',
-					style : {
-						color : '#4e2700',
-						// fontWeight : 'bold',
-						fontSize : titleFontSize
-					}
-				},
-				subtitle : {
-					text : stationName,
-					style : {
-						color : '#4e2700'
-					// fontWeight : 'bold',
-					// fontSize : '10px',
-					}
-				},
-				xAxis : {
-					categories : categories,
-					labels : {
-						enabled : labelsEnabled,
-						rotation : -45,
-						style : {
-							fontSize : fontSize,
-							fontFamily : 'Verdana, sans-serif'
-						}
-					},
-					title : {
-						text : xAxisTitle,
-						zIndex : 10
-					},
-					zIndex : 10,
-					crosshair : true
 
-				},
-				yAxis : [
-				{ // Secondary yAxis
-					title : {
-						text : 'Rainfall (mm)',
-						rotation : -90,
-						x : 5,
-						style : {
-							color : '#4572A7'
-						}
-					},
-					labels : {
-						enabled : labelsEnabled,
-						// format : '{value} mm',
-						// rotation: -45,
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
-					}
-				// ,
-				// opposite : true
-				},
+					});
 
-				{ // Primary yAxis
-					labels : {
-						enabled : labelsEnabled,
-						// format : '{value}°C',
-						style : {
-							color : '#4572A7',
-							fontSize : fontSize
-						},
-						format : '{value:.1f}'
-					// format : '{value:.2f}'
-					},
-					// /////////////////////////////////////////////////// min :
-					// 0,
-					title : {
-						text : 'Min, Max Temperature (°C)',
-						style : {
-							color : '#4572A7'
-						},
-						rotation : -90,
-						x : 5
-					},
-					opposite : true
-				// linkedTo:0
-				}
-				, { // Tertially yAxis 
-					  labels : { 
-							 enabled : labelsEnabled,
-							 // format : '{value}(MJ/m2.day)',
-							  style : { color : '#4572A7',
-							  fontSize : fontSize }, 
-							  //format : '{value:.1f}' 
-							  format : '{value:.1f}' },
-							  // format : '{value:.1f}(MJ/m2.day)' },
-							 // min : 0, 
-							  title : { 
-								  text : 'Radiation (MJ/m2.day)', 
-								  style : {
-							      color : '#4572A7' } ,
-							      rotation : -90,
-									x : 5
-							  } ,
-							  opposite : true
-							  },
-				/*
-				 * , { // Tertially yAxis, Max Temperature title : { text : 'Max
-				 * Temperature (°C)', rotation : -90, x : 10, style : { color :
-				 * '#4572A7' } }, //
-				 * //////////////////////////////////////////// min : 0, labels : {
-				 * enabled : labelsEnabled, // format : '{value} mm', //
-				 * rotation: -45, style : { color : '#4572A7', fontSize :
-				 * fontSize }, format : '{value:.1f}' // format : '{value:.2f}' },
-				 * opposite : true }
-				 */
-				],
-				tooltip : {
-					shared : true
-				},
-				legend : {
-					enabled : legend,
-					layout : 'horizontal',
-					align : 'left',
-					x : legendX,
-					verticalAlign : 'bottom',
-					y : legendY,
-					floating : true,
-					backgroundColor : '#FFFFFF',
-					// itemWidth : itemWidth,
-					itemStyle : {
-						color : '#000',
-						fontFamily : 'MuseoS500',
-						// fontWeight : 'bold',
-						fontSize : fontSize
-					// width : itemWidth
-					},
-					// title : {
-					// text : ':: Drag'
-					// },
-					floating : true,
-					draggable : true,
-					zIndex : 1
-				},
-				series : series,
-				exporting : {
-					enabled : exporting,
-					buttons : {
-						contextButton : {
-							// symbol: 'circle',
-							symbol : 'url(img/download_32.png)',
-						// symbolStrokeWidth : 1,
-						// symbolFill : '#bada55',
-						// symbolStroke : '#330033',
-						// symbolX : 6,
-						// symbolY : 6
-						}
-					}
-				}
-			});
+	// $('#toggle-series').click(function() {
+	// $($('.highcharts-legend-item')[2]).click() });
+	// $($('.highcharts-legend-item')[0]).click() });
+
+	$('#toggle-series').click(function() {
+		$($('.highcharts-legend-item')[3]).click()
+	});
+
+	$('#toggle-series').trigger('click');
 }
 
 function plotRAINCUM(seriesMap, environment, smallPlot) {

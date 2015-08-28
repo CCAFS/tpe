@@ -15,7 +15,6 @@ var STABILITY_HIGH='high',STABILITY_MIDDLE='middle',STABILITY_LOW='low';
  */
 function visualizeResults() {
 
-	// console.log('Initializing the Google Map....');
 	// Get the parameters
 	// var selectedCountry, selectedOutput, selectedScenario, selectedTexture,
 	// selectedProperties, selectedRregions, selectedYears, selectedStations,
@@ -31,7 +30,6 @@ function visualizeResults() {
 	var output = document.getElementById('select_output');
 	selectedOutput = output.options[output.selectedIndex].text;
 
-	// console.log('Out put: ' + selectedOutput.toUpperCase());
 	// The actions
 	var soilGeoJsonAction = 'json/soilGeoJson.geojson';
 	var tpeGeoJsonAction = 'json/tpeGeoJson.geojson';
@@ -40,8 +38,7 @@ function visualizeResults() {
 	var params, actionJson;
 	// Use the switch statement to determine the selected output, from the first
 	// select drop down box
-	// TPE, SOIL or CLIMATE
-	// console.log('About to select the OUTPUT MAP...');
+	// TPE, SOIL or CLIMATE 
 	switch (selectedOutput.toUpperCase()) {
 	case 'TPE':
 		// Set the legend title for TPE

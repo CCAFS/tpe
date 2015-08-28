@@ -2,9 +2,7 @@
  * This action retrieves the Geo Json data and then calls the initializeMap()
  * function.
  */
-function loadJson(action, map) {
-//	console.log(action);
-//	console.log(map);
+function loadJson(action, map) { 
 	$.ajax({
 		type : "GET",
 		async : false,// thats the trick
@@ -12,22 +10,18 @@ function loadJson(action, map) {
 		data : $('#tpe_index').serialize(),
 		dataType : "json",
 		success : function(jsonResult) {
-
-			// console.log(dataJson.areaGeoJson);
+ 
 			// If TPE or Stability option was selected. Then assign the
 			// associated data to the variables
 			if ((map == OUTPUT_TPE) || (map == OUTPUT_STABILITY)) {
-				boxJSON = jsonResult.boxJson;
-				// console.log(dataJson.probabilities);
+				boxJSON = jsonResult.boxJson; 
 				categoriesJSON = jsonResult.categoriesJson;
 				var seriesDataMap = jsonResult.seriesJson;
-				// var hfeSeries, lfeSeries, feSeries;
-				// console.log(seriesDataMap);
+				// var hfeSeries, lfeSeries, feSeries; 
 				if (seriesDataMap != null)
 					$.each(seriesDataMap, function(envKey, listOfSeriesMap) {
 						if (envKey == ENV_HFE) {
-							hfeSeries = listOfSeriesMap;
-							// console.log(listOfSeriesMap);
+							hfeSeries = listOfSeriesMap; 
 						} else if (envKey == ENV_LFE) {
 							lfeSeries = listOfSeriesMap;
 						} else if (envKey == ENV_FE) {
@@ -35,13 +29,7 @@ function loadJson(action, map) {
 						}
 					});
 
-				// initializeMap(jsonResult);
-
 			} else if (map == OUTPUT_CLIMATE) {
-				// console.log(dataJson.probabilities);
-				// climateSeriesJSON = jsonResult.seriesJson;
-
-				//seriesJSON = jsonResult.seriesJson;
 
 				categoriesJSON = null;
 				hfeSeries = null;
@@ -49,14 +37,9 @@ function loadJson(action, map) {
 				feSeries = null;
 				boxJSON = null;
 
-				// initializeMap(jsonResult.geoJson);
-				// var seriesDataMap = dataJson.seriesData;
-				// console.log('Loading climate JSON data');
-			} else if (map == OUTPUT_SOIL) {
-				// soilJson = dataJson.seriesJson;
+			} else if (map == OUTPUT_SOIL) { 
 				seriesJSON = jsonResult.seriesJson;
-				categoriesJSON = jsonResult.categoriesJson;
-				// initializeMap(jsonResult.geoJson);
+				categoriesJSON = jsonResult.categoriesJson; 
 
 				hfeSeries = null;
 				lfeSeries = null;
@@ -64,7 +47,6 @@ function loadJson(action, map) {
 				boxJSON = null;
 			}
 			initializeMap(jsonResult);
-			// ////////////////////initializeMap(jsonResult.geoJson);
 			// $('.graphics-info').trigger('click');
 		}
 	});

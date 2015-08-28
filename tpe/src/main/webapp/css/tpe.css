@@ -1998,3 +1998,9 @@ div#app-res{
 	width: 100%;
 	height: auto;
 }
+
+
+/**====================== Chart =================**/
+#toggle-axis{
+	display: none;
+}
