@@ -41,7 +41,7 @@ public class ContactAction extends BaseAction {
 
 	private static final String USER_DETAILS = "details";
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	private ITPEMailService mailService;
 	/**
@@ -65,14 +65,12 @@ public class ContactAction extends BaseAction {
 	// TODO Add the user field and login credentials
 	@Override
 	public String execute() {
-		log.info("executing...");
+		 
 		return ActionSupport.SUCCESS;
 	}
 
-	public String contactus() {
-		log.info("Contacting...");
-		if (getEmail() != null && getName() != null) {
-			log.info("validating...");
+	public String contactus() { 
+		if (getEmail() != null && getName() != null) { 
 			// Create and add the template variables to the map
 			Map<String, Object> templateVariables = new HashMap<String, Object>();
 			templateVariables.put(USER_NAME, getName());
@@ -81,12 +79,10 @@ public class ContactAction extends BaseAction {
 			templateVariables.put(USER_DETAILS, getDetails());
 
 			// Send a contact email to the admin or support team
-			 mailService.contactUs(templateVariables);
-			 log.info("mail service..");
+			 mailService.contactUs(templateVariables); 
 			// Send the email notification to the user confirming the receipt of
 			// the request
-			 mailService.notifyUser(getEmail(), templateVariables);
-			log.info("sent...");
+			 mailService.notifyUser(getEmail(), templateVariables); 
 		}
 		return ActionSupport.SUCCESS;
 	}

@@ -39,4 +39,5 @@ public interface ICategoryDao extends IGenericDao<Category, Integer> {
 	 * @return outputs
 	 */
 	List<Category> getOutputs();
+
 }

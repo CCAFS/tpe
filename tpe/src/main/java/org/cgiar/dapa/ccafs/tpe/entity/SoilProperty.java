@@ -47,7 +47,7 @@ import org.cgiar.dapa.ccafs.tpe.jqgrid.Grid;
 @Entity
 @Table(name = "soil_property")
 @AttributeOverride(name = "id", column = @Column(name = "property_id"))
-public class SoilProperty extends BaseResult implements Grid{
+public class SoilProperty extends BaseResult implements Grid {
 
 	/**
 	 * 
@@ -136,6 +136,8 @@ public class SoilProperty extends BaseResult implements Grid{
 	 * case the station is null or not specified.
 	 */
 	private Region region;
+
+	private Integer integrated;
 
 	@ManyToOne(targetEntity = Soil.class)
 	@JoinColumn(name = "soil_id", referencedColumnName = "id")
@@ -328,6 +330,15 @@ public class SoilProperty extends BaseResult implements Grid{
 
 	public void setContinent(Boolean continent) {
 		this.continent = continent;
+	}
+
+	@Column(name = "integrate_id")
+	public Integer getIntegrated() {
+		return integrated;
+	}
+
+	public void setIntegrated(Integer integrated) {
+		this.integrated = integrated;
 	}
 
 }

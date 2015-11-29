@@ -14,10 +14,7 @@
 package org.cgiar.dapa.ccafs.tpe.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,15 +22,30 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathExpressionException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.entity.Category;
+import org.cgiar.dapa.ccafs.tpe.entity.News;
 import org.cgiar.dapa.ccafs.tpe.entity.Region;
 import org.cgiar.dapa.ccafs.tpe.entity.Role;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.entity.Station;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+//import org.json.simple.parser.JSONParser;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * This is the tpe utils class that contains the utility methods that are being
@@ -98,58 +110,40 @@ public class Utils implements Constants {
 		return ids;
 	}
 
-	public static Object loadJSONFile(String fileName) {
+	/*
+	 * public static Object loadJSONFile(String fileName) {
+	 * 
+	 * File resource = null; try { resource = new
+	 * File(Thread.currentThread().getContextClassLoader()
+	 * .getResource(fileName).toURI()); } catch (URISyntaxException e1) { //
+	 * TODO Auto-generated catch block e1.printStackTrace(); } JSONParser parser
+	 * = new JSONParser(); Object json = null; try { json = parser.parse(new
+	 * FileReader(resource)); } catch (FileNotFoundException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } catch (IOException e) {
+	 * // TODO Auto-generated catch block e.printStackTrace(); } catch
+	 * (ParseException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * return json;
+	 * 
+	 * }
+	 */
 
-		File resource = null;
-		try {
-			resource = new File(Thread.currentThread().getContextClassLoader()
-					.getResource(fileName).toURI());
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		JSONParser parser = new JSONParser();
-		Object json = null;
-		try {
-			json = parser.parse(new FileReader(resource));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return json;
-
-	}
-
-	public static Object loadJSON(String fileName) {
-		//
-		// File file = new File(fileName);
-		// String absolutePath = file.getAbsolutePath();
-
-		JSONParser parser = new JSONParser();
-		Object json = null;
-		try {
-			json = parser.parse(new FileReader(fileName));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return json;
-
-	}
+	/*
+	 * public static Object loadJSON(String fileName) { // // File file = new
+	 * File(fileName); // String absolutePath = file.getAbsolutePath();
+	 * 
+	 * JSONParser parser = new JSONParser(); Object json = null; try { json =
+	 * parser.parse(new FileReader(fileName)); } catch (FileNotFoundException e)
+	 * { // TODO Auto-generated catch block e.printStackTrace(); } catch
+	 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();
+	 * } catch (ParseException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * return json;
+	 * 
+	 * }
+	 */
 
 	/**
 	 * This method create the default TPE scenarios (RAINFED, IRRIGATED and
@@ -207,25 +201,18 @@ public class Utils implements Constants {
 	 * @param fileName
 	 * @return
 	 */
-	public static Object loadJSONData(String fileName) {
-
-		JSONParser parser = new JSONParser();
-		Object json = null;
-		try {
-			json = parser.parse(new FileReader(fileName));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return json;
-	}
+	/*
+	 * public static Object loadJSONData(String fileName) {
+	 * 
+	 * JSONParser parser = new JSONParser(); Object json = null; try { json =
+	 * parser.parse(new FileReader(fileName)); } catch (FileNotFoundException e)
+	 * { // TODO Auto-generated catch block e.printStackTrace(); } catch
+	 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();
+	 * } catch (ParseException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * return json; }
+	 */
 
 	public static List<Integer> getClusters() {
 		List<Integer> clusters = new LinkedList<Integer>(Arrays.asList(1, 2, 3));
@@ -261,47 +248,29 @@ public class Utils implements Constants {
 	 *            the name of the Geo JSON file to load
 	 * @return the Geo JSON file
 	 */
-	public static Object readJSON(String fileName) throws IOException {
-		// The geo JSON file to load.
-		Object json = null;
-
-		// If the file is not null
-		if (fileName != null) {
-			File brazilJSON = new File(fileName);
-			JSONParser parser = new JSONParser();
-
-			try {
-				// log.info(brazilJSON.getCanonicalPath());
-				// Read the file from the specified path
-				json = parser.parse(new FileReader(brazilJSON
-						.getCanonicalPath()));
-				// log.info(fileName);
-				// log.info(json);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				e.getMessage();
-				LOG.warn("File does not exist [" + fileName + "]");
-				// throw new RuntimeException("The file [" + fileName
-				// + "] does not exist", e);
-				// return null;
-				throw new IOException("File " + fileName + " does not exist.");
-
-			} catch (IOException e) {
-				// e.getMessage();
-				// log.info("Unable to load the file " + fileName);
-				// e.printStackTrace();
-				throw new IOException("Cannot upload file " + fileName + "]", e);
-				// throw new RuntimeException("Unable to load file [" + fileName
-				// + "]", e);
-				// return null;
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return json;
-	}
+	/*
+	 * public static Object readJSON(String fileName) throws IOException { //
+	 * The geo JSON file to load. Object json = null;
+	 * 
+	 * // If the file is not null if (fileName != null) { File brazilJSON = new
+	 * File(fileName); JSONParser parser = new JSONParser();
+	 * 
+	 * try { // log.info(brazilJSON.getCanonicalPath()); // Read the file from
+	 * the specified path json = parser.parse(new FileReader(brazilJSON
+	 * .getCanonicalPath())); // log.info(fileName); // log.info(json); } catch
+	 * (FileNotFoundException e) { // TODO Auto-generated catch block //
+	 * e.printStackTrace(); e.getMessage(); LOG.warn("File does not exist [" +
+	 * fileName + "]"); // throw new RuntimeException("The file [" + fileName //
+	 * + "] does not exist", e); // return null; throw new IOException("File " +
+	 * fileName + " does not exist.");
+	 * 
+	 * } catch (IOException e) { // e.getMessage(); //
+	 * log.info("Unable to load the file " + fileName); // e.printStackTrace();
+	 * throw new IOException("Cannot upload file " + fileName + "]", e); //
+	 * throw new RuntimeException("Unable to load file [" + fileName // + "]",
+	 * e); // return null; } catch (ParseException e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); } } return json; }
+	 */
 
 	/**
 	 * Loads the Geo JSON file for the specified region name and type.
@@ -314,31 +283,23 @@ public class Utils implements Constants {
 	 * @return GeoJSON object
 	 * @throws IOException
 	 */
-	public static Object loadGeoJSON(String region, String type)
-			throws IOException {
-		String path = "";
-		if (region != null && type != null) {
-			String file = region.toLowerCase();
-
-			if (type.equals(JSON_REGION))
-				// Loads the country border json data
-				// path = "/resources/" + file + ".json";
-				path = "/opt/resources/" + file + ".json";
-			else if (type.equals(JSON_STATES))
-				// Loads the country states json data
-				// path = "/resources/" + region + "_states.json";
-				path = "/opt/resources/" + region + "_states.json";
-			else if (type.equals(JSON_MUNICIPIOS))
-				// Loads the municipios json data
-				// path = "/resources/" + region + "_municipios.json";
-				path = "/opt/resources/" + region + "_municipios.json";
-			else if (type.equals(JSON_BOUNDARY))
-				// Loads the TPE boundary json data
-				// path = "/resources/" + region + "_boundary.json";
-				path = "/opt/resources/" + region + "_boundary.json";
-		}
-		return readJSON(path);
-	}
+	/*
+	 * public static Object loadGeoJSON(String region, String type) throws
+	 * IOException { String path = ""; if (region != null && type != null) {
+	 * String file = region.toLowerCase();
+	 * 
+	 * if (type.equals(JSON_REGION)) // Loads the country border json data //
+	 * path = "/resources/" + file + ".json"; path = "/opt/resources/" + file +
+	 * ".json"; else if (type.equals(JSON_STATES)) // Loads the country states
+	 * json data // path = "/resources/" + region + "_states.json"; path =
+	 * "/opt/resources/" + region + "_states.json"; else if
+	 * (type.equals(JSON_MUNICIPIOS)) // Loads the municipios json data // path
+	 * = "/resources/" + region + "_municipios.json"; path = "/opt/resources/" +
+	 * region + "_municipios.json"; else if (type.equals(JSON_BOUNDARY)) //
+	 * Loads the TPE boundary json data // path = "/resources/" + region +
+	 * "_boundary.json"; path = "/opt/resources/" + region + "_boundary.json"; }
+	 * return readJSON(path); }
+	 */
 
 	/**
 	 * Loads the TPE JSON based on the selected region and map result TPE
@@ -354,21 +315,15 @@ public class Utils implements Constants {
 	 * @return JSON object
 	 * @throws IOException
 	 */
-	public static Object readJSON(String crop, String region, String cultivar,
-			String map) throws IOException {
-		String path = "";
-		if (region != null && crop != null) {
-			region = region.toLowerCase();
-			crop = crop.toLowerCase();
-			cultivar = cultivar.toLowerCase();
-			// path = "/resources/" + region + "_" + crop + "_" + cultivar + "_"
-			// + map + ".json";
-			path = "/opt/resources/" + region + "_" + crop + "_" + cultivar
-					+ "_" + map + ".json";
-			// log.info(path);
-		}
-		return readJSON(path);
-	}
+	/*
+	 * public static Object readJSON(String crop, String region, String
+	 * cultivar, String map) throws IOException { String path = ""; if (region
+	 * != null && crop != null) { region = region.toLowerCase(); crop =
+	 * crop.toLowerCase(); cultivar = cultivar.toLowerCase(); // path =
+	 * "/resources/" + region + "_" + crop + "_" + cultivar + "_" // + map +
+	 * ".json"; path = "/opt/resources/" + region + "_" + crop + "_" + cultivar
+	 * + "_" + map + ".json"; // log.info(path); } return readJSON(path); }
+	 */
 
 	/**
 	 * Loads the crop growing region or areas JSON based on the selected region
@@ -383,19 +338,14 @@ public class Utils implements Constants {
 	 * @return JSON object
 	 * @throws IOException
 	 */
-	public static Object readJSON(String crop, String region, String map)
-			throws IOException {
-		String path = "";
-		if (region != null && crop != null) {
-			region = region.toLowerCase();
-			crop = crop.toLowerCase();
-			// path = "/resources/" + region + "_" + crop + "_" + map + ".json";
-			path = "/opt/resources/" + region + "_" + crop + "_" + map
-					+ ".json";
-			// log.info(path);
-		}
-		return readJSON(path);
-	}
+	/*
+	 * public static Object readJSON(String crop, String region, String map)
+	 * throws IOException { String path = ""; if (region != null && crop !=
+	 * null) { region = region.toLowerCase(); crop = crop.toLowerCase(); // path
+	 * = "/resources/" + region + "_" + crop + "_" + map + ".json"; path =
+	 * "/opt/resources/" + region + "_" + crop + "_" + map + ".json"; //
+	 * log.info(path); } return readJSON(path); }
+	 */
 
 	/**
 	 * Loads the JSON based on the selected region and map (Soil and climate)
@@ -407,16 +357,13 @@ public class Utils implements Constants {
 	 * @return JSON object
 	 * @throws IOException
 	 */
-	public static Object readJSON(String map, String region) throws IOException {
-		String path = "";
-		if (region != null && map != null) {
-			region = region.toLowerCase();
-			map = map.toLowerCase();
-			// path = "/resources/" + region + "_" + map + ".json";
-			path = "/opt/resources/" + region + "_" + map + ".json";
-		}
-		return readJSON(path);
-	}
+	/*
+	 * public static Object readJSON(String map, String region) throws
+	 * IOException { String path = ""; if (region != null && map != null) {
+	 * region = region.toLowerCase(); map = map.toLowerCase(); // path =
+	 * "/resources/" + region + "_" + map + ".json"; path = "/opt/resources/" +
+	 * region + "_" + map + ".json"; } return readJSON(path); }
+	 */
 
 	/**
 	 * Creates the hard coded user roles
@@ -476,4 +423,195 @@ public class Utils implements Constants {
 		}
 		return param;
 	}
+
+	/**
+	 * Creates a new xml file with the specified name and the news
+	 * 
+	 * @param fileName
+	 *            the name of the xml file to create
+	 * @param news
+	 *            the news to add to the created document
+	 * @throws XPathExpressionException
+	 */
+	public static void createUpdateNewsXML(String fileName, News news,
+			boolean modifyArticle) throws XPathExpressionException {
+		String file = "/opt/resources/" + fileName + ".xml";
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder docBuilder;
+		Document doc;
+
+		TransformerFactory transformerFactory;
+		Transformer transformer;
+		DOMSource source;
+		StreamResult result;
+
+		if (fileExists(file)) {
+			// Update
+			try {
+
+				docBuilder = docFactory.newDocumentBuilder();
+				doc = docBuilder.parse(new File(file));
+
+				if (modifyArticle) {
+					NodeList listOfArticles = doc
+							.getElementsByTagName("article");
+
+					for (int i = 0; i < listOfArticles.getLength(); i++) {
+						Node articleNode = listOfArticles.item(i);
+						Element articleElement = (Element) articleNode;
+
+						if (articleElement.getAttribute("id").equals(
+								news.getId())) {
+							// NodeList titleList =
+							// articleElement.getElementsByTagName("title");
+							// Element titleElement= (Element)titleList.item(0);
+							// NodeList textFNList =
+							// titleElement.getChildNodes();
+							// textFNList.item(0).setNodeValue("new title");
+
+							articleElement.getElementsByTagName("title")
+									.item(0).getChildNodes().item(0)
+									.setNodeValue(news.getTitle());
+
+							articleElement.getElementsByTagName("linkurl").item(0)
+									.getChildNodes().item(0)
+									.setNodeValue(news.getLinkurl());
+
+							articleElement.getElementsByTagName("author")
+									.item(0).getChildNodes().item(0)
+									.setNodeValue(news.getAuthor());
+
+							articleElement.getElementsByTagName("content")
+									.item(0).getChildNodes().item(0)
+									.setNodeValue(news.getContent());
+
+							articleElement.getElementsByTagName("image")
+									.item(0).getChildNodes().item(0)
+									.setNodeValue(news.getImage());
+
+							articleElement
+									.getElementsByTagName("date")
+									.item(0)
+									.getChildNodes()
+									.item(0)
+									.setNodeValue(news.getPostedOn().toString());
+						}
+					}
+				} else {
+					// Add a new article
+					// Get root element(news)
+					Element root = doc.getDocumentElement();
+					// Add a new article to the root element
+					root.appendChild(addArticle(doc, news, root));
+
+				}
+
+				// write the content into xml file
+				transformerFactory = TransformerFactory.newInstance();
+				transformer = transformerFactory.newTransformer();
+				source = new DOMSource(doc);
+				result = new StreamResult(new File(file));
+				transformer.transform(source, result);
+
+			} catch (ParserConfigurationException pce) {
+				// pce.printStackTrace();
+				LOG.error(pce.getMessage());
+			} catch (TransformerException tfe) {
+				// tfe.printStackTrace();
+				LOG.error(tfe.getMessage());
+			} catch (IOException ioe) {
+				// ioe.printStackTrace();
+				LOG.error(ioe.getMessage());
+			} catch (SAXException sae) {
+				// sae.printStackTrace();
+				LOG.error(sae.getMessage());
+			}
+
+		} else {
+			LOG.info("File does not exist.");
+			// Create new xml file
+			try {
+				docBuilder = docFactory.newDocumentBuilder();
+				// root elements
+				doc = docBuilder.newDocument();
+
+				Element mainRootElement = doc.createElement("news");
+				doc.appendChild(mainRootElement);
+
+				// append child elements to main root element
+				mainRootElement.appendChild(addArticle(doc, news, null));
+
+				// write the content into xml file
+				transformerFactory = TransformerFactory.newInstance();
+				transformer = transformerFactory.newTransformer();
+				source = new DOMSource(doc);
+				result = new StreamResult(new File(file));
+
+				transformer.transform(source, result);
+
+				LOG.info("File (" + file + ") saved successfully!");
+
+			} catch (ParserConfigurationException pce) {
+				// pce.printStackTrace();
+				LOG.error(pce.getMessage());
+			} catch (TransformerException tfe) {
+				// tfe.printStackTrace();
+				LOG.error(tfe.getMessage());
+			}
+		}
+	}
+
+	private static Node addArticle(Document doc, News article, Element root) {
+
+		int id = 0;
+		Element lastArticle = null;
+		if (root != null) {
+			lastArticle = (Element) root.getLastChild();
+			System.out.println("Last Id: " + lastArticle.getAttribute("id"));
+			id = Integer.valueOf(lastArticle.getAttribute("id")) + 1;
+			System.out.println("New Id: " + id);
+		}
+		Element art = doc.createElement("article");
+		art.setAttribute("id", String.valueOf(id));
+		art.appendChild(getArticleElement(doc, "title", article.getTitle()));
+		art.appendChild(getArticleElement(doc, "author", article.getAuthor()));
+		art.appendChild(getArticleElement(doc, "date", article.getPostedOn()
+				.toString()));
+		art.appendChild(getArticleElement(doc, "linkurl", article.getLinkurl()));
+		art.appendChild(getArticleElement(doc, "content", article.getContent()));
+		art.appendChild(getArticleElement(doc, "image",
+				article.getImage()));
+		art.appendChild(getArticleElement(doc, "external",
+				article.isExternal() ? "true" : "false"));
+
+		return art;
+	}
+
+	/**
+	 * Creates xml elements for the specified news article document
+	 * 
+	 * @param doc
+	 *            the news article document where to add the element
+	 * @param name
+	 *            the name of the article to add
+	 * @param value
+	 *            the value of the element
+	 * @return news article node
+	 */
+	private static Node getArticleElement(Document doc, String name,
+			String value) {
+
+		Element node = doc.createElement(name);
+		node.appendChild(doc.createTextNode(value));
+		return node;
+	}
+
+	public static boolean fileExists(String fileName) {
+		File f = new File(fileName);
+		if (f.exists() && !f.isDirectory())
+			return true;
+		return false;
+	}
+
 }

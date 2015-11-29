@@ -13,13 +13,11 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -33,21 +31,10 @@ import com.opensymphony.xwork2.ActionSupport;
 public class ClimateGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = 8564417689624834186L;
+ 
 
-	// private static final Object COUNTRY_COLOMBIA = "COLOMBIA";
-
+	@SuppressWarnings("unused")
 	private Log LOG = LogFactory.getLog(this.getClass());
-
-	/**
-	 * The selected weather stations from the jsp page
-	 */
-	// TODO Ignore the station selection in the beta version
-	// private List<Integer> selectedStations;
-
-	/**
-	 * The soil properties from the selection pane
-	 */
-	// private List<Integer> selectedIndicators;
 
 	/**
 	 * The country or region latitude coordinate.
@@ -75,15 +62,6 @@ public class ClimateGeoJsonAction extends BaseAction {
 	 * The default Google Map zoom
 	 */
 	protected Integer zoom = 4;
-	/**
-	 * The selected list of years
-	 */
-	// protected List<String> selectedYears;
-	/**
-	 * The field for holding the selected country or continent geo json data.
-	 * This will only hold data for the country boundary.
-	 */
-	protected Object regionJson;
 
 	/**
 	 * The features json includes weather stations with thier corresponding
@@ -99,16 +77,17 @@ public class ClimateGeoJsonAction extends BaseAction {
 	 * The series data map
 	 */
 	private Map<String, Object> seriesJson;
+
 	/**
 	 * The JSON for the growing regions or areas for the currently selected crop
 	 * and cultiva from the selected country or Continent.
 	 */
-	private Object growingRegionsJson;
+	// private Object growingRegionsJson;
 
 	/**
 	 * The municipalities Geo JSON object
 	 */
-	private Object municipalitiesJson;
+	// private Object municipalitiesJson;
 
 	public String execute() {
 
@@ -128,61 +107,35 @@ public class ClimateGeoJsonAction extends BaseAction {
 
 			this.setFeaturesJson(tpeService.getClimateGeoJSON(
 					this.getSelectedCountry(), null, continent));
-			// log.info("Loaded features json");
-			// Get the climate series data from the database
-			// TODO Get series separately for each hovered station
-			// seriesJson =
-			// tpeService.getClimateSeries(getSelectedCountry(),continent);
-			// log.info("Loaded series data");
-
-			// log.info("Loading RegionJSON file");
 
 			// Load the crop growing areas json file for the selected region.
 			// TODO Add the select option for crop for climate
 			// TODO Remove constant for crop
-			try {
-				setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region
-						.getName().toLowerCase(), JSON_MAP_GROWING));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
+			/*
+			 * try { setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region
+			 * .getName().toLowerCase(), JSON_MAP_GROWING)); } catch
+			 * (IOException e) { // TODO Auto-generated catch block //
+			 * e.printStackTrace(); LOG.error(e.getMessage()); }
+			 */
 
-			// log.info("Loaded growing regions");
 			// Add or load the country Json data
-			try {
-				regionJson = Utils.loadGeoJSON(getRegion().getName()
-						.toLowerCase(), JSON_REGION);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
-			// log.info("Loaded country json");
+			/*
+			 * try { regionJson = Utils.loadGeoJSON(getRegion().getName()
+			 * .toLowerCase(), JSON_REGION); } catch (IOException e) { // TODO
+			 * Auto-generated catch block // e.printStackTrace();
+			 * LOG.error(e.getMessage()); }
+			 */
+
 			// Add municipalities JSON
-			try {
-				setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
-						JSON_MUNICIPIOS));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
+			/*
+			 * try {
+			 * setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
+			 * JSON_MUNICIPIOS)); } catch (IOException e) { // TODO
+			 * Auto-generated catch block // e.printStackTrace();
+			 * LOG.error(e.getMessage()); }
+			 */
 
-			// log.info("Added municipios");
 		}
-
-		// setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/" +
-		// getRegion().getName().toUpperCase() + ".geo.json"));
-		// Load states geo json data
-
-		// if (getRegion().getName().toUpperCase().equals(COUNTRY_COLOMBIA))
-		// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
-		// + getRegion().getName().toUpperCase() + ".CLIMATE.geo.json"));
-		// else
-		// this.setStatesGeoJson(Utils.loadJSONData(this.getPath() + "script/"
-		// + getRegion().getName().toUpperCase() + ".STATES.geo.json"));
 
 		return ActionSupport.SUCCESS;
 	}
@@ -227,36 +180,12 @@ public class ClimateGeoJsonAction extends BaseAction {
 		this.zoom = zoom;
 	}
 
-	public Object getRegionJson() {
-		return regionJson;
-	}
-
-	public void setRegionJson(Object regionJson) {
-		this.regionJson = regionJson;
-	}
-
 	public Map<String, Object> getFeaturesJson() {
 		return featuresJson;
 	}
 
 	public void setFeaturesJson(Map<String, Object> featuresJson) {
 		this.featuresJson = featuresJson;
-	}
-
-	public Object getGrowingRegionsJson() {
-		return growingRegionsJson;
-	}
-
-	public void setGrowingRegionsJson(Object growingRegionsJson) {
-		this.growingRegionsJson = growingRegionsJson;
-	}
-
-	public Object getMunicipalitiesJson() {
-		return municipalitiesJson;
-	}
-
-	public void setMunicipalitiesJson(Object municipalitiesJson) {
-		this.municipalitiesJson = municipalitiesJson;
 	}
 
 	public Map<String, Object> getSeriesJson() {

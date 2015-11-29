@@ -4,53 +4,12 @@
 <head>
 <meta charset="utf-8">
 <title>TPE Platform</title>
-
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript"
 	src="${ctx}/script/home-overlay-dialog.js"></script>
-
 <script type="text/javascript">
-	(function(setting) {
-		var cook = {
-			set : function(n, v, d) { // cook.set takes (name, value, optional_persist_days) - defaults to session if no days specified
-				if (d) {
-					var dt = new Date();
-					dt.setDate(dt.getDate() + d);
-					d = '; expires=' + dt.toGMTString();
-				}
-				document.cookie = n + '=' + escape(v) + (d || '') + '; path=/';
-			},
-			get : function(n) { // cook.get takes (name)
-				var c = document.cookie.match('(^|;)\x20*' + n + '=([^;]*)');
-				return c ? unescape(c[2]) : null;
-			}
-		};
-		if (cook.get('skipthispage')) {
-			location.replace(setting.page);
-		}
-		if (!document.cookie) {
-			cook.set('temp', 1);
-		}
-		if (document.cookie) {
-			jQuery(function($) {
-				$('#optout').css({
-					display : ''
-				}).append(setting.optoutHTML).find('input').click(
-						function() {
-							this.checked ? cook.set('skipthispage', '1',
-									setting.days) : cook.set('skipthispage',
-									'', -1);
-							this.checked && setting.gowhenchecked
-									&& location.replace(setting.page);
-						});
-			});
-		}
-	})
-			({
-				days : 1, // days cookie will persist//days : 365, 
-				page : '/', // page to goto if cookie is set
-				gowhenchecked : true, // true/false - should page switch when the box is checked?
-				optoutHTML : '<label for="optoutcheckbox">Don\'t show this dialog again: <input type="checkbox" id="optoutcheckbox" value=""></label>'
-			});
+	
 </script>
 </head>
 
@@ -58,19 +17,19 @@
 	<div id="home_container">
 		<div id="home_panel">
 			<div id="panel-left" class="panel-box-small">
-				<img class="middle-img" src="${ctx}/img/left-home.png" height="462"
+				<img class="middle-img" src="${ctx}/img/1-left.png" height="462"
 					width="294" />
 			</div>
 			<div id="panel-top" class="panel-box-big">
-				<img class="middle-img" src="${ctx}/img/top-home.png" height="294"
+				<img class="middle-img" src="${ctx}/img/2-top.png" height="294"
 					width="462" />
 			</div>
 			<div id="panel-bottom" class="panel-box-big">
-				<img class="middle-img" src="${ctx}/img/bottom-home.png"
-					height="294" width="462" />
+				<img class="middle-img" src="${ctx}/img/4-bottom.png" height="294"
+					width="462" />
 			</div>
 			<div id="panel-right" class="panel-box-small">
-				<img class="middle-img" src="${ctx}/img/right-home.png" height="462"
+				<img class="middle-img" src="${ctx}/img/3-right.png" height="462"
 					width="294" />
 			</div>
 		</div>
@@ -81,14 +40,13 @@
 		<span id="panel-info">Infos</span>
 		<div id="panel-img"></div>
 	</div>
-	<div id="popup" class="modal-box">
-		<header>
-			<a href="#" class="js-modal-close close">×</a>
-			<h3>
-				Welcome to <a href="#">CCAFS-TPE Platform</a>
-			</h3>
-		</header>
-		<div class="modal-body">
+
+	<div id="overlay-dialog">
+		<a href="#" class="close">X</a>
+		<h3>
+			Welcome to <a href="#">CCAFS-TPE Platform</a>
+		</h3>
+		<div class="overlay-body">
 			<h4>What is CCAFS-TPE Platform?</h4>
 			<p>CCAFS-TPE Platform, is an online visualization of the Target
 				Population of Environments using Climate, Soil and Stability data
@@ -104,6 +62,10 @@
 					<p>
 						<a href="#">See how CCAFS-TPE can help or applied to your
 							specific research.</a>
+					</p>
+					<p>
+						<input type="checkbox" id="dont-show-again">Don't show
+						this again
 					</p>
 				</div>
 				<div id="applied-list">
@@ -131,12 +93,8 @@
 					</div>
 				</div>
 			</div>
-			<div id="optout" style="display: none;"></div>
 		</div>
-		<footer>
-			<a href="#" class="js-modal-close">Return to website</a>
-		</footer>
 	</div>
-	<a class="js-open-modal" href="#" data-modal-id="popup"> Click me </a>
+<%-- <img src="${ctx}/images/aca.png" alt="Foo" height="142" width="142"> --%>
 </body>
 </html>

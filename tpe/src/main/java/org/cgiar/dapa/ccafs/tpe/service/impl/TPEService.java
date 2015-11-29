@@ -14,6 +14,7 @@
 package org.cgiar.dapa.ccafs.tpe.service.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -498,5 +499,56 @@ public class TPEService implements ITPEService {
 			ArrayList<Integer> params, int page, int rows) {
 
 		return soilPropertyDao.listSoil(country, level, params, page, rows);
+	}
+
+	@Override
+	public Map<Integer, String> getMapOptions() {
+
+		List<Category> result = this.getOutputs();
+		Map<Integer, String> options = new LinkedHashMap<Integer, String>();
+		if (result != null)
+			for (Category cat : result)
+				options.put(cat.getId(), cat.getName());
+		return options;
+	}
+
+	@Override
+	public Map<Integer, String> getCrops() {
+		List<Crop> list = cropDao.getAll();
+		Map<Integer, String> crops = new LinkedHashMap<Integer, String>();
+		if (list != null && !list.isEmpty())
+			for (Crop cp : list)
+				crops.put(cp.getId(), cp.getName());
+		return crops;
+	}
+
+	@Override
+	public Map<Integer, String> getRegions() {
+		List<Region> list = this.getCountriesAndContinents();
+		Map<Integer, String> regions = new LinkedHashMap<Integer, String>();
+		if (list != null && !list.isEmpty())
+			for (Region reg : list)
+				regions.put(reg.getId(), reg.getName());
+		return regions;
+	}
+
+	@Override
+	public Map<Integer, Map<Integer, String>> getCultivars() {
+
+		List<Crop> crops = cropDao.getAll();
+		List<Cultivar> cultivars;
+		Map<Integer, Map<Integer, String>> map = new LinkedHashMap<Integer, Map<Integer, String>>();
+		Map<Integer, String> temp = new LinkedHashMap<Integer, String>();
+		if (crops != null && !crops.isEmpty())
+			for (Crop crop : crops) {
+				temp = new LinkedHashMap<Integer, String>();
+				cultivars = this.getCultivarsByCrop(crop.getId());
+				if (cultivars != null && !cultivars.isEmpty())
+					for (Cultivar c : cultivars)
+						temp.put(c.getId(), c.getName());
+				map.put(crop.getId(), temp);
+			}
+
+		return map;
 	}
 }

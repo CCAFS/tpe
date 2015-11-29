@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 //import java.util.function.Function;
 
+import java.util.regex.Pattern;
+
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
@@ -42,6 +44,9 @@ import org.cgiar.dapa.ccafs.tpe.util.FeatureType;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+
+//import com.google.common.base.Function;
+//import com.google.common.collect.Lists;
 
 /**
  * This class implements the methods defined in the Climate DAO interface
@@ -191,8 +196,8 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 				// For 3 Admin Levels
 				// Municipality/State/Country
 				countr = row[2].toString();
-				state = row[1].toString();
-				municipio = row[0].toString();
+				state = removeUnderscores(row[1].toString());
+				municipio = removeUnderscores(row[0].toString());
 				lon = Double.valueOf(row[6] != null ? row[6].toString()
 						: String.valueOf(0));
 				lat = Double.valueOf(row[7] != null ? row[7].toString()
@@ -203,13 +208,13 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 					// For 3 Admin Levels
 					// Municipality/State/Country
 					countr = row[11].toString();
-					state = row[2].toString();
-					municipio = row[1].toString();
+					state = removeUnderscores(row[2].toString());
+					municipio = removeUnderscores(row[1].toString());
 				} else {
 					// For2 admin levels
 					// State/Country
-					countr = row[2].toString();
-					state = row[1].toString();
+					countr = removeUnderscores(row[2].toString());
+					state = removeUnderscores(row[1].toString());
 					municipio = "";
 				}
 
@@ -253,7 +258,9 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			properties.put(MUNICIPALITY_NAME, municipio
 			// row[0]
 					);
-			properties.put(FEATURE_NAME, row[0]);// Municipality or station
+			properties.put(FEATURE_NAME,
+					removeUnderscores(row[0] != null ? row[0].toString()
+							: row[1].toString()));// Municipality or station
 
 			if (continent)
 				// Municipality/State/Country/Continent
@@ -279,8 +286,9 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 			Map<String, List<Object>> infoSeries = new LinkedHashMap<String, List<Object>>();
 			// Create a dummy 12 points for a null series
 
-//			List<Object> dummy12 = new LinkedList<Object>(Arrays.asList("", "",
-//					"", "", "", "", "", "", "", "", "", ""));
+			// List<Object> dummy12 = new LinkedList<Object>(Arrays.asList("",
+			// "",
+			// "", "", "", "", "", "", "", "", "", ""));
 			// Create series for tmin, tmax and precipitation
 			// The results are ordered by month 1-12 (Jan-Dec)
 			infoSeries.put(
@@ -382,8 +390,16 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		return features;
 	}
 
+	private String removeUnderscores(String name) {
+		if (name != null)
+//			return name.replaceAll(Pattern.quote("_"), " ").replaceAll("\\d+", "");
+			return name.replaceAll("[^a-zA-Z]", " ");
+		return null;
+	}
+
 	private Map<String, Object> createDataSeries(List<Double> tmin,
-			List<Double> tmax, List<Double> prec, List<Double> radi,String pointId) {
+			List<Double> tmax, List<Double> prec, List<Double> radi,
+			String pointId) {
 		Map<String, Object> seriesData = new LinkedHashMap<String, Object>();
 
 		Map<String, Object> stationsSeriesMap = new LinkedHashMap<String, Object>();
@@ -456,35 +472,30 @@ public class ClimateDao extends GenericDao<Climate, Long> implements
 		markerMap.put(ENABLED, false);
 		seriesMap.put(MARKER, markerMap);
 		seriesMapList.add(seriesMap);
-		
+
 		// Add radiation series
-				if(radi!=null){
-				 seriesMap = new LinkedHashMap<String, Object>();
-				 seriesMap.put(TYPE, TYPE_SPLINE);
-				 seriesMap.put(NAME, "Radiation");
-				 seriesMap.put(AXIS_Y, 2);
-				 seriesMap.put(COLOR, "#89A54E");
-				 seriesMap.put(DATA, radi);
-				 toolTipMap = new LinkedHashMap<String, Object>();
-				 toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
-				 seriesMap.put(TOOL_TIP, toolTipMap);
-				 // Add marker options
-				 // Add marker options
-				 markerMap = new LinkedHashMap<String, Object>();
-				 markerMap.put(LINE_WIDTH, 2);
-				 // markerMap.put(LINE_COLOR, clusterColor);
-				 // markerMap.put(FILL_COLOR, clusterColor);
-				 markerMap.put(ENABLED, false);
-				 seriesMap.put(MARKER, markerMap);
-				
-				 seriesMapList.add(seriesMap);
-					
-				}
-		
-		
-		
-		
-		
+		if (radi != null) {
+			seriesMap = new LinkedHashMap<String, Object>();
+			seriesMap.put(TYPE, TYPE_SPLINE);
+			seriesMap.put(NAME, "Radiation");
+			seriesMap.put(AXIS_Y, 2);
+			seriesMap.put(COLOR, "#89A54E");
+			seriesMap.put(DATA, radi);
+			toolTipMap = new LinkedHashMap<String, Object>();
+			toolTipMap.put(VALUE_SUFFIX, VALUE_SUFFIX_R);
+			seriesMap.put(TOOL_TIP, toolTipMap);
+			// Add marker options
+			// Add marker options
+			markerMap = new LinkedHashMap<String, Object>();
+			markerMap.put(LINE_WIDTH, 2);
+			// markerMap.put(LINE_COLOR, clusterColor);
+			// markerMap.put(FILL_COLOR, clusterColor);
+			markerMap.put(ENABLED, false);
+			seriesMap.put(MARKER, markerMap);
+
+			seriesMapList.add(seriesMap);
+
+		}
 
 		// Add the station id and its series data
 		stationsSeriesMap.put(pointId, seriesMapList);

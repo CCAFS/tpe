@@ -9,6 +9,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"
 	type="text/javascript"></script>
 <link rel="stylesheet"
@@ -44,21 +47,40 @@
 		<div id="select_variables">
 			<h4 class="expanded">Map Options</h4>
 			<div id="variables">
-				<h3>Map</h3>
+				<h3>Output</h3>
 				<s:select name="selectedOutput" listKey="id" listValue="name"
-					id="select_output" list="outputs" value="preselectedOutput"
+					id="select_output" list="#{}" value="preselectedOutput"
 					cssClass="map-options-select" multiple="false" required="true" />
-				<div id="params_out">Map options</div>
+				<div id="params_cultivars">
+					<h3>
+						Crop <span style="color: #979a9e; font-size: 10px;">(Initially
+							Rice &#38; Beans)</span>
+					</h3>
+					<s:select name="selectedCrop" listKey="id" listValue="name"
+						id="select_crop" list="#{}" value="preselectedCrop"
+						cssClass="map-options-select" multiple="false" required="true" />
+					<h3>Cultivar</h3>
+					<!-- The div for loading the crop cultivars dynamically -->
+
+					<s:select name="selectedCultivar" listKey="id" listValue="name"
+						id="select_cultivar" list="#{}" value="preselectedCultivar"
+						cssClass="map-options-select" multiple="false" required="true" />
+				</div>
+				<h3>Region</h3>
+				<s:select name="selectedCountry" listKey="id" listValue="name"
+					id="select_country" list="#{}" value="preselectedCountry"
+					cssClass="map-options-select" multiple="false" required="true" />
+
 			</div>
 		</div>
 
 		<div id="tpe_main">
 			<!--  TPE Google Map-->
-			<div id="tpe_map" class="tpe_map_min">
-				<div id="loading">
-					<img src="${ctx}/img/ajax-loader.gif" />
-				</div>
+			<div id="tpe_map" class="tpe_map_min"></div>
+			<div id="loading">
+				<img src="${ctx}/img/ajax-loader.gif" />
 			</div>
+
 			<!-- <div id="legend-container">
 				<h3>Legend: Soil Texture</h3>
 			</div> -->
@@ -119,8 +141,10 @@
 			</div>
 		</div>
 		<div id="dialog-plot">
-			<div id="close-button">X</div>
-			<div id="dialog-chart"></div>
+			<div id="plot-div">
+				<div id="close-button">X</div>
+				<div id="dialog-chart"></div>
+			</div>
 			<div id="dialog-infos">The brief description of the chart and
 				related details</div>
 		</div>

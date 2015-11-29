@@ -22,5 +22,5 @@ import org.cgiar.dapa.ccafs.tpe.entity.Crop;
  *
  */
 public interface ICropDao extends IGenericDao<Crop, Integer> {
-
+	
 }

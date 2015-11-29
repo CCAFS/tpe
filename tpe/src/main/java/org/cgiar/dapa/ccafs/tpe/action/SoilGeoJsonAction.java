@@ -13,7 +13,6 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.action;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +21,6 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
-import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -37,16 +35,9 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	private static final long serialVersionUID = -2150409370455878988L;
 
+	@SuppressWarnings("unused")
 	private Log LOG = LogFactory.getLog(this.getClass());
 
-	/**
-	 * The soil properties from the selection pane
-	 */
-	// private List<Integer> selectedProperties;
-	/**
-	 * The selected soil texture ids from the selection pane.
-	 */
-	// private List<Integer> selectedTextures;
 	/**
 	 * The country or region latitude coordinate.
 	 */
@@ -88,37 +79,27 @@ public class SoilGeoJsonAction extends BaseAction {
 	// LinkedHashMap<String, List<Map<String, Object>>>();
 
 	private List<String> categoriesJson = new LinkedList<String>();
-	private Object tpeBoundaryJson;
+
+	// private Object tpeBoundaryJson;
 	/**
 	 * The country (Colombia or Brazil) or region(Latin America) geo JSON object
 	 */
-	private Object regionJson;
+	// private Object regionJson;
 
 	/**
 	 * The municipalities Geo JSON object
 	 */
-	private Object municipalitiesJson;
+	// private Object municipalitiesJson;
 
 	/**
 	 * The JSON for the growing regions or areas for the currently selected crop
 	 * and cultiva from the selected country or Continent.
 	 */
-	private Object growingRegionsJson;
+	// private Object growingRegionsJson;
 
 	public String execute() {
 
 		// Retrieve the soil GeoJson data from the database
-		/*
-		 * if (this.getSelectedCountry() != null &&
-		 * !getSelectedYears().isEmpty() || getSelectedYears() != null &&
-		 * getSelectedProperties() != null ||
-		 * !getSelectedProperties().isEmpty()) {
-		 */
-
-		// if (getRegion() != null) {
-		// setLat(getRegion().getLatitude());
-		// setLng(getRegion().getLongitude());
-		// }
 
 		if (this.getSelectedCountry() != null) {
 
@@ -131,23 +112,11 @@ public class SoilGeoJsonAction extends BaseAction {
 
 			// Load the country geojson file
 			/*
-			 * setCountryGeoJson(Utils.loadJSON(this.getPath() + "script/" +
-			 * getRegion().getName().toUpperCase() + ".geo.json"));
+			 * try { setRegionJson(Utils.loadGeoJSON(getRegion().getName(),
+			 * JSON_REGION)); } catch (IOException e) { // TODO Auto-generated
+			 * catch block // e.printStackTrace(); LOG.error(e.getMessage()); }
 			 */
-			try {
-				setRegionJson(Utils.loadGeoJSON(getRegion().getName(),
-						JSON_REGION));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
-
 			// Load the corresponding country states
-			//
-			// this.statesGeoJson = Utils.loadJSONData(this.getPath() +
-			// "script/"
-			// + getRegion().getName().toUpperCase() + ".STATES.geo.json");
 			categoriesJson = tpeService.getEnvSowingDates(getSelectedCountry());
 
 			setSeriesJson(tpeService
@@ -157,46 +126,34 @@ public class SoilGeoJsonAction extends BaseAction {
 			if (getRegion().getCategory().getName().equals(CATEGORY_CONTINENT))
 				continent = true;
 
-			if (this.getSelectedCountry() != 2)
-				this.setFeaturesJson(this.tpeService.getSoilGeoJson(null,
-						getSelectedCountry(), continent));
+			// if (this.getSelectedCountry() != 2)
+			this.setFeaturesJson(this.tpeService.getSoilGeoJson(null,
+					getSelectedCountry(), continent));
 
-			// TODO Add cultivar parameter
+			// TODO Add cultivar paramete
+
 			/*
-			 * this.setTpeBoundaryJson(Utils.loadJSONData(this.getPath() +
-			 * "script/" + getRegion().getName().toUpperCase() +
-			 * ".BOUNDARY.json"));
+			 * try { municipalitiesJson =
+			 * Utils.loadGeoJSON(getRegion().getName(), JSON_MUNICIPIOS); }
+			 * catch (IOException e) { // TODO Auto-generated catch block //
+			 * e.printStackTrace(); LOG.error(e.getMessage()); }
 			 */
 
-			try {
-				municipalitiesJson = Utils.loadGeoJSON(getRegion().getName(),
-						JSON_MUNICIPIOS);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
-
-			try {
-				tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
-						JSON_BOUNDARY);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
+			/*
+			 * try { tpeBoundaryJson = Utils.loadGeoJSON(getRegion().getName(),
+			 * JSON_BOUNDARY); } catch (IOException e) { // TODO Auto-generated
+			 * catch block // e.printStackTrace(); LOG.error(e.getMessage()); }
+			 */
 
 			// Load the crop growing areas json file for the selected region.
 			// TODO Add the select option for crop for climate
 			// TODO Remove constant for crop
-			try {
-				setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region
-						.getName().toLowerCase(), JSON_MAP_GROWING));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
-				LOG.error(e.getMessage());
-			}
+			/*
+			 * try { setGrowingRegionsJson(Utils.readJSON(CROP_RICE, region
+			 * .getName().toLowerCase(), JSON_MAP_GROWING)); } catch
+			 * (IOException e) { // TODO Auto-generated catch block //
+			 * e.printStackTrace(); LOG.error(e.getMessage()); }
+			 */
 
 		}
 
@@ -243,36 +200,12 @@ public class SoilGeoJsonAction extends BaseAction {
 		this.featuresJson = featuresJson;
 	}
 
-	public Object getTpeBoundaryJson() {
-		return tpeBoundaryJson;
-	}
-
-	public void setTpeBoundaryJson(Object tpeBoundaryJson) {
-		this.tpeBoundaryJson = tpeBoundaryJson;
-	}
-
 	public Integer getZoom() {
 		return zoom;
 	}
 
 	public void setZoom(Integer zoom) {
 		this.zoom = zoom;
-	}
-
-	public Object getRegionJson() {
-		return regionJson;
-	}
-
-	public void setRegionJson(Object regionJson) {
-		this.regionJson = regionJson;
-	}
-
-	public Object getMunicipalitiesJson() {
-		return municipalitiesJson;
-	}
-
-	public void setMunicipalitiesJson(Object municipalitiesJson) {
-		this.municipalitiesJson = municipalitiesJson;
 	}
 
 	public List<String> getCategoriesJson() {
@@ -289,14 +222,6 @@ public class SoilGeoJsonAction extends BaseAction {
 
 	public void setSeriesJson(Map<String, List<Probability>> seriesJson) {
 		this.seriesJson = seriesJson;
-	}
-
-	public Object getGrowingRegionsJson() {
-		return growingRegionsJson;
-	}
-
-	public void setGrowingRegionsJson(Object growingRegionsJson) {
-		this.growingRegionsJson = growingRegionsJson;
 	}
 
 }

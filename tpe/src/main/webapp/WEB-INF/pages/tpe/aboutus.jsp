@@ -55,15 +55,15 @@
 
 <body>
 	<div id="contact_main">
-		<h4 class="navigation">
+		<!-- <h4 class="navigation">
 			<a href="#">About Us</a>
-		</h4>
+		</h4> -->
 		<!--TPE Team Area-->
 		<div>
 			<div class="pane_left">
 				<!--Contact Area-->
 				<div class="sec_details">
-					<h4>Who we are?</h4>
+					<h4>About Us</h4>
 					<h4>Institution</h4>
 					<p>The CGIAR Research Programme on Climate Change, Agriculture
 						and Food Security (CCAFS) is a research partnership between CGIAR

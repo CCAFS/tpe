@@ -112,17 +112,10 @@ public class JQGridAction extends BaseAction {
 			captionTitle = "Soil Data from " + getRegion().getName();
 			break;
 
-		default:
-//			gridModel = new ArrayList<ClimateGrid>();
-//			colNames = ColNames.climateNames();
-//			colModel = ModelUtils.climateModel();
-//			gridModel = tpeService.listClimate(1, false, "tmin", page, rows);
-//			captionTitle = "Monthly Minimum Temperature Data from Brazil";
+		default: 
 			break;
 		}
-
-		// log.info("# of variety records: " + gridModel.size())
-		// total = varieties.size(); records =
+ 
 		if (gridModel == null)
 			gridModel = new ArrayList<ClimateGrid>();
 		records = gridModel.size();

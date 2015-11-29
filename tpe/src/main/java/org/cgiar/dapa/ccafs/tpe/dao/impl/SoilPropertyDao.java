@@ -297,29 +297,22 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 					properties.put(STATION_NAME, soilProperty.getRegion()
 							.getName());
 				} else {
-					String count, state, mun, statn;
-					if (soilProperty.getStation() == null) {
-						// Country
-						count = soilProperty.getRegion().getParent().getName();
-						// Station
-						statn = soilProperty.getRegion().getName();
-						// Municipality
-						mun = "";
-						// State
-						state = soilProperty.getRegion().getName();
-					} else {
-						// country
-						count = soilProperty.getRegion().getParent()
-								.getParent().getName();
-						// station
-						statn = soilProperty.getStation().getName();
-						// municipality
-						mun = soilProperty.getRegion().getName();
-						// State
-						state = soilProperty.getRegion().getParent().getName();
-					}
+					String count, state, mun;
+					// country
+					count = soilProperty.getIntegrated() != null ? soilProperty
+							.getRegion().getParent().getName() : soilProperty
+							.getRegion().getParent().getParent().getName();
+					// station
+//					statn = soilProperty.getStation().getName();
+					// municipality
+					mun = soilProperty.getIntegrated() != null ? ""
+							: soilProperty.getRegion().getName();
+					// State
+					state = soilProperty.getIntegrated() != null ? soilProperty
+							.getRegion().getName() : soilProperty.getRegion()
+							.getParent().getName();
 					properties.put(COUNTRY_NAME, count);
-					properties.put(STATION_NAME, statn);
+					properties.put(STATION_NAME, "");
 					properties.put(STATE_NAME, state);
 					properties.put(MUNICIPALITY_NAME, mun);
 				}
@@ -419,22 +412,19 @@ public class SoilPropertyDao extends GenericDao<SoilProperty, Long> implements
 				.hasNext();) {
 			property = iteratorProperty.next();
 			soi.add(new SoilGrid(level == true ? property.getRegion()
-					.getParent().getParent().getName()
-					: (property.getStation() == null ? property.getRegion()
-							.getParent().getName() : property.getRegion()
-							.getParent().getParent().getName()),
+					.getParent().getParent().getName() : property.getRegion()
+					.getParent().getParent().getName(),
 
 			level == true ? property.getRegion().getParent().getName()
-					: (property.getStation() == null ? property.getRegion()
-							.getName() : property.getRegion().getParent()
-							.getName()),
-
-			level == true ? property.getRegion().getName()
-					: (property.getStation() == null ? "" : property
-							.getRegion().getName()),
+					: property.getRegion().getParent().getName(),
 
 			level == true ? property.getRegion().getName() : property
-					.getRegion().getName(),
+					.getRegion().getName(), ""
+			/*
+			 * level == true ? property.getRegion().getName() : property
+			 * .getRegion().getName()
+			 */
+			,
 
 			property.getPh(), property.getClay(), property.getSand(), property
 					.getSilt(), property.getBulkDensity(), property

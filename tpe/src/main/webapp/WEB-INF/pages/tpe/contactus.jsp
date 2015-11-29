@@ -55,9 +55,9 @@
 
 <body>
 	<div id="contact_main">
-		<h4 class="navigation">
+		<!-- <h4 class="navigation">
 			<a href="#">About Us</a>
-		</h4>
+		</h4> -->
 		<!--TPE Team Area-->
 		<div>
 			<div class="pane_left">
@@ -78,7 +78,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="${ctx}/img/bcamilo.png" />
+							<img src="${ctx}/resources/bcamilo.png" />
 						</div>
 						<div class="member_infos">
 							<h5>Camilo Barrios Perez - Agricultural Engineer</h5>
@@ -121,7 +121,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="${ctx}/img/david.jpg" />
+							<img src="${ctx}/resources/david.jpg" />
 						</div>
 						<div class="member_infos">
 							<h5>David Arango Londono - Statistical analyst</h5>
@@ -150,7 +150,7 @@
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="${ctx}/img/Carlitos.jpg" />
+							<img src="${ctx}/resources/Carlitos.jpg" />
 						</div>
 						<div class="member_infos">
 							<h5>Carlos Eduardo Navarro - Research assistant</h5>
@@ -165,8 +165,8 @@
 						</div>
 						<div class="member_infos">
 							<h5>Noah Matovu - Systems Engineer</h5>
-							<p>DAPA-CCAFS</p>
-							<p>n.matovu@cgiar.org</p>
+							<p></p>
+							<p>noahmatovu@yahoo.com</p>
 						</div>
 					</div>
 				</div>

@@ -88,8 +88,7 @@ function visualizeResults() {
 		actionJson = 'json/climateGeoJson.geojson';
 		// Call the geoJsonData function and pass the params y action
 		loadJson(actionJson, 'CLIMATE');
-		// initializeMap();
-		// console.log('OUTPUT IS CLIMATE');
+		// initializeMap(); 
 		break;
 	default:
 		break;
@@ -141,6 +140,11 @@ function hideShow(graphic) {
 
 function viewPlot() {
 
+	$(window).resize(function() {
+	    $("#dialog-plot").dialog("option", "width", '800');
+	    $("#dialog-plot").dialog("option", "height", 'auto');
+	});
+	
 	$('#dialog-plot').dialog({
 		autoOpen : false,
 		modal : true,
@@ -150,16 +154,23 @@ function viewPlot() {
 		// width : $(window).width(),
 		// height : $(window).height(),
 
+		/*height : 'auto',*/
 		height : 'auto',
-		// height : 800,
-		width : 'auto',
-		// width : 850,
+		/*maxHeight: 600,
+		maxWidth: 600,*/
+		/*width : 'auto',*/
+		 width : 800,
+		autoResize: true,
+		/* create: function( event, ui ) {
+			    // Set maxWidth
+			    $(this).css("maxWidth", "600px");
+			  },*/
 
 		// fullScreen: true,
 		// fullScreenForce: true,
 
 		draggable : true,
-		resizable : true,
+		resizable : false,
 		// open : function() {
 		// $(".ui-dialog-titlebar").hide();
 		// },

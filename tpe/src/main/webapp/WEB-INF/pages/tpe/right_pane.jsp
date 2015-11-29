@@ -21,8 +21,8 @@
 	</div>
 	<security:authorize access="hasRole('ROLE_ADMIN')">
 		<div id="tags-add">
-			<button class="button-add" id="send">Add Tag</button>
-			<button class="button-list" id="list">View Tags</button>
+			<button class="button-add" id="send" onclick="location.href='/tpe/admin/tag/add.jspx'" >Add Tag</button>
+			<button class="button-add" id="list" onclick="location.href='/tpe/admin/tag/list.jspx'">View Tags</button>
 		</div>
 	</security:authorize>
 </div>

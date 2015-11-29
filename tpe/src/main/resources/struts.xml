@@ -65,21 +65,21 @@
 		</global-exception-mappings>
 
 		<!-- Actions -->
-		<action name="index" class="indexAction" method="execute">
-			<result name="success">/WEB-INF/pages/index.jsp</result>
+		<action name="index">
+			<result>/WEB-INF/pages/index.jsp</result>
 		</action>
-		<action name="documentation" class="indexAction" method="documentation">
-			<result name="success">/WEB-INF/pages/tpe/documentation.jsp</result>
+		<action name="documentation">
+			<result>/WEB-INF/pages/tpe/documentation.jsp</result>
 		</action>
-		<action name="resources" class="indexAction" method="resources">
-			<result name="success">/WEB-INF/pages/tpe/resources.jsp</result>
+		<action name="resources">
+			<result>/WEB-INF/pages/tpe/resources.jsp</result>
 		</action>
-		<action name="contactUs" class="contactAction">
-			<result name="success">/WEB-INF/pages/tpe/contactus.jsp</result>
+		<action name="contactUs">
+			<result>/WEB-INF/pages/tpe/contactus.jsp</result>
 			<!-- <result name="error">/WEB-INF/pages/tpe/error.jsp</result> -->
 		</action>
-		<action name="aboutUs" class="contactAction">
-			<result name="success">/WEB-INF/pages/tpe/aboutus.jsp</result>
+		<action name="aboutUs">
+			<result>/WEB-INF/pages/tpe/aboutus.jsp</result>
 		</action>
 		<action name="contact_us" class="contactAction" method="contactus">
 			<!-- <result name="success">/WEB-INF/pages/tpe/contactus.jsp</result> -->
@@ -104,12 +104,6 @@
 		<action name="visualization" class="tpeAction">
 			<result name="success">/WEB-INF/pages/tpe/tpe-index.jsp</result>
 		</action>
-		<action name="map/options" class="tpeAction" method="paramsOut">
-			<result name="soil">/WEB-INF/pages/tpe/soil-params.jsp</result>
-			<result name="tpe">/WEB-INF/pages/tpe/tpe-params.jsp</result>
-			<result name="stability">/WEB-INF/pages/tpe/tpe-params.jsp</result>
-			<result name="climate">/WEB-INF/pages/tpe/climate-params.jsp</result>
-		</action>
 		<action name="subregions" class="tpeAction" method="loadSubregions">
 			<result name="subregions">/WEB-INF/pages/tpe/subregions.jsp</result>
 		</action>
@@ -120,8 +114,8 @@
 			<result name="years">/WEB-INF/pages/tpe/years.jsp</result>
 		</action>
 
-		<action name="tutorials" class="indexAction" method="tutorials">
-			<result name="success">/WEB-INF/pages/tpe/doc-tutorials.jsp</result>
+		<action name="tutorials">
+			<result>/WEB-INF/pages/tpe/doc-tutorials.jsp</result>
 		</action>
 
 		<action name="login" class="loginAction">
@@ -139,7 +133,7 @@
 			<result name="success">/WEB-INF/pages/tpe/tags.jsp</result>
 		</action>
 		<action name="posts" class="tagsAction" method="posts">
-			<result name="success">/WEB-INF/pages/tpe/posts.jsp</result>
+			<result name="success">/WEB-INF/pages/tpe/tag-posts.jsp</result>
 		</action>
 		<action name="google/analytics" class="googleAnalyticsAction">
 			<result>/WEB-INF/pages/google/analytics.jsp</result>
@@ -218,6 +212,10 @@
 			<result name="input">/WEB-INF/pages/admin/edit-tag.jsp</result>
 		</action>
 
+		<action name="tag" class="tagsAction" method="loadTag">
+			<result name="success">/WEB-INF/pages/admin/tag.jsp</result>
+		</action>
+
 	</package>
 
 	<package name="tpe-json" extends="struts-default,json-default"
@@ -241,17 +239,17 @@
 		</action>
 		<action name="soilGeoJson" class="soilGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">growingRegionsJson.*,featuresJson.*,regionJson.*,zoom,municipalitiesJson.*,lat,lng,seriesJson.*,categoriesJson.*,tpeBoundaryJson.*</param>
+				<param name="includeProperties">featuresJson.*,zoom,lat,lng,seriesJson.*,categoriesJson.*</param>
 			</result>
 		</action>
 		<action name="tpeGeoJson" class="tpeGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">featuresJson.*,regionJson.*,municipalitiesJson.*,zoom,lat,lng,tpeBoundaryJson.*,boxJson.*,categoriesJson.*,seriesJson.*</param>
+				<param name="includeProperties">featuresJson.*,zoom,lat,lng,boxJson.*,categoriesJson.*,seriesJson.*</param>
 			</result>
 		</action>
 		<action name="climateGeoJson" class="climateGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">growingRegionsJson.*,featuresJson.*,municipalitiesJson.*,regionJson.*,zoom,lat,lng</param>
+				<param name="includeProperties">featuresJson.*,zoom,lat,lng</param>
 			</result>
 		</action>
 		<action name="tagsJson" class="tagsAction">
@@ -261,7 +259,7 @@
 		</action>
 		<action name="stabilityGeoJson" class="stabilityGeoJsonAction">
 			<result type="json">
-				<param name="includeProperties">featuresJson.*,regionJson.*,municipalitiesJson.*.*,zoom,lat,lng,tpeBoundaryJson.*,boxJson.*,categoriesJson.*,seriesJson.*</param>
+				<param name="includeProperties">featuresJson.*,zoom,lat,lng,boxJson.*,categoriesJson.*,seriesJson.*</param>
 			</result>
 		</action>
 
@@ -289,6 +287,11 @@
 			</result>
 		</action>
 
+		<action name="map/options" class="tpeAction">
+		<result type="json">
+				<param name="includeProperties">maps.*,regions.*,crops.*,cultivars.*</param>
+			</result>
+		</action>
 
 	</package>
 

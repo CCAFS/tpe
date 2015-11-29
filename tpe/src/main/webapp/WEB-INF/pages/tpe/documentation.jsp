@@ -34,7 +34,7 @@
 				<!--Documentation Area-->
 				<div class="doc-list project">
 					<div class="img">
-						<a><img src="${ctx}/img/tpe_map.jpg" alt="image" /> </a>
+						<a><img src="${ctx}/resources/user-climate.png" alt="image" /> </a>
 					</div>
 					<div class="doc-min project">
 						<h4>
@@ -66,7 +66,7 @@
 				</div>
 				<div class="doc-list scientific">
 					<div class="img">
-						<a href="#"><img src="${ctx}/img/tpe_map.jpg" alt="image" />
+						<a href="#"><img src="${ctx}/resources/user-climate.png" alt="image" />
 						</a>
 					</div>
 					<div class="doc-min scientific">

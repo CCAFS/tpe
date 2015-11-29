@@ -1,49 +1,27 @@
 <%@ include file="/common/taglibs.jsp"%>
-<!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
 <head>
-<%--  <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-<link rel="stylesheet"
-	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/south-street/jquery-ui.css" /> 
-	
-	<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/highcharts-more.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-
-
-<script src="${ctx}/script/jquery-impromptu.js" type="text/javascript"></script>
-<link rel="stylesheet" media="all" type="text/css" href="${ctx}/css/jquery-impromptu.css" />
-<script src="${ctx}/script/tpe-impromptu.js" type="text/javascript"></script>
-<script src="${ctx}/script/markerclusterer.js" type="text/javascript"></script>
-
-<script type="text/javascript" src="${ctx}/script/visualize-results.js"></script>
-<script type="text/javascript" src="${ctx}/script/load-json.js"></script>
-<script type="text/javascript" src="${ctx}/script/initialize-map.js"></script>
-<script type="text/javascript" src="${ctx}/script/select-params.js"></script> --%>
 
 <script>
-jQuery(document).ready(function($){
-	/* $(document).ready(function() { */
+	jQuery(document).ready(function($) {
+		/* $(document).ready(function() { */
 
 		//Footer Items
 		$('.colombia').hover(function() {
-			$("img", this).attr("src", "${ctx}/img/work-colombia.png");
+			$("img", this).attr("src", "${ctx}/img/region-colombia-hover.png");
 		}, function() {
-			$("img", this).attr("src", "${ctx}/img/work-colombia.png");
+			$("img", this).attr("src", "${ctx}/img/region-colombia.png");
 		});
 
 		$('.brazil').hover(function() {
-			$("img", this).attr("src", "${ctx}/img/work-brazil.png");
+			$("img", this).attr("src", "${ctx}/img/region-brazil-hover.png");
 		}, function() {
-			$("img", this).attr("src", "${ctx}/img/work-brazil.png");
+			$("img", this).attr("src", "${ctx}/img/region-brazil.png");
 		});
 
 		$('.lamerica').hover(function() {
-			$("img", this).attr("src", "${ctx}/img/work-lamerica-hover.png");
+			$("img", this).attr("src", "${ctx}/img/region-lamerica-hover.png");
 		}, function() {
-			$("img", this).attr("src", "${ctx}/img/work-lamerica.png");
+			$("img", this).attr("src", "${ctx}/img/region-lamerica.png");
 		});
 
 	});
@@ -52,51 +30,6 @@ jQuery(document).ready(function($){
 
 <!--Footer section-->
 <div class="footer">
-<%-- 	<div id="where-work-main">
-		<div style="float: left;">
-			<h5 style="clear: right; width: 150px; color: #fff;">Where we
-				work</h5>
-		</div>
-		<div id="where-work" style="clear: right;">
-			<table style="width: 100%;">
-				<colgroup>
-					<col width="33%" />
-					<col width="33%" />
-					<col />
-				</colgroup>
-				<tr>
-					<td><div class="col-left colombia">
-							<a href="${ctx}/casestudy/colombian.jspx"><img
-								src="${ctx}/img/work-colombia.png" alt="Colombia" /> </a>
-						</div>
-						<div class="col-right">
-							<a href="${ctx}/casestudy/colombian.jspx">Colombia <br />Lowland
-								Rice
-							</a>
-						</div></td>
-					<td>
-						<div class="col-left brazil">
-							<a href="${ctx}/casestudy/brazilian.jspx"><img
-								src="${ctx}/img/work-brazil.png" alt="Brazil" /> </a>
-						</div>
-						<div class="col-right">
-							<a href="${ctx}/casestudy/brazilian.jspx">Brazil <br />Upland
-								Rice
-							</a>
-						</div>
-					</td>
-					<td><div class="col-left lamerica">
-							<a href="${ctx}/casestudy/lamerica.jspx"><img
-								src="${ctx}/img/work-lamerica.png" alt="Latin-America" /> </a>
-						</div>
-						<div class="col-right">
-							<a href="${ctx}/casestudy/lamerica.jspx">Latin America <br />Rice
-							</a>
-						</div></td>
-				</tr>
-			</table>
-		</div>
-	</div> --%>
 	<div class="footer_contents">
 		<table>
 			<tr>
@@ -117,22 +50,47 @@ jQuery(document).ready(function($){
 			</tr>
 
 			<tr>
-				<td></td>
+				<td><c:choose>
+						<c:when test="${pageContext.request.userPrincipal.name != null}">
+							<security:authorize access="hasRole('ROLE_ADMIN')">
+								<!-- For login user -->
+								<c:url value="/j_spring_security_logout" var="logoutUrl" />
+								<form action="${logoutUrl}" method="post" id="logoutForm">
+									<h2 class="nav-secondary">
+										<a href="<s:url namespace="/admin" action="users" />">Manage
+											Users</a> | ${pageContext.request.userPrincipal.name} | <a
+											href="javascript:formSubmit()"> Logout</a>
+									</h2>
+								</form>
+								<script>
+									function formSubmit() {
+										document.getElementById("logoutForm")
+												.submit();
+									}
+								</script>
+							</security:authorize>
+						</c:when>
+						<c:otherwise>
+							<h2 class="nav-secondary">
+								<a href="<c:url value="/login.jspx"/>">Admin Login</a>
+							</h2>
+						</c:otherwise>
+					</c:choose></td>
 				<td><div id="tpe_copyright">
 						<a href="http://www.ccafs-tpe.org" target="_blank">CCAFS
 							Target Population Environments Platform</a> <br /> Copyright &#169;
 						2014
 					</div></td>
 				<td><div id="follow_us">
-						<a href="https://twitter.com/ccafstpe"><img
+						<a href="https://www.twitter.com/ccafstpe"><img
 							src="${ctx}/img/twitter.png" alt="twitter" /></a>&nbsp<a
-							href="www.facebook.com/ccafstpe"><img
+							href="https://www.facebook.com/ccafstpe"><img
 							src="${ctx}/img/facebook.png" alt="facebook" /></a>&nbsp<a
-							href="www.youtube.com/ccafstpe"><img
+							href="https://www.youtube.com/ccafstpe"><img
 							src="${ctx}/img/youtube.png" alt="in" /></a>&nbsp<a
 							href="www.flickr.com/tpe_platform"><img
 							src="${ctx}/img/flickr.png" alt="in" /></a>&nbsp<a
-							href="www.rssfeed.com/ccafs_tpe"><img
+							href="https://www.rssfeed.com/ccafs_tpe"><img
 							src="${ctx}/img/rss.png" alt="email" /></a>
 					</div></td>
 			</tr>

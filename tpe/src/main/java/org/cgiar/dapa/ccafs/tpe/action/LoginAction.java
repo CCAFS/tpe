@@ -32,7 +32,7 @@ public class LoginAction extends BaseAction {
 	private String error;
 
 	@SuppressWarnings("unused")
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	// TODO Add the user field and login credentials
 	@Override

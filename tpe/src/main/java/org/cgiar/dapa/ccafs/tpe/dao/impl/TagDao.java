@@ -38,7 +38,7 @@ public class TagDao extends GenericDao<Tag, Integer> implements ITagDao {
 
 	}
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	@Override
 	public List<Tag> getTags(boolean enabled) {
@@ -67,7 +67,7 @@ public class TagDao extends GenericDao<Tag, Integer> implements ITagDao {
 			this.entityManager.merge(tag);
 
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new PlatformException("Could not persist or update the tag: "
 					+ name + " into the database.", e);
 		}

@@ -16,7 +16,6 @@ package org.cgiar.dapa.ccafs.tpe.entity;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -78,7 +77,9 @@ public class Station extends BaseEntity implements Coordinate {
 	public String getName() {
 		// Replace all the underscores (_)
 		if (name != null)
-			return name.replaceAll(Pattern.quote("_"), " ");
+			// return name.replaceAll(Pattern.quote("_"),
+			// " ").replaceAll("\\d+","");
+			return name.replaceAll("[^a-zA-Z]", " ");
 		return null;
 	}
 

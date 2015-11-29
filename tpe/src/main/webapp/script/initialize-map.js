@@ -2,11 +2,16 @@ var colorValues = [ "red", "blue", "green", "yellow", "purple", "pink",
 		"lightblue", "orange" ], colorValuesTPE = [ "red", "blue", "green" ], colorValuesStability = [
 		"#990000", "#009900", "#000099" ], colorValuesClimate = [ "black" ], colors;
 // The variable that stores the clicked soil point.
-var clickedSoilCode;
+var clickedSoilCode, sel_country, scountry;
+var sel_crop;
+
 /**
  * The function that initializes the Google Map
  */
 function initializeMap(data) {
+	scountry = document.getElementById('select_country');
+	sel_country = scountry.options[scountry.selectedIndex].text;
+	sel_crop = $("#select_crop option:selected").text();
 
 	var infoWindow = new google.maps.InfoWindow({
 		content : ""
@@ -135,11 +140,25 @@ function initializeMap(data) {
 function createClimateFeatures(map, data) {
 	// Add climate regions
 	// Add the crop production region if not null
-	if (null != data.growingRegionsJson) {
-		map.data.addGeoJson(data.growingRegionsJson, {
-			idPropertyName : "id"
-		});
-	}
+	$.ajax({
+
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase()
+				+ "_rice_growing.json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+			if (null != data) {
+				map.data.addGeoJson(data, {
+					idPropertyName : "id"
+				});
+			}
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
 	// if (data.growingRegionsJson != null) {
 	// map.data.addGeoJson(data.growingRegionsJson, {
 	// idPropertyName : "id"
@@ -210,23 +229,6 @@ function createLegend(map) {
 			// renderLegend(colorValues);
 		} else if (selectedOutput.toUpperCase() == OUTPUT_TPE) {
 
-			// Gray color for municipality
-			var $leg_municipio = $('<div style="height:25px;">').append(
-					$('<div class="legend-color-box">').css({
-						backgroundColor : '#bebebe',
-					})).append(
-					$('<div class="legend_text">').html('Municipality'));
-			/*
-			 * // Black for boundary or country var $leg_rice_prod = $('<div
-			 * style="height:25px;">').append( $('<div
-			 * class="legend-color-box">').css({ backgroundColor : '#000000',
-			 * })).append( $('<div class="legend_text">').html( 'Rice
-			 * Production Region'));
-			 */
-
-			$legend.append($leg_municipio);
-			/* $legend.append($leg_rice_prod); */
-
 			$.each(colorValuesArray, function(index, val) {
 				var env_col;
 				if (val == 'red') {
@@ -245,24 +247,15 @@ function createLegend(map) {
 
 				$legend.append($div);
 			});
-			// renderLegend(colorValuesTPE);
-		} else if (selectedOutput.toUpperCase() == OUTPUT_STABILITY) {
 			// Gray color for municipality
 			var $leg_municipio = $('<div style="height:25px;">').append(
 					$('<div class="legend-color-box">').css({
 						backgroundColor : '#bebebe',
 					})).append(
 					$('<div class="legend_text">').html('Municipality'));
-			/*
-			 * // Black for boundary or country var $leg_rice_prod = $('<div
-			 * style="height:25px;">').append( $('<div
-			 * class="legend-color-box">').css({ backgroundColor : '#000000',
-			 * })).append( $('<div class="legend_text">').html( 'Rice
-			 * Production Region'));
-			 */
 
 			$legend.append($leg_municipio);
-			/* $legend.append($leg_rice_prod); */
+		} else if (selectedOutput.toUpperCase() == OUTPUT_STABILITY) {
 
 			$.each(colorValuesArray, function(index, val) {
 				var env_col;
@@ -282,14 +275,16 @@ function createLegend(map) {
 
 				$legend.append($div);
 			});
-			// renderLegend(colorValuesTPE);
-		} else if (selectedOutput.toUpperCase() == OUTPUT_CLIMATE) {
 			// Gray color for municipality
 			var $leg_municipio = $('<div style="height:25px;">').append(
 					$('<div class="legend-color-box">').css({
-						backgroundColor : '#bebebe'
+						backgroundColor : '#bebebe',
 					})).append(
 					$('<div class="legend_text">').html('Municipality'));
+
+			$legend.append($leg_municipio);
+		} else if (selectedOutput.toUpperCase() == OUTPUT_CLIMATE) {
+
 			// Black for boundary or country
 			var $leg_rice_prod = $('<div style="height:25px;">').append(
 					$('<div class="legend-color-box">').css({
@@ -319,6 +314,12 @@ function createLegend(map) {
 
 				$legend.append($div);
 			});
+			// Gray color for municipality
+			var $leg_municipio = $('<div style="height:25px;">').append(
+					$('<div class="legend-color-box">').css({
+						backgroundColor : '#bebebe'
+					})).append(
+					$('<div class="legend_text">').html('Municipality'));
 		}
 	}
 
@@ -347,10 +348,25 @@ function createLegend(map) {
  */
 function createStabilityFeatures(map, data) {
 	// Add the GeoJson features to the map
-	if (data.featuresJson != null)
-		map.data.addGeoJson(data.featuresJson, {
-			idPropertyName : "id"
-		});
+
+	$.ajax({
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase() + "_"
+				+ sel_crop.toLowerCase() + "_brs primavera_stability.json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+			if (null != data) {
+				map.data.addGeoJson(data, {
+					idPropertyName : "id"
+				});
+			}
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
 }
 
 /**
@@ -363,10 +379,27 @@ function createStabilityFeatures(map, data) {
  */
 function createTPEFeatures(map, data) {
 	// Add the TPE for the selected country features to the map.
-	if (data.featuresJson != null)
-		map.data.addGeoJson(data.featuresJson, {
-			idPropertyName : "id"
-		});
+
+	$.ajax({
+
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase() + "_"
+				+ sel_crop.toLowerCase() + "_brs primavera_tpe.json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+			if (null != data) {
+				map.data.addGeoJson(data, {
+					idPropertyName : "id"
+				});
+			}
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
+
 }
 /**
  * Creates TPE graphics
@@ -379,7 +412,7 @@ function createTPEGraphics(series) {
 	// Display the Relative Transpiration Ration Plot
 	// Iterate through the list of maps of favourable data.
 	// Then get the map of PCEW
-	if (series != null)
+	if (series != null) {
 		$.each(series, function(indx, seriesMap) {
 			// If it is map og PCEW
 			if (seriesMap.type == 'LAI') {
@@ -395,8 +428,26 @@ function createTPEGraphics(series) {
 				plotRAINCUM(seriesMap, 'RAINCUM', true);
 			}
 		});
+	} else {
+		clearCharts('#plot_box');
+		clearCharts('#plot_pcew');
+		clearCharts('#plot_raincum');
+		clearCharts('#plot_rainsum');
+		clearCharts('#plot_wagt');
+		clearCharts('#plot_lai');
+	}
 }
 
+function clearCharts(div) {
+	
+		var chart = $(div).highcharts();
+		if (chart != null) {
+		var seriesLength = chart.series.length;
+		for (var i = seriesLength - 1; i > -1; i--) {
+			chart.series[i].remove();
+		}
+	}
+}
 /**
  * Loads the administrative regions (municipios, states, countries, boundaries.
  * 
@@ -404,27 +455,74 @@ function createTPEGraphics(series) {
  * @param data
  */
 function loadAdminRegions(map, data) {
-	if (data.regionJson != null)
-		// Add the selected country polygon feature to the map.
-		map.data.addGeoJson(data.regionJson, {
-			idPropertyName : "id"
-		});
+	// Country boundary
+	$.ajax({
 
-	// Add the selected country municipios polygon feature to the map.
-	if (data.municipalitiesJson != null)
-		map.data.addGeoJson(data.municipalitiesJson, {
-			idPropertyName : "ADM2_NAME"
-		});
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase() + ".json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+
+			if (data != null)
+				// Add the selected country polygon feature to the map.
+				map.data.addGeoJson(data, {
+					idPropertyName : "id"
+				});
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
+
+	// Municipalities
+	$.ajax({
+
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase()
+				+ "_municipios.json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+
+			// Add the selected country municipios polygon feature to the map.
+			if (data != null)
+				map.data.addGeoJson(data, {
+					idPropertyName : "ADM2_NAME"
+				});
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
 	// TODO Remove or don't add the states/polygons.
 	// Add the selected country states polygon features to the map.
 	// map.data.addGeoJson(data.statesGeoJson, {
 	// idPropertyName : "id"
 	// });
-	// Add tpe boundary json data
-	if (data.tpeBoundaryJson != null)
-		map.data.addGeoJson(data.tpeBoundaryJson, {
-			idPropertyName : "id"
-		});
+
+	// TPE Boundary
+	$.ajax({
+
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase() + "_boundary.json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+
+			// Add tpe boundary json data
+			if (data != null)
+				map.data.addGeoJson(data, {
+					idPropertyName : "id"
+				});
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
 
 }
 /**
@@ -446,7 +544,13 @@ function addStyle(map) {
 				|| (feature.getProperty('name') == ENV_FE)
 				|| (feature.getProperty('name') == STABILITY_HIGH)
 				|| (feature.getProperty('name') == STABILITY_MIDDLE)
-				|| (feature.getProperty('name') == STABILITY_LOW)) {
+				|| (feature.getProperty('name') == STABILITY_LOW)
+				|| (feature.getProperty('name') == 'Cluster_1')
+				|| (feature.getProperty('name') == 'Cluster_2')
+				|| (feature.getProperty('name') == 'Cluster_3')
+				|| (feature.getProperty('name') == 'Cluster_4')
+				|| (feature.getProperty('name') == 'Cluster_5')
+				) {
 
 			return {
 				visible : true,
@@ -476,16 +580,29 @@ function addStyle(map) {
 				// fillColor : feature.getProperty('colour'),
 				zIndex : 1000
 			};
-		}
+		} else if (feature.getProperty('featureType') == 'COUNTRY') {
 
-		else if (feature.getProperty('name') == 'TPE_BOUNDARY') {
+			return {
+				visible : true,
+				clickable : true,
+				title : name,
+				strokeWeight : 2,
+				// strokeColor : feature.getProperty('colour'),
+				strokeColor : '#000',
+				// strokeOpacity : 1,
+				fillOpacity : 0,
+				fillColor : '#ffffff',
+				// fillColor : feature.getProperty('colour'),
+				zIndex : 1000
+			};
+		} else if (feature.getProperty('name') == 'TPE_BOUNDARY') {
 			return {
 				visible : true,
 				clickable : true,
 				title : name,
 				strokeWeight : 2,
 				strokeColor : "#000",
-				fillOpacity : 1,
+				// fillOpacity : 1,
 				// fillOpacity: 0.20,
 				fillOpacity : 0,
 				fillColor : "#ffffff"
@@ -582,40 +699,47 @@ function addStyle(map) {
  * @param data
  */
 function createSoilFeatures(map, data, featLayer, prodLayer) {
-	// Add the crop production regions
-	// Add the crop production region if not null
-	if (null != data.growingRegionsJson) {
-		// map.data.addGeoJson(data.growingRegionsJson, {
-		// idPropertyName : "id"
-		// });
 
-		prodLayer.addGeoJson(data.growingRegionsJson, {
-			idPropertyName : "id"
-		});
-		prodLayer.setMap(map);
-		// Set the style for the production layer
-		prodLayer.setStyle(function(feature) {
-			// All production features are of featureType REGION
-			if (feature.getProperty('featureType') == 'REGION') {
-				return {
-					visible : true,
-					clickable : true,
-					title : name,
-					strokeWeight : 1,
-					// strokeColor : feature.getProperty('colour'),
-					strokeColor : '#009900',
-					// strokeOpacity : 1,
-					// fillOpacity : 1,
-					fillColor : '#009900',
-					// fillColor : feature.getProperty('colour'),
-					zIndex : 1000
-				};
-			}
-		});
+	$.ajax({
 
-		// Addmouseover event
-		prodLayer.addListener('mouseover',
-				function(e) {
+		type : "GET",
+		contentType : "application/json; charset=utf-8",
+		url : "/tpe/resources/" + sel_country.toLowerCase()
+				+ "_rice_growing.json",
+		data : "{}",
+		dataType : "json",
+		success : function(data) {
+			if (null != data) {
+				map.data.addGeoJson(data, {
+					idPropertyName : "id"
+				});
+				// map.data.addGeoJson(data.growingRegionsJson, {
+				// idPropertyName : "id"
+				// });
+
+				prodLayer.setMap(map);
+				// Set the style for the production layer
+				prodLayer.setStyle(function(feature) {
+					// All production features are of featureType REGION
+					if (feature.getProperty('featureType') == 'REGION') {
+						return {
+							visible : true,
+							clickable : true,
+							title : name,
+							strokeWeight : 1,
+							// strokeColor : feature.getProperty('colour'),
+							strokeColor : '#009900',
+							// strokeOpacity : 1,
+							// fillOpacity : 1,
+							fillColor : '#009900',
+							// fillColor : feature.getProperty('colour'),
+							zIndex : 1000
+						};
+					}
+				});
+
+				// Addmouseover event
+				prodLayer.addListener('mouseover', function(e) {
 					if (e.feature.getProperty('featureType') == 'REGION') {
 						e.feature.setProperty('selected', true);
 						// Show the info window
@@ -640,24 +764,30 @@ function createSoilFeatures(map, data, featLayer, prodLayer) {
 					}
 				});
 
-		// Add mouseout event
-		prodLayer.addListener('mouseout', function(e) {
-			if (e.feature.getProperty('featureType') == 'REGION') {
-				e.feature.setProperty('selected', false);
-				// Hide the Info window
-				$('#info h2').text('');
-				$('#info span').html('');
-				$('#info').hide();
-				prodLayer.overrideStyle(e.feature, {
-					fillOpacity : 0.4,// 0.5,
-					fillColor : '#009900',
-					strokeWeight : 1,
-					// strokeColor : feature.getProperty('colour'),
-					strokeColor : '#009900'
+				// Add mouseout event
+				prodLayer.addListener('mouseout', function(e) {
+					if (e.feature.getProperty('featureType') == 'REGION') {
+						e.feature.setProperty('selected', false);
+						// Hide the Info window
+						$('#info h2').text('');
+						$('#info span').html('');
+						$('#info').hide();
+						prodLayer.overrideStyle(e.feature, {
+							fillOpacity : 0.4,// 0.5,
+							fillColor : '#009900',
+							strokeWeight : 1,
+							// strokeColor : feature.getProperty('colour'),
+							strokeColor : '#009900'
+						});
+					}
 				});
 			}
-		});
-	}
+		},
+		error : function(data) {
+			// alert("Error");
+		}
+	});
+
 	// if (data.growingRegionsJson != null) {
 	// map.data.addGeoJson(data.growingRegionsJson, {
 	// idPropertyName : "id"
@@ -1010,10 +1140,11 @@ function addClickListener(map) {
 					+ e.feature.getProperty("countryName");
 
 			createClimateGraphics(e.feature.getProperty('dataSeries'),
-					e.feature.getProperty('name') + cnt);
+					e.feature.getProperty('name') + ' (' + cnt + ')');
 
 			clickedFeature = e.feature.getProperty('dataSeries');
-			clickedFeatureName = e.feature.getProperty('name');
+			clickedFeatureName = e.feature.getProperty('name') + ' (' + cnt
+					+ ')';
 
 			// Add title to the infos
 			// TODO Uncomment it to add the static info window
@@ -1044,7 +1175,8 @@ function addMouseOverListener(map) {
 						// Don't display the info window for the feature type
 						// country
 
-						if (e.feature.getProperty('name') == 'TPE_BOUNDARY') {
+						if ((e.feature.getProperty('name') == 'TPE_BOUNDARY')
+								|| (e.feature.getProperty('featureType') == 'COUNTRY')) {
 							// TODO: If feature is boundary, then Do nothing
 							map.data.overrideStyle(e.feature, {
 								strokeColor : '#000',
@@ -1143,6 +1275,47 @@ function addMouseOverListener(map) {
 									strokeColor = COLOR_FE;// #0041a0
 									fillColor = COLOR_FE;// #0041a0
 								}
+								else if (e.feature.getProperty('name') == 'Cluster_1') {
+
+									// Create feature graphics
+									createTPEGraphics(feSeries)
+
+									strokeColor = '#990000';// #0041a0
+									//fillColor = COLOR_FE;// #0041a0
+								}
+								else if (e.feature.getProperty('name') == 'Cluster_2') {
+
+									// Create feature graphics
+									createTPEGraphics(feSeries)
+
+									strokeColor = '#000099';// #0041a0
+									//fillColor = COLOR_FE;// #0041a0
+								}
+								else if (e.feature.getProperty('name') == 'Cluster_3') {
+
+									// Create feature graphics
+									createTPEGraphics(feSeries)
+
+									strokeColor = '#009900';// #0041a0
+									//fillColor = COLOR_FE;// #0041a0
+								}
+								else if (e.feature.getProperty('name') == 'Cluster_4') {
+
+									// Create feature graphics
+									createTPEGraphics(feSeries)
+
+									strokeColor = '#800080';// #0041a0
+									//fillColor = COLOR_FE;// #0041a0
+								}
+								else if (e.feature.getProperty('name') == 'Cluster_5') {
+
+									// Create feature graphics
+									createTPEGraphics(feSeries)
+
+									strokeColor = '#FF8C00';// #0041a0
+									//fillColor = COLOR_FE;// #0041a0
+								}
+								
 
 								// Revert feature style
 								map.data.overrideStyle(e.feature, {
@@ -1226,7 +1399,7 @@ function addMouseOverListener(map) {
 								createClimateGraphics(e.feature
 										.getProperty('dataSeries'), e.feature
 										.getProperty('name')
-										+ cnt);
+										+ ' (' + cnt + ')');
 								if (e.feature.getProperty('featureIcon') == true) {
 									map.data
 											.overrideStyle(
@@ -1325,7 +1498,13 @@ function addMouseOutListener(map) {
 				|| (e.feature.getProperty('name') == ENV_FE)
 				|| (e.feature.getProperty('name') == STABILITY_HIGH)
 				|| (e.feature.getProperty('name') == STABILITY_MIDDLE)
-				|| (e.feature.getProperty('name') == STABILITY_LOW)) {
+				|| (e.feature.getProperty('name') == STABILITY_LOW)
+				|| (e.feature.getProperty('name') == 'Cluster_1')
+				|| (e.feature.getProperty('name') == 'Cluster_2')
+				|| (e.feature.getProperty('name') == 'Cluster_3')
+				|| (e.feature.getProperty('name') == 'Cluster_4')
+				|| (e.feature.getProperty('name') == 'Cluster_5')
+		) {
 			map.data.overrideStyle(e.feature, {
 				strokeColor : e.feature.getProperty('colour'),
 				fillOpacity : 0.4,// 1,// 0.20//0,
@@ -1607,7 +1786,8 @@ function featureInfo(event) {
 												: '(MJ/m2.day)');// (kJm-2d-1)
 								$htmlText = $htmlText
 										+ '<tr style="text-align: center;"><td style="text-align: left;text-transform: capitalize;">'
-										+ key + unit + '</td>';
+										+ (key == 'radi' ? 'S.Rad' : key)
+										+ unit + '</td>';
 								// text-transform: capitalize;
 								if (listOfValues != null)
 									$.each(listOfValues,
@@ -1682,7 +1862,7 @@ function featureInfo(event) {
 
 // Create the climate plot chart
 function createClimatePlot(seriesJSON, smallPlot) {
-
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#rain_radiation').show();
 	var renderTo = 'rain_radiation';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -1739,7 +1919,8 @@ function createClimatePlot(seriesJSON, smallPlot) {
 							 * 60, marginRight : 10
 							 */
 							style : {
-								fontFamily : 'serif',
+								//fontFamily : 'serif',
+								fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 								fontSize : fontSize
 							},
 							plotBorderWidth : 1,
@@ -1816,15 +1997,15 @@ function createClimatePlot(seriesJSON, smallPlot) {
 							text : 'Source: CCAFS TPE (www.ccafs.org)',
 							href : 'http://www.ccafs.org',
 							style : {
-								color : '#4e2700',
-								fontWeight : 'bold',
+								color : '#707070',
+								//fontWeight : 'bold',
 								fontSize : fontSize
 							}
 						},
 						title : {
 							text : 'Environment Sensibility',
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold',
 								fontSize : fontSize
 							}
@@ -1838,8 +2019,8 @@ function createClimatePlot(seriesJSON, smallPlot) {
 								enabled : labelsEnabled,
 								rotation : -45,
 								style : {
-									fontSize : fontSize,
-									fontFamily : 'Verdana, sans-serif'
+									fontSize : fontSize
+									//fontFamily : 'Verdana, sans-serif'
 								}
 							}
 						},
@@ -1897,6 +2078,7 @@ function createClimatePlot(seriesJSON, smallPlot) {
 
 // Create the SOIL chart plot
 function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#soil_plot').show();
 	var renderTo = 'soil_plot';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -1956,7 +2138,8 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 							 */
 
 							style : {
-								fontFamily : 'serif',
+								//fontFamily : 'serif',
+								fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 								fontSize : fontSize
 							},
 							plotBorderWidth : 1,
@@ -2036,15 +2219,15 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 							text : 'Source: CCAFS TPE (www.ccafs.org)',
 							href : 'http://www.ccafs.org',
 							style : {
-								color : '#4e2700',
-								fontWeight : 'bold',
+								color : '#707070',
+								//fontWeight : 'bold',
 								fontSize : fontSize
 							}
 						},
 						title : {
 							text : 'Environment Soil',
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								fontWeight : 'bold',
 								fontSize : titleFontSize,
 								// backgroundColor : 'green',
@@ -2057,8 +2240,8 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 								enabled : labelsEnabled,
 								rotation : -45,
 								style : {
-									fontSize : fontSize,
-									fontFamily : 'Verdana, sans-serif'
+									fontSize : fontSize
+									//fontFamily : 'Verdana, sans-serif'
 								}
 							},
 							title : {
@@ -2136,6 +2319,7 @@ function createSoilPlot(categoriesJSON, seriesJSON, smallPlot) {
 
 // Create Box Plot
 function createTPEBoxPlot(categories, series, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#plot_box').show();
 	var renderTo = 'plot_box';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -2191,7 +2375,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					type : 'boxplot',
 					renderTo : renderTo,
 					style : {
-						fontFamily : 'serif',
+						//fontFamily : 'serif',
+						fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 						fontSize : fontSize
 					},
 					plotBorderWidth : 1,
@@ -2295,8 +2480,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					text : 'Source: CCAFS TPE (www.ccafs.org)',
 					href : 'http://www.ccafs.org',
 					style : {
-						color : '#4e2700',
-						fontWeight : 'bold',
+						color : '#707070',
+						//fontWeight : 'bold',
 						fontSize : fontSize
 					}
 				},
@@ -2319,7 +2504,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 					backgroundColor : '#FFFFFF',
 					itemStyle : {
 						color : '#000',
-						fontFamily : 'MuseoS500',
+						//fontFamily : 'MuseoS500',
 						// fontWeight : 'bold',
 						fontSize : fontSize
 					}
@@ -2352,8 +2537,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 						enabled : labelsEnabled,
 						rotation : -45,
 						style : {
-							fontSize : fontSize,
-							fontFamily : 'Verdana, sans-serif'
+							fontSize : fontSize
+							//fontFamily : 'Verdana, sans-serif'
 						}
 					}
 				} ],
@@ -2383,8 +2568,8 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 							return this.value.toString();
 						},
 						style : {
-							fontSize : fontSize,
-							fontFamily : 'Verdana, sans-serif'
+							fontSize : fontSize
+							//fontFamily : 'Verdana, sans-serif'
 						}
 
 					}
@@ -2422,6 +2607,7 @@ function createTPEBoxPlot(categories, series, smallPlot) {
 }
 
 function plotLAI(seriesMap, environment, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#plot_lai').show();
 	var renderTo = 'plot_lai';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -2479,10 +2665,11 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
 							href : 'http://www.ccafs-tpe.org',
-							// href: null
-							// style : {
-							// width : 300
-							// },
+							style : {
+								color : '#707070',
+								//fontWeight : 'bold',
+								fontSize : fontSize
+							},
 							position : {
 								align : 'left',
 								x : 10
@@ -2498,7 +2685,8 @@ function plotLAI(seriesMap, environment, smallPlot) {
 							 * null
 							 */
 							style : {
-								fontFamily : 'serif',
+								//fontFamily : 'serif',
+								fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 								fontSize : fontSize
 							},
 							plotBorderWidth : 1,
@@ -2576,7 +2764,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 						title : {
 							text : seriesMap.title,
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold'
 								fontSize : fontSize
 							}
@@ -2584,7 +2772,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 						subtitle : {
 							text : seriesMap.subTitle,
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold',
 								fontSize : fontSize
 							}
@@ -2698,6 +2886,7 @@ function plotLAI(seriesMap, environment, smallPlot) {
 }
 
 function plotPCEW(seriesMap, environment, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#plot_pcew').show();
 	var renderTo = 'plot_pcew';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -2753,10 +2942,11 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					// enabled : false
 					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
 					href : 'http://www.ccafs-tpe.org',
-					// href: null
-					// style : {
-					// width : 300
-					// },
+					style : {
+						color : '#707070',
+						//fontWeight : 'bold',
+						fontSize : fontSize
+					},
 					position : {
 						align : 'left',
 						x : 10
@@ -2771,7 +2961,8 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 					 * marginRight : 10
 					 */
 					style : {
-						fontFamily : 'serif',
+						//fontFamily : 'serif',
+						fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 						fontSize : fontSize
 					},
 					plotBorderWidth : 1,
@@ -2839,7 +3030,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 				title : {
 					text : seriesMap.title,
 					style : {
-						color : '#4e2700',
+						color : '#656360',
 						// fontWeight : 'bold',
 						fontSize : fontSize
 					}
@@ -2847,7 +3038,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 				subtitle : {
 					text : seriesMap.subTitle,
 					style : {
-						color : '#4e2700',
+						color : '#656360',
 						// fontWeight : 'bold',
 						fontSize : fontSize
 					}
@@ -2912,6 +3103,7 @@ function plotPCEW(seriesMap, environment, smallPlot) {
 }
 
 function plotRAIN(seriesMap, environment, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#plot_rainsum').show();
 	var renderTo = 'plot_rainsum';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -2965,10 +3157,11 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
 							href : 'http://www.ccafs-tpe.org',
-							// href: null
-							// style : {
-							// width : 300
-							// },
+							style : {
+								color : '#707070',
+								//fontWeight : 'bold',
+								fontSize : fontSize
+							},
 							position : {
 								align : 'left',
 								x : 10
@@ -2984,7 +3177,8 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 							 * null
 							 */
 							style : {
-								fontFamily : 'serif',
+								//fontFamily : 'serif',
+								fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 								fontSize : fontSize
 							},
 							plotBorderWidth : 1,
@@ -3062,7 +3256,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 						title : {
 							text : seriesMap.title,
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold'
 								fontSize : fontSize
 							}
@@ -3070,7 +3264,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 						subtitle : {
 							text : seriesMap.subTitle,
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold',
 								fontSize : fontSize
 							}
@@ -3159,7 +3353,7 @@ function plotRAIN(seriesMap, environment, smallPlot) {
 }
 
 function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
-
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	var categories, series;
 	if (dataSeries != null) {
 		categories = dataSeries['categories'];
@@ -3223,16 +3417,17 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
 							href : 'http://www.ccafs-tpe.org',
-							// href: null
-							// style : {
-							// width : 300
-							// },
+							style : {
+								color : '#707070',
+								//fontWeight : 'bold',
+								fontSize : fontSize
+							},
 							position : {
 								align : 'right'
 							// x : 10
 							},
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								fontWeight : 'bold',
 								fontSize : fontSize
 							}
@@ -3242,7 +3437,8 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 							height : height,
 							zoomType : 'xy',
 							style : {
-								fontFamily : 'serif',
+								//fontFamily : 'serif',
+								fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 								fontSize : fontSize
 							},
 							plotBorderWidth : 1,
@@ -3290,7 +3486,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 
 									} else {
 										this.renderer.image(
-												'img/ccafs_logo.png', 90, 0,
+												'img/ccafs_logo.png', 40, 0,
 												120, 50).on('click',
 												function() {
 													// Add CCAFS Link
@@ -3320,7 +3516,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 						title : {
 							text : 'Average Monthly Precipitation, Temperature and Radiation',
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold',
 								fontSize : titleFontSize
 							}
@@ -3328,7 +3524,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 						subtitle : {
 							text : stationName,
 							style : {
-								color : '#4e2700'
+								color : '#656360'
 							// fontWeight : 'bold',
 							// fontSize : '10px',
 							}
@@ -3339,8 +3535,8 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 								enabled : labelsEnabled,
 								rotation : -45,
 								style : {
-									fontSize : fontSize,
-									fontFamily : 'Verdana, sans-serif'
+									fontSize : fontSize
+									//fontFamily : 'Verdana, sans-serif'
 								}
 							},
 							title : {
@@ -3410,7 +3606,8 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 							// format : '{value:.1f}(MJ/m2.day)' },
 							// min : 0,
 							title : {
-								text : 'Radiation (MJ/m2.day)',
+								text : '',
+								// text : 'Radiation (MJ/m2.day)',
 								style : {
 									color : '#4572A7'
 								},
@@ -3446,7 +3643,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 							// itemWidth : itemWidth,
 							itemStyle : {
 								color : '#000',
-								fontFamily : 'MuseoS500',
+								//fontFamily : 'MuseoS500',
 								// fontWeight : 'bold',
 								fontSize : fontSize
 							// width : itemWidth
@@ -3482,6 +3679,11 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 												: 'hidden';
 										// var chart;
 										// index=3 (radiation)
+										if (this.chart.series[3] == null) {
+
+											return true;
+										}
+
 										if (this.index == 3) {
 											if (this.visible) {
 												this.chart.series[1].show();
@@ -3587,6 +3789,7 @@ function rainfallRadiationPlot(dataSeries, smallPlot, stationName) {
 }
 
 function plotRAINCUM(seriesMap, environment, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#plot_rainsum').show();
 	var renderTo = 'plot_raincum';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -3644,10 +3847,11 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							// enabled : false
 							text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
 							href : 'http://www.ccafs-tpe.org',
-							// href: null
-							// style : {
-							// width : 300
-							// },
+							style : {
+								color : '#707070',
+								//fontWeight : 'bold',
+								fontSize : fontSize
+							},
 							position : {
 								align : 'left',
 								x : 10
@@ -3663,7 +3867,8 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 							width : width,
 							height : height,
 							style : {
-								fontFamily : 'serif',
+								//fontFamily : 'serif',
+								fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 								fontSize : fontSize
 							},
 							plotBorderWidth : 1,
@@ -3742,7 +3947,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						title : {
 							text : seriesMap.title,
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold'
 								fontSize : fontSize
 							}
@@ -3750,7 +3955,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 						subtitle : {
 							text : seriesMap.subTitle,
 							style : {
-								color : '#4e2700',
+								color : '#656360',
 								// fontWeight : 'bold',
 								fontSize : fontSize
 							}
@@ -3841,6 +4046,7 @@ function plotRAINCUM(seriesMap, environment, smallPlot) {
 }
 
 function plotWAGT(seriesMap, environment, smallPlot) {
+	$("div[role=dialog] button:contains('Close')").css({'margin':'0','line-height':'.5em','font-size':'.85em','font-weight':'normal'});
 	// $('#plot_pcew').show();
 	var renderTo = 'plot_wagt';// Default div
 	var dialogDiv = 'dialog-chart';
@@ -3905,10 +4111,11 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 					// enabled : false
 					text : 'Source: CCAFS TPE (www.ccafs-tpe.org)',
 					href : 'http://www.ccafs-tpe.org',
-					// href: null
-					// style : {
-					// width : 300
-					// },
+					style : {
+						color : '#707070',
+						//fontWeight : 'bold',
+						fontSize : fontSize
+					},
 					position : {
 						align : 'left',
 						x : 10
@@ -3924,7 +4131,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 					height : height,
 					renderTo : renderTo,
 					style : {
-						fontFamily : 'serif',
+						fontFamily : 'Open Sans, Helvetica, Arial, sans-serif',
 						fontSize : fontSize
 					},
 					plotBorderWidth : 1,
@@ -3992,7 +4199,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				title : {
 					text : seriesMap.title,
 					style : {
-						color : '#4e2700',
+						color : '#656360',
 						// fontWeight : 'bold',
 						fontSize : fontSize
 					}
@@ -4000,7 +4207,7 @@ function plotWAGT(seriesMap, environment, smallPlot) {
 				subtitle : {
 					text : seriesMap.subTitle,
 					style : {
-						color : '#4e2700',
+						color : '#656360',
 						// fontWeight : 'bold',
 						fontSize : fontSize
 					}

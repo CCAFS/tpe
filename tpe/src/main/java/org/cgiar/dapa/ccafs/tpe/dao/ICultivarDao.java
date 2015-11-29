@@ -37,4 +37,6 @@ public interface ICultivarDao extends IGenericDao<Cultivar, Integer> {
 	 * @return
 	 */
 	List<String> getYearsByCultivar(Integer cultivarId);
+	
+
 }

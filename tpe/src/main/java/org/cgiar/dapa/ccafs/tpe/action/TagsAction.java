@@ -28,7 +28,7 @@ public class TagsAction extends BaseAction {
 
 	private static final long serialVersionUID = -3025365582429269300L;
 
-	private Log log = LogFactory.getLog(this.getClass());
+	private Log LOG = LogFactory.getLog(this.getClass());
 
 	/**
 	 * The list of platform tagsF
@@ -64,7 +64,7 @@ public class TagsAction extends BaseAction {
 	private List<Post> posts = new ArrayList<Post>();
 
 	private String tag;
-
+	private Tag tagItem;
 	public String execute() {
 
 		// Retrieve all the platform tags
@@ -88,7 +88,7 @@ public class TagsAction extends BaseAction {
 		else
 			return ActionSupport.ERROR;
 
-//		log.info(tag);
+		// log.info(tag);
 
 		return ActionSupport.SUCCESS;
 	}
@@ -110,7 +110,7 @@ public class TagsAction extends BaseAction {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
 
-				log.error(e.getMessage());
+				LOG.error(e.getMessage());
 				return ActionSupport.INPUT;
 			}
 		// } catch (TPEException e) {
@@ -119,6 +119,17 @@ public class TagsAction extends BaseAction {
 		// }
 		// else
 		// return ActionSupport.INPUT;
+
+		return ActionSupport.SUCCESS;
+	}
+
+	public String loadTag() {
+ 
+		if (tag != null)
+			setTagItem(tpeService.findTagByName(tag));
+		else
+			return ActionSupport.ERROR;
+ 
 
 		return ActionSupport.SUCCESS;
 	}
@@ -210,6 +221,14 @@ public class TagsAction extends BaseAction {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public Tag getTagItem() {
+		return tagItem;
+	}
+
+	public void setTagItem(Tag tagItem) {
+		this.tagItem = tagItem;
 	}
 
 }

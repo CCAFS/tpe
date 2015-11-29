@@ -38,8 +38,8 @@ public class CategoryDao extends GenericDao<Category, Integer> implements
 	@Override
 	public List<Category> getCategoriesByEntity(String entityName) {
 		StringBuffer q = new StringBuffer("from " + entityClass.getName())
-				.append(" r where r.description =:entity")
-				.append(" order by r.name");
+				.append(" r where r.description =:entity").append(
+						" order by r.name");
 		Query query = entityManager.createQuery(q.toString());
 		query.setParameter("entity", entityName);
 
@@ -56,4 +56,5 @@ public class CategoryDao extends GenericDao<Category, Integer> implements
 
 		return query.getResultList();
 	}
+
 }

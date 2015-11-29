@@ -653,4 +653,17 @@ public interface ITPEService {
 	List<? extends Grid> listSoil(Integer country, boolean level,
 			ArrayList<Integer> params, int page, int rows);
 
+	/**
+	 * Retrieves the map options
+	 * 
+	 * @return options
+	 */
+	Map<Integer, String> getMapOptions();
+
+	Map<Integer, String> getCrops();
+
+	Map<Integer, String> getRegions();
+
+	Map<Integer, Map<Integer, String>> getCultivars();
+
 }

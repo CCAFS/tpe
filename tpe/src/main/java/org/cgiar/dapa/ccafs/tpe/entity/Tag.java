@@ -25,6 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The tag class represents the platform tag post
@@ -160,6 +161,27 @@ public class Tag extends BaseEntity {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@Transient
+	public Integer getPostCount() {
+		if (posts != null && !posts.isEmpty())
+			return posts.size();
+		return 0;
+	}
+
+	@Transient
+	public String getStatus() {
+		if (enabled != null)
+			if (enabled)
+				return "Yes";
+		return "No";
+	}
+
+	@Override
+	public String toString() {
+
+		return name + " (" + getPostCount() + ")";
 	}
 
 }
