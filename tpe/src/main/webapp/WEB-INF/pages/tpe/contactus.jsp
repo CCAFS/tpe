@@ -63,110 +63,91 @@
 			<div class="pane_left">
 				<div class="team">
 					<h4>CCAFS TPE Team</h4>
+					<h4>Project Coordination</h4>
 					<div class="member">
 						<div class="member_photo">
-							<img
-								src="http://www.cnpaf.embrapa.br/quemsomos/fotos/alexandreheinemann.jpg" />
+							<img src="${ctx}/resources/alex.jpg" />
 						</div>
 						<div class="member_infos">
-							<h5>Alexandre Bryan Heinemann - Ecophysiology Research</h5>
-							<p>Embrapa Arroz e Feijao Empresa Brasileira de Pesquisa
+							<h5>Dr. Alexandre B. Heinemann (project Leader)</h5>
+							<p>Embrapa Arroz e Feijao, Empresa Brasileira de Pesquisa
 								Agropecuaria (Embrapa)</p>
-							<p>alexandre.heinemann@embrapa.br</p>
+							<p>E-mail: alexandre.heinemann@embrapa.br</p>
 						</div>
 					</div>
-
 					<div class="member">
 						<div class="member_photo">
-							<img src="${ctx}/resources/bcamilo.png" />
+							<img src="${ctx}/resources/julian.jpg" />
 						</div>
 						<div class="member_infos">
-							<h5>Camilo Barrios Perez - Agricultural Engineer</h5>
-							<p>Research Assistant - CGIAR Research Program on Climate
-								Change, Agriculture and Food Security (CCAFS)</p>
+							<h5>Dr. Julian Ramirez-Villegas (project co-Investigator)</h5>
 							<p>International Center for Tropical Agriculture (CIAT)</p>
-							<p>c.barrios@cgiar.org</p>
-						</div>
-					</div>
-
-					<div class="member">
-						<div class="member_photo">
-							<img
-								src="http://ccafs.cgiar.org/sites/default/files/styles/medium/public/people/pictures/AndyJarvis.jpg?itok=LKqX_eD8" />
-						</div>
-						<div class="member_infos">
-							<h5>Andy Jarvis - Research Area Director Decision and Policy
-								Analysis</h5>
-							<p>Flagship Leader for Climate Smart Agriculture CGIAR
-								Research Program on Climate Change, Agriculture and Food
-								Security (CCAFS)</p>
-							<p>International Center for Tropical Agriculture (CIAT)</p>
-							<p>a.jarvis@cgiar.org</p>
-						</div>
-					</div>
-
-					<div class="member">
-						<div class="member_photo">
-							<img
-								src="http://ccafs.cgiar.org/sites/default/files/styles/medium/public/people/pictures/osana.png?itok=7sEAZ64p" />
-						</div>
-						<div class="member_infos">
-							<h5>Osana Bonilla-Findji - Science Officer</h5>
-							<p>Theme Adaptation to Progressive Climate Change CGIAR
-								Program on Climate Change, Agriculture and Food Security (CCAFS)</p>
-							<p>International Center for Tropical Agriculture (CIAT)</p>
-							<p>o.bonilla@cgiar.org</p>
-						</div>
-					</div>
-
-					<div class="member">
-						<div class="member_photo">
-							<img src="${ctx}/resources/david.jpg" />
-						</div>
-						<div class="member_infos">
-							<h5>David Arango Londono - Statistical analyst</h5>
+							<p>School of Earth and Environment, University of Leeds</p>
 							<p>CGIAR Research Program on Climate Change, Agriculture and
 								Food Security (CCAFS)</p>
-							<p>Research Assistant - International Center for Tropical
-								Agriculture (CIAT)</p>
-							<p>d.arango@cgiar.org</p>
+							<p>E-mail: j.r.villegas@cgiar.org</p>
 						</div>
 					</div>
-
+					<h4>Project research and development support</h4>
 					<div class="member">
 						<div class="member_photo">
-							<img
-								src="http://ccafs.cgiar.org/sites/default/files/styles/medium/public/people/pictures/j.ramirez-villegas.jpg?itok=uGYsM25E" />
+							<img src="${ctx}/resources/camilo.png" />
 						</div>
 						<div class="member_infos">
-							<h5>Julian Ramirez-Villegas - Postdoctoral Fellow</h5>
-							<p>School of Earth and Environment, University of Leeds, UK
-								CGIAR Research Program on Climate Change, Agriculture and Food
-								Security (CCAFS)</p>
+							<h5>Camilo Barrios Pérez (research assistant, crop modeling)</h5>
 							<p>International Center for Tropical Agriculture (CIAT)</p>
-							<p>j.r.villegas@cgiar.org</p>
+							<p>CGIAR Research Program on Climate Change, Agriculture and
+								Food Security (CCAFS)</p>
+							<p>E-mail: c.barrios@cgiar.org</p>
 						</div>
 					</div>
-
 					<div class="member">
 						<div class="member_photo">
-							<img src="${ctx}/resources/Carlitos.jpg" />
+							<img src="${ctx}/resources/davido.jpg" />
 						</div>
 						<div class="member_infos">
-							<h5>Carlos Eduardo Navarro - Research assistant</h5>
+							<h5>David Arango Londoño (research assistant, statistical
+								analysis)</h5>
 							<p>International Center for Tropical Agriculture (CIAT)</p>
-							<p>c.e.navarro@cgiar.org</p>
+							<p>CGIAR Research Program on Climate Change, Agriculture and
+								Food Security (CCAFS)</p>
+							<p>E-mail: d.arango@cgiar.org</p>
+						</div>
+					</div>
+					<div class="member">
+						<div class="member_photo">
+							<img src="${ctx}/resources/nmatovu.jpg" />
+						</div>
+						<div class="member_infos">
+							<h5>Noah Matovu (web developer)</h5>
+							<p>IT and web consultant</p>
+							<p>E-mail: noahmatovu@yahoo.com</p>
+						</div>
+					</div>
+					<h4>CCAFS Contacts</h4>
+					<div class="member">
+						<div class="member_photo">
+							<img src="${ctx}/resources/andy.jpg" />
+						</div>
+						<div class="member_infos">
+							<h5>Dr. Andy Jarvis (CCAFS Flagship Leader)</h5>
+							<p>International Center for Tropical Agriculture (CIAT)</p>
+							<p>CGIAR Research Program on Climate Change, Agriculture and
+								Food Security (CCAFS)</p>
+							<p>E-mail: a.jarvis@cgiar.org</p>
 						</div>
 					</div>
 
 					<div class="member">
 						<div class="member_photo">
-							<img src="${ctx}/img/team.png" />
+							<img src="${ctx}/resources/osana.png" />
 						</div>
 						<div class="member_infos">
-							<h5>Noah Matovu - Systems Engineer</h5>
-							<p></p>
-							<p>noahmatovu@yahoo.com</p>
+							<h5>Dr. Osana Bonilla-Findji (CCAFS Science Officer)</h5>
+							<p>International Center for Tropical Agriculture (CIAT)</p>
+							<p>CGIAR Research Program on Climate Change, Agriculture and
+								Food Security (CCAFS)</p>
+							<p>E-mail: o.bonilla@cgiar.org</p>
 						</div>
 					</div>
 				</div>
@@ -236,18 +217,23 @@
 
 				<!-- The Physical Address -->
 				<div id="contact_address">
-					<h4>Address & Inquiries</h4>
-					<h4>Headquarters Office</h4>
+					<h4>Address and Inquiries</h4>
+					<h4>Embrapa contact:</h4>
 					<ul>
-						<li>Km 17, Recta Cali-Palmira</li>
-						<li>Apartado Aereo 6713</li>
-						<li>Cali, Colombia</li>
-						<li>Phone: +57 2 4450000 (direct), +1 650 8336625 (via USA)</li>
-						<li>Fax: +57 2 4450073 (direct), +1 650 8336626 (via USA)</li>
-						<li>E-mail: ciat@cgiar.org</li>
-						<li>Contact: Elcio Guimaraes, Regional Director</li>
-						<li>E-mail: e.guimaraes@cgiar.org</li>
-						<li></li>
+						<li>Alexandre B. Heinemann, project leader</li>
+						<li>E-mail: alexandre.heinemann@embrapa.br</li>
+						<li>Embrapa Rice & Beans Rodovia GO–462 km 12 Zona Rural,
+							75375-000 Santo Antonio de Goiás, GO, Brazil</li>
+					</ul>
+					<br />
+					<h4>CIAT / CCAFS Contact:</h4>
+					<ul>
+						<li>Julian Ramirez-Villegas, project co-Investigator</li>
+						<li>E-mail: j.r.villegas@cgiar.org</li>
+						<li>International Center for Tropical Agriculture (CIAT), km
+							17 recta Cali-Palmira, AA6713</li>
+						<li>Landline: +57 (2) 445 0100</li>
+						<li>Fax: +57 (2) 445 0073</li>
 					</ul>
 
 				</div>

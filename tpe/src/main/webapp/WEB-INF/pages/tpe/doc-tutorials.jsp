@@ -1,150 +1,202 @@
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
 <head>
-<title>TPE Documentation</title>
+<title>Tutorials</title>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".jumper").on("click", function(e) {
+
+			e.preventDefault();
+
+			$("body, html").animate({
+				scrollTop : $($(this).attr('href')).offset().top
+			}, 600);
+
+		});
+	});
+</script>
 </head>
 <body>
 	<div id="documentation">
-		<h4 class="navigation">
-			<a href="${ctx}/documentation.jspx">Documentation</a> > <a href="#">Tutorials</a>
-		</h4>
 		<div>
-			<div class="pane_left">
-				<!--TPE Project Tutorials Area-->
+			<div class="pane_left"> 
 				<div class="guide">
-					<h1>How to Visualize the TPE Results?</h1>
-					<h1>Introduction</h1>
+				<h1>How to Visualize the TPE Results?</h1>
+					<h6>
+						<a class="jumper" href="#introduction">Introduction</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#homescreen">The Home Screen</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#navigation">Navigation menu</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#interactive">Interactive diagram</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#visualization">Visualization tool</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#maps">Navigating the map interface</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#graphics">View and download graphics</a>
+					</h6>
+					<h6>
+						<a class="jumper" href="#query">Query and download data</a>
+					</h6>
+
+					<h1 id="introduction">Introduction</h1>
 					<p>
-						This tutorial provides an overview of how TPE platform works and
-						will teach you how to use the platform. The <span
-							style="font-style: italic;">figure 1</span> below shows
-						platform's home page with an interactive diagram and <span
-							style="font-style: italic;">figure 2</span> is an overlay dialog
-						form that appears on top of the home page.
+						This tutorial will teach you how to use the <span
+							style="font-style: italic;">Target Population of
+							Environments</span> (TPE) platform. This tutorial has been prepared for
+						the scientists (e.g. breeders, physiologists, crop modelers),
+						students and other users to help them understand basic
+						functionality of the visualization and data presented in this web
+						portal.
 					</p>
-					<h1>Audience</h1>
-					<p>This tutorial has been prepared for the breeders,
-						scientists, students and other users to help them understand basic
-						functionality of TPE Visualization.</p>
-					<div class="guide-big">
-						<img alt="tpe-tool" src="${ctx}/resources/user-home.png">
-						<div class="caption">Figure 1: Home Page with an interactive
-							diagram</div>
-					</div>
+					<p>
+						<span style="font-style: italic;">Figure 1 </span>below is an
+						overlay dialog form that appears on top of the home page once you
+						access the portal. This box provides you with basic information
+						regarding our project, and will be displayed every time the home
+						page is loaded. You can check the check box to prevent it from
+						being shown again.
+					</p>
 					<div class="guide-big">
 						<img alt="tpe-tool" src="${ctx}/resources/user-overlay.png">
-						<div class="caption">Figure 2: Overlay Dialog Form</div>
+						<div class="caption">Figure 1: Overlay Dialog Form</div>
 					</div>
-					<h1>Navigation Menu</h1>
+
+					<h1 id="homescreen">The Home Screen</h1>
 					<p>
-						The <span style="font-style: italic;">figure 3</span> below shows
-						the navigation menu which contains five items:
+						<span class="item_bold">Figure 2 </span>shows platform's home
+						page, containing a navigation menu, and an interactive diagram.
 					</p>
-					<ul class="guide_list">
-						<li><span class="item_bold">Home:</span> This contains the
-							Platform Overview</li>
-						<li><span class="item_bold">Visualization:</span> This
-							provides the visualization of results and all the associated
-							graphics.</li>
-						<li><span class="item_bold">Regions:</span> This provides the
-							case studies from the regions where we work.</li>
-						<li><span class="item_bold">Documentation:</span> This
-							provides the TPE documentations (Project and Scientific)</li>
-						<li><span class="item_bold">Resources:</span> This provides
-							the links to user tutorials and data downloads.</li>
-					</ul>
 					<div class="guide-big">
-						<img alt="tpe-tool" src="${ctx}/resources/user-menu.png">
-						<div class="caption">Figure 3: Main menu</div>
+						<img alt="tpe-tool" src="${ctx}/resources/user-home.png">
+						<div class="caption">Figure 2: Home Page with a top
+							navigation menu and an interactive diagram</div>
 					</div>
-					<h1>Home Screen</h1>
-					<h4>Using the Home Screen</h4>
-					<p>Click Home on the main menu bar. The home page (figure 1)
-						will be displayed. The home page contains the initial overlay
-						dialog form and interactive diagram:</p>
+
 					<ul class="guide_list">
-						<li><span class="item_bold">Initial Overlay Dialog:</span>The
-							overlay dialog form (figure 2) will be display everytime a home
-							page is loaded but the user can check the check box to prevent it
-							from being shown. The dialog briefly explains how to use the
-							platform, the intended audience and what it provides.</li>
-						<li><span class="item_bold">Interactive Diagram:</span>The
-							interactive diagram contains four items and each associated with
-							a paticular module in the platform. When clicked it will
-							automatically open up the link. 1 (What is TPE?), 2 (Methodology
-							and Case studies), 3 (Visualization) and 4 (How you can Get
-							Involved). Clicking on each item shall open up a new page for
-							that specific module.</li>
+						<li><span class="item_bold">Navigation menu:</span> Allows
+							access specific features in the TPE portal: the home screen, the
+							visualization interface, results for regions where we work, and
+							resources (including this tutorial).</li>
+						<li><span class="item_bold">Interactive diagram: </span>The
+							interactive diagram contains four items, each associated with a
+							particular module in the platform. These are: (1) What is TPE?
+							(2) Methodology and Case studies, (3) Visualization and (4) How
+							can I get involved? Clicking on each item shall open up a new
+							page for that specific module.</li>
 					</ul>
-					<h4>How to Get Involved?:</h4>
+
+					<p>Below we provide descriptions of each home page item.</p>
+
+					<h1 id="navigation">Navigation menu</h1>
 					<p>
-						From the home screen diagram click on 'Get Involved' or click on
-						this link <a href="${ctx}/contribute.jspx">Get Involved</a> This
-						section explains how the user could get involved in the TPE
-						Methodology.
+						<span class="item_bold">Figure 3 </span>below shows the navigation
+						menu which contains five items:
 					</p>
-					<h5>Using to Get Involved:</h5>
-					<p>On the Home screen, click on the Get Involved section to go
-						to the Get Involved page (figure 4). This will display the Get
-						Involved page (figure x), which clearly explains how you could get
-						involved in the TPE platform. On the Get Invloved page, you have
-						options of...</p>
+
+					<ul class="guide_list">
+						<li><span class="item_bold">Home: </span>Contains the
+							platform overview. Clicking on it will take you to Fig. 1.</li>
+						<li><span class="item_bold">Visualization: </span>Provides
+							access to a map interface with dynamic graphs that allows
+							visualization of our project’s results.</li>
+						<li><span class="item_bold">Regions: </span>Provides access
+							to project results from the regions where we work.</li>
+						<li><span class="item_bold">Resources: </span>Provides links
+							to methodology, scientific documentation (journal articles,
+							working paper), user tutorials and data downloads.</li>
+					</ul>
+
+					<h1 id="interactive">Interactive diagram</h1>
+					<p>The Interactive Diagram is the way to get to all important
+						features in the TPE website. The diagram links you to four
+						sections of the portal, as follows:</p>
+
+					<ol>
+						<li>(1) What is TPE? Describes our project.</li>
+						<li>(2) Case studies and key results: Access results for the
+							different crops and regions where we have conducted work.</li>
+						<li>(3) Visualization: Provides access to a map interface
+							with dynamic graphs that allows visualization of our project’s
+							results.</li>
+						<li>(4) Get involved: explains the user how to get involved
+							in our project. Getting involved will require you providing your
+							name and e-mail. You will then describe whether you are willing
+							to share data, or to collaborate on specific analyses.</li>
+
+					</ol>
+					<h1 id="visualization">Visualization tool</h1>
+
+					<p>You can access the TPE portal map and graphs in two ways: by
+						clicking “Visualization” in the navigation menu, or by clicking
+						“Maps and graphics” in the interactive diagram. Figure 5 shows our
+						online map application.</p>
 					<div class="guide-big">
 						<img alt="tpe-tool" src="${ctx}/resources/user-getinvolved.png">
-						<div class="caption">Figure 4: How to get Involved?</div>
+						<div class="caption">Figure 3: Visualization of environment
+							stability</div>
 					</div>
-					<h4>Workshops Section</h4>
-					<p>This section provides the TPE recent workshops. To view the
-						recent TPE Workshops: On the Home screen, click on the Workshops
-						section to go to the TPE Workshops page (figure x). This will
-						display the most recent TPE workshops.</p>
-					<!-- Viewing TPE Results -->
-					<h1>Visualization of TPE Results</h1>
+
+					<h1 id="maps">Navigating the interface</h1>
 					<p>
-						On the navigation bar (main menu), click Visualization. The
-						visualization page (figure 5) will be displayed. Alternatively,
-						from the home screen diagram click on the Visualization option,
-						then this will display the visualization page. The Visualization
-						page contains four sections (see figure 5), the <span
-							class="item_bold">Parameter Selection Pane</span>, <span
-							class="item_bold">Google Map result</span>, <span
-							class="item_bold">Analytics (Graphics) Pane.</span>, and the <span
-							class="item_bold"> Info Window.</span> The following steps are
-						considered when visualizing the results:
+						The map tool contains four elements: the <span class="item_bold">map
+							options pane</span>, a <span class="item_bold">Google Map
+							application</span>, <span class="item_bold">the analytics
+							(graphics) pane</span>, and the <span class="item_bold">info
+							window</span>. In order to visualize results, you’ll need to follow
+						these steps:
 					</p>
-					<ul class="guide_list">
-						<li>On the Map Option Pane, select the output map. There are
-							three output options (<span class="item_bold">Climate</span>, <span
-							class="item_bold">Soil</span>, <span class="item_bold">Stability</span>
-							and <span class="item_bold">TPE</span>).
-						</li>
-						<li>Select Crop (Initially Rice and Beans)</li>
-						<li>Select Crop Cultivar (variety)</li>
-						<li>Select country (region)</li>
-						<li>Then the TPE results will be rendered dynamically on the
-							Google Map.</li>
-						<li>Hover or click on the results features (environments) on
-							the map, to view the corresponding graphics dynamically on the
-							right pane and the info window. The info window shows the details
-							about the currently hovered or clicked region.</li>
-						<li>Please note when Climate or Soil are selected as output
-							map, then crop and cultivar variables will not visible.</li>
-					</ul>
-					<div class="guide-big">
-						<img alt="tpe-tool" src="${ctx}/resources/user-stab.png">
-						<div class="caption">Figure 5: Visualization of Environment
-							Stability</div>
-					</div>
-					<!-- Viewing TPE Graphics -->
-					<h1>View and Download Graphics</h1>
-					<p>You can view the graphics as follows:</p>
+
+					<ol>
+						<li>On the map options pane, select the output map. There are
+							three output options: climate, soil, environment groups, and
+							stability. The option climate will allow querying meteorological
+							data; the soil option will display and allow querying input soil
+							parameters; the environment groups option will show the
+							environmental groups; and the stability option will display the
+							frequency map of the environment groups.</li>
+						<li>Select the crop of interest</li>
+						<li>Select crop cultivar (variety)</li>
+						<li>Select region</li>
+					</ol>
+
+					<p>
+						Please note when <span style="font-style: italic;">climate</span>
+						or <span style="font-style: italic;">soil</span> are selected as
+						output, the crop and cultivar variables will not visible (only
+						region will).
+					</p>
+
+					<p>
+						This will show results dynamically on the Google Map application.
+						If you selected the <span style="font-style: italic;">environment
+							groups</span> option, you can now query environment-specific results.
+						Hover or click on the results features (environments) on the map,
+						to view the corresponding graphics dynamically on the right pane
+						and the info window. The info window shows the details about the
+						currently hovered or clicked region.
+					</p>
+
+					<h1 id="graphics">View and download graphics</h1>
+					<p>You can view the TPE portal graphics as follows:</p>
 					<ul class="guide_list">
 						<li>Hover or click on the results features on the map
 							(environments) to view the corresponding graphics dynamically on
-							the right pane and the info window as well. The info window shows
+							the right pane as well as the info window. The info window shows
 							the details about the currently hovered or clicked feature.</li>
-						<li>Click on the search icon to view a detailed graphic. <img
-							alt="tpe-tool" src="${ctx}/img/zoom-in.png"></li>
+						<li>Click on the magnifying glass icon to enlarge the
+							graphic.<img alt="tpe-tool" src="${ctx}/img/zoom-in.png">
+						</li>
 						<li>Click on the download icon to download or export the
 							graphic in different formats (PNG, JPG, PDF and SVG).<img
 							alt="tpe-tool" src="${ctx}/img/download_32.png">
@@ -153,48 +205,43 @@
 
 					<div class="guide-big">
 						<img alt="tpe-tool" src="${ctx}/resources/user-graphic.png">
-						<div class="caption">Figure 6: View and export graphics</div>
+						<div class="caption">Figure 4: View and export graphics</div>
 					</div>
-					<h1>Query and download data</h1>
-					<p>The user is able to query and download soil and climate data
-						from the system.</p>
+
+
+					<h1 id="query">Query and download data</h1>
+					<p>You will also be able to query and download soil and climate
+						data from the system.</p>
 					<p>
-						On the navigation bar (main menu), click resources then downloads.
-						The query page (figure 6) will be displayed. The query page
-						contains two sections, the <span class="item_bold">Parameter
-							Selection Pane</span> and <span class="item_bold"> grid result.</span>
-						The following steps are considered when querying and downloading
-						the available data:
+						On the navigation bar (main menu), click resources and then
+						downloads. The query page (Figure 6) will be displayed. The query
+						page contains two sections, the <span class="item_bold">
+							query options pane</span> and a <span class="item_bold">
+							spreadsheet with the results</span> of the query. The following steps
+						are considered when querying and downloading the available data:
 					</p>
-					<ul class="guide_list">
-						<li>On the Query Option Pane, select the category. There are
-							two categories (<span class="item_bold">Climate</span> and <span
-							class="item_bold">Soil</span>).
-						</li>
-						<li>Select country (region)</li>
-						<li>If climate was selected in step 1 above, then select
-							climate indicator (Min or max temperature, precipitation or
-							radiation)</li>
-						<li>Then the results will be rendered dynamically on the grid
+
+					<ol>
+						<li>On the query options pane, select the category. There are
+							two categories: climate and soil.</li>
+						<li>Select region</li>
+						<li>If you selected climate in step 1 above, then select a
+							climate variable (maximum or minimum temperature, precipitation
+							or downwards shortwave solar radiation)</li>
+						<li>The results will be rendered dynamically on the grid
 							table.</li>
 						<li>Click on the export button below the grid results to
 							export the result.</li>
-					</ul>
+
+					</ol>
+
 					<div class="guide-big">
 						<img alt="tpe-tool" src="${ctx}/resources/user-query.png">
-						<div class="caption">Figure 6: Querying of data</div>
+						<div class="caption">Figure 5: Querying of observed data</div>
 					</div>
 				</div>
 
-				<div class="guide">
-					<h1>Video Tutorials</h1>
-					<p>Embed the Youtube TPE Video tutorial links</p>
-				</div>
 
-				<div class="guide">
-					<h1>Using TPE Scripts</h1>
-					<p>Provides a list of TPE Scripts</p>
-				</div>
 			</div>
 			<div class="pane_right">
 				<jsp:include page="right_pane.jsp" />

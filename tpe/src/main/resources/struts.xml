@@ -145,7 +145,7 @@
 		<action name="index">
 			<result>/WEB-INF/pages/tpe/case-studies.jsp</result>
 		</action>
-		<action name="brazilian">
+		<!-- <action name="brazilian">
 			<result>/WEB-INF/pages/tpe/brazilian.jsp</result>
 		</action>
 		<action name="colombian">
@@ -153,10 +153,10 @@
 		</action>
 		<action name="lamerica">
 			<result>/WEB-INF/pages/tpe/lamerica.jsp</result>
-		</action>
+		</action> -->
 	</package>
 
-	<package name="tpe-docs" extends="default" namespace="/docs">
+	<!-- <package name="tpe-docs" extends="default" namespace="/docs">
 		<action name="project">
 			<result>/WEB-INF/pages/tpe/doc-project.jsp</result>
 		</action>
@@ -167,7 +167,7 @@
 		<action name="docs">
 			<result>/WEB-INF/pages/tpe/doc-index.jsp</result>
 		</action>
-	</package>
+	</package> -->
 
 	<!-- Configuration for the security actions -->
 	<!-- <package name="tpe-login" extends="default"> <action name="login"> 

@@ -122,29 +122,15 @@ jQuery(document)
 											// Initialize or load the Google Map
 											// when all the
 											// variables are loaded
-											$('#TourLink').trigger('click');
+											/////////$('#TourLink').trigger('click');
 											// cookie has no value so launch
 											// home overlay dialog on page load
 										}
-
-										// console.log($(this).attr('id'));
-										// console.log($(this).val());
-										if ($(this).attr('id') == 'select_output') {
-											// console.log($("#select_output
-											// option:selected").text());
+ 
+										if ($(this).attr('id') == 'select_output') { 
 											var selMap = $(
 													"#select_output option:selected")
 													.text();
-											// var sel =
-											// document.getElementById('select_output');
-											// console.log("Id of selected
-											// option: " +
-											// sel.options[sel.selectedIndex].value);
-											// console.log("Text of selected
-											// option: " +
-											// sel.options[sel.selectedIndex].text);
-											// var selText=
-											// sel.options[sel.selectedIndex].text;
 											if ((selMap == 'TPE')
 													|| (selMap == 'Stability'))
 												$('#params_cultivars').show();

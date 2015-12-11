@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-<title>CCAFS TPE Platform</title>
+<title>Visualization</title>
 <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
 
@@ -41,7 +41,7 @@
 <body>
 	<s:form id="tpe_index" name="tpe_index">
 		<p>
-			<a href="#" class="tour" id="TourLink"></a>
+			<!-- <a href="#" class="tour" id="TourLink"></a> -->
 		</p>
 
 		<div id="select_variables">

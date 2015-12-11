@@ -48,8 +48,7 @@
 			<li id="li-visual"><a id="visual"
 				href="<s:url namespace="/" action="toolIndex" />">Visualization
 					<h6>Maps & Graphics</h6>
-			</a>
-				<div id="menu-sub-visualize">
+			</a> <%-- <div id="menu-sub-visualize">
 					<div id="sub-visualize">
 						<div id="sub-visualize-items" style="clear: right;">
 							<table style="width: 100%;">
@@ -94,12 +93,11 @@
 							</table>
 						</div>
 					</div>
-				</div></li>
+				</div> --%></li>
 			<li id="li-work"><a id="ourwork"
 				href="<s:url namespace="/casestudy" action="index" />">Regions
 					<h6>Where we work</h6>
-			</a> <!-- Wherewe work sub menu -->
-				<div id="menu-sub-regions">
+			</a> <!-- Wherewe work sub menu --> <%-- <div id="menu-sub-regions">
 					<div id="sub-regions">
 						<div id="sub-regions-items" style="clear: right;">
 							<table style="width: 100%;">
@@ -131,7 +129,8 @@
 									</td>
 									<td><div class="col-left lamerica">
 											<a href="${ctx}/casestudy/lamerica.jspx"><img
-												src="${ctx}/img/region-lamerica.png" alt="Latin-America" /> </a>
+												src="${ctx}/img/region-lamerica.png" alt="Latin-America" />
+											</a>
 										</div>
 										<div class="col-right">
 											<a href="${ctx}/casestudy/lamerica.jspx">Latin America <br />Rice
@@ -141,10 +140,10 @@
 							</table>
 						</div>
 					</div>
-				</div></li>
-			<li><a href="<s:url namespace="/" action="documentation" />">Documentation
+				</div> --%></li>
+			<%-- <li><a href="<s:url namespace="/" action="documentation" />">Documentation
 					<h6>Methodology</h6>
-			</a></li>
+			</a></li> --%>
 			<li id="li-resources"><a
 				href="<s:url namespace="/" action="resources" />">Resources
 					<h6>Tutorials & Dowloads</h6>
@@ -159,15 +158,25 @@
 								</colgroup>
 								<tr>
 									<td><div class="col-left">
+
+											<a href="<s:url namespace="/" action="documentation" />"><img
+												src="${ctx}/resources/document.png" alt="Documentation" /> </a>
+										</div>
+										<div class="col-right">
+											<a href="<s:url namespace="/" action="documentation" />">Documentation
+											</a>
+										</div></td>
+
+									<td><div class="col-left">
 											<a href="<s:url namespace="/" action="resources" />"><img
-												src="${ctx}/img/vis-tutorials.png" alt="Tutorials" /> </a>
+												src="${ctx}/resources/help.png" alt="Tutorials" /> </a>
 										</div>
 										<div class="col-right">
 											<a href="${ctx}/tutorials.jspx">Tutorials </a>
 										</div></td>
 									<td><div class="col-left">
 											<a href="<s:url namespace="/json" action="queryParams" />"><img
-												src="${ctx}/img/vis-export.png" alt="Downloads" /> </a>
+												src="${ctx}/resources/xls.png" alt="Downloads" /> </a>
 										</div>
 										<div class="col-right">
 											<a href="<s:url namespace="/json" action="queryParams" />">Downloads</a>

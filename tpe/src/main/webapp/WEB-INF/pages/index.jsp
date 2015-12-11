@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>TPE Platform</title>
+<title>TPE</title>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script type="text/javascript"
@@ -44,21 +44,23 @@
 	<div id="overlay-dialog">
 		<a href="#" class="close">X</a>
 		<h3>
-			Welcome to <a href="#">CCAFS-TPE Platform</a>
+			Welcome to the CCAFS Target Population of Environments Platform
+			<!-- Welcome to <a href="#">CCAFS-TPE Platform</a> -->
 		</h3>
 		<div class="overlay-body">
 			<h4>What is CCAFS-TPE Platform?</h4>
-			<p>CCAFS-TPE Platform, is an online visualization of the Target
-				Population of Environments using Climate, Soil and Stability data
-				for Lowland rice, Upland rice and Rice initially from Colombia,
-				Brazil and Latin America respectively.</p>
+			<p>The CCAFS-TPE platform is a web-based tool that allows
+				visualizing environmental classifications and stress patterns of
+				growing environments for agricultural crops.</p>
 
-			<h4>Who are you?</h4>
+			<h4>Who is it for?</h4>
 			<div id="applied">
 				<div id="applied-info">
-					<p>Applications of CCAFS TPE Methodology includes visualization
-						of Target Population of Environments for Upland and Lowland rice.
-					</p>
+					<p>The tool has been designed for crop breeders to gain
+						understanding on the main stresses and their spatio-temporal
+						variations. We believe that model-based classifications can
+						positively impact breeding practice by allowing better targeted
+						germplasm selection.</p>
 					<p>
 						<a href="#">See how CCAFS-TPE can help or applied to your
 							specific research.</a>
@@ -74,27 +76,10 @@
 							width="100" />
 						<h5>Researcher</h5>
 					</div>
-					<div id="app-aca" class="apps">
-						<img class="middle-img" src="${ctx}/img/app-aca.png" height="100"
-							width="100" />
-						<h5>Academic</h5>
-					</div>
-					<div id="app-pol" class="apps">
-						<img class="middle-img" src="${ctx}/img/app-pol.png" height="100"
-							width="100" />
-						<h5 style="text-align: center;">Policy or</h5>
-						<h5 style="text-align: center;">Decision Marker</h5>
-					</div>
-					<div id="app-gov" class="apps">
-						<img class="middle-img" src="${ctx}/img/app-gov.png" height="100"
-							width="100" />
-						<h5 style="text-align: center;">Governmental</h5>
-						<h5 style="text-align: center;">Staff</h5>
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-<%-- <img src="${ctx}/images/aca.png" alt="Foo" height="142" width="142"> --%>
+	<%-- <img src="${ctx}/images/aca.png" alt="Foo" height="142" width="142"> --%>
 </body>
 </html>

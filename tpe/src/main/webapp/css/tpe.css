@@ -867,21 +867,26 @@ div#contact_message {
 }
 
 .member p {
-	font-size: 0.75em;
+	font-size: 0.9em;
 	font-weight: normal;
 }
 
 .member_photo {
-	width: 70px;
-	height: 70px;
 	-webkit-box-shadow: 0 1px 3px #666;
 	-o-box-shadow: 0 1px 3px #666;
 	box-shadow: 0 1px 3px #666;
 	clear: left;
 	margin-right: 10px;
 	float: left;
+	 display: block;
+    width: 70px !important;
+    height: auto !important;
 }
-
+.img_box{
+	width: 100px;
+	height: auto;
+	display:block;
+}
 .member_photo img {
 	width: 100%;
 	height: 100%;
@@ -923,10 +928,6 @@ div#contact_pane, div#contact_address {
 	background: #fff;
 }
 
-#contact_address ul li {
-	font-size: 1em;
-	line-height: 1.5em;
-}
 
 #contact_address ul {
 	margin-top: 10px;
@@ -937,6 +938,7 @@ div#contact_pane, div#contact_address {
 	text-align: left;
 	list-style-type: none;
 	line-height: 1.5em;
+	font-size: 12px;
 }
 
 textarea {
@@ -989,13 +991,15 @@ div#documentation, div#contribute, div#workshops {
 	overflow: hidden !important;
 }
 
-#contact_main h1, #join_form h1, #contribute h1, #workshops h1 {
+#contact_main h1, #join_form h1, #contribute h1, #workshops h1,#documentation h1 {
 	font-size: 1.8em;
 	line-height: 1.8em;
 	color: #656360;
 	text-align: left;
 }
-
+#documentation h6{
+	line-height: 1.4em;
+}
 #contribute .sec_cont p, .sec_details p, #workshops p {
 	color: #000000;
 	font-size: 16px;
@@ -1003,7 +1007,11 @@ div#documentation, div#contribute, div#workshops {
 	text-align: left;
 	margin-bottom: 15px;
 }
-
+.sec_details ul {
+	font-size: 16px;
+	line-height: 1.5em;
+	margin-left: 30px;
+}
 .sec_cont {
 	-webkit-box-shadow: 0 1px 3px #666;
 	-o-box-shadow: 0 1px 3px #666;
@@ -1097,7 +1105,24 @@ div#documentation, div#contribute, div#workshops {
 	box-shadow: 0 1px 3px #666;
 	background: #fff;
 }
-
+.case-list {
+	width: 690px;
+	padding: 5px; 
+	margin: 6px auto;
+	text-align: left;
+	font-size: 16px;
+	line-height: 1.5em;
+	float: left; 
+	-webkit-box-shadow: 0 1px 3px #666;
+	-o-box-shadow: 0 1px 3px #666;
+	box-shadow: 0 1px 3px #666;
+	background: #fff;
+}
+#documentation  ul,#documentation ol{
+	margin-left: 30px;
+	font-size: 16px;
+	line-height: 1.5em;
+}
 .doc-list {
 	width: 690px;
 	padding: 5px;
@@ -1292,6 +1317,8 @@ h4.navigation {
 .caption{
 	font-size: .6em;
 	font-style: italic;
+	line-height: 1em;
+	margin-bottom:5px;
 }
 div#loading {
 	margin: auto;
@@ -1625,8 +1652,11 @@ table#join_table {
 .tag-post{
 	border-bottom: 1px solid gray;
 }
-.platform-news, .post-tags {
+ .post-tags {
 	margin-top: 15px;
+}
+.platform-news {
+	margin-top: 0;
 }
 
 .platform-news p {
@@ -2028,12 +2058,12 @@ div#applied{
 }
 div#applied-info{
 	position: relative;
-	width: 45%;
+	width: 80%;
 	float: left;
 }
 div#applied-list{
 	position: relative;
-	width: 55%;
+	width: 20%;
 	float: right;
 }
 .apps{
@@ -2082,4 +2112,16 @@ div#app-res{
 /**====================== Chart =================**/
 #toggle-axis{
 	display: none;
+}
+
+.complete{
+    display:none;
+}
+
+.more{
+   /* background:lightblue;
+    font-size:13px;*/
+    color:navy;
+    padding:3px;
+    cursor:pointer;
 }

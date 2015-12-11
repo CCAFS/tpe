@@ -3,7 +3,7 @@ var colorValues = [ "red", "blue", "green", "yellow", "purple", "pink",
 		"#990000", "#009900", "#000099" ], colorValuesClimate = [ "black" ], colors;
 // The variable that stores the clicked soil point.
 var clickedSoilCode, sel_country, scountry;
-var sel_crop;
+var sel_crop,sel_cultivar,sel_map;
 
 /**
  * The function that initializes the Google Map
@@ -12,7 +12,13 @@ function initializeMap(data) {
 	scountry = document.getElementById('select_country');
 	sel_country = scountry.options[scountry.selectedIndex].text;
 	sel_crop = $("#select_crop option:selected").text();
+	
+	sel_cultivar = $("#select_cultivar option:selected").text();
+	sel_map = $("#select_output option:selected").text();
 
+	//console.log(sel_map);
+	//console.log(sel_cultivar);
+	
 	var infoWindow = new google.maps.InfoWindow({
 		content : ""
 	});
@@ -379,13 +385,13 @@ function createStabilityFeatures(map, data) {
  */
 function createTPEFeatures(map, data) {
 	// Add the TPE for the selected country features to the map.
-
+//console.log("/tpe/resources/" + sel_country.toLowerCase() + "_" + sel_crop.toLowerCase() + "_"+ sel_cultivar.toLowerCase() + "_"+ sel_map.toLowerCase() + ".json");
 	$.ajax({
 
 		type : "GET",
 		contentType : "application/json; charset=utf-8",
-		url : "/tpe/resources/" + sel_country.toLowerCase() + "_"
-				+ sel_crop.toLowerCase() + "_brs primavera_tpe.json",
+		//url : "/tpe/resources/" + sel_country.toLowerCase() + "_" + sel_crop.toLowerCase() + "_brs primavera_tpe.json",
+		url : "/tpe/resources/" + sel_country.toLowerCase() + "_" + sel_crop.toLowerCase() + "_"+ sel_cultivar.toLowerCase() + "_"+ sel_map.toLowerCase() + ".json",
 		data : "{}",
 		dataType : "json",
 		success : function(data) {
