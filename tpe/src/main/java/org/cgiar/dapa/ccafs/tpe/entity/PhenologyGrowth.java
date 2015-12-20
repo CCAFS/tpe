@@ -430,6 +430,26 @@ public class PhenologyGrowth extends BaseResult {
 	 * The status e.g Rainfed, Irrigated.
 	 */
 	private String status;
+	/**
+	 * The environment (1,2,3,4,5).
+	 */
+	private Integer environ;
+	/**
+	 * The probability
+	 */
+	private Double probability;
+	/**
+	 * The mean accumulated evapotranspiration
+	 */
+	private Double meanAccumEvapotrans;
+	/**
+	 * The plot type (boxplot, frequncy, etc).
+	 */
+	private String plot;
+	/**
+	 * Category of the plot/graphics
+	 */
+	private String plotCategory;
 
 	@ManyToOne(targetEntity = Cultivar.class)
 	@JoinColumn(name = "cultivar_id", referencedColumnName = "id")
@@ -1261,4 +1281,48 @@ public class PhenologyGrowth extends BaseResult {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	@Column(name = "environment")
+	public Integer getEnviron() {
+		return environ;
+	}
+
+	public void setEnviron(Integer environ) {
+		this.environ = environ;
+	}
+
+	@Column(name = "probability")
+	public Double getProbability() {
+		return probability;
+	}
+
+	public void setProbability(Double probability) {
+		this.probability = probability;
+	}
+
+	@Column(name = "mean_accum_evapotrans")
+	public Double getMeanAccumEvapotrans() {
+		return meanAccumEvapotrans;
+	}
+
+	public void setMeanAccumEvapotrans(Double meanAccumEvapotrans) {
+		this.meanAccumEvapotrans = meanAccumEvapotrans;
+	}
+	@Column(name = "plot")
+	public String getPlot() {
+		return plot;
+	}
+
+	public void setPlot(String plot) {
+		this.plot = plot;
+	}
+	@Column(name = "plot_category")
+	public String getPlotCategory() {
+		return plotCategory;
+	}
+
+	public void setPlotCategory(String plotCategory) {
+		this.plotCategory = plotCategory;
+	}
+
 }

@@ -1,6 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
 <head>
+<meta charset="utf-8">
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <title>About Us</title>
@@ -176,8 +177,8 @@
 					<ul>
 						<li>Alexandre B. Heinemann, project leader</li>
 						<li>E-mail: alexandre.heinemann@embrapa.br</li>
-						<li>Embrapa Rice & Beans Rodovia GO–462 km 12 Zona Rural,
-							75375-000 Santo Antonio de Goiás, GO, Brazil</li>
+						<li>Embrapa Rice & Beans Rodovia GO-462 km 12 Zona Rural,
+							75375-000 Santo Antonio de Goi&#225s, GO, Brazil</li>
 					</ul>
 					<br />
 					<h4>CIAT / CCAFS Contact:</h4>

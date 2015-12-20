@@ -13,13 +13,23 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "environment")
-//@AttributeOverride(name = "id", column = @Column(name = "environment_id"))
+// @AttributeOverride(name = "id", column = @Column(name = "environment_id"))
 public class Environment extends BaseEntity {
 
 	/**
@@ -31,6 +41,8 @@ public class Environment extends BaseEntity {
 	private String color;
 	private String description;
 	private Integer cluster;
+	private List<Cluster> clusters;
+	private List<Series> plots;
 
 	@Column(name = "name")
 	public String getName() {
@@ -67,12 +79,34 @@ public class Environment extends BaseEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-@Column(name = "cluster")
+
+	@Column(name = "cluster")
 	public Integer getCluster() {
 		return cluster;
 	}
 
 	public void setCluster(Integer cluster) {
 		this.cluster = cluster;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "environment_cluster", joinColumns = { @JoinColumn(name = "environment_id") }, inverseJoinColumns = { @JoinColumn(name = "cluster_id") })
+	@Fetch(value = FetchMode.SUBSELECT)
+	public List<Cluster> getClusters() {
+		return clusters;
+	}
+
+	public void setClusters(List<Cluster> clusters) {
+		this.clusters = clusters;
+	}
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "environment_plot", joinColumns = { @JoinColumn(name = "environment_id") }, inverseJoinColumns = { @JoinColumn(name = "plot_id") })
+	@Fetch(value = FetchMode.SUBSELECT)
+	public List<Series> getPlots() {
+		return plots;
+	}
+
+	public void setPlots(List<Series> plots) {
+		this.plots = plots;
 	}
 }

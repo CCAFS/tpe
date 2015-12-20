@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.cgiar.dapa.ccafs.tpe.chart.Chart;
 import org.cgiar.dapa.ccafs.tpe.chart.Probability;
 import org.cgiar.dapa.ccafs.tpe.dao.ICategoryDao;
-import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao;
+import org.cgiar.dapa.ccafs.tpe.dao.IClimateDao; 
 import org.cgiar.dapa.ccafs.tpe.dao.ICropDao;
 import org.cgiar.dapa.ccafs.tpe.dao.ICultivarDao;
 import org.cgiar.dapa.ccafs.tpe.dao.IEnvironmentSoilDao;
@@ -551,4 +551,8 @@ public class TPEService implements ITPEService {
 
 		return map;
 	}
+
+	 
+
+	
 }

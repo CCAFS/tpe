@@ -98,7 +98,7 @@ function visualizeResults() {
 
 function hideShow(graphic) {
 
-	if ((graphic == 'TPE') || (graphic == 'STABILITY')) {
+	if (graphic == 'TPE') {
 		$('#plot_slide').show();
 		// Hide the charts
 		$('.plot_box').show();
@@ -111,7 +111,22 @@ function hideShow(graphic) {
 		// $('.plot_rainsum').show();//This will be hiden by default
 		// $('.plot_raincum').show();//Will be hidden by default.
 		$('#analytics h3').show();
-	} else if (graphic == 'SOIL') {
+	} 
+	else if (graphic == 'STABILITY') {
+		$('#plot_slide').hide();
+		// Hide the charts
+		$('.plot_box').hide();
+		$('.soil_plot').hide();
+		// $('.plot_lai').show();//Will be hidden by default
+		// $('.plot_temprain').show();
+		$('.plot_pcew').hide();
+		$('.rain_radiation').hide();
+		//$('.plot_wagt').show();//Will be hidden by default.
+		// $('.plot_rainsum').show();//This will be hiden by default
+		// $('.plot_raincum').show();//Will be hidden by default.
+		$('#analytics h3').hide();
+	} 
+	else if (graphic == 'SOIL') {
 		$('#plot_slide').hide();
 		$('#analytics h3').hide();
 		$('.soil_plot').show();

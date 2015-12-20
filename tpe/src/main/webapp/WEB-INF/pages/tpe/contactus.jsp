@@ -1,6 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <html lang="en">
 <head>
+<meta charset="utf-8">
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <title>Contact Us</title>
@@ -94,7 +95,7 @@
 							<img src="${ctx}/resources/camilo.png" />
 						</div>
 						<div class="member_infos">
-							<h5>Camilo Barrios Pérez (research assistant, crop modeling)</h5>
+							<h5>Camilo Barrios P&#233rez (research assistant, crop modeling)</h5>
 							<p>International Center for Tropical Agriculture (CIAT)</p>
 							<p>CGIAR Research Program on Climate Change, Agriculture and
 								Food Security (CCAFS)</p>
@@ -106,7 +107,7 @@
 							<img src="${ctx}/resources/davido.jpg" />
 						</div>
 						<div class="member_infos">
-							<h5>David Arango Londoño (research assistant, statistical
+							<h5>David Arango Londo&#241o (research assistant, statistical
 								analysis)</h5>
 							<p>International Center for Tropical Agriculture (CIAT)</p>
 							<p>CGIAR Research Program on Climate Change, Agriculture and
@@ -222,8 +223,8 @@
 					<ul>
 						<li>Alexandre B. Heinemann, project leader</li>
 						<li>E-mail: alexandre.heinemann@embrapa.br</li>
-						<li>Embrapa Rice & Beans Rodovia GO–462 km 12 Zona Rural,
-							75375-000 Santo Antonio de Goiás, GO, Brazil</li>
+						<li>Embrapa Rice & Beans Rodovia GO-462 km 12 Zona Rural,
+							75375-000 Santo Antonio de Goi&#225s, GO, Brazil</li>
 					</ul>
 					<br />
 					<h4>CIAT / CCAFS Contact:</h4>

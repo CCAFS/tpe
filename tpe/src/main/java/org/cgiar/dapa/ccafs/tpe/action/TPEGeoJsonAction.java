@@ -111,60 +111,23 @@ public class TPEGeoJsonAction extends BaseAction {
 	private Boolean showhelp = true;
 
 	public String execute() {
-
-		// TODO Change country to region
-		if (getSelectedCountry() != null) {
-			// log.info("country not null: " + getSelectedCountry());
+ 
+		if (getSelectedCountry() != null) { 
 			this.setRegion(tpeService.getRegionById(getSelectedCountry()));
 			setLat(getRegion().getLatitude());
 			setLng(getRegion().getLongitude());
 			this.setZoom(this.getRegion().getZoom());
 
-			/*
-			 * try { regionJSON = Utils.loadGeoJSON(getRegion().getName(),
-			 * JSON_REGION); } catch (IOException e) { // TODO Auto-generated
-			 * catch block // e.printStackTrace(); LOG.error(e.getMessage()); }
-			 */
-
-			/*
-			 * try {
-			 * setMunicipalitiesJson(Utils.loadGeoJSON(getRegion().getName(),
-			 * JSON_MUNICIPIOS)); } catch (IOException e) { // TODO
-			 * Auto-generated catch block // e.printStackTrace();
-			 * LOG.error(e.getMessage()); }
-			 */
-			if (selectedCultivar != null) {
-				// log.info("Cultivar:  " + selectedCultivar);
+			if (selectedCultivar != null) { 
 				this.setCultivar(tpeService.getCultivar(selectedCultivar));
-				// Load the TPE geo json dat
-
-				/*
-				 * try { featuresJson =
-				 * Utils.readJSON(this.getCultivar().getCrop()
-				 * .getName().toLowerCase(), region.getName(), this
-				 * .getCultivar().getName().toLowerCase(), JSON_MAP_TPE); }
-				 * catch (IOException e) { // TODO Auto-generated catch block //
-				 * e.printStackTrace(); LOG.error(e.getMessage()); }
-				 */
-
 				seriesJson = tpeService.getSeriesData(getCultivar().getId(),
 						getSelectedCountry());
-
-				/*
-				 * try { tpeBoundaryJson =
-				 * Utils.loadGeoJSON(getRegion().getName() .toLowerCase(),
-				 * JSON_BOUNDARY); } catch (IOException e) { // TODO
-				 * Auto-generated catch block // e.printStackTrace();
-				 * LOG.error(e.getMessage()); }
-				 */
-
 				boxJson = tpeService.getTPEBox(getSelectedCountry(),
 						getSelectedCultivar());
 
 				categoriesJson = tpeService.getTPEYears(getSelectedCountry(),
 						getSelectedCultivar());
 			}
-
 		}
 
 		return ActionSupport.SUCCESS;

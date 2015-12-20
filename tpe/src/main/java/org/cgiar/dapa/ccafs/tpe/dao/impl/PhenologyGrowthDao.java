@@ -34,9 +34,7 @@ import org.cgiar.dapa.ccafs.tpe.entity.Series;
 import org.cgiar.dapa.ccafs.tpe.entity.Soil;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeaturePolygon;
 import org.cgiar.dapa.ccafs.tpe.geojson.FeatureProperty;
-import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;
-import org.cgiar.dapa.ccafs.tpe.util.Cluster;
-import org.cgiar.dapa.ccafs.tpe.util.ClusterColor;
+import org.cgiar.dapa.ccafs.tpe.geojson.GeometryPolygon;  
 import org.cgiar.dapa.ccafs.tpe.util.StatisticsUtils;
 import org.cgiar.dapa.ccafs.tpe.util.Utils;
 
@@ -311,8 +309,7 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		// Map<String, Object> marker = new LinkedHashMap<String, Object>();
 
 		// List<BoxPlot> data = new LinkedList<BoxPlot>();
-		List<Environment> environments = getEnvironments();
-
+		List<Environment> environments =getCultivar(cultivar).getEnvironments();
 		Environment env;
 		// org.apache.commons.math3.util
 		List<String> years = new LinkedList<String>();
@@ -471,11 +468,13 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 
 	}
 
-	private List<Environment> getEnvironments() {
+	private List<Environment> getEnvironments(Integer cultivarId) {
 
 		StringBuffer q = new StringBuffer("from "
-				+ Environment.class.getSimpleName()).append(" r ");
+				+ Cultivar.class.getSimpleName())
+				.append(" r where r.id =:cultivar");
 		Query query = entityManager.createQuery(q.toString());
+		query.setParameter("cultivar", cultivarId);
 
 		return query.getResultList();
 	}
@@ -483,11 +482,9 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 	@Override
 	public List<Object> getStressCategories(List<String> stressSeries,
 			Integer cultivarId, Integer countryId) {
-
 		// TODO Consider environments.
-		List<Environment> environments = getEnvironments();
+		List<Environment> environments =getCultivar(cultivarId).getEnvironments();
 		// for (Environment env : environments)
-
 		StringBuffer q = new StringBuffer("select r.dae from "
 				+ entityClass.getName())
 				.append(" r where r.region.id =:country")
@@ -504,7 +501,6 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		// Get the id of the first record
 		// TODO To refactor this
 		query.setParameter("environment", environments.get(0).getId());
-
 		List<Object> results = query.getResultList();
 
 		return results;
@@ -522,26 +518,19 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 		Map<String, Object> seriesMap = new LinkedHashMap<String, Object>();
 		List<Map<String, Object>> seriesList = new LinkedList<Map<String, Object>>();
 		List<Map<String, Object>> plotBands = new LinkedList<Map<String, Object>>();
-		List<Environment> environments = getEnvironments();
-		List<Integer> clusters = Utils.getClusters();
-		List<Series> seriesTypes = getSeriesTypes();
 		Cultivar cultivar = getCultivar(cultivarId);
-		// List<Object> categories =
-		// getStressCategories(Utils.getStressSeries(), cultivarId, countryId);
-		Series secondSeriesType = null;
-		// Map<String, Object> laiData = new LinkedHashMap<String, Object>();
-		// List<Map<String, Object>> seriesList = new LinkedList<Map<String,
-		// Object>>();
-		// Map<String, Object> seriesMap = new LinkedHashMap<String, Object>();
-		// Map<String, Object> markerMap = new LinkedHashMap<String, Object>();
+		List<Environment> environments = cultivar.getEnvironments();
+		log.info("# of envs:" +environments.size());
+		List<org.cgiar.dapa.ccafs.tpe.entity.Cluster> clusters = new ArrayList<org.cgiar.dapa.ccafs.tpe.entity.Cluster>();
+		List<Series> seriesTypes = new ArrayList<Series>();
+		Series secondSeriesType = null; 
 		Boolean add = false;
 		for (Environment environment : environments) {
 			series = new LinkedList<Map<String, Object>>();
-			// log.info("=======" + environment.getCode() + "=======");
+			seriesTypes=environment.getPlots();
+			clusters=environment.getClusters();
 			for (Series type : seriesTypes) {
-				add = false;
-				// log.info("typeName: " + type.getName() + " typeId: "+
-				// type.getId());
+				add = false; 
 				plotBands = new LinkedList<Map<String, Object>>();
 				seriesMap = new LinkedHashMap<String, Object>();
 				seriesList = new LinkedList<Map<String, Object>>();
@@ -665,53 +654,40 @@ public class PhenologyGrowthDao extends GenericDao<PhenologyGrowth, Long>
 				List<Object> data2 = new LinkedList<Object>();
 				// The categories list
 				List<Object> cats = new LinkedList<Object>();
-
 				if (queryString != null) {
-					for (Integer cluster : clusters) {
+					for (org.cgiar.dapa.ccafs.tpe.entity.Cluster cluster : clusters) {
 						data = new LinkedList<Object>();
-						queryResult = getSeries(queryString, cluster,
+						queryResult = getSeries(queryString, cluster.getId(),
 								cultivarId, countryId, environment.getId(),
-								type.getId());
-						// log.info("Cluster: " + cluster + " cultivar: "+
-						// cultivarId + " country: " + countryId+ " env: " +
-						// environment.getId() + " serie: "+ type.getId());
+								type.getId()); 
 						if (queryResult != null && queryResult.size() > 0) {
 							add = true;
 							cats = new LinkedList<Object>();
 							for (Object[] result : queryResult) {
-
 								cats.add((Float) result[0]);
-								data.add(result[1]);
-								// if (multiAxis)
-								// data2.add(result[2]);
-							}
-							// log.info("Cats:" + cats);
-							// log.info("Data: " + data);
+								data.add(result[1]); 
+							} 
 							seriesList.add(getSeriesMap(data, seriesType,
-									Utils.getClusterColor(cluster), cluster));
+									Utils.getClusterColor(cluster.getId()), cluster.getId()));
 						}
 					}
-
 					// If it is a multi axis plot
 					if (multiAxis) {
-						for (Integer cluster : clusters) {
+						for (org.cgiar.dapa.ccafs.tpe.entity.Cluster cluster : clusters) {
 							data2 = new LinkedList<Object>();
-							queryResult2 = getSeries(queryString2, cluster,
+							queryResult2 = getSeries(queryString2, cluster.getId(),
 									cultivarId, countryId, environment.getId(),
 									secondSeriesType.getId());
-
 							if (queryResult2 != null && queryResult2.size() > 0) {
 								for (Object[] result2 : queryResult2) {
-
 									// cats.add((Float) result2[0]);
 									data2.add(result2[1]);
 								}
 								seriesList
 										.add(getSeriesMap(data2, seriesType2,
-												Utils.getClusterColor(cluster),
-												cluster));
+												Utils.getClusterColor(cluster.getId()),
+												cluster.getId()));
 							}
-
 						}
 					}
 

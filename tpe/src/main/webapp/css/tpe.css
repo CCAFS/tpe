@@ -1118,6 +1118,18 @@ div#documentation, div#contribute, div#workshops {
 	box-shadow: 0 1px 3px #666;
 	background: #fff;
 }
+.case-list p {
+	text-align: left;
+	font-size: 1em;
+	line-height: 1.5em;
+	color: #35393F;
+	font-weight: normal;
+	overflow: hidden;
+margin-bottom: 17px;	
+}
+.case-list ul {
+	margin-bottom: 10px;
+}
 #documentation  ul,#documentation ol{
 	margin-left: 30px;
 	font-size: 16px;

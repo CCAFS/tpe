@@ -13,11 +13,20 @@
  *****************************************************************/
 package org.cgiar.dapa.ccafs.tpe.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * This class holds information about the crop cultivar or variety in the crop
@@ -95,6 +104,8 @@ public class Cultivar extends BaseEntity {
 	 * The reproductive start date is the same for all the HFE, LFE and FE
 	 */
 	private Integer reproductiveStart;
+	
+	private List<Environment>environments;
 
 	@Column(name = "name")
 	public String getName() {
@@ -217,6 +228,17 @@ public class Cultivar extends BaseEntity {
 
 	public void setReproductiveStart(Integer reproductiveStart) {
 		this.reproductiveStart = reproductiveStart;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "cultivar_environment", joinColumns = { @JoinColumn(name = "cultivar_id") }, inverseJoinColumns = { @JoinColumn(name = "environment_id") })
+	@Fetch(value = FetchMode.SUBSELECT)
+	public List<Environment> getEnvironments() {
+		return environments;
+	}
+
+	public void setEnvironments(List<Environment> environments) {
+		this.environments = environments;
 	}
 
 }
